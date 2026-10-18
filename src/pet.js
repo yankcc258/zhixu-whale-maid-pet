@@ -20,7 +20,7 @@ const DEFAULTS = {
   chatty: 'mid',
   gameMode: true,
   quiet: false,
-  name: '', // 她怎么叫你，空着就叫「主人」
+  name: '', // 她怎么叫你，空着就叫 Yank
   siteName: '', // 双击打开的网站，空着就是知序
   siteUrl: '',
 };
@@ -51,7 +51,7 @@ addEventListener('storage', (e) => {
 });
 // 台词里的 {n}（称呼）和 {s}（网站名）
 function lineVars() {
-  return { n: (prefs.name || '').trim() || '主人', s: (prefs.siteName || '').trim() || '知序' };
+  return { n: (prefs.name || '').trim() || 'Yank', s: (prefs.siteName || '').trim() || '知序' };
 }
 function openSite() {
   const url = (prefs.siteUrl || '').trim();
