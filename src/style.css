@@ -58,6 +58,9 @@ body.docked #pet {
 body.docked.peeking #pet {
   transform: translateX(-16px);
 }
+body.dock-bottom.peeking #pet {
+  transform: translateY(-12px);
+}
 body.docked.dock-left.peeking #pet {
   transform: translateX(16px);
 }

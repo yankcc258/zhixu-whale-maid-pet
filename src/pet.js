@@ -71,7 +71,7 @@ function isNight(d = new Date()) {
 // ---------- 状态 ----------
 let mood = 'idle',
   moodUntil = 0,
-  dock = prefs.dock === 'left' || prefs.dock === 'right' ? prefs.dock : null,
+  dock = prefs.dock === 'left' || prefs.dock === 'right' ? prefs.dock : null, // 'left' | 'right' | 'bottom'（只在睡觉时）
   dragging = false,
   sleep = null, // null | 'asleep' | 'groggy' | 'mad'
   sleepUntil = 0,
@@ -92,10 +92,16 @@ function autoMood() {
   if (sleep === 'mad') return 'wake';
   return 'idle';
 }
+// 躲在左右边时能用的表情（左边会镜像）
+const DOCK_MOODS = ['peek', 'peekPhone', 'peekCheek', 'peekHead', 'peekAngry', 'peekSleep'];
 function setMood(m, ms) {
   if (dragging) m = 'dangle';
-  else if (dock) m = 'peek';
-  else if (sleep === 'asleep' && m !== 'pat') m = 'sleep';
+  else if (dock === 'bottom') m = 'sleepBottom';
+  else if (dock) {
+    if (sleep === 'asleep' || sleep === 'groggy') m = 'peekSleep';
+    else if (sleep === 'mad' || m === 'angry') m = 'peekAngry';
+    else if (!DOCK_MOODS.includes(m)) m = 'peek';
+  } else if (sleep === 'asleep' && m !== 'pat') m = 'sleep';
   else if (sleep === 'groggy' && m !== 'wake') m = 'sleepy';
   else if (sleep === 'mad') m = 'wake';
   mood = m;
@@ -103,8 +109,8 @@ function setMood(m, ms) {
   const src = `sprites/${m === 'angry' ? 'strike' : m}.webp`;
   if (img.getAttribute('src') !== src) img.src = src;
   document.body.classList.toggle('flip', (dock === 'left') !== (m === 'run' && roam?.dir > 0));
-  document.body.classList.toggle('asleep', m === 'sleep');
-  document.body.classList.toggle('angry', m === 'angry' || m === 'wake');
+  document.body.classList.toggle('asleep', m === 'sleep' || m === 'peekSleep' || m === 'sleepBottom');
+  document.body.classList.toggle('angry', m === 'angry' || m === 'wake' || m === 'peekAngry');
 }
 
 // ---------- 气泡和菜单 ----------
@@ -194,7 +200,9 @@ async function resetPos() {
 function applyDock() {
   document.body.classList.toggle('dock-left', dock === 'left');
   document.body.classList.toggle('docked', !!dock);
-  if (dock && area) moveTo(dock === 'right' ? area.x + area.w - WIN_W + PET_MARGIN : area.x - PET_MARGIN, pos.y);
+  document.body.classList.toggle('dock-bottom', dock === 'bottom');
+  if (dock === 'bottom' && area) moveTo(pos.x, area.y + area.h - WIN_H);
+  else if (dock && area) moveTo(dock === 'right' ? area.x + area.w - WIN_W + PET_MARGIN : area.x - PET_MARGIN, pos.y);
   setMood(autoMood());
 }
 
@@ -217,7 +225,7 @@ pet.addEventListener('pointermove', (e) => {
     stopRoam();
     if (dock) {
       dock = null;
-      document.body.classList.remove('dock-left', 'docked');
+      document.body.classList.remove('dock-left', 'docked', 'dock-bottom');
     }
     menu.hidden = bubble.hidden = true;
     document.body.classList.add('dragging');
@@ -238,10 +246,16 @@ pet.addEventListener('pointerup', async () => {
     petRight = pos.x + WIN_W - PET_MARGIN;
   if (area && petRight > area.x + area.w - 8) dock = 'right';
   else if (area && petLeft < area.x + 8) dock = 'left';
+  // 睡着时拖到任务栏上：钻下去只露个头接着睡
+  else if (area && sleep && pos.y + WIN_H > area.y + area.h - 4) dock = 'bottom';
   else dock = null;
   if (!dock) moveTo(clampX(pos.x), clampY(pos.y));
   applyDock();
   rememberPos();
+  if (dock === 'bottom') {
+    sleep = 'asleep';
+    return say(pick(LINES.burrow), undefined, 4000);
+  }
   if (sleep) {
     sleep = 'mad';
     sleepUntil = Date.now() + 15000;
@@ -259,6 +273,12 @@ pet.addEventListener('pointercancel', () => {
 
 function poke() {
   duang();
+  // 钻在任务栏下面睡：戳一下就迷迷糊糊地爬出来
+  if (dock === 'bottom') {
+    dock = null;
+    applyDock();
+    rememberPos();
+  }
   if (sleep === 'asleep') {
     sleep = 'groggy';
     groggyAt = Date.now();
@@ -287,6 +307,11 @@ function poke() {
     warnedAt = now;
     pokes = [];
     return say(pick(LINES.angry), 'angry', 6000);
+  }
+  // 躲在边上被戳：戳脸或者戳头
+  if (dock) {
+    const head = Math.random() < 0.5;
+    return say(pick(head ? LINES.pokeHead : LINES.pokeCheek), head ? 'peekHead' : 'peekCheek', 3000);
   }
   const h = new Date().getHours();
   if (h < 5) return say(fill(pick(LINES.pokeNight), { h }), 'meh', 3500);
@@ -450,6 +475,11 @@ function sleepTick() {
     setMood('sleep');
   } else if (sleep === 'asleep' && !night) {
     sleep = null;
+    if (dock === 'bottom') {
+      dock = null;
+      applyDock();
+      rememberPos();
+    }
     pop(pick(LINES.wakeUp), 'happy', 8000);
     setMood('happy', 6000);
   }
@@ -513,6 +543,18 @@ async function roamTick() {
   roam.raf = requestAnimationFrame(step);
 }
 
+// ---------- 躲在边上偷偷玩手机 ----------
+let nextPhone = Date.now() + rand(3, 6) * 60000;
+function phoneTick() {
+  if (Date.now() < nextPhone) return;
+  nextPhone = Date.now() + rand(3, 6) * 60000;
+  if (dock !== 'left' && dock !== 'right') return;
+  if (sleep || dragging || !menu.hidden || !bubble.hidden) return;
+  const ms = rand(30, 90) * 1000;
+  setMood('peekPhone', ms);
+  if (Math.random() < 0.5) pop(pick(LINES.phone), 'peekPhone', 5000);
+}
+
 // ---------- 启动 ----------
 (async () => {
   invoke('set_game_mode', { on: !!prefs.gameMode });
@@ -533,6 +575,7 @@ setInterval(() => {
   sleepTick();
   roamTick();
   if (!dragging && !roam && Date.now() > moodUntil && mood !== autoMood()) setMood(autoMood());
+  phoneTick();
   if (Date.now() > nextChat) {
     nextChat = Date.now() + rand(...chatGap()) * 60000;
     chat();
