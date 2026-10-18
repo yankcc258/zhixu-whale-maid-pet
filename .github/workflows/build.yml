@@ -1,7 +1,8 @@
 # 用 GitHub 的 Windows 机器打包安装程序。
 # - 推到 main 或开 PR：打包，安装程序放在这次运行的 Artifacts 里（保留 14 天）。
-# - 打 v 开头的标签（例如 v0.3.0）：打包后发布到本仓库的 Releases，连同签名和 latest.json，
-#   已经装好的鲸鱼娘会自己检查到并提示更新。
+# - main 上的版本号（tauri.conf.json）还没有对应的 v 标签时：打包后自动发布到本仓库的 Releases
+#   （顺便建好标签），连同签名和 latest.json，已经装好的鲸鱼娘会自己检查到并提示更新。
+#   也就是说：改版本号的 PR 一合并，就自动发版。手动推 v 开头的标签也会发布。
 #
 # 需要的 Secrets（Settings → Secrets and variables → Actions）：
 #   TAURI_SIGNING_PRIVATE_KEY           更新签名私钥（tauri signer generate 生成的 .key 文件内容）
@@ -38,12 +39,21 @@ jobs:
       - run: npm ci
       - run: npm run check
 
-      - name: 标签和版本号要一致
-        if: startsWith(github.ref, 'refs/tags/v')
+      - name: 看这次要不要发布
+        id: rel
         shell: bash
         run: |
           v=$(node -p "require('./src-tauri/tauri.conf.json').version")
-          test "v$v" = "${GITHUB_REF_NAME}" || { echo "标签 ${GITHUB_REF_NAME} 和 tauri.conf.json 的版本 $v 不一致"; exit 1; }
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            test "v$v" = "${GITHUB_REF_NAME}" || { echo "::error::标签 ${GITHUB_REF_NAME} 和 tauri.conf.json 的版本 $v 不一致"; exit 1; }
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          elif [[ "$GITHUB_EVENT_NAME" == push && "$GITHUB_REF" == refs/heads/main ]] && [ -z "$(git ls-remote --tags origin "refs/tags/v$v")" ]; then
+            echo "main 上的 $v 还没发布过，这次发布"
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          fi
+          echo "tag=v$v" >> "$GITHUB_OUTPUT"
 
       # 先单独试一次签名：钥匙或密码不对时，在 PR 页面的注释里直接说清楚（secrets 会被自动打码）
       - name: 检查签名钥匙
@@ -84,16 +94,17 @@ jobs:
           retention-days: 14
 
       - name: 生成 latest.json
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: steps.rel.outputs.release == 'true'
         shell: bash
-        run: node scripts/latest-json.mjs "${GITHUB_REF_NAME}" "${GITHUB_REPOSITORY}" > src-tauri/target/release/bundle/nsis/latest.json
+        run: node scripts/latest-json.mjs "${{ steps.rel.outputs.tag }}" "${GITHUB_REPOSITORY}" > src-tauri/target/release/bundle/nsis/latest.json
 
       - name: 发布到 Releases
-        if: startsWith(github.ref, 'refs/tags/v')
+        if: steps.rel.outputs.release == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name }}
-          name: 鲸鱼娘 ${{ github.ref_name }}
+          tag_name: ${{ steps.rel.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: 鲸鱼娘 ${{ steps.rel.outputs.tag }}
           body_path: release-notes.md
           files: |
             src-tauri/target/release/bundle/nsis/*-setup.exe
