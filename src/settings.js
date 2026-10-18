@@ -1,7 +1,7 @@
 // 设置窗口：改 localStorage 'whale-prefs'，鲸鱼娘的窗口收到 storage 事件后马上生效。开机自启走 Rust。
 const tauri = window.__TAURI__;
 const invoke = (cmd, args) => tauri?.core.invoke(cmd, args) ?? Promise.resolve();
-const DEFAULTS = { activity: 'normal', sleep: '23-6', chatty: 'mid', gameMode: true, quiet: false };
+const DEFAULTS = { activity: 'normal', sleep: '23-6', chatty: 'mid', gameMode: true, quiet: false, wardrobeAll: false };
 // 文字框：称呼、网站名、网址（输入停下 0.4 秒后保存）
 for (const t of document.querySelectorAll('input[type="text"][data-key], input[type="url"][data-key]')) {
   let timer = 0;

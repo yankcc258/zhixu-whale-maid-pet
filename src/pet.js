@@ -24,6 +24,11 @@ const DEFAULTS = {
   siteName: '', // 双击打开的网站，空着就是知序
   siteUrl: '',
   city: '', // 天气用的城市，空着就不查天气
+  wardrobe: [], // 见过的节日/季节衣服
+  wardrobeAll: false, // 设置里打开：衣柜全开（剧透）
+  outfit: '', // 衣柜里手动换上的，'maid' 是换回女仆装
+  outfitDay: '',
+  examUntil: 0, // 考试周（必胜头巾）到什么时候
 };
 let prefs = loadPrefs();
 function loadPrefs() {
@@ -68,6 +73,8 @@ const chatGap = () => CHAT_GAP[prefs.chatty] || CHAT_GAP.mid;
 const rand = (a, b) => a + Math.random() * (b - a);
 function isNight(d = new Date()) {
   if (!prefs.sleep || prefs.sleep === 'off') return false;
+  // 大晦日陪你跨年：12/31 晚上和元旦凌晨 1 点前不睡
+  if ((md(d) === 1231 && d.getHours() >= 20) || (md(d) === 101 && d.getHours() < 1)) return false;
   const [a, b] = prefs.sleep.split('-').map(Number),
     h = d.getHours();
   return a < b ? h >= a && h < b : h >= a || h < b;
@@ -95,7 +102,26 @@ function autoMood() {
   if (sleep === 'asleep') return 'sleep';
   if (sleep === 'groggy') return 'sleepy';
   if (sleep === 'mad') return 'wake';
-  return 'idle';
+  return wear() || 'idle';
+}
+// ---------- 节日衣服（表在 festivals.js） ----------
+// 今天穿什么：今天在衣柜里手动换的 > 考试周 > 节日 > 以前手动换的 > 女仆装（''）
+function wear() {
+  const d = new Date(),
+    today = d.toDateString(),
+    f = festToday(d),
+    own = prefs.outfit === 'maid' ? '' : prefs.outfit;
+  if (prefs.outfit && prefs.outfitDay === today) return own;
+  if (prefs.examUntil > Date.now()) return 'hisshou';
+  if (f) return f.id;
+  return own || '';
+}
+// 现在身上这身是哪个节日（装饰、台词用）
+const wornFest = () => festById(mood) || null;
+function unlock(id) {
+  if (!festById(id) || prefs.wardrobe.includes(id)) return;
+  prefs.wardrobe = [...prefs.wardrobe, id];
+  savePrefs();
 }
 // 躲在左右边时能用的表情（左边会镜像）
 const DOCK_MOODS = ['peek', 'peekPhone', 'peekCheek', 'peekHead', 'peekAngry', 'peekSleep'];
@@ -107,9 +133,11 @@ function setMood(m, ms) {
     else if (sleep === 'mad' || m === 'angry') m = 'peekAngry';
     else if (!DOCK_MOODS.includes(m)) m = 'peek';
   } else if (sleep === 'asleep' && m !== 'pat') m = 'sleep';
+  else if (m === 'idle' && !sleep && wear()) m = wear();
   else if (sleep === 'groggy' && m !== 'wake') m = 'sleepy';
   else if (sleep === 'mad') m = 'wake';
   mood = m;
+  unlock(m);
   moodUntil = ms ? Date.now() + ms : 0;
   const src = `sprites/${m === 'angry' ? 'strike' : m}.webp`;
   if (img.getAttribute('src') !== src) img.src = src;
@@ -122,6 +150,7 @@ function setMood(m, ms) {
 // ---------- 气泡和菜单 ----------
 function say(text, m, ms = 4500) {
   menu.hidden = true;
+  bubble.classList.remove('wardrobe');
   bubble.textContent = fill(text);
   bubble.hidden = false;
   if (m) setMood(m, ms);
@@ -327,10 +356,38 @@ function poke() {
     const head = Math.random() < 0.5;
     return say(pick(head ? LINES.pokeHead : LINES.pokeCheek), head ? 'peekHead' : 'peekCheek', 3000);
   }
+  if (festPoke()) return;
   const h = new Date().getHours();
   if (h < 5) return say(fill(pick(LINES.pokeNight), { h }), 'meh', 3500);
   if (h < 8 && Math.random() < 0.6) return say(pick(LINES.pokeMorning), 'idle', 3500);
   say(pick(LINES.poke), pick(['happy', 'happy', 'smug', 'smirk', 'bleh']), 3500);
+}
+// 节日里戳她：初詣抽签、节分撒豆，其他节日一半概率说节日台词
+function festPoke() {
+  const f = festToday(),
+    today = new Date().toDateString(),
+    w = wear();
+  if (f?.id === 'omikuji' && prefs.omikujiDay !== today) {
+    const [kuji, line] = pick(OMIKUJI);
+    prefs.omikujiDay = today;
+    prefs.omikuji = kuji;
+    savePrefs();
+    burst(['✨', '🎍', '✨'], 6);
+    say('（哗啦哗啦摇签筒）……', 'omikuji', 1600);
+    setTimeout(() => say(`【${kuji}】${fill(line)}`, kuji === '凶' ? 'pout' : 'omikuji', 7000), 1500);
+    return true;
+  }
+  if (f?.id === 'setsubun' && w === 'setsubun') {
+    burst(['🫘'], 8);
+    say(pick(f.poke), 'setsubun', 3500);
+    return true;
+  }
+  const worn = festById(w);
+  if (worn?.poke && Math.random() < 0.5) {
+    say(pick(worn.poke), w, 3500);
+    return true;
+  }
+  return false;
 }
 function runAway() {
   say(pick(LINES.runAway), 'angry', 1800);
@@ -344,6 +401,7 @@ function runAway() {
 function ask(text, buttons, m) {
   menu.hidden = true;
   clearTimeout(sayTimer);
+  bubble.classList.remove('wardrobe');
   bubble.textContent = '';
   const p = document.createElement('p');
   p.textContent = fill(text);
@@ -426,6 +484,7 @@ menu.addEventListener('click', (e) => {
   if (act === 'open') openSite();
   if (act === 'chat') chat(true);
   if (act === 'settings') invoke('open_settings');
+  if (act === 'wardrobe') wardrobe();
   if (act === 'quiet') {
     prefs.quiet = !prefs.quiet;
     savePrefs();
@@ -468,6 +527,13 @@ function chatLine() {
 }
 function chat(force = false) {
   if (sleep) return force && say(pick(LINES.sleepTalk), undefined, 5000);
+  const worn = festById(wear()),
+    soon = festSoon();
+  if (worn?.chat && Math.random() < 0.35) return force ? say(pick(worn.chat), wear(), 8000) : pop(pick(worn.chat), wear(), 12000);
+  if (soon && Math.random() < 0.25) {
+    const line = soon.days === 1 ? `明天就是${soon.fest.name}了！{n} 准备好了没？` : `还有 ${soon.days} 天就是${soon.fest.name}了，嘿嘿。`;
+    return force ? say(line, 'excited', 8000) : pop(line, 'excited', 12000);
+  }
   const w = weatherLine();
   if (w && Math.random() < 0.4) return force ? say(w[0], w[1], 8000) : pop(w[0], w[1], 12000);
   const line = chatLine();
@@ -582,6 +648,11 @@ function idleTick() {
     setMood('onigiri', rand(40, 90) * 1000);
     return pop(pick(LINES.onigiri), 'onigiri', 5000);
   }
+  const season = seasonToday();
+  if (season && !wear() && Math.random() < 0.4) {
+    setMood(season.id, rand(60, 150) * 1000);
+    return pop(pick(season.lines), season.id, 5000);
+  }
   if (newYear() && Math.random() < 0.4) {
     setMood('newyear', rand(60, 120) * 1000);
     return pop(pick(LINES.newYear), 'newyear', 5000);
@@ -650,6 +721,92 @@ function weatherLine() {
   return null;
 }
 
+// ---------- 节日：过了零点换衣服打招呼、飘装饰、大晦日倒数 ----------
+function festTick() {
+  const d = new Date(),
+    f = festById(wear());
+  if (f?.hello && !sleep && prefs.festDay !== d.toDateString() + f.id && menu.hidden && bubble.hidden) {
+    prefs.festDay = d.toDateString() + f.id;
+    savePrefs();
+    setMood(autoMood());
+    pop(pick(f.hello), f.id, 8000);
+  }
+  // 大晦日：23:59 开始倒数，零点放烟花
+  const y = d.getFullYear();
+  if (md(d) === 1231 && d.getHours() === 23 && d.getMinutes() === 59 && prefs.countdown !== y) {
+    prefs.countdown = y;
+    savePrefs();
+    if (sleep) sleep = null;
+    say('还有一分钟！！{n}，倒数准备——', 'excited', 20000);
+  }
+  if (md(d) === 101 && d.getHours() === 0 && d.getMinutes() < 2 && prefs.happyNewYear !== y) {
+    prefs.happyNewYear = y;
+    savePrefs();
+    if (sleep) sleep = null;
+    for (let i = 0; i < 6; i++) setTimeout(() => burst(['🎆', '🎇', '✨'], 5, true), i * 700);
+    say('🎆 新年快乐！！{n}，今年也请多关照！', 'excited', 15000);
+  }
+  if (!f?.fx?.length || sleep || dock || dragging || Math.random() < 0.4) return;
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  for (let i = Math.floor(rand(1, 3)); i > 0; i--) setTimeout(() => fall(pick(f.fx)), rand(0, 2500));
+}
+// 从窗口上方慢慢飘下来的装饰（不挡鼠标）
+function fall(ch) {
+  const e = document.createElement('span');
+  e.className = 'fx';
+  e.textContent = ch;
+  e.style.left = Math.round(rand(20, WIN_W - 30)) + 'px';
+  e.style.setProperty('--dx', Math.round(rand(-30, 30)) + 'px');
+  e.style.animationDuration = rand(4, 6.5).toFixed(1) + 's';
+  document.body.append(e);
+  setTimeout(() => e.remove(), 7000);
+}
+// 从她身上往外蹦的（撒豆子、抽签、烟花）
+function burst(chars, n, high = false) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const r = pet.getBoundingClientRect();
+  for (let i = 0; i < n; i++) {
+    const e = document.createElement('span'),
+      a = rand(-Math.PI * 0.95, -Math.PI * 0.05);
+    e.className = 'fx burst';
+    e.textContent = pick(chars);
+    e.style.left = Math.round(r.left + r.width / 2 - 8) + 'px';
+    e.style.top = Math.round(r.top + (high ? 10 : r.height * 0.45)) + 'px';
+    const dist = rand(50, high ? 110 : 90);
+    e.style.setProperty('--dx', Math.round(Math.cos(a) * dist) + 'px');
+    e.style.setProperty('--dy', Math.round(Math.sin(a) * dist) + 'px');
+    document.body.append(e);
+    setTimeout(() => e.remove(), 1400);
+  }
+}
+// 👘 衣柜：见过的衣服都能换，考试周的必胜头巾一直都有
+function wardrobe() {
+  const have = FESTS.filter((f) => f.kind === 'manual' || prefs.wardrobeAll || prefs.wardrobe.includes(f.id)),
+    locked = FESTS.length - have.length,
+    today = new Date().toDateString();
+  const choose = (id) => () => {
+    if (id === 'hisshou') {
+      prefs.examUntil = Date.now() + 14 * 86400000;
+      prefs.outfit = '';
+    } else {
+      if (id === 'maid') prefs.examUntil = 0;
+      prefs.outfit = id;
+      prefs.outfitDay = today;
+    }
+    savePrefs();
+    closeBubble();
+    setMood(autoMood());
+    if (id === 'hisshou') return say(pick(festById('hisshou').hello) + '（两周后自动摘下）', 'hisshou', 6000);
+    say(id === 'maid' ? '换回女仆装啦，还是这身最舒服。' : `换好了！${festById(id).name}的衣服，好看吗？`, id === 'maid' ? 'happy' : undefined, 4000);
+  };
+  ask(
+    locked ? `衣柜（还有 ${locked} 套没见过，到日子才会出现哦）` : '衣柜：今天穿哪套？',
+    [['女仆装', choose('maid')], ...have.map((f) => [f.name, choose(f.id)]), ['关上', closeBubble]],
+  );
+  bubble.classList.add('wardrobe');
+  bubble.querySelector('.acts')?.classList.add('wrap');
+}
+
 // ---------- 启动 ----------
 (async () => {
   invoke('set_game_mode', { on: !!prefs.gameMode });
@@ -666,7 +823,16 @@ function weatherLine() {
   setMood(autoMood());
   renderMenu();
   updateHit();
-  setTimeout(() => (sleep ? null : newYear() ? pop(pick(LINES.newYear), 'newyear', 8000) : pop(pick(LINES.hello), 'excited', 6000)), 800);
+  setTimeout(() => {
+    if (sleep) return;
+    const f = festById(wear());
+    if (f?.hello) {
+      prefs.festDay = new Date().toDateString() + f.id;
+      savePrefs();
+      return pop(pick(f.hello), f.id, 8000);
+    }
+    newYear() ? pop(pick(LINES.newYear), 'newyear', 8000) : pop(pick(LINES.hello), 'excited', 6000);
+  }, 800);
 })();
 setInterval(() => {
   sleepTick();
@@ -675,6 +841,7 @@ setInterval(() => {
   phoneTick();
   idleTick();
   umbrellaTick();
+  festTick();
   if (Date.now() > nextChat) {
     nextChat = Date.now() + rand(...chatGap()) * 60000;
     chat();
