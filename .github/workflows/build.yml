@@ -63,7 +63,7 @@ jobs:
             echo "::error::签名失败（多半是密码不对）：$(printf '%s' "$out" | tail -3 | tr '\n' ' ')"
             exit 1
           fi
-          echo "签名测试通过"
+          node scripts/check-sig.mjs sign-test.txt sign-test.txt.sig
 
       - name: 打包（带更新签名）
         shell: bash

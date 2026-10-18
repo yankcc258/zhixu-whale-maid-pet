@@ -7,7 +7,7 @@
     "tauri": "tauri",
     "dev": "tauri dev",
     "build": "tauri build",
-    "check": "node --check src/lines.js && node --check src/pet.js && node --check src/settings.js"
+    "check": "node --check scripts/check-sig.mjs && node --check src/lines.js && node --check src/pet.js && node --check src/settings.js"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2"
