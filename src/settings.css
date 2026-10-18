@@ -1,0 +1,96 @@
+:root {
+  --bg: #f5f4ef;
+  --surface: #fffefa;
+  --ink: #263c37;
+  --muted: #74827a;
+  --line: #e1e5dd;
+  --blue: #326b59;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #121a28;
+    --surface: #1b2638;
+    --ink: #e4ebf7;
+    --muted: #93a1b8;
+    --line: #2b3a52;
+    --blue: #6aa58f;
+  }
+}
+body {
+  margin: 0;
+  padding: 16px 18px;
+  background: var(--bg);
+  color: var(--ink);
+  font: 14px/1.6 'Microsoft YaHei UI', 'PingFang SC', sans-serif;
+  user-select: none;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+header img {
+  width: 64px;
+  height: 64px;
+}
+h1 {
+  margin: 0;
+  font-size: 18px;
+}
+h2 {
+  margin: 0 0 6px;
+  font-size: 14px;
+}
+p {
+  margin: 0;
+}
+section {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin: 10px 0;
+}
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 6px;
+}
+.seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+button {
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.seg button small {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+}
+.seg button.selected {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: var(--surface);
+}
+.seg button.selected small {
+  color: inherit;
+  opacity: 0.85;
+}
+label {
+  display: block;
+  padding: 3px 0;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

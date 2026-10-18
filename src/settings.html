@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>鲸鱼娘设置</title>
+    <link rel="stylesheet" href="settings.css" />
+  </head>
+  <body>
+    <header>
+      <img src="sprites/smug.webp" alt="" />
+      <div>
+        <h1>鲸鱼娘设置</h1>
+        <p>改完马上生效，不用保存。</p>
+      </div>
+    </header>
+    <section>
+      <h2>吐槽频率</h2>
+      <div class="seg" data-key="chatty">
+        <button data-v="low">少<small>45–90 分钟</small></button>
+        <button data-v="mid">中<small>20–45 分钟</small></button>
+        <button data-v="high">多<small>8–15 分钟</small></button>
+      </div>
+    </section>
+    <section>
+      <h2>活跃度</h2>
+      <div class="seg" data-key="activity">
+        <button data-v="calm">安静<small>待着不动</small></button>
+        <button data-v="normal">普通<small>几分钟跑一趟</small></button>
+        <button data-v="lively">好动<small>一两分钟一趟</small></button>
+      </div>
+      <p class="muted">只沿着她现在的高度左右跑；拖着、躲在边上、睡觉时不跑。</p>
+    </section>
+    <section>
+      <h2>睡觉时间</h2>
+      <div class="seg" data-key="sleep">
+        <button data-v="off">不睡</button>
+        <button data-v="22-6">22–6</button>
+        <button data-v="23-6">23–6</button>
+        <button data-v="0-7">0–7</button>
+        <button data-v="1-8">1–8</button>
+      </div>
+    </section>
+    <section>
+      <label><input type="checkbox" data-key="gameMode" /> 有全屏程序（游戏、全屏视频）时自动躲起来</label>
+      <label><input type="checkbox" data-key="quiet" /> 安静模式（不自己冒话）</label>
+      <label><input type="checkbox" id="autostart" /> 开机自动启动</label>
+      <p class="muted" id="autostart-err"></p>
+    </section>
+    <footer>
+      <button id="reset">位置复位到右下角</button>
+      <span class="muted">版本 <b id="ver"></b></span>
+    </footer>
+    <script src="settings.js"></script>
+  </body>
+</html>
