@@ -84,7 +84,7 @@ fn open_settings(app: AppHandle) -> Result<(), String> {
 }
 
 // ---------- 自动更新 ----------
-// 新版本放在公开的 zhixu-whale-maid-pet-releases 仓库里（见 tauri.conf.json 的 plugins.updater），
+// 新版本发在本仓库的 Releases 里（见 tauri.conf.json 的 plugins.updater），
 // 安装包有签名，公钥写在配置里，签名对不上就不装。
 
 #[derive(Clone, serde::Serialize)]

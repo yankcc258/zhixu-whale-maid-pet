@@ -1,12 +1,11 @@
 # 用 GitHub 的 Windows 机器打包安装程序。
 # - 推到 main 或开 PR：打包，安装程序放在这次运行的 Artifacts 里（保留 14 天）。
-# - 打 v 开头的标签（例如 v0.3.0）：打包后发布到公开的 zhixu-whale-maid-pet-releases 仓库，
-#   连同签名和 latest.json 一起，已经装好的鲸鱼娘会自己检查到并提示更新。
+# - 打 v 开头的标签（例如 v0.3.0）：打包后发布到本仓库的 Releases，连同签名和 latest.json，
+#   已经装好的鲸鱼娘会自己检查到并提示更新。
 #
 # 需要的 Secrets（Settings → Secrets and variables → Actions）：
 #   TAURI_SIGNING_PRIVATE_KEY           更新签名私钥（tauri signer generate 生成的 .key 文件内容）
 #   TAURI_SIGNING_PRIVATE_KEY_PASSWORD  私钥密码
-#   RELEASES_TOKEN                      只能写 zhixu-whale-maid-pet-releases 的令牌（Contents: Read and write）
 name: build
 
 on:
@@ -17,10 +16,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-
-env:
-  RELEASES_REPO: yankcc258/zhixu-whale-maid-pet-releases
+  contents: write
 
 jobs:
   windows:
@@ -64,14 +60,12 @@ jobs:
       - name: 生成 latest.json
         if: startsWith(github.ref, 'refs/tags/v')
         shell: bash
-        run: node scripts/latest-json.mjs "${GITHUB_REF_NAME}" "$RELEASES_REPO" > src-tauri/target/release/bundle/nsis/latest.json
+        run: node scripts/latest-json.mjs "${GITHUB_REF_NAME}" "${GITHUB_REPOSITORY}" > src-tauri/target/release/bundle/nsis/latest.json
 
-      - name: 发布到公开的 releases 仓库
+      - name: 发布到 Releases
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          repository: ${{ env.RELEASES_REPO }}
-          token: ${{ secrets.RELEASES_TOKEN }}
           tag_name: ${{ github.ref_name }}
           name: 鲸鱼娘 ${{ github.ref_name }}
           body_path: release-notes.md
