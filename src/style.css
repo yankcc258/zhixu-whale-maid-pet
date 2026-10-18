@@ -147,6 +147,29 @@ body.dock-left .z {
   border: 1px solid #e1e5dd;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
 }
+#bubble p {
+  margin: 0;
+}
+#bubble .acts {
+  display: flex;
+  gap: 6px;
+  margin-top: 6px;
+}
+#bubble .acts button {
+  font: inherit;
+  font-size: 12px;
+  padding: 3px 10px;
+  border: 1px solid #e1e5dd;
+  border-radius: 8px;
+  background: #f5f4ef;
+  color: inherit;
+  cursor: pointer;
+}
+#bubble .acts button:first-child {
+  background: #326b59;
+  border-color: #326b59;
+  color: #fffefa;
+}
 #menu {
   display: grid;
   grid-template-columns: 1fr 1fr;

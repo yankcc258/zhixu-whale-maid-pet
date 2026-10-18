@@ -14,8 +14,11 @@ use tauri::{
 };
 use tauri_plugin_autostart::{MacosLauncher, ManagerExt};
 use tauri_plugin_opener::OpenerExt;
+use tauri_plugin_updater::UpdaterExt;
 
 const ZHIXU_URL: &str = "https://yank-study-lab.yank-study-lab.workers.dev";
+/// 自动检查更新的间隔
+const UPDATE_EVERY: Duration = Duration::from_secs(6 * 3600);
 
 /// 网页告诉这里「哪些地方是鲸鱼娘」（窗口内的 CSS 像素矩形 [x, y, w, h]），
 /// 鼠标不在这些地方时整个窗口让鼠标穿过去。
@@ -78,6 +81,72 @@ fn open_settings(app: AppHandle) -> Result<(), String> {
         .build()
         .map(|_| ())
         .map_err(|e| e.to_string())
+}
+
+// ---------- 自动更新 ----------
+// 新版本发在本仓库的 Releases 里（见 tauri.conf.json 的 plugins.updater），
+// 安装包有签名，公钥写在配置里，签名对不上就不装。
+
+#[derive(Clone, serde::Serialize)]
+struct UpdateInfo {
+    version: String,
+    current: String,
+    notes: Option<String>,
+}
+
+async fn find_update(app: &AppHandle) -> Result<Option<tauri_plugin_updater::Update>, String> {
+    app.updater()
+        .map_err(|e| e.to_string())?
+        .check()
+        .await
+        .map_err(|e| e.to_string())
+}
+
+fn info(u: &tauri_plugin_updater::Update) -> UpdateInfo {
+    UpdateInfo {
+        version: u.version.clone(),
+        current: u.current_version.clone(),
+        notes: u.body.clone(),
+    }
+}
+
+/// 查一下有没有新版本（不下载）。
+#[tauri::command]
+async fn check_update(app: AppHandle) -> Result<Option<UpdateInfo>, String> {
+    Ok(find_update(&app).await?.as_ref().map(info))
+}
+
+/// 下载、装好、重启。
+#[tauri::command]
+async fn install_update(app: AppHandle) -> Result<(), String> {
+    let Some(u) = find_update(&app).await? else {
+        return Err("已经是最新版了".into());
+    };
+    u.download_and_install(|_, _| {}, || {})
+        .await
+        .map_err(|e| e.to_string())?;
+    app.restart();
+}
+
+/// 后台查更新，查到就告诉鲸鱼娘（她会问你要不要更新）。manual = 托盘里手动点的，查不到也说一声。
+fn announce_update(app: AppHandle, manual: bool) {
+    tauri::async_runtime::spawn(async move {
+        match find_update(&app).await {
+            Ok(Some(u)) => {
+                show_pet(&app, false);
+                let _ = app.emit_to("pet", "update-available", info(&u));
+            }
+            Ok(None) if manual => {
+                show_pet(&app, false);
+                let _ = app.emit_to("pet", "update-none", ());
+            }
+            Err(e) if manual => {
+                show_pet(&app, false);
+                let _ = app.emit_to("pet", "update-error", e);
+            }
+            _ => {}
+        }
+    });
 }
 
 /// 叫出鲸鱼娘。summoned = 用户主动叫的（托盘、再次打开），网页会说一句话。
@@ -185,6 +254,7 @@ pub fn run() {
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| show_pet(app, true)))
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, None))
+        .plugin(tauri_plugin_updater::Builder::new().build())
         .manage(PetState {
             game_mode: AtomicBool::new(true),
             ..Default::default()
@@ -193,6 +263,8 @@ pub fn run() {
             open_zhixu,
             set_hit_rects,
             set_game_mode,
+            check_update,
+            install_update,
             autostart_get,
             autostart_set,
             open_settings
@@ -202,9 +274,10 @@ pub fn run() {
             let show = MenuItem::with_id(app, "show", "🐋 叫出鲸鱼娘", true, None::<&str>)?;
             let hide = MenuItem::with_id(app, "hide", "🙈 藏起来", true, None::<&str>)?;
             let settings = MenuItem::with_id(app, "settings", "⚙️ 设置", true, None::<&str>)?;
+            let update = MenuItem::with_id(app, "update", "🔄 检查更新", true, None::<&str>)?;
             let sep = PredefinedMenuItem::separator(app)?;
             let quit = MenuItem::with_id(app, "quit", "退出", true, None::<&str>)?;
-            let menu = Menu::with_items(app, &[&open, &show, &hide, &settings, &sep, &quit])?;
+            let menu = Menu::with_items(app, &[&open, &show, &hide, &settings, &update, &sep, &quit])?;
             TrayIconBuilder::with_id("whale")
                 .icon(app.default_window_icon().cloned().expect("缺少图标"))
                 .tooltip("鲸鱼娘")
@@ -223,6 +296,7 @@ pub fn run() {
                     "settings" => {
                         let _ = open_settings(app.clone());
                     }
+                    "update" => announce_update(app.clone(), true),
                     "quit" => app.exit(0),
                     _ => {}
                 })
@@ -254,6 +328,15 @@ pub fn run() {
                 let _ = w.show();
             }
             watch(app.handle().clone());
+            // 启动 1 分钟后查一次更新，之后每 6 小时查一次
+            let handle = app.handle().clone();
+            std::thread::spawn(move || {
+                std::thread::sleep(Duration::from_secs(60));
+                loop {
+                    announce_update(handle.clone(), false);
+                    std::thread::sleep(UPDATE_EVERY);
+                }
+            });
             Ok(())
         })
         .run(tauri::generate_context!())

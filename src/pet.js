@@ -105,6 +105,7 @@ function say(text, m, ms = 4500) {
 // 自己冒出来的话：安静模式、拖着、菜单开着时不说
 function pop(text, m, ms) {
   if (prefs.quiet || dragging || !menu.hidden) return;
+  if (!bubble.hidden && bubble.querySelector('.acts')) return; // 正在问你问题（比如要不要更新）
   say(text, m, ms);
 }
 function duang() {
@@ -282,6 +283,44 @@ function runAway() {
     win?.hide();
   }, 1600);
 }
+// ---------- 自动更新：Rust 查到新版本就发 update-available，她来问要不要更新 ----------
+function ask(text, buttons, m) {
+  menu.hidden = true;
+  clearTimeout(sayTimer);
+  bubble.textContent = '';
+  const p = document.createElement('p');
+  p.textContent = text;
+  const row = document.createElement('div');
+  row.className = 'acts';
+  for (const [label, fn] of buttons) {
+    const b = document.createElement('button');
+    b.textContent = label;
+    b.onclick = fn;
+    row.append(b);
+  }
+  bubble.append(p, row);
+  bubble.hidden = false;
+  if (m) setMood(m, 60000);
+  updateHit();
+}
+function closeBubble() {
+  bubble.hidden = true;
+  updateHit();
+}
+tauri?.event.listen('update-available', ({ payload }) => {
+  if (sleep === 'asleep') sleep = null; // 有正事就醒一下
+  ask(fill(pick(LINES.update), { v: payload.version, c: payload.current }), [
+    ['好，更新', installUpdate],
+    ['以后再说', () => (closeBubble(), say(pick(LINES.updateLater), 'meh', 3000))],
+  ], 'smug');
+});
+tauri?.event.listen('update-none', () => say(pick(LINES.updateNone), 'smug', 4000));
+tauri?.event.listen('update-error', ({ payload }) => say('没查到更新……' + payload, 'pout', 6000));
+function installUpdate() {
+  say(pick(LINES.updating), 'run', 120000);
+  invoke('install_update').catch((e) => say('更新失败了：' + e, 'pout', 8000));
+}
+
 tauri?.event.listen('summoned', () => {
   setMood(autoMood());
   say(pick(LINES.summoned), sleep ? undefined : 'happy', 4000);
