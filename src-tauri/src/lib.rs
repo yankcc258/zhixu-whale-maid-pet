@@ -81,7 +81,7 @@ fn show_settings(app: &AppHandle) -> Result<(), String> {
         return w.set_focus().map_err(|e| e.to_string());
     }
     WebviewWindowBuilder::new(app, "settings", WebviewUrl::App("settings.html".into()))
-        .title("鲸鱼娘设置")
+        .title("希可的设置")
         .inner_size(380.0, 830.0)
         .resizable(false)
         .maximizable(false)
@@ -280,7 +280,7 @@ pub fn run() {
         ])
         .setup(|app| {
             let open = MenuItem::with_id(app, "open", "🌐 打开网站", true, None::<&str>)?;
-            let show = MenuItem::with_id(app, "show", "🐋 叫出鲸鱼娘", true, None::<&str>)?;
+            let show = MenuItem::with_id(app, "show", "🐋 叫出希可", true, None::<&str>)?;
             let hide = MenuItem::with_id(app, "hide", "🙈 藏起来", true, None::<&str>)?;
             let settings = MenuItem::with_id(app, "settings", "⚙️ 设置", true, None::<&str>)?;
             let update = MenuItem::with_id(app, "update", "🔄 检查更新", true, None::<&str>)?;
@@ -289,7 +289,7 @@ pub fn run() {
             let menu = Menu::with_items(app, &[&open, &show, &hide, &settings, &update, &sep, &quit])?;
             TrayIconBuilder::with_id("whale")
                 .icon(app.default_window_icon().cloned().expect("缺少图标"))
-                .tooltip("鲸鱼娘")
+                .tooltip("希可（鲸鱼娘）")
                 .menu(&menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(|app, event| match event.id.as_ref() {

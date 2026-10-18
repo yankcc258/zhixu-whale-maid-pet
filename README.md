@@ -1,6 +1,6 @@
-# 🐋 鲸鱼娘桌宠
+# 🐋 鲸鱼娘桌宠 · 希可
 
-[知序](https://yank-study-lab.yank-study-lab.workers.dev)里那只屑鲸鱼娘，搬到 Windows 桌面上。用 [Tauri 2](https://tauri.app) 做：一个透明、无边框、永远在最上层的小窗口，外加右下角托盘图标。安装包十几 MB，用 Windows 10/11 自带的 WebView2 显示。
+[知序](https://yank-study-lab.yank-study-lab.workers.dev)里那只屑鲸鱼娘**希可**（Seeko，生日 10 月 18 日），搬到 Windows 桌面上。用 [Tauri 2](https://tauri.app) 做：一个透明、无边框、永远在最上层的小窗口，外加右下角托盘图标。安装包十几 MB，用 Windows 10/11 自带的 WebView2 显示。
 
 ## 现在能做什么（0.2）
 
