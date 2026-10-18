@@ -82,7 +82,7 @@ fn show_settings(app: &AppHandle) -> Result<(), String> {
     }
     WebviewWindowBuilder::new(app, "settings", WebviewUrl::App("settings.html".into()))
         .title("鲸鱼娘设置")
-        .inner_size(380.0, 780.0)
+        .inner_size(380.0, 830.0)
         .resizable(false)
         .maximizable(false)
         .always_on_top(true)

@@ -23,6 +23,7 @@ const DEFAULTS = {
   name: '', // 她怎么叫你，空着就叫 Yank
   siteName: '', // 双击打开的网站，空着就是知序
   siteUrl: '',
+  city: '', // 天气用的城市，空着就不查天气
 };
 let prefs = loadPrefs();
 function loadPrefs() {
@@ -44,6 +45,7 @@ addEventListener('storage', (e) => {
   renderMenu();
   invoke('set_game_mode', { on: !!prefs.gameMode });
   if (prefs.resetAt !== resetBefore) resetPos();
+  weatherTick();
   nextChat = Date.now() + rand(...chatGap()) * 60000;
   nextRoam = 0;
   if (sleep && !isNight()) sleep = null;
@@ -53,9 +55,12 @@ addEventListener('storage', (e) => {
 function lineVars() {
   return { n: (prefs.name || '').trim() || 'Yank', s: (prefs.siteName || '').trim() || '知序' };
 }
+const ZHIXU = 'https://yank-study-lab.yank-study-lab.workers.dev';
 function openSite() {
   const url = (prefs.siteUrl || '').trim();
-  return invoke('open_zhixu', { url: /^https?:\/\//.test(url) ? url : null });
+  // 打开知序时带上 #desk-whale：网页里那只看到就知道桌面这只在，会自己躲起来
+  const target = /^https?:\/\//.test(url) ? url : ZHIXU;
+  return invoke('open_zhixu', { url: target.startsWith(ZHIXU) && !target.includes('#') ? target + '/#desk-whale' : target });
 }
 const ACTIVITY_GAP = { calm: null, normal: [4, 8], lively: [0.75, 1.6] }; // 分钟
 const CHAT_GAP = { low: [45, 90], mid: [20, 45], high: [8, 15] };
@@ -96,7 +101,7 @@ function autoMood() {
 const DOCK_MOODS = ['peek', 'peekPhone', 'peekCheek', 'peekHead', 'peekAngry', 'peekSleep'];
 function setMood(m, ms) {
   if (dragging) m = 'dangle';
-  else if (dock === 'bottom') m = 'sleepBottom';
+  else if (dock === 'bottom') m = sleep === 'asleep' ? 'sleepBottom' : 'peekBottom';
   else if (dock) {
     if (sleep === 'asleep' || sleep === 'groggy') m = 'peekSleep';
     else if (sleep === 'mad' || m === 'angry') m = 'peekAngry';
@@ -110,6 +115,7 @@ function setMood(m, ms) {
   if (img.getAttribute('src') !== src) img.src = src;
   document.body.classList.toggle('flip', (dock === 'left') !== (m === 'run' && roam?.dir > 0));
   document.body.classList.toggle('asleep', m === 'sleep' || m === 'peekSleep' || m === 'sleepBottom');
+  document.body.classList.toggle('busy', m === 'read' || m === 'onigiri');
   document.body.classList.toggle('angry', m === 'angry' || m === 'wake' || m === 'peekAngry');
 }
 
@@ -246,15 +252,18 @@ pet.addEventListener('pointerup', async () => {
     petRight = pos.x + WIN_W - PET_MARGIN;
   if (area && petRight > area.x + area.w - 8) dock = 'right';
   else if (area && petLeft < area.x + 8) dock = 'left';
-  // 睡着时拖到任务栏上：钻下去只露个头接着睡
-  else if (area && sleep && pos.y + WIN_H > area.y + area.h - 4) dock = 'bottom';
+  // 拖到任务栏上：扒着屏幕底边只露个头（睡着时就钻下去接着睡）
+  else if (area && pos.y + WIN_H > area.y + area.h - 4) dock = 'bottom';
   else dock = null;
   if (!dock) moveTo(clampX(pos.x), clampY(pos.y));
   applyDock();
   rememberPos();
   if (dock === 'bottom') {
-    sleep = 'asleep';
-    return say(pick(LINES.burrow), undefined, 4000);
+    if (sleep) {
+      sleep = 'asleep';
+      return say(pick(LINES.burrow), undefined, 4000);
+    }
+    return say(pick(LINES.bottomHide), undefined, 3500);
   }
   if (sleep) {
     sleep = 'mad';
@@ -273,7 +282,12 @@ pet.addEventListener('pointercancel', () => {
 
 function poke() {
   duang();
-  // 钻在任务栏下面睡：戳一下就迷迷糊糊地爬出来
+  // 钻在任务栏下面睡：戳一下就迷迷糊糊地爬出来；醒着扒在底边就嘟囔一句
+  if (dock === 'bottom' && !sleep) {
+    document.body.classList.add('peeking');
+    setTimeout(() => document.body.classList.remove('peeking'), 2500);
+    return say(fill(pick(LINES.pokeBottom)), undefined, 3000);
+  }
   if (dock === 'bottom') {
     dock = null;
     applyDock();
@@ -355,7 +369,7 @@ tauri?.event.listen('update-available', ({ payload }) => {
   ask(fill(pick(LINES.update), { v: payload.version, c: payload.current }), [
     ['好，更新', installUpdate],
     ['以后再说', () => (closeBubble(), say(pick(LINES.updateLater), 'meh', 3000))],
-  ], 'smug');
+  ], 'excited');
 });
 tauri?.event.listen('update-none', () => say(pick(LINES.updateNone), 'smug', 4000));
 tauri?.event.listen('update-error', ({ payload }) => say('没查到更新……' + payload, 'pout', 6000));
@@ -367,11 +381,11 @@ function installUpdate() {
 tauri?.event.listen('open-site', () => openSite());
 tauri?.event.listen('summoned', () => {
   setMood(autoMood());
-  say(pick(LINES.summoned), sleep ? undefined : 'happy', 4000);
+  say(pick(LINES.summoned), sleep ? undefined : pick(['happy', 'excited']), 4000);
 });
 
 pet.addEventListener('dblclick', () => {
-  say(pick(LINES.openZhixu), sleep ? undefined : 'smug', 2500);
+  say(pick(LINES.openZhixu), sleep ? undefined : pick(['smug', 'surprised']), 2500);
   openSite().catch((e) => say('没打开：' + e, 'pout'));
 });
 
@@ -418,7 +432,10 @@ menu.addEventListener('click', (e) => {
     say(prefs.quiet ? '好吧，我安静待着。（安静模式）' : '提醒打开了，我要开始唠叨了哦。', 'idle', 3000);
     renderMenu();
   }
-  if (act === 'hide') win?.hide();
+  if (act === 'hide') {
+    say(pick(LINES.bye), 'wave', 1500);
+    setTimeout(() => (bubble.hidden = true, win?.hide()), 1300);
+  }
 });
 function renderMenu() {
   const site = lineVars().s;
@@ -451,6 +468,8 @@ function chatLine() {
 }
 function chat(force = false) {
   if (sleep) return force && say(pick(LINES.sleepTalk), undefined, 5000);
+  const w = weatherLine();
+  if (w && Math.random() < 0.4) return force ? say(w[0], w[1], 8000) : pop(w[0], w[1], 12000);
   const line = chatLine();
   const m = /还不睡|恨现在|关灯/.test(line) ? 'meh' : /吃|饿|饭/.test(line) ? 'smug' : pick(['happy', 'smirk', 'idle']);
   force ? say(line, m, 8000) : pop(line, m, 12000);
@@ -474,12 +493,7 @@ function sleepTick() {
     lastSleepTalk = now;
     setMood('sleep');
   } else if (sleep === 'asleep' && !night) {
-    sleep = null;
-    if (dock === 'bottom') {
-      dock = null;
-      applyDock();
-      rememberPos();
-    }
+    sleep = null; // 在任务栏下面睡的话，醒了就扒着底边探头
     pop(pick(LINES.wakeUp), 'happy', 8000);
     setMood('happy', 6000);
   }
@@ -555,9 +569,92 @@ function phoneTick() {
   if (Math.random() < 0.5) pop(pick(LINES.phone), 'peekPhone', 5000);
 }
 
+// ---------- 闲着的时候：戴耳机看书、饭点啃饭团、过年拿福袋 ----------
+const newYear = (d = new Date()) => d.getMonth() === 0 && d.getDate() <= 7;
+let nextIdle = Date.now() + rand(4, 8) * 60000;
+function idleTick() {
+  if (Date.now() < nextIdle) return;
+  nextIdle = Date.now() + rand(6, 12) * 60000;
+  if (dock || sleep || dragging || roam || !menu.hidden || !bubble.hidden || Date.now() < moodUntil) return;
+  const h = new Date().getHours() + new Date().getMinutes() / 60;
+  const meal = (h >= 11.5 && h < 13.5) || (h >= 17.5 && h < 19.5);
+  if (meal && Math.random() < 0.5) {
+    setMood('onigiri', rand(40, 90) * 1000);
+    return pop(pick(LINES.onigiri), 'onigiri', 5000);
+  }
+  if (newYear() && Math.random() < 0.4) {
+    setMood('newyear', rand(60, 120) * 1000);
+    return pop(pick(LINES.newYear), 'newyear', 5000);
+  }
+  setMood('read', rand(60, 180) * 1000);
+  if (Math.random() < 0.4) pop(pick(LINES.read), 'read', 5000);
+}
+
+// ---------- 天气（设置里填了城市才查；用 open-meteo，不需要密钥） ----------
+let weather = null; // { rain, rainTomorrow, max, min, at }
+async function weatherTick() {
+  const city = (prefs.city || '').trim();
+  if (!city) return (weather = null);
+  if (weather && weather.city === city && Date.now() - weather.at < 30 * 60000) return;
+  try {
+    let geo = prefs.geo;
+    if (!geo || geo.city !== city) {
+      const g = await (await fetch('https://geocoding-api.open-meteo.com/v1/search?count=1&language=zh&name=' + encodeURIComponent(city))).json();
+      const r = g.results?.[0];
+      if (!r) return (weather = { city, at: Date.now(), error: '找不到这个城市' });
+      geo = { city, lat: r.latitude, lon: r.longitude };
+      prefs.geo = geo;
+      savePrefs();
+    }
+    const q = new URLSearchParams({
+      latitude: geo.lat,
+      longitude: geo.lon,
+      daily: 'temperature_2m_max,temperature_2m_min,precipitation_probability_max',
+      hourly: 'precipitation_probability',
+      timezone: 'auto',
+      forecast_days: '2',
+    });
+    const w = await (await fetch('https://api.open-meteo.com/v1/forecast?' + q)).json();
+    const now = new Date(),
+      hourNow = now.getHours(),
+      todayHours = (w.hourly?.precipitation_probability || []).slice(hourNow, 24).filter(Number.isFinite);
+    weather = {
+      city,
+      at: Date.now(),
+      rain: todayHours.length ? Math.max(...todayHours) : w.daily?.precipitation_probability_max?.[0] || 0,
+      rainTomorrow: w.daily?.precipitation_probability_max?.[1] || 0,
+      max: Math.round(w.daily?.temperature_2m_max?.[0]),
+      min: Math.round(w.daily?.temperature_2m_min?.[0]),
+    };
+  } catch {
+    weather = { city, at: Date.now(), error: '天气暂时查不到' };
+  }
+}
+// 早上 7–10 点要下雨：提醒一次带伞
+function umbrellaTick() {
+  const d = new Date(),
+    today = d.toDateString();
+  if (!weather || weather.error || d.getHours() < 7 || d.getHours() >= 10 || prefs.umbrellaDay === today) return;
+  if (sleep || dock || weather.rain < 50) return;
+  prefs.umbrellaDay = today;
+  savePrefs();
+  pop(fill(pick(LINES.umbrella), { p: weather.rain }), 'umbrella', 12000);
+}
+function weatherLine() {
+  if (!weather || weather.error) return null;
+  const h = new Date().getHours();
+  if (h < 20 && weather.rain >= 50) return [fill(pick(LINES.umbrella), { p: weather.rain }), 'umbrella'];
+  if (weather.max >= 28 && h < 18) return [fill(pick(LINES.hot), { t: weather.max }), 'hot'];
+  if (weather.min <= 5 && h < 12) return [fill(pick(LINES.cold), { t: weather.min }), 'cold'];
+  if (h >= 20 && weather.rainTomorrow >= 50) return [fill(pick(LINES.rainTomorrow), { p: weather.rainTomorrow }), 'umbrella'];
+  return null;
+}
+
 // ---------- 启动 ----------
 (async () => {
   invoke('set_game_mode', { on: !!prefs.gameMode });
+  weatherTick();
+  setInterval(weatherTick, 10 * 60000);
   await readGeometry();
   if (prefs.pos && area) {
     // 回到上次的位置（屏幕变了就夹在工作区里）
@@ -569,13 +666,15 @@ function phoneTick() {
   setMood(autoMood());
   renderMenu();
   updateHit();
-  setTimeout(() => (sleep ? null : pop(pick(LINES.hello), 'happy', 6000)), 800);
+  setTimeout(() => (sleep ? null : newYear() ? pop(pick(LINES.newYear), 'newyear', 8000) : pop(pick(LINES.hello), 'excited', 6000)), 800);
 })();
 setInterval(() => {
   sleepTick();
   roamTick();
   if (!dragging && !roam && Date.now() > moodUntil && mood !== autoMood()) setMood(autoMood());
   phoneTick();
+  idleTick();
+  umbrellaTick();
   if (Date.now() > nextChat) {
     nextChat = Date.now() + rand(...chatGap()) * 60000;
     chat();
