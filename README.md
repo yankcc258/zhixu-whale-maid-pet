@@ -23,9 +23,24 @@
 
 ## 安装
 
-1. 打开仓库的 **Actions** → 最新一次绿色的 `build` → 页面最下面 **Artifacts** 里下载 `ZhixuWhale-setup`。打了 `v` 开头标签的版本也会出现在 **Releases** 里。
-2. 解压，双击 `ZhixuWhale_x.y.z_x64-setup.exe`。装在当前用户下，不需要管理员权限。
+1. 到 [releases 仓库](https://github.com/yankcc258/zhixu-whale-maid-pet-releases/releases/latest) 下载最新的 `ZhixuWhale_x.y.z_x64-setup.exe`（测试版在本仓库 **Actions** → 某次 `build` → **Artifacts**）。
+2. 双击安装。装在当前用户下，不需要管理员权限。
 3. 安装包没有签名，Windows 可能弹「已保护你的电脑」：点「更多信息」→「仍要运行」。
+
+## 更新
+
+装好以后不用再手动下载：鲸鱼娘启动 1 分钟后、之后每 6 小时会去公开的 [zhixu-whale-maid-pet-releases](https://github.com/yankcc258/zhixu-whale-maid-pet-releases) 看一眼。有新版本她会问「要不要更新」，点「好，更新」就自动下载、安装、重启。托盘菜单里也能手动「🔄 检查更新」。
+
+安装包带签名，公钥写在 `tauri.conf.json` 里，签名对不上的安装包她不会装。
+
+### 发新版本
+
+1. 改版本号：`package.json`、`src-tauri/tauri.conf.json`、`src-tauri/Cargo.toml` 三处一致。
+2. 在 `release-notes.md` 写这一版改了什么（会显示在 Release 页面和更新提示里）。
+3. 合并到 main 后打标签：`git tag v0.3.0 && git push origin v0.3.0`。
+4. Actions 自动打包、签名，把安装包、`.sig` 和 `latest.json` 发布到公开的 releases 仓库。代码仓库本身保持私有。
+
+需要的 Secrets：`TAURI_SIGNING_PRIVATE_KEY`、`TAURI_SIGNING_PRIVATE_KEY_PASSWORD`（更新签名私钥和密码，私钥文件留在 Yank 自己电脑上备份）、`RELEASES_TOKEN`（只能写 releases 仓库的令牌）。私钥丢了的话，生成一把新的、换掉配置里的公钥，再手动装一次新版本就行。
 
 ## 自己改、自己打包
 
@@ -47,12 +62,15 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 | `src-tauri/tauri.conf.json` | 窗口大小、透明、置顶、安装包设置 |
 | `src-tauri/capabilities/` | 网页能调用哪些窗口功能（拖动、移动、隐藏……） |
 | `app-icon.png` | 图标原图，`npx tauri icon app-icon.png -o src-tauri/icons` 生成各尺寸 |
-| `.github/workflows/build.yml` | 在 Windows 机器上自动打包 |
+| `.github/workflows/build.yml` | 在 Windows 机器上自动打包；打 `v*` 标签时签名并发布到 releases 仓库 |
+| `scripts/latest-json.mjs` | 生成更新用的 `latest.json` |
+| `release-notes.md` | 这一版的更新说明 |
 
 ## 路线图
 
 - [x] 0.1 准备版：透明置顶窗口、拖动、戳、双击打开知序、托盘
 - [x] 0.2：躲边、扑腾、睡觉和梦话、吵醒暴怒、摸头、乱跑、鼠标穿透、全屏时躲起来、设置窗口、开机自启
+- [x] 0.3：自动更新
 - [ ] 番茄钟陪学（看书的立绘已经有了）
 - [ ] 爬到窗口顶上坐着、沿着任务栏跑
 - [ ] 接知序数据（只读）：今天吃了什么、待复习单词、作业，用来吐槽

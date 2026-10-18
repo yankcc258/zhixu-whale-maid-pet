@@ -1,6 +1,12 @@
 # 用 GitHub 的 Windows 机器打包安装程序。
 # - 推到 main 或开 PR：打包，安装程序放在这次运行的 Artifacts 里（保留 14 天）。
-# - 打 v 开头的标签（例如 v0.1.0）：另外建一个草稿 Release，把安装程序挂上去。
+# - 打 v 开头的标签（例如 v0.3.0）：打包后发布到公开的 zhixu-whale-maid-pet-releases 仓库，
+#   连同签名和 latest.json 一起，已经装好的鲸鱼娘会自己检查到并提示更新。
+#
+# 需要的 Secrets（Settings → Secrets and variables → Actions）：
+#   TAURI_SIGNING_PRIVATE_KEY           更新签名私钥（tauri signer generate 生成的 .key 文件内容）
+#   TAURI_SIGNING_PRIVATE_KEY_PASSWORD  私钥密码
+#   RELEASES_TOKEN                      只能写 zhixu-whale-maid-pet-releases 的令牌（Contents: Read and write）
 name: build
 
 on:
@@ -11,7 +17,10 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
+
+env:
+  RELEASES_REPO: yankcc258/zhixu-whale-maid-pet-releases
 
 jobs:
   windows:
@@ -33,7 +42,17 @@ jobs:
       - run: npm ci
       - run: npm run check
 
-      - name: 打包
+      - name: 标签和版本号要一致
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        run: |
+          v=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          test "v$v" = "${GITHUB_REF_NAME}" || { echo "标签 ${GITHUB_REF_NAME} 和 tauri.conf.json 的版本 $v 不一致"; exit 1; }
+
+      - name: 打包（带更新签名）
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
         run: npm run build
 
       - uses: actions/upload-artifact@v4
@@ -42,9 +61,21 @@ jobs:
           path: src-tauri/target/release/bundle/nsis/*.exe
           retention-days: 14
 
-      - name: 挂到 Release（只在打标签时）
+      - name: 生成 latest.json
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        run: node scripts/latest-json.mjs "${GITHUB_REF_NAME}" "$RELEASES_REPO" > src-tauri/target/release/bundle/nsis/latest.json
+
+      - name: 发布到公开的 releases 仓库
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          draft: true
-          files: src-tauri/target/release/bundle/nsis/*.exe
+          repository: ${{ env.RELEASES_REPO }}
+          token: ${{ secrets.RELEASES_TOKEN }}
+          tag_name: ${{ github.ref_name }}
+          name: 鲸鱼娘 ${{ github.ref_name }}
+          body_path: release-notes.md
+          files: |
+            src-tauri/target/release/bundle/nsis/*-setup.exe
+            src-tauri/target/release/bundle/nsis/*-setup.exe.sig
+            src-tauri/target/release/bundle/nsis/latest.json
