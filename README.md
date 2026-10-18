@@ -42,7 +42,7 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 | 路径 | 内容 |
 | --- | --- |
 | `src/` | 窗口里的网页：`index.html`、`style.css`、`pet.js`（动作）、`lines.js`（台词）、`settings.*`（设置窗口） |
-| `src/sprites/` | 16 张立绘，440px 透明 WebP |
+| `src/sprites/` | 16 张立绘，440px 透明 WebP（不在 MIT 范围内，见 PROVENANCE.md） |
 | `src-tauri/src/lib.rs` | 窗口、托盘、鼠标穿透、全屏检测、开机自启、设置窗口、打开知序（网址写死在这里） |
 | `src-tauri/tauri.conf.json` | 窗口大小、透明、置顶、安装包设置 |
 | `src-tauri/capabilities/` | 网页能调用哪些窗口功能（拖动、移动、隐藏……） |
@@ -58,7 +58,8 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 - [ ] 接知序数据（只读）：今天吃了什么、待复习单词、作业，用来吐槽
 - [ ] 好玩的：抓鼠标、按当前窗口标题吐槽（只在本机判断）、把文件拖给她吃
 
-## 授权
+## 授权与致谢
 
 - **代码**：MIT，见 [LICENSE](LICENSE)。
-- **立绘**（`src/sprites/`、`app-icon.png`、`src-tauri/icons/`）：© Yank，不随 MIT 授权，只供本项目和个人非商业使用。立绘是 DeepSeek 鲸鱼娘的同人形象。
+- **立绘和图标**（`src/sprites/`、`app-icon.png`、`src-tauri/icons/`）：**不在 MIT 范围内**，按原样随程序分发，仅用于运行本程序。来源和说明见 [PROVENANCE.md](PROVENANCE.md)。
+- 鲸鱼娘的形象参考了 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) 的鲸鱼娘，谢谢原作者。本项目和 DeepSeek 官方无关。
