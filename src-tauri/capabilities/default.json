@@ -1,0 +1,15 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "鲸鱼娘窗口能做的事：拖动窗口、改位置和大小、隐藏。打开知序走 open_zhixu 命令，网址写死在 Rust 里。",
+  "windows": ["pet"],
+  "permissions": [
+    "core:default",
+    "core:window:allow-start-dragging",
+    "core:window:allow-set-position",
+    "core:window:allow-set-size",
+    "core:window:allow-outer-position",
+    "core:window:allow-hide",
+    "core:window:allow-set-ignore-cursor-events"
+  ]
+}

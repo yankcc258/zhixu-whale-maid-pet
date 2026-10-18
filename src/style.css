@@ -1,0 +1,78 @@
+/* 整个窗口是透明的，只画鲸鱼娘和气泡 */
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: transparent;
+  overflow: hidden;
+  font: 13px/1.5 'Microsoft YaHei UI', 'PingFang SC', sans-serif;
+  user-select: none;
+}
+#pet {
+  position: absolute;
+  right: 10px;
+  bottom: 6px;
+  width: 140px;
+  height: 140px;
+  cursor: grab;
+  animation: bob 3.2s ease-in-out infinite;
+}
+#pet img {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+}
+#pet img.duang {
+  animation: duang 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+  transform-origin: 50% 100%;
+}
+@keyframes bob {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+@keyframes duang {
+  25% {
+    transform: scale(1.18, 0.8);
+  }
+  50% {
+    transform: scale(0.88, 1.12);
+  }
+  75% {
+    transform: scale(1.06, 0.95);
+  }
+}
+#bubble,
+#menu {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 150px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: #fffefa;
+  color: #263c37;
+  border: 1px solid #e1e5dd;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+}
+#menu {
+  display: grid;
+  gap: 4px;
+}
+#menu[hidden],
+#bubble[hidden] {
+  display: none;
+}
+#menu button {
+  font: inherit;
+  text-align: left;
+  padding: 5px 8px;
+  border: 1px solid #e1e5dd;
+  border-radius: 8px;
+  background: #f5f4ef;
+  color: inherit;
+  cursor: pointer;
+}
+#menu button:hover {
+  background: #edf3ed;
+}

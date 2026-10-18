@@ -1,0 +1,50 @@
+# 用 GitHub 的 Windows 机器打包安装程序。
+# - 推到 main 或开 PR：打包，安装程序放在这次运行的 Artifacts 里（保留 14 天）。
+# - 打 v 开头的标签（例如 v0.1.0）：另外建一个草稿 Release，把安装程序挂上去。
+name: build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: src-tauri -> target
+
+      - run: npm ci
+      - run: npm run check
+
+      - name: 打包
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ZhixuWhale-setup
+          path: src-tauri/target/release/bundle/nsis/*.exe
+          retention-days: 14
+
+      - name: 挂到 Release（只在打标签时）
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          draft: true
+          files: src-tauri/target/release/bundle/nsis/*.exe
