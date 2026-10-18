@@ -60,7 +60,7 @@
   },
   "plugins": {
     "updater": {
-      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IDFCQ0Y2Qjc1MzBBMkY5RTgKUldUbythSXdkV3ZQRy92Vkk5cmhQRER2ZzhieW1Xb0VFK2RZUGNMZzdtOGpmVGNsZHdyK2hid1oK",
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEFENTdFM0VDOUI3NUJBMTcKUldRWHVuV2I3T05YclkxQnlaZ1NjYVlSSS9sWFM5b1lMSXhWLzNZd0NielpXaFQ5cUJNL2tWK0UK",
       "endpoints": [
         "https://github.com/yankcc258/zhixu-whale-maid-pet/releases/latest/download/latest.json"
       ],
