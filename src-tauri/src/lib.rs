@@ -30,10 +30,14 @@ struct PetState {
     game_hidden: AtomicBool,
 }
 
+/// 用默认浏览器打开网站。url 是设置里填的（只接受 http/https），没填就打开知序。
 #[tauri::command]
-fn open_zhixu(app: AppHandle) -> Result<(), String> {
+fn open_zhixu(app: AppHandle, url: Option<String>) -> Result<(), String> {
+    let url = url
+        .filter(|u| (u.starts_with("https://") || u.starts_with("http://")) && u.len() < 500)
+        .unwrap_or_else(|| ZHIXU_URL.to_string());
     app.opener()
-        .open_url(ZHIXU_URL, None::<&str>)
+        .open_url(url, None::<&str>)
         .map_err(|e| e.to_string())
 }
 
@@ -64,16 +68,21 @@ fn autostart_set(app: AppHandle, on: bool) -> Result<bool, String> {
     Ok(a.is_enabled().unwrap_or(false))
 }
 
+/// 打开设置窗口。必须是 async 命令：Windows 上在同步命令里建窗口会卡住，窗口一直白屏。
 #[tauri::command]
-fn open_settings(app: AppHandle) -> Result<(), String> {
+async fn open_settings(app: AppHandle) -> Result<(), String> {
+    show_settings(&app)
+}
+
+fn show_settings(app: &AppHandle) -> Result<(), String> {
     if let Some(w) = app.get_webview_window("settings") {
         let _ = w.unminimize();
         let _ = w.show();
         return w.set_focus().map_err(|e| e.to_string());
     }
-    WebviewWindowBuilder::new(&app, "settings", WebviewUrl::App("settings.html".into()))
+    WebviewWindowBuilder::new(app, "settings", WebviewUrl::App("settings.html".into()))
         .title("鲸鱼娘设置")
-        .inner_size(380.0, 640.0)
+        .inner_size(380.0, 780.0)
         .resizable(false)
         .maximizable(false)
         .always_on_top(true)
@@ -270,7 +279,7 @@ pub fn run() {
             open_settings
         ])
         .setup(|app| {
-            let open = MenuItem::with_id(app, "open", "🌐 打开知序", true, None::<&str>)?;
+            let open = MenuItem::with_id(app, "open", "🌐 打开网站", true, None::<&str>)?;
             let show = MenuItem::with_id(app, "show", "🐋 叫出鲸鱼娘", true, None::<&str>)?;
             let hide = MenuItem::with_id(app, "hide", "🙈 藏起来", true, None::<&str>)?;
             let settings = MenuItem::with_id(app, "settings", "⚙️ 设置", true, None::<&str>)?;
@@ -284,8 +293,9 @@ pub fn run() {
                 .menu(&menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(|app, event| match event.id.as_ref() {
+                    // 网站地址在网页的设置里，交给鲸鱼娘的窗口去开
                     "open" => {
-                        let _ = open_zhixu(app.clone());
+                        let _ = app.emit_to("pet", "open-site", ());
                     }
                     "show" => show_pet(app, true),
                     "hide" => {
@@ -294,7 +304,7 @@ pub fn run() {
                         }
                     }
                     "settings" => {
-                        let _ = open_settings(app.clone());
+                        let _ = show_settings(app);
                     }
                     "update" => announce_update(app.clone(), true),
                     "quit" => app.exit(0),

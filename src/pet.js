@@ -14,7 +14,16 @@ const WIN_W = 240,
   PET_MARGIN = 10; // #pet 离窗口右边（躲左边时离左边）的距离
 
 // ---------- 设置 ----------
-const DEFAULTS = { activity: 'normal', sleep: '23-6', chatty: 'mid', gameMode: true, quiet: false };
+const DEFAULTS = {
+  activity: 'normal',
+  sleep: '23-6',
+  chatty: 'mid',
+  gameMode: true,
+  quiet: false,
+  name: '', // 她怎么叫你，空着就叫 Yank
+  siteName: '', // 双击打开的网站，空着就是知序
+  siteUrl: '',
+};
 let prefs = loadPrefs();
 function loadPrefs() {
   try {
@@ -32,6 +41,7 @@ addEventListener('storage', (e) => {
   if (e.key !== 'whale-prefs') return;
   const resetBefore = prefs.resetAt;
   prefs = loadPrefs();
+  renderMenu();
   invoke('set_game_mode', { on: !!prefs.gameMode });
   if (prefs.resetAt !== resetBefore) resetPos();
   nextChat = Date.now() + rand(...chatGap()) * 60000;
@@ -39,6 +49,14 @@ addEventListener('storage', (e) => {
   if (sleep && !isNight()) sleep = null;
   setMood(autoMood());
 });
+// 台词里的 {n}（称呼）和 {s}（网站名）
+function lineVars() {
+  return { n: (prefs.name || '').trim() || 'Yank', s: (prefs.siteName || '').trim() || '知序' };
+}
+function openSite() {
+  const url = (prefs.siteUrl || '').trim();
+  return invoke('open_zhixu', { url: /^https?:\/\//.test(url) ? url : null });
+}
 const ACTIVITY_GAP = { calm: null, normal: [4, 8], lively: [0.75, 1.6] }; // 分钟
 const CHAT_GAP = { low: [45, 90], mid: [20, 45], high: [8, 15] };
 const chatGap = () => CHAT_GAP[prefs.chatty] || CHAT_GAP.mid;
@@ -92,7 +110,7 @@ function setMood(m, ms) {
 // ---------- 气泡和菜单 ----------
 function say(text, m, ms = 4500) {
   menu.hidden = true;
-  bubble.textContent = text;
+  bubble.textContent = fill(text);
   bubble.hidden = false;
   if (m) setMood(m, ms);
   clearTimeout(sayTimer);
@@ -289,7 +307,7 @@ function ask(text, buttons, m) {
   clearTimeout(sayTimer);
   bubble.textContent = '';
   const p = document.createElement('p');
-  p.textContent = text;
+  p.textContent = fill(text);
   const row = document.createElement('div');
   row.className = 'acts';
   for (const [label, fn] of buttons) {
@@ -321,6 +339,7 @@ function installUpdate() {
   invoke('install_update').catch((e) => say('更新失败了：' + e, 'pout', 8000));
 }
 
+tauri?.event.listen('open-site', () => openSite());
 tauri?.event.listen('summoned', () => {
   setMood(autoMood());
   say(pick(LINES.summoned), sleep ? undefined : 'happy', 4000);
@@ -328,7 +347,7 @@ tauri?.event.listen('summoned', () => {
 
 pet.addEventListener('dblclick', () => {
   say(pick(LINES.openZhixu), sleep ? undefined : 'smug', 2500);
-  invoke('open_zhixu').catch((e) => say('没打开：' + e, 'pout'));
+  openSite().catch((e) => say('没打开：' + e, 'pout'));
 });
 
 // ---------- 摸头：鼠标不按键，在她上半身左右来回划 ----------
@@ -365,7 +384,7 @@ menu.addEventListener('click', (e) => {
   if (!act) return;
   menu.hidden = true;
   updateHit();
-  if (act === 'open') invoke('open_zhixu');
+  if (act === 'open') openSite();
   if (act === 'chat') chat(true);
   if (act === 'settings') invoke('open_settings');
   if (act === 'quiet') {
@@ -377,6 +396,9 @@ menu.addEventListener('click', (e) => {
   if (act === 'hide') win?.hide();
 });
 function renderMenu() {
+  const site = lineVars().s;
+  menu.querySelector('[data-act="open"]').textContent = '🌐 打开' + site;
+  pet.title = `戳一下 · 双击打开${site} · 右键菜单`;
   const q = menu.querySelector('[data-act="quiet"]');
   if (q) q.textContent = prefs.quiet ? '🔔 打开提醒' : '🔕 安静模式';
 }
