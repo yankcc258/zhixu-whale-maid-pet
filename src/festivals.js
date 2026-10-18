@@ -33,7 +33,7 @@ const lunarIs = (d, m, a, b) => {
 const FESTS = [
   {
     id: 'birthday',
-    name: '生日',
+    name: '希可的生日',
     kind: 'fest',
     when: (d) => md(d) === 1018,
     fx: ['🎉', '🎊', '✨'],
