@@ -1,0 +1,15 @@
+{
+  "name": "zhixu-whale-maid-pet",
+  "private": true,
+  "version": "0.1.0",
+  "description": "知序的鲸鱼娘桌宠（Windows）",
+  "scripts": {
+    "tauri": "tauri",
+    "dev": "tauri dev",
+    "build": "tauri build",
+    "check": "node --check src/pet.js"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2"
+  }
+}
