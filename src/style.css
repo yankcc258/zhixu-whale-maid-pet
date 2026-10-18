@@ -198,6 +198,72 @@ body.dock-left .z {
 #menu button:hover {
   background: #edf3ed;
 }
+/* 节日装饰：从上面飘下来 / 从她身上蹦出来，都不挡鼠标 */
+.fx {
+  position: absolute;
+  top: -24px;
+  font-size: 16px;
+  pointer-events: none;
+  animation: fxfall 5s linear forwards;
+}
+@keyframes fxfall {
+  from {
+    opacity: 0;
+    transform: translate(0, 0) rotate(0);
+  }
+  10% {
+    opacity: 0.95;
+  }
+  85% {
+    opacity: 0.9;
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--dx, 0), 270px) rotate(200deg);
+  }
+}
+.fx.burst {
+  font-size: 15px;
+  animation: fxburst 1.3s cubic-bezier(0.2, 0.7, 0.4, 1) forwards !important;
+}
+@keyframes fxburst {
+  from {
+    opacity: 1;
+    transform: translate(0, 0) scale(0.6);
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--dx), var(--dy)) scale(1.2);
+  }
+}
+/* 衣柜衣服多，直接盖住她自己，整个窗口都给按钮用 */
+#bubble.wardrobe {
+  z-index: 2;
+  bottom: 6px;
+  max-height: 236px;
+  overflow-y: auto;
+}
+#bubble.wardrobe p {
+  font-size: 12px;
+}
+#bubble .acts.wrap {
+  flex-wrap: wrap;
+  gap: 4px;
+}
+#bubble .acts.wrap button {
+  font-size: 11px;
+  padding: 2px 7px;
+}
+#bubble .acts.wrap button:first-child {
+  background: #f5f4ef;
+  border-color: #e1e5dd;
+  color: inherit;
+}
+#bubble .acts.wrap button:last-child {
+  background: #326b59;
+  border-color: #326b59;
+  color: #fffefa;
+}
 @media (prefers-reduced-motion: reduce) {
   #pet,
   #pet img {
