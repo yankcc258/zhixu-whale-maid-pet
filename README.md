@@ -38,8 +38,7 @@
 
 1. 改版本号：`package.json`、`src-tauri/tauri.conf.json`、`src-tauri/Cargo.toml` 三处一致。
 2. 在 `release-notes.md` 写这一版改了什么（会显示在 Release 页面和更新提示里）。
-3. 合并到 main 后打标签：`git tag v0.3.0 && git push origin v0.3.0`。
-4. Actions 自动打包、签名，把安装包、`.sig` 和 `latest.json` 发布到本仓库的 Releases。
+3. 合并到 main。Actions 发现这个版本号还没发布过，就会自动打包、签名，把安装包、`.sig` 和 `latest.json` 发布到本仓库的 Releases，并建好 `v` 标签。
 
 需要的 Secrets：`TAURI_SIGNING_PRIVATE_KEY`、`TAURI_SIGNING_PRIVATE_KEY_PASSWORD`（更新签名私钥和密码，私钥文件留在 Yank 自己电脑上备份）。私钥丢了的话，生成一把新的、换掉配置里的公钥，再手动装一次新版本就行。
 
