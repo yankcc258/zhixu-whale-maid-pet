@@ -68,14 +68,19 @@ fn autostart_set(app: AppHandle, on: bool) -> Result<bool, String> {
     Ok(a.is_enabled().unwrap_or(false))
 }
 
+/// 打开设置窗口。必须是 async 命令：Windows 上在同步命令里建窗口会卡住，窗口一直白屏。
 #[tauri::command]
-fn open_settings(app: AppHandle) -> Result<(), String> {
+async fn open_settings(app: AppHandle) -> Result<(), String> {
+    show_settings(&app)
+}
+
+fn show_settings(app: &AppHandle) -> Result<(), String> {
     if let Some(w) = app.get_webview_window("settings") {
         let _ = w.unminimize();
         let _ = w.show();
         return w.set_focus().map_err(|e| e.to_string());
     }
-    WebviewWindowBuilder::new(&app, "settings", WebviewUrl::App("settings.html".into()))
+    WebviewWindowBuilder::new(app, "settings", WebviewUrl::App("settings.html".into()))
         .title("鲸鱼娘设置")
         .inner_size(380.0, 780.0)
         .resizable(false)
@@ -299,7 +304,7 @@ pub fn run() {
                         }
                     }
                     "settings" => {
-                        let _ = open_settings(app.clone());
+                        let _ = show_settings(app);
                     }
                     "update" => announce_update(app.clone(), true),
                     "quit" => app.exit(0),
