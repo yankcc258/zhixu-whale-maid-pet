@@ -45,11 +45,37 @@ jobs:
           v=$(node -p "require('./src-tauri/tauri.conf.json').version")
           test "v$v" = "${GITHUB_REF_NAME}" || { echo "标签 ${GITHUB_REF_NAME} 和 tauri.conf.json 的版本 $v 不一致"; exit 1; }
 
-      - name: 打包（带更新签名）
+      # 先单独试一次签名：钥匙或密码不对时，在 PR 页面的注释里直接说清楚（secrets 会被自动打码）
+      - name: 检查签名钥匙
+        shell: bash
         env:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-        run: npm run build
+        run: |
+          if [ -z "$TAURI_SIGNING_PRIVATE_KEY" ]; then echo "::error::没有设置 TAURI_SIGNING_PRIVATE_KEY"; exit 1; fi
+          head=$(printf '%s' "$TAURI_SIGNING_PRIVATE_KEY" | tr -d ' \r\n' | base64 -d 2>/dev/null | head -1)
+          case "$head" in
+            *"secret key"*) echo "私钥格式正确：$head" ;;
+            *) echo "::error::TAURI_SIGNING_PRIVATE_KEY 不是私钥文件的内容（应该是 zhixu-whale.key 里那一长串，不是密码）"; exit 1 ;;
+          esac
+          echo test > sign-test.txt
+          if ! out=$(npx tauri signer sign sign-test.txt 2>&1); then
+            echo "::error::签名失败（多半是密码不对）：$(printf '%s' "$out" | tail -3 | tr '\n' ' ')"
+            exit 1
+          fi
+          echo "签名测试通过"
+
+      - name: 打包（带更新签名）
+        shell: bash
+        env:
+          TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+        run: |
+          set -o pipefail
+          if ! npm run build 2>&1 | tee build.log; then
+            grep -E "error|Error|failed" build.log | tail -8 | while IFS= read -r l; do echo "::error::$l"; done
+            exit 1
+          fi
 
       - uses: actions/upload-artifact@v4
         with:
