@@ -786,7 +786,9 @@ function festTick() {
 }
 // 从窗口上方慢慢飘下来的装饰（不挡鼠标）
 // 有画好的装饰图就用图（fx/<名字>-<几号>.webp），没有就用 emoji
-const FX_IMG = { '❄️': ['snow', 2], '🌸': ['petal', 2], '🍁': ['maple', 2], '⭐': ['star', 2], '💧': ['rain', 2], '🦇': ['bat', 3], '🎆': ['firework', 3], '🎇': ['firework', 3] };
+const FX_IMG = {
+  '❄️': ['snow', 2], '🌸': ['petal', 2], '🍁': ['maple', 2], '⭐': ['star', 2], '💧': ['rain', 2], '🦇': ['bat', 3], '🎆': ['firework', 3], '🎇': ['firework', 3],
+  '💗': ['heart', 2], '💝': ['heart', 2], '🏮': ['lantern', 2], '🧧': ['envelope', 2], '🎃': ['pumpkin', 2], '🍡': ['dango', 2], '🫘': ['bean', 2] };
 function fxEl(ch) {
   const pic = FX_IMG[ch],
     e = document.createElement(pic ? 'img' : 'span');
