@@ -44,7 +44,7 @@ const OUTFITS = {
   },
   jog: {
     name: '慢跑服',
-    has: ['idle', 'happy', 'smug', 'angry', 'pat', 'wave', 'surprised', 'dangle', 'peek', 'run', 'hot'],
+    has: ['idle', 'happy', 'smug', 'angry', 'pat', 'wave', 'surprised', 'dangle', 'peek', 'run', 'hot', 'onigiri'], // onigiri：啃吐司
     frames: { run: ['run1', 'run2'] },
     alias: { pout: 'angry', wake: 'angry', meh: 'idle' },
     runLines: ['（叼着吐司）要迟到了要迟到了——！', '（嘴里叼着面包）唔唔唔！（让一让！）', '早饭边跑边吃才是青春！……{n} 别学我。'],
@@ -60,9 +60,9 @@ const OUTFITS = {
   },
   lab: {
     name: '白大褂',
-    has: ['idle', 'happy', 'smug', 'angry', 'pat', 'wave', 'surprised', 'dangle', 'peek', 'run'],
+    has: ['idle', 'happy', 'smug', 'angry', 'pat', 'wave', 'surprised', 'dangle', 'peek', 'run', 'read'], // read：看实验记录本
     frames: { run: ['run1', 'run2'] },
-    alias: { pout: 'angry', wake: 'angry', meh: 'idle', read: 'idle' },
+    alias: { pout: 'angry', wake: 'angry', meh: 'idle' },
     runLines: ['实验要炸了！快跑！！', '（抱着锥形瓶）通风橱！通风橱在哪！'],
   },
 };
