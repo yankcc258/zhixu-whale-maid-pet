@@ -34,6 +34,37 @@ const OUTFITS = {
       peekPhone: 'peek', peekCheek: 'peek', peekHead: 'peek', peekAngry: 'peek',
     },
   },
+  // 下面四套都画了同一份 11 张（待机、开心、屑笑、生气、摸头、挥手、吓一跳、拎起、探头、跑步两帧）
+  gym: {
+    name: '体操服',
+    has: ['idle', 'happy', 'smug', 'angry', 'pat', 'wave', 'surprised', 'dangle', 'peek', 'run'],
+    frames: { run: ['run1', 'run2'] },
+    alias: { pout: 'angry', wake: 'angry', meh: 'idle' },
+    runLines: ['一、二、一、二！热身跑起来！', '（跑圈）还有三圈……{n} 你也来跑！'],
+  },
+  jog: {
+    name: '慢跑服',
+    has: ['idle', 'happy', 'smug', 'angry', 'pat', 'wave', 'surprised', 'dangle', 'peek', 'run', 'hot'],
+    frames: { run: ['run1', 'run2'] },
+    alias: { pout: 'angry', wake: 'angry', meh: 'idle' },
+    runLines: ['（叼着吐司）要迟到了要迟到了——！', '（嘴里叼着面包）唔唔唔！（让一让！）', '早饭边跑边吃才是青春！……{n} 别学我。'],
+  },
+  winter: {
+    name: '冬装',
+    off: '冬天',
+    when: (d) => inRange(d, 1201, 229),
+    has: ['idle', 'happy', 'smug', 'angry', 'pat', 'wave', 'surprised', 'dangle', 'peek', 'run', 'cold'],
+    frames: { run: ['run1', 'run2'] },
+    alias: { pout: 'angry', wake: 'angry', meh: 'cold' },
+    runLines: ['好冷好冷，跑起来就暖和了！', '（围巾飞起来）等等我的帽子——！'],
+  },
+  lab: {
+    name: '白大褂',
+    has: ['idle', 'happy', 'smug', 'angry', 'pat', 'wave', 'surprised', 'dangle', 'peek', 'run'],
+    frames: { run: ['run1', 'run2'] },
+    alias: { pout: 'angry', wake: 'angry', meh: 'idle', read: 'idle' },
+    runLines: ['实验要炸了！快跑！！', '（抱着锥形瓶）通风橱！通风橱在哪！'],
+  },
 };
 // 节日/季节衣服（festivals.js 里那些）每套只有一张待机图：什么动作都用它
 const outfitInfo = (id) => OUTFITS[id] || festById(id) || OUTFITS.maid;

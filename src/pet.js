@@ -110,7 +110,10 @@ function outfitNow() {
   if (prefs.wardrobeMode === 'lock') return OUTFITS[prefs.outfit] || festById(prefs.outfit) ? prefs.outfit : 'maid';
   if (prefs.examUntil > Date.now()) return 'hisshou';
   if (sleep || isNight()) return 'pajamas';
-  return festToday()?.id || 'maid';
+  const f = festToday();
+  if (f) return f.id;
+  if (weather && !weather.error && weather.max <= 10) return 'winter'; // 今天最高不到 10°C：穿冬装
+  return 'maid';
 }
 // 身上是不是节日/季节衣服（是的话返回它的 id，节日台词、装饰都看这个）
 function wear() {
@@ -646,6 +649,11 @@ async function roamTick() {
   roam = { dir: Math.sign(to - from) };
   document.body.classList.add('running');
   setMood('run');
+  const runLines = OUTFITS[outfitNow()]?.runLines;
+  if (runLines && Math.random() < 0.5) {
+    pop(pick(runLines), undefined, Math.min(ms, 5000));
+    setMood('run');
+  }
   const step = (t) => {
     if (!roam) return;
     const k = Math.min(1, (t - t0) / ms);
@@ -699,7 +707,7 @@ function idleTick() {
 }
 
 // ---------- 天气（设置里填了城市才查；用 open-meteo，不需要密钥） ----------
-let weather = null; // { rain, rainTomorrow, max, min, at }
+var weather = null; // { rain, rainTomorrow, max, min, at }
 async function weatherTick() {
   const city = (prefs.city || '').trim();
   if (!city) return (weather = null);
@@ -848,7 +856,7 @@ function wardrobe() {
     savePrefs();
     closeBubble();
     setMood(autoMood());
-    if (id === 'auto') return say('好，那我自己看日子换衣服。节日穿节日的，晚上穿睡衣。', 'happy', 5000);
+    if (id === 'auto') return say('好，那我自己看日子换衣服。节日穿节日的，晚上穿睡衣，冷天穿冬装。', 'happy', 5000);
     if (id === 'hisshou') return say(pick(festById('hisshou').hello) + '（两周后自动摘下）', 'hisshou', 6000);
     if (id === 'maid') return say('换回女仆装啦，还是这身最舒服。（锁定了，节日也不换哦）', 'happy', 5000);
     say(offDay() ? offLine(outfitInfo(id)) : `换好了！${outfitName(id)}，好看吗？`, 'smug', 5000);
@@ -858,7 +866,7 @@ function wardrobe() {
     `衣柜 · 现在：${outfitName(now)}${auto ? '（自动）' : '（锁定）'}${locked ? `，还有 ${locked} 套没见过` : ''}`,
     [
       [(auto ? '✓ ' : '') + '🔄 自动换装', choose('auto')],
-      ...['maid', 'pajamas', 'yukata'].map((id) => mark(id, OUTFITS[id].name)),
+      ...Object.keys(OUTFITS).map((id) => mark(id, OUTFITS[id].name)),
       ...fests.map((f) => mark(f.id, f.name)),
       ['🔥 考试周', choose('hisshou')],
       ['关上', closeBubble],
@@ -904,6 +912,8 @@ setInterval(() => {
     lastOutfit = o;
     if (!dragging && !roam && Date.now() > moodUntil) setMood(autoMood());
     else setMood(mood, Math.max(0, moodUntil - Date.now()));
+    if (o === 'winter' && !sleep && prefs.wardrobeMode !== 'lock')
+      pop('（裹上大衣和围巾）今天好冷……{n} 出门也多穿一件。', 'cold', 8000);
     if (o === 'pajamas' && !sleep && prefs.wardrobeMode !== 'lock')
       pop('（换上睡衣，抱着鲸鱼枕头）……我先准备睡了，{n} 也别熬太晚。', 'idle', 8000);
   }
