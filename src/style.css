@@ -64,6 +64,16 @@ body.dock-bottom.peeking #pet {
 body.docked.dock-left.peeking #pet {
   transform: translateX(16px);
 }
+/* 这套衣服没画探头图时，用整张图往屏幕外推一半当探头 */
+body.standin-side #pet img {
+  translate: 45% 0;
+}
+body.standin-side.dock-left #pet img {
+  translate: -45% 0;
+}
+body.standin-bottom #pet img {
+  translate: 0 45%;
+}
 /* 被拎起来：以头顶为轴蹬腿 */
 body.dragging #pet {
   animation: none;

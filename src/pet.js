@@ -149,6 +149,9 @@ function setMood(m, ms) {
   unlock(m);
   moodUntil = ms ? Date.now() + ms : 0;
   showSprite(spriteFor(outfitNow(), m));
+  const stand = standInFor(outfitNow(), m);
+  document.body.classList.toggle('standin-side', stand === 'side');
+  document.body.classList.toggle('standin-bottom', stand === 'bottom');
   document.body.classList.toggle('flip', (dock === 'left') !== (m === 'run' && roam?.dir > 0));
   document.body.classList.toggle('asleep', m === 'sleep' || m === 'peekSleep' || m === 'sleepBottom');
   document.body.classList.toggle('busy', m === 'read' || m === 'onigiri');
