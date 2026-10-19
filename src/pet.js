@@ -25,7 +25,7 @@ const DEFAULTS = {
   siteUrl: '',
   city: '', // 天气用的城市，空着就不查天气
   wardrobe: [], // 见过的节日/季节衣服
-  wardrobeAll: false, // 设置里打开：衣柜全开（剧透）
+  wardrobeLocked: false, // 设置里打开：衣柜只放见过的衣服（收集模式）
   outfit: '', // 衣柜里手动换上的，'maid' 是换回女仆装
   outfitDay: '',
   examUntil: 0, // 考试周（必胜头巾）到什么时候
@@ -118,6 +118,14 @@ function wear() {
 }
 // 现在身上这身是哪个节日（装饰、台词用）
 const wornFest = () => festById(mood) || null;
+// 身上这身是衣柜里硬换的、今天并不是它的日子
+function offDay() {
+  const w = wear(),
+    f = festById(w);
+  if (!f) return false;
+  if (w === 'hisshou') return !(prefs.examUntil > Date.now());
+  return !f.when(new Date());
+}
 function unlock(id) {
   if (!festById(id) || prefs.wardrobe.includes(id)) return;
   prefs.wardrobe = [...prefs.wardrobe, id];
@@ -383,6 +391,10 @@ function festPoke() {
     return true;
   }
   const worn = festById(w);
+  if (offDay() && Math.random() < 0.3) {
+    say(fill(offLine(worn)), w, 4000);
+    return true;
+  }
   if (worn?.poke && Math.random() < 0.5) {
     say(pick(worn.poke), w, 3500);
     return true;
@@ -529,7 +541,8 @@ function chat(force = false) {
   if (sleep) return force && say(pick(LINES.sleepTalk), undefined, 5000);
   const worn = festById(wear()),
     soon = festSoon();
-  if (worn?.chat && Math.random() < 0.35) return force ? say(pick(worn.chat), wear(), 8000) : pop(pick(worn.chat), wear(), 12000);
+  if (offDay() && Math.random() < 0.3) return force ? say(offLine(worn), wear(), 8000) : pop(offLine(worn), wear(), 12000);
+  if (worn?.chat && !offDay() && Math.random() < 0.35) return force ? say(pick(worn.chat), wear(), 8000) : pop(pick(worn.chat), wear(), 12000);
   if (soon && Math.random() < 0.25) {
     const line = soon.days === 1 ? `明天就是${soon.fest.name}了！{n} 准备好了没？` : `还有 ${soon.days} 天就是${soon.fest.name}了，嘿嘿。`;
     return force ? say(line, 'excited', 8000) : pop(line, 'excited', 12000);
@@ -600,8 +613,11 @@ async function roamTick() {
   if (!area) return;
   const min = area.x - PET_MARGIN,
     max = area.x + area.w - WIN_W + PET_MARGIN;
-  let to = rand(min, max);
-  if (Math.abs(to - pos.x) < 200) to = pos.x + (to > pos.x ? 200 : -200);
+  // 多半跑到屏幕另一头，偶尔在半路停下；至少跑三分之一个屏幕
+  const span = max - min,
+    left = pos.x < min + span / 2;
+  let to = Math.random() < 0.7 ? (left ? rand(max - span * 0.15, max) : rand(min, min + span * 0.15)) : rand(min, max);
+  if (Math.abs(to - pos.x) < span / 3) to = pos.x + (left ? span / 3 : -span / 3);
   to = Math.round(Math.min(max, Math.max(min, to)));
   const from = pos.x,
     ms = (Math.abs(to - from) / 160) * 1000,
@@ -725,7 +741,7 @@ function weatherLine() {
 function festTick() {
   const d = new Date(),
     f = festById(wear());
-  if (f?.hello && !sleep && prefs.festDay !== d.toDateString() + f.id && menu.hidden && bubble.hidden) {
+  if (f?.hello && !offDay() && !sleep && prefs.festDay !== d.toDateString() + f.id && menu.hidden && bubble.hidden) {
     prefs.festDay = d.toDateString() + f.id;
     savePrefs();
     setMood(autoMood());
@@ -781,7 +797,7 @@ function burst(chars, n, high = false) {
 }
 // 👘 衣柜：见过的衣服都能换，考试周的必胜头巾一直都有
 function wardrobe() {
-  const have = FESTS.filter((f) => f.kind === 'manual' || prefs.wardrobeAll || prefs.wardrobe.includes(f.id)),
+  const have = FESTS.filter((f) => f.kind === 'manual' || !prefs.wardrobeLocked || prefs.wardrobe.includes(f.id)),
     locked = FESTS.length - have.length,
     today = new Date().toDateString();
   const choose = (id) => () => {
@@ -797,7 +813,8 @@ function wardrobe() {
     closeBubble();
     setMood(autoMood());
     if (id === 'hisshou') return say(pick(festById('hisshou').hello) + '（两周后自动摘下）', 'hisshou', 6000);
-    say(id === 'maid' ? '换回女仆装啦，还是这身最舒服。' : `换好了！${festById(id).name}的衣服，好看吗？`, id === 'maid' ? 'happy' : undefined, 4000);
+    if (id === 'maid') return say('换回女仆装啦，还是这身最舒服。', 'happy', 4000);
+    say(offDay() ? offLine(festById(id)) : `换好了！${festById(id).name}的衣服，好看吗？`, undefined, 5000);
   };
   ask(
     locked ? `衣柜（还有 ${locked} 套没见过，到日子才会出现哦）` : '衣柜：今天穿哪套？',
@@ -826,7 +843,7 @@ function wardrobe() {
   setTimeout(() => {
     if (sleep) return;
     const f = festById(wear());
-    if (f?.hello) {
+    if (f?.hello && !offDay()) {
       prefs.festDay = new Date().toDateString() + f.id;
       savePrefs();
       return pop(pick(f.hello), f.id, 8000);
