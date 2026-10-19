@@ -16,17 +16,17 @@ const OUTFITS = {
     name: '睡衣',
     off: '晚上', // 不是日子却穿着时说「明明不是晚上……」
     when: () => isNight(),
-    has: ['idle', 'sleepy', 'wake', 'smug', 'pat', 'sleep', 'peekSleep'],
-    alias: { peek: 'peekSleep', peekPhone: 'peekSleep', peekCheek: 'peekSleep', peekHead: 'peekSleep', happy: 'smug', smirk: 'smug', bleh: 'smug', excited: 'smug', meh: 'idle', pout: 'idle', surprised: 'sleepy', angry: 'wake' },
+    has: ['idle', 'sleepy', 'wake', 'smug', 'pat', 'sleep', 'peekSleep', 'dangle', 'happy', 'wave', 'read'],
+    alias: { peek: 'peekSleep', peekPhone: 'peekSleep', peekCheek: 'peekSleep', peekHead: 'peekSleep', smirk: 'smug', bleh: 'smug', excited: 'happy', meh: 'idle', pout: 'idle', surprised: 'sleepy', angry: 'wake' },
   },
   yukata: {
     name: '浴衣',
     off: '夏天',
     when: (d) => inRange(d, 701, 831),
-    has: ['idle', 'wave', 'smug', 'angry', 'pat', 'happy', 'run', 'peek'],
+    has: ['idle', 'wave', 'smug', 'angry', 'pat', 'happy', 'run', 'peek', 'dangle', 'read', 'onigiri', 'surprised', 'sleep'],
     frames: { run: ['run1', 'run2'] }, // 跑步两帧轮流换
     alias: {
-      smirk: 'smug', bleh: 'smug', meh: 'idle', pout: 'angry', excited: 'happy', surprised: 'happy', wake: 'angry',
+      smirk: 'smug', bleh: 'smug', meh: 'idle', pout: 'angry', excited: 'happy', wake: 'angry',
       peekPhone: 'peek', peekCheek: 'peek', peekHead: 'peek', peekAngry: 'peek',
     },
   },
