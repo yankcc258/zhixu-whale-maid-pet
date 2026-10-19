@@ -26,8 +26,8 @@ const DEFAULTS = {
   city: '', // 天气用的城市，空着就不查天气
   wardrobe: [], // 见过的节日/季节衣服
   wardrobeLocked: false, // 设置里打开：衣柜只放见过的衣服（收集模式）
-  outfit: '', // 衣柜里手动换上的，'maid' 是换回女仆装
-  outfitDay: '',
+  wardrobeMode: 'auto', // 'auto'：节日、晚上自己换；'lock'：一直穿衣柜里选的那套
+  outfit: 'maid', // 锁定时穿哪套
   examUntil: 0, // 考试周（必胜头巾）到什么时候
 };
 let prefs = loadPrefs();
@@ -104,27 +104,28 @@ function autoMood() {
   if (sleep === 'mad') return 'wake';
   return wear() || 'idle';
 }
-// ---------- 节日衣服（表在 festivals.js） ----------
-// 今天穿什么：今天在衣柜里手动换的 > 考试周 > 节日 > 以前手动换的 > 女仆装（''）
-function wear() {
-  const d = new Date(),
-    today = d.toDateString(),
-    f = festToday(d),
-    own = prefs.outfit === 'maid' ? '' : prefs.outfit;
-  if (prefs.outfit && prefs.outfitDay === today) return own;
+// ---------- 衣服（outfits.js 管图，festivals.js 管节日） ----------
+// 现在穿哪套。锁定：一直穿选的那套。自动：考试周 > 晚上睡衣 > 节日 > 女仆装
+function outfitNow() {
+  if (prefs.wardrobeMode === 'lock') return OUTFITS[prefs.outfit] || festById(prefs.outfit) ? prefs.outfit : 'maid';
   if (prefs.examUntil > Date.now()) return 'hisshou';
-  if (f) return f.id;
-  return own || '';
+  if (sleep || isNight()) return 'pajamas';
+  return festToday()?.id || 'maid';
+}
+// 身上是不是节日/季节衣服（是的话返回它的 id，节日台词、装饰都看这个）
+function wear() {
+  const o = outfitNow();
+  return festById(o) ? o : '';
 }
 // 现在身上这身是哪个节日（装饰、台词用）
 const wornFest = () => festById(mood) || null;
 // 身上这身是衣柜里硬换的、今天并不是它的日子
 function offDay() {
-  const w = wear(),
-    f = festById(w);
-  if (!f) return false;
-  if (w === 'hisshou') return !(prefs.examUntil > Date.now());
-  return !f.when(new Date());
+  const o = outfitNow(),
+    f = outfitInfo(o);
+  if (o === 'maid') return false;
+  if (o === 'hisshou') return !(prefs.examUntil > Date.now());
+  return !!f.when && !f.when(new Date());
 }
 function unlock(id) {
   if (!festById(id) || prefs.wardrobe.includes(id)) return;
@@ -147,12 +148,26 @@ function setMood(m, ms) {
   mood = m;
   unlock(m);
   moodUntil = ms ? Date.now() + ms : 0;
-  const src = `sprites/${m === 'angry' ? 'strike' : m}.webp`;
-  if (img.getAttribute('src') !== src) img.src = src;
+  showSprite(spriteFor(outfitNow(), m));
   document.body.classList.toggle('flip', (dock === 'left') !== (m === 'run' && roam?.dir > 0));
   document.body.classList.toggle('asleep', m === 'sleep' || m === 'peekSleep' || m === 'sleepBottom');
   document.body.classList.toggle('busy', m === 'read' || m === 'onigiri');
   document.body.classList.toggle('angry', m === 'angry' || m === 'wake' || m === 'peekAngry');
+}
+
+// 换图；多帧的（浴衣跑步）轮流换
+let frameTimer = 0,
+  shownFrames = '';
+function showSprite(src) {
+  const frames = Array.isArray(src) ? src : [src];
+  if (frames.join() === shownFrames) return;
+  shownFrames = frames.join();
+  clearInterval(frameTimer);
+  img.src = frames[0];
+  if (frames.length < 2) return;
+  frames.forEach((f) => (new Image().src = f)); // 先载好，免得闪
+  let i = 0;
+  frameTimer = setInterval(() => (img.src = frames[(i = (i + 1) % frames.length)]), 170);
 }
 
 // ---------- 气泡和菜单 ----------
@@ -392,7 +407,7 @@ function festPoke() {
   }
   const worn = festById(w);
   if (offDay() && Math.random() < 0.3) {
-    say(fill(offLine(worn)), w, 4000);
+    say(fill(offLine(outfitInfo(outfitNow()))), w || 'smug', 4000);
     return true;
   }
   if (worn?.poke && Math.random() < 0.5) {
@@ -541,7 +556,10 @@ function chat(force = false) {
   if (sleep) return force && say(pick(LINES.sleepTalk), undefined, 5000);
   const worn = festById(wear()),
     soon = festSoon();
-  if (offDay() && Math.random() < 0.3) return force ? say(offLine(worn), wear(), 8000) : pop(offLine(worn), wear(), 12000);
+  if (offDay() && Math.random() < 0.3) {
+    const line = offLine(outfitInfo(outfitNow()));
+    return force ? say(line, wear() || 'smug', 8000) : pop(line, wear() || 'smug', 12000);
+  }
   if (worn?.chat && !offDay() && Math.random() < 0.35) return force ? say(pick(worn.chat), wear(), 8000) : pop(pick(worn.chat), wear(), 12000);
   if (soon && Math.random() < 0.25) {
     const line = soon.days === 1 ? `明天就是${soon.fest.name}了！{n} 准备好了没？` : `还有 ${soon.days} 天就是${soon.fest.name}了，嘿嘿。`;
@@ -665,7 +683,7 @@ function idleTick() {
     return pop(pick(LINES.onigiri), 'onigiri', 5000);
   }
   const season = seasonToday();
-  if (season && !wear() && Math.random() < 0.4) {
+  if (season && outfitNow() === 'maid' && Math.random() < 0.4) {
     setMood(season.id, rand(60, 150) * 1000);
     return pop(pick(season.lines), season.id, 5000);
   }
@@ -767,10 +785,14 @@ function festTick() {
   for (let i = Math.floor(rand(1, 3)); i > 0; i--) setTimeout(() => fall(pick(f.fx)), rand(0, 2500));
 }
 // 从窗口上方慢慢飘下来的装饰（不挡鼠标）
+// 有画好的装饰图就用图（fx/<名字>-<几号>.webp），没有就用 emoji
+const FX_IMG = { '❄️': ['snow', 2], '🌸': ['petal', 2], '🍁': ['maple', 2], '⭐': ['star', 2], '💧': ['rain', 2], '🦇': ['bat', 3] };
 function fall(ch) {
-  const e = document.createElement('span');
-  e.className = 'fx';
-  e.textContent = ch;
+  const pic = FX_IMG[ch],
+    e = document.createElement(pic ? 'img' : 'span');
+  e.className = 'fx' + (pic ? ' pic' : '');
+  if (pic) e.src = `fx/${pic[0]}-${1 + Math.floor(Math.random() * pic[1])}.webp`;
+  else e.textContent = ch;
   e.style.left = Math.round(rand(20, WIN_W - 30)) + 'px';
   e.style.setProperty('--dx', Math.round(rand(-30, 30)) + 'px');
   e.style.animationDuration = rand(4, 6.5).toFixed(1) + 's';
@@ -795,30 +817,42 @@ function burst(chars, n, high = false) {
     setTimeout(() => e.remove(), 1400);
   }
 }
-// 👘 衣柜：见过的衣服都能换，考试周的必胜头巾一直都有
+// 👘 衣柜：点一套就锁定穿它；「自动换装」让她按节日、晚上自己换。考试周的必胜头巾两周后自动摘
 function wardrobe() {
-  const have = FESTS.filter((f) => f.kind === 'manual' || !prefs.wardrobeLocked || prefs.wardrobe.includes(f.id)),
-    locked = FESTS.length - have.length,
-    today = new Date().toDateString();
+  const fests = FESTS.filter((f) => f.kind !== 'manual' && (!prefs.wardrobeLocked || prefs.wardrobe.includes(f.id))),
+    locked = FESTS.filter((f) => f.kind !== 'manual').length - fests.length,
+    now = outfitNow(),
+    auto = prefs.wardrobeMode !== 'lock';
   const choose = (id) => () => {
-    if (id === 'hisshou') {
+    if (id === 'auto') {
+      prefs.wardrobeMode = 'auto';
+      prefs.outfit = 'maid';
+    } else if (id === 'hisshou') {
       prefs.examUntil = Date.now() + 14 * 86400000;
-      prefs.outfit = '';
+      prefs.wardrobeMode = 'auto';
     } else {
-      if (id === 'maid') prefs.examUntil = 0;
+      prefs.wardrobeMode = 'lock';
       prefs.outfit = id;
-      prefs.outfitDay = today;
+      if (id === 'maid') prefs.examUntil = 0;
     }
     savePrefs();
     closeBubble();
     setMood(autoMood());
+    if (id === 'auto') return say('好，那我自己看日子换衣服。节日穿节日的，晚上穿睡衣。', 'happy', 5000);
     if (id === 'hisshou') return say(pick(festById('hisshou').hello) + '（两周后自动摘下）', 'hisshou', 6000);
-    if (id === 'maid') return say('换回女仆装啦，还是这身最舒服。', 'happy', 4000);
-    say(offDay() ? offLine(festById(id)) : `换好了！${festById(id).name}的衣服，好看吗？`, undefined, 5000);
+    if (id === 'maid') return say('换回女仆装啦，还是这身最舒服。（锁定了，节日也不换哦）', 'happy', 5000);
+    say(offDay() ? offLine(outfitInfo(id)) : `换好了！${outfitName(id)}，好看吗？`, 'smug', 5000);
   };
+  const mark = (id, name) => [(!auto && now === id ? '✓ ' : '') + name, choose(id)];
   ask(
-    locked ? `衣柜（还有 ${locked} 套没见过，到日子才会出现哦）` : '衣柜：今天穿哪套？',
-    [['女仆装', choose('maid')], ...have.map((f) => [f.name, choose(f.id)]), ['关上', closeBubble]],
+    `衣柜 · 现在：${outfitName(now)}${auto ? '（自动）' : '（锁定）'}${locked ? `，还有 ${locked} 套没见过` : ''}`,
+    [
+      [(auto ? '✓ ' : '') + '🔄 自动换装', choose('auto')],
+      ...['maid', 'pajamas', 'yukata'].map((id) => mark(id, OUTFITS[id].name)),
+      ...fests.map((f) => mark(f.id, f.name)),
+      ['🔥 考试周', choose('hisshou')],
+      ['关上', closeBubble],
+    ],
   );
   bubble.classList.add('wardrobe');
   bubble.querySelector('.acts')?.classList.add('wrap');
@@ -851,8 +885,18 @@ function wardrobe() {
     newYear() ? pop(pick(LINES.newYear), 'newyear', 8000) : pop(pick(LINES.hello), 'excited', 6000);
   }, 800);
 })();
+let lastOutfit = outfitNow();
 setInterval(() => {
   sleepTick();
+  // 衣服变了（入夜换睡衣、过了零点换节日衣服）：就算表情没变也要换图
+  const o = outfitNow();
+  if (o !== lastOutfit) {
+    lastOutfit = o;
+    if (!dragging && !roam && Date.now() > moodUntil) setMood(autoMood());
+    else setMood(mood, Math.max(0, moodUntil - Date.now()));
+    if (o === 'pajamas' && !sleep && prefs.wardrobeMode !== 'lock')
+      pop('（换上睡衣，抱着鲸鱼枕头）……我先准备睡了，{n} 也别熬太晚。', 'idle', 8000);
+  }
   roamTick();
   if (!dragging && !roam && Date.now() > moodUntil && mood !== autoMood()) setMood(autoMood());
   phoneTick();
