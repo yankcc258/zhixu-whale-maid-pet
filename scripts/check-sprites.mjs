@@ -4,7 +4,7 @@ import vm from 'node:vm';
 const ctx = { isNight: () => false, pick: (a) => a[0], Intl, Date, console };
 vm.createContext(ctx);
 vm.runInContext(
-  readFileSync('src/festivals.js', 'utf8') + readFileSync('src/outfits.js', 'utf8') + '\nthis.FESTS=FESTS;this.OUTFITS=OUTFITS;this.spriteFor=spriteFor;',
+  readFileSync('src/festivals.js', 'utf8') + readFileSync('src/outfits.js', 'utf8') + '\nthis.FESTS=FESTS;this.OUTFITS=OUTFITS;this.spriteFor=spriteFor;this.festById=festById;',
   ctx,
 );
 const moods = [...new Set([...readFileSync('src/pet.js', 'utf8').matchAll(/'([a-zA-Z]+)'/g)].map((m) => m[1]))].filter((m) =>
@@ -35,5 +35,14 @@ for (const [id, o] of Object.entries(ctx.OUTFITS))
         console.error(`衣服 ${id} 说有 ${k}，但没有 sprites/${id}/${f}.webp`);
         bad++;
       }
+// 除了女仆装，别的衣服任何动作都不能露出女仆装的图
+const maidFiles = new Set(moods.map((m) => `sprites/${m === 'angry' ? 'strike' : m}.webp`));
+for (const o of outfits.filter((o) => o !== 'maid'))
+  for (const m of moods.filter((m) => !ctx.festById(m)))
+    for (const f of [ctx.spriteFor(o, m)].flat())
+      if (maidFiles.has(f) && f !== `sprites/${o}.webp`) {
+        console.error(`${o} 的 ${m} 变回了女仆装：${f}`);
+        bad++;
+      }
 if (bad) process.exit(1);
-console.log(`立绘检查通过：${outfits.length} 套衣服 × ${moods.length} 个表情/动作都有图，女仆装和以前一致。`);
+console.log(`立绘检查通过：${outfits.length} 套衣服 × ${moods.length} 个表情/动作都有图，女仆装和以前一致，其他衣服不会变回女仆装。`);
