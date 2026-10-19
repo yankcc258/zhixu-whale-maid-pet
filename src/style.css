@@ -226,6 +226,10 @@ body.dock-left .z {
   width: 22px;
   height: 22px;
 }
+.fx.pic.firework {
+  width: 40px;
+  height: 40px;
+}
 .fx.burst {
   font-size: 15px;
   animation: fxburst 1.3s cubic-bezier(0.2, 0.7, 0.4, 1) forwards !important;

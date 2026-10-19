@@ -786,13 +786,19 @@ function festTick() {
 }
 // 从窗口上方慢慢飘下来的装饰（不挡鼠标）
 // 有画好的装饰图就用图（fx/<名字>-<几号>.webp），没有就用 emoji
-const FX_IMG = { '❄️': ['snow', 2], '🌸': ['petal', 2], '🍁': ['maple', 2], '⭐': ['star', 2], '💧': ['rain', 2], '🦇': ['bat', 3] };
-function fall(ch) {
+const FX_IMG = { '❄️': ['snow', 2], '🌸': ['petal', 2], '🍁': ['maple', 2], '⭐': ['star', 2], '💧': ['rain', 2], '🦇': ['bat', 3], '🎆': ['firework', 3], '🎇': ['firework', 3] };
+function fxEl(ch) {
   const pic = FX_IMG[ch],
     e = document.createElement(pic ? 'img' : 'span');
-  e.className = 'fx' + (pic ? ' pic' : '');
-  if (pic) e.src = `fx/${pic[0]}-${1 + Math.floor(Math.random() * pic[1])}.webp`;
-  else e.textContent = ch;
+  if (pic) {
+    e.src = `fx/${pic[0]}-${1 + Math.floor(Math.random() * pic[1])}.webp`;
+    e.className = 'pic ' + pic[0];
+  } else e.textContent = ch;
+  return e;
+}
+function fall(ch) {
+  const e = fxEl(ch);
+  e.classList.add('fx');
   e.style.left = Math.round(rand(20, WIN_W - 30)) + 'px';
   e.style.setProperty('--dx', Math.round(rand(-30, 30)) + 'px');
   e.style.animationDuration = rand(4, 6.5).toFixed(1) + 's';
@@ -804,10 +810,9 @@ function burst(chars, n, high = false) {
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const r = pet.getBoundingClientRect();
   for (let i = 0; i < n; i++) {
-    const e = document.createElement('span'),
+    const e = fxEl(pick(chars)),
       a = rand(-Math.PI * 0.95, -Math.PI * 0.05);
-    e.className = 'fx burst';
-    e.textContent = pick(chars);
+    e.classList.add('fx', 'burst');
     e.style.left = Math.round(r.left + r.width / 2 - 8) + 'px';
     e.style.top = Math.round(r.top + (high ? 10 : r.height * 0.45)) + 'px';
     const dist = rand(50, high ? 110 : 90);
