@@ -34,6 +34,7 @@ const FESTS = [
   {
     id: 'birthday',
     name: '希可的生日',
+    off: '我生日', // 不是日子却穿着时说「明明不是我生日」
     kind: 'fest',
     when: (d) => md(d) === 1018,
     fx: ['🎉', '🎊', '✨'],
@@ -54,6 +55,7 @@ const FESTS = [
   {
     id: 'omikuji',
     name: '初詣',
+    off: '新年', // 不是日子却穿着时说「明明不是新年」
     kind: 'fest',
     when: (d) => inRange(d, 101, 103),
     fx: ['✨', '🎍'],
@@ -104,6 +106,7 @@ const FESTS = [
   {
     id: 'hanami',
     name: '赏樱',
+    off: '樱花季', // 不是日子却穿着时说「明明不是樱花季」
     kind: 'fest',
     when: (d) => inRange(d, 325, 410),
     fx: ['🌸', '🌸', '🍡'],
@@ -124,6 +127,7 @@ const FESTS = [
   {
     id: 'hanabi',
     name: '花火大会',
+    off: '夏天', // 不是日子却穿着时说「明明不是夏天」
     kind: 'fest',
     when: (d) => inRange(d, 725, 815),
     fx: ['🎆', '🎇', '✨'],
@@ -165,6 +169,7 @@ const FESTS = [
   {
     id: 'tsuyu',
     name: '梅雨',
+    off: '梅雨季', // 不是日子却穿着时说「明明不是梅雨季」
     kind: 'season',
     when: (d) => inRange(d, 608, 715),
     fx: ['💧'],
@@ -173,6 +178,7 @@ const FESTS = [
   {
     id: 'kakigori',
     name: '刨冰',
+    off: '夏天', // 不是日子却穿着时说「明明不是夏天」
     kind: 'season',
     when: (d) => inRange(d, 716, 831),
     fx: ['🎐'],
@@ -181,6 +187,7 @@ const FESTS = [
   {
     id: 'momiji',
     name: '红叶',
+    off: '秋天', // 不是日子却穿着时说「明明不是秋天」
     kind: 'season',
     when: (d) => inRange(d, 1101, 1130),
     fx: ['🍁', '🍂'],
@@ -189,6 +196,7 @@ const FESTS = [
   {
     id: 'kotatsu',
     name: '被炉',
+    off: '冬天', // 不是日子却穿着时说「明明不是冬天」
     kind: 'season',
     when: (d) => inRange(d, 1201, 229),
     fx: [],
@@ -214,6 +222,16 @@ const OMIKUJI = [
   ['末吉', '末吉……后面会越来越好的，真的。'],
   ['凶', '凶……没事！把签绑在树上，坏运气就留在神社了。'],
 ];
+// 不是日子却穿着（衣柜里手动换的）时的嘴硬台词，{f} 是「明明不是什么日子」
+const OFF_DAY = [
+  '明明不是{f}，还非要我穿这身……{n} 的小心思，我还不懂吗？',
+  '（扯了扯衣角）现在又不是{f}……路过的人会以为我记错日子了啦。',
+  '哼，就是想看我穿这身对吧？……看够了没有，{n}？',
+  '不是{f}还穿成这样，被别的鲸鱼看见要笑话我的。',
+  '……下不为例哦。（其实有点开心）',
+  '{n} 你是不是偷偷把日历翻到{f}了？',
+];
+const offLine = (f) => pick(OFF_DAY).replace(/\{f\}/g, f.off || f.name);
 const festById = (id) => FESTS.find((f) => f.id === id);
 // 今天的节日 / 季节
 const festToday = (d = new Date()) => FESTS.find((f) => f.kind === 'fest' && f.when(d)) || null;
