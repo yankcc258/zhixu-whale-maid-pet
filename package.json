@@ -1,13 +1,13 @@
 {
   "name": "zhixu-whale-maid-pet",
   "private": true,
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "知序的鲸鱼娘桌宠（Windows）",
   "scripts": {
     "tauri": "tauri",
     "dev": "tauri dev",
     "build": "tauri build",
-    "check": "node --check scripts/check-sig.mjs && node --check src/lines.js && node --check src/festivals.js && node --check src/pet.js && node --check src/settings.js"
+    "check": "node scripts/check-sprites.mjs && node --check scripts/check-sig.mjs && node --check src/lines.js && node --check src/festivals.js && node --check src/outfits.js && node --check src/pet.js && node --check src/settings.js"
   },
   "devDependencies": {
     "@tauri-apps/cli": "^2"
