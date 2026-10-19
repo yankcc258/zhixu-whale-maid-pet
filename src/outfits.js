@@ -16,8 +16,8 @@ const OUTFITS = {
     name: '睡衣',
     off: '晚上', // 不是日子却穿着时说「明明不是晚上……」
     when: () => isNight(),
-    has: ['idle', 'sleepy', 'wake', 'smug', 'pat', 'sleep'],
-    alias: { happy: 'smug', smirk: 'smug', bleh: 'smug', excited: 'smug', meh: 'idle', pout: 'idle', surprised: 'sleepy', angry: 'wake' },
+    has: ['idle', 'sleepy', 'wake', 'smug', 'pat', 'sleep', 'peekSleep'],
+    alias: { peek: 'peekSleep', peekPhone: 'peekSleep', peekCheek: 'peekSleep', peekHead: 'peekSleep', happy: 'smug', smirk: 'smug', bleh: 'smug', excited: 'smug', meh: 'idle', pout: 'idle', surprised: 'sleepy', angry: 'wake' },
   },
   yukata: {
     name: '浴衣',
