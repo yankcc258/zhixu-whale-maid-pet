@@ -22,6 +22,18 @@
       <p class="muted">空着就用默认的。网址只认 http:// 或 https:// 开头的。城市空着就不查天气；填了以后会提醒带伞、喝水、加衣服（天气来自 open-meteo，不需要密钥）。</p>
     </section>
     <section>
+      <h2>形象</h2>
+      <div class="seg" data-key="figure">
+        <button data-v="q">Q 版<small>现在的希可</small></button>
+        <button data-v="mini" disabled title="还在画">迷你人形<small>制作中</small></button>
+      </div>
+      <div class="seg sub" data-key="qStyle">
+        <button data-v="live2d">动态<small>Live2D：眨眼、看鼠标、做动作</small></button>
+        <button data-v="static">静态<small>以前的立绘</small></button>
+      </div>
+      <p class="muted">动态现在有女仆装和睡衣；别的衣服、躲在边上、跑步时会自动换回立绘。电脑卡就选静态。右键菜单里也能一键切换。</p>
+    </section>
+    <section>
       <h2>吐槽频率</h2>
       <div class="seg" data-key="chatty">
         <button data-v="low">少<small>45–90 分钟</small></button>
@@ -51,7 +63,6 @@
     <section>
       <label><input type="checkbox" data-key="gameMode" /> 有全屏程序（游戏、全屏视频）时自动躲起来</label>
       <label><input type="checkbox" data-key="quiet" /> 安静模式（不自己冒话）</label>
-      <label><input type="checkbox" data-key="live2d" /> 女仆装用 Live2D（会眨眼、看鼠标、说话动嘴；电脑卡就关掉）</label>
       <label><input type="checkbox" data-key="wardrobeLocked" /> 收集模式：衣柜里只放到日子见过的衣服</label>
       <label><input type="checkbox" id="autostart" /> 开机自动启动</label>
       <p class="muted" id="autostart-err"></p>

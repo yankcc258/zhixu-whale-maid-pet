@@ -71,6 +71,13 @@ button {
   padding: 4px 10px;
   cursor: pointer;
 }
+.seg.sub {
+  margin-top: 6px;
+}
+.seg button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
 .seg button small {
   display: block;
   font-size: 11px;
