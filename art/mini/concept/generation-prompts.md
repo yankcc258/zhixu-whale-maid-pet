@@ -37,4 +37,3 @@ Edit this exact Seeko MINI MAID design master into ONE additional sprite in the 
 ## 坐姿边缘清理（最终）
 
 Precise transparent-background cleanup of this exact sitting Seeko sprite. Keep the entire character pixel placement, proportions, head size, face, hair, ahoge, fins, bow, maid outfit, hands and both shoes unchanged. Remove ONLY the stray light gray/white rectangular scrap peeking below the far lower-left blue hair (approximately x260,y1135 on this square image), and the faint gray grainy floor/shadow debris directly underneath the middle of the seated skirt between/behind the shoes. Those exterior pixels must become genuinely transparent; no floor or cast shadow. Preserve all intended white apron, white frills and stockings. Clean crisp exterior alpha edge around the hair and shoes. Do not redraw/reframe/zoom or add anything. Same square RGBA transparent canvas.
-
