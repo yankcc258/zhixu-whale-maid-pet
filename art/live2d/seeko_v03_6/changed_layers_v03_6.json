@@ -2,12 +2,12 @@
  {
   "name": "HairBack_R",
   "png": "layers_png/01_HairBack/HairBack_R.png",
-  "sha256": "aca80ec85d10f5c4c489ce39f0ce692718fb9b89c4bd3f4808551fc7f9ca8a31"
+  "sha256": "9cd8164ce5a2e115cf80ae9a17ea19b390bc015e6143b7da2eaced4eb37aebdf"
  },
  {
   "name": "HairBack_L",
   "png": "layers_png/01_HairBack/HairBack_L.png",
-  "sha256": "dfdc6d22512d9f1eb52f3ceb27eb66e723a664ddd7f89782ac4fff7b1e922e10"
+  "sha256": "71c6585a711c4116e44d8c7aaffd1eeaaeb03d6e2cbfcbb3d8e9d5a8510f20db"
  },
  {
   "name": "ArmUpper_R",

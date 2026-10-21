@@ -95,6 +95,15 @@ for n in ['HairBack_L', 'HairBack_R']:
             moved_total[f] += int(mk.sum())
     out[lone] = a5[lone]
     foreign = foreign | lone
+    # 手和袖口周围（下半截）整块用 v03.5 的干净头发，避免新旧发束拼接出锯齿；边缘 6px 羽化
+    lowparts = np.zeros((H, W), bool)
+    for pn in ['Hand_R', 'Cuff_R', 'ArmLower_R', 'Hand_L', 'Cuff_L', 'ArmLower_L']:
+        lowparts |= L4[pn][..., 3] > 30
+    blk = ndimage.binary_dilation(lowparts, iterations=45)
+    t = ndimage.gaussian_filter(blk.astype(np.float32), 4)[..., None]
+    pa = a5[..., 3:4] * t + out[..., 3:4] * (1 - t)
+    pr = a5[..., :3] * a5[..., 3:4] * t + out[..., :3] * out[..., 3:4] * (1 - t)
+    out = np.dstack([np.where(pa > 0, pr / np.maximum(pa, 1e-3), 0), pa])
     L[n] = out
     log.append(f'{n}：手臂/耳鳍附近的碎片 {int(foreign.sum())} 像素换成 v03.5 的干净头发，其中默认画面露出、贴着部件的 {int(move.sum())} 像素先挪进部件层当描边；其余保持 v03.4')
 for p in PARTS:
