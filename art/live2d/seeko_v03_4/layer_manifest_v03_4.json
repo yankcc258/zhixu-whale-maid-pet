@@ -1,0 +1,2258 @@
+[
+ {
+  "id": 1,
+  "name": "HairBack_R",
+  "group": "01_HairBack",
+  "note": "角色右侧后发；边缘与隐藏重叠待运动检查",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 290638,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   70,
+   215,
+   599,
+   1177
+  ],
+  "png": "layers_png/01_HairBack/HairBack_R.png",
+  "sha256": "28320fcfceea4c3f5d6cf6b422b78817de0de9698bfce9815b12fe7a8ecca794",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 2,
+  "name": "HairBack_L",
+  "group": "01_HairBack",
+  "note": "角色左侧后发；边缘与隐藏重叠待运动检查",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 294863,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   488,
+   215,
+   1017,
+   1178
+  ],
+  "png": "layers_png/01_HairBack/HairBack_L.png",
+  "sha256": "7e7e6030e2022c007c174c407354f8b69379a77140fbd2def0eeb358a0bfa32c",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 3,
+  "name": "LegStocking_R",
+  "group": "03_Legs",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 917,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   375,
+   1124,
+   506,
+   1314
+  ],
+  "png": "layers_png/03_Legs/LegStocking_R.png",
+  "sha256": "357c22fd9050d1f6918760ceef50917b7c9912ead6351df2eeb80c6401cdb3c9",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 4,
+  "name": "LegStocking_L",
+  "group": "03_Legs",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 910,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   573,
+   1118,
+   728,
+   1390
+  ],
+  "png": "layers_png/03_Legs/LegStocking_L.png",
+  "sha256": "14e71cb30b6b7987caebf6d761160b867ead6cd97829239704338059baba44f4",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 5,
+  "name": "Shoe_R",
+  "group": "03_Legs",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   357,
+   1293,
+   486,
+   1418
+  ],
+  "png": "layers_png/03_Legs/Shoe_R.png",
+  "sha256": "89aabf3f44727d3953acea4ec3ca56666e9713dd524e5bbff14eee1b7341c7a0",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 6,
+  "name": "Shoe_L",
+  "group": "03_Legs",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   598,
+   1293,
+   724,
+   1418
+  ],
+  "png": "layers_png/03_Legs/Shoe_L.png",
+  "sha256": "20b36e2fc0af7d5c743a936bc9a46ede0ba29092e72951703ce7f37093b55990",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 7,
+  "name": "DressBase",
+  "group": "04_TorsoClothing",
+  "note": "含遮挡衣服区域，另有隐藏补绘底层",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 134013,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   302,
+   734,
+   778,
+   1165
+  ],
+  "png": "layers_png/04_TorsoClothing/DressBase.png",
+  "sha256": "d01d8d00b9d7ee1e10719103316015d3a270024ae754369b3d41c90fa336d8d8",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 8,
+  "name": "SkirtHemLace",
+  "group": "04_TorsoClothing",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 2532,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   274,
+   1052,
+   784,
+   1189
+  ],
+  "png": "layers_png/04_TorsoClothing/SkirtHemLace.png",
+  "sha256": "1d27f85fc76cbc95b2a6073c0be1746fb4d5704a28846cfb32f59c0be5098360",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 9,
+  "name": "SkirtFront",
+  "group": "04_TorsoClothing",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 71162,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   296,
+   913,
+   762,
+   1143
+  ],
+  "png": "layers_png/04_TorsoClothing/SkirtFront.png",
+  "sha256": "9cd6df3735ce543fd31786edab95a202487581f0a902b0885751406a9d3c4dff",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 10,
+  "name": "BodiceWhite",
+  "group": "04_TorsoClothing",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 15671,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   429,
+   801,
+   640,
+   949
+  ],
+  "png": "layers_png/04_TorsoClothing/BodiceWhite.png",
+  "sha256": "69b8186033158053ec1fe0423610731d7a23ad0e9c2c6f33a04d5cba37fe8536",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 11,
+  "name": "ChestLace_R",
+  "group": "04_TorsoClothing",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 1178,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   386,
+   739,
+   465,
+   924
+  ],
+  "png": "layers_png/04_TorsoClothing/ChestLace_R.png",
+  "sha256": "cca94a0edd836136cd4ce454094cbb65f92eb4ae437733d60fef6fb815db42a6",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 12,
+  "name": "ChestLace_L",
+  "group": "04_TorsoClothing",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 1149,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   597,
+   739,
+   670,
+   927
+  ],
+  "png": "layers_png/04_TorsoClothing/ChestLace_L.png",
+  "sha256": "0b153ad8979f4fecf0c14a25e2002f3c2b6bd3a750e4f0d1a2032e68c2545685",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 21,
+  "name": "ApronLace",
+  "group": "04_TorsoClothing",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 2281,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   388,
+   919,
+   668,
+   1104
+  ],
+  "png": "layers_png/04_TorsoClothing/ApronLace.png",
+  "sha256": "e2b280979c6b82faf389668ab41afd758f5ed81aff27fa58169325d27c524976",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 22,
+  "name": "ApronBody",
+  "group": "04_TorsoClothing",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 865,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   416,
+   929,
+   628,
+   1074
+  ],
+  "png": "layers_png/04_TorsoClothing/ApronBody.png",
+  "sha256": "d448e7798374ef60303bee38ff1e7891f09bf1d5103abc3d4c5788efab2fe84c",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 23,
+  "name": "Waistband",
+  "group": "04_TorsoClothing",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   434,
+   899,
+   617,
+   945
+  ],
+  "png": "layers_png/04_TorsoClothing/Waistband.png",
+  "sha256": "6780f6777d5e47413fe22f0b1b3872c38bab33382f50ae168414d13cba10be97",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 36,
+  "name": "NeckCollar",
+  "group": "04_TorsoClothing",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 1219,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   468,
+   729,
+   591,
+   785
+  ],
+  "png": "layers_png/04_TorsoClothing/NeckCollar.png",
+  "sha256": "3216c34c11ea862f51b5ebb6a2a30817cfdab7f2f25941bcfa65b3ad712cc301",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 13,
+  "name": "ArmUpper_R",
+  "group": "05_Arms",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 1128,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   323,
+   782,
+   421,
+   915
+  ],
+  "png": "layers_png/05_Arms/ArmUpper_R.png",
+  "sha256": "22cca88790091607ffcebd81ac2245c89c4977adc86d16e0b38218deb2e2954e",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 14,
+  "name": "ArmLower_R",
+  "group": "05_Arms",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 1610,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   256,
+   857,
+   390,
+   1006
+  ],
+  "png": "layers_png/05_Arms/ArmLower_R.png",
+  "sha256": "3b475bcf0fd808d894859081d0641f912134997348c076fca9259cb8e8febcf0",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 15,
+  "name": "ArmUpper_L",
+  "group": "05_Arms",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 1162,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   639,
+   781,
+   733,
+   914
+  ],
+  "png": "layers_png/05_Arms/ArmUpper_L.png",
+  "sha256": "6f1e80943cc086686ef6a2ceeb307437c940f8a6236a29b0e11678153a26c60a",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 16,
+  "name": "ArmLower_L",
+  "group": "05_Arms",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 1587,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   661,
+   856,
+   801,
+   1006
+  ],
+  "png": "layers_png/05_Arms/ArmLower_L.png",
+  "sha256": "3e7a9531656906293596098bdf37d8b751909196d337e70423b7cf3a8c0758ee",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 17,
+  "name": "Hand_R",
+  "group": "05_Arms",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 1443,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   177,
+   961,
+   293,
+   1076
+  ],
+  "png": "layers_png/05_Arms/Hand_R.png",
+  "sha256": "23a06c291a16f1d4a327ad29a4ee10bd5dae6fa515191a1cfcc3834e062f7e5c",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 18,
+  "name": "Hand_L",
+  "group": "05_Arms",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 1791,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   765,
+   959,
+   890,
+   1076
+  ],
+  "png": "layers_png/05_Arms/Hand_L.png",
+  "sha256": "8a18484ca16ceb9b17ab586a16124fbe9eafb11690e97c69b39d513429bbbb74",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 19,
+  "name": "Cuff_R",
+  "group": "05_Arms",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   223,
+   932,
+   344,
+   1029
+  ],
+  "png": "layers_png/05_Arms/Cuff_R.png",
+  "sha256": "79457a6df395fb9813069afa64a54e36ad79a465334dc8c87aa3fb137da7688a",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 20,
+  "name": "Cuff_L",
+  "group": "05_Arms",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   724,
+   930,
+   838,
+   1031
+  ],
+  "png": "layers_png/05_Arms/Cuff_L.png",
+  "sha256": "bf9db697aeb9d9bdc1cd379d1de43380fac8085942a849b1ddc3bbf16170891f",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 24,
+  "name": "Neck",
+  "group": "06_Head",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 3485,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   493,
+   720,
+   571,
+   792
+  ],
+  "png": "layers_png/06_Head/Neck.png",
+  "sha256": "7b81b1cc5abd97fd3d4acb0ae3a83ac83be5c537a89c730e01959ba19bf834c2",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 25,
+  "name": "FaceBase",
+  "group": "06_Head",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 168107,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   288,
+   310,
+   788,
+   745
+  ],
+  "png": "layers_png/06_Head/FaceBase.png",
+  "sha256": "b6224e30bb6c5e38d63bf83ba7573283398fe7ca07b9996d044661cfb53c729d",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 25,
+  "name": "FaceHairShadow",
+  "group": "06_Head",
+  "note": "v02 新增：额头上的刘海影子和发梢残线，绑定时跟着前发动",
+  "kind": "v02_split",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 168107,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   349,
+   402,
+   737,
+   558
+  ],
+  "png": "layers_png/06_Head/FaceHairShadow.png",
+  "sha256": "60c092d54d09df553718f00656f6e14259e61991c85bcebe7ebf731272f05464",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "FaceHairShadow_FR",
+  "group": "06_Head",
+  "visible": false,
+  "note": "v03.1 程序生成：HairFront_R 的投影，跟着 HairFront_R 动",
+  "kind": "v031_generated",
+  "png": "layers_png/06_Head/FaceHairShadow_FR.png",
+  "sha256": "be029c034c15775c47b5252852dc1f43ede9441ec04b596b27020a7cd8402b55",
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "revision": "v03_2",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ]
+ },
+ {
+  "name": "FaceHairShadow_FC",
+  "group": "06_Head",
+  "visible": false,
+  "note": "v03.1 程序生成：HairFront_Center 的投影，跟着 HairFront_Center 动",
+  "kind": "v031_generated",
+  "png": "layers_png/06_Head/FaceHairShadow_FC.png",
+  "sha256": "d511b23855e3db0dfa1ce73fb80ce282174199abc6bee6713d2664d61c5f4ea6",
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "revision": "v03_2",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ]
+ },
+ {
+  "name": "FaceHairShadow_FL",
+  "group": "06_Head",
+  "visible": false,
+  "note": "v03.1 程序生成：HairFront_L 的投影，跟着 HairFront_L 动",
+  "kind": "v031_generated",
+  "png": "layers_png/06_Head/FaceHairShadow_FL.png",
+  "sha256": "fa90bbfa3d193d7ecf918a460181ee490281cf711064f0a20278ed1f31cfb333",
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "revision": "v03_2",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ]
+ },
+ {
+  "name": "FaceHairShadow_SR",
+  "group": "06_Head",
+  "visible": false,
+  "note": "v03.1 程序生成：HairSide_R 的投影，跟着 HairSide_R 动",
+  "kind": "v031_generated",
+  "png": "layers_png/06_Head/FaceHairShadow_SR.png",
+  "sha256": "b2b27318a3f9dbc6422240e4ac9cc77bf6c70f5238bdaff7c212ae34343ac236",
+  "status": "v03.1原层保留；本轮未改",
+  "revision": "retained_v03_1",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ]
+ },
+ {
+  "name": "FaceHairShadow_SL",
+  "group": "06_Head",
+  "visible": false,
+  "note": "v03.1 程序生成：HairSide_L 的投影，跟着 HairSide_L 动",
+  "kind": "v031_generated",
+  "png": "layers_png/06_Head/FaceHairShadow_SL.png",
+  "sha256": "2a4593f9133837522f3fb5805a98876ff2917e6813ba9326615f72fb59d58070",
+  "status": "v03.1原层保留；本轮未改",
+  "revision": "retained_v03_1",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ]
+ },
+ {
+  "id": 26,
+  "name": "FinEar_R",
+  "group": "07_FinEars",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 2813,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   72,
+   532,
+   277,
+   712
+  ],
+  "png": "layers_png/07_FinEars/FinEar_R.png",
+  "sha256": "920da11121acebef1b7f711d7d51eddcc317cece63215e72f07d8c9c7f3722ee",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 27,
+  "name": "FinEar_L",
+  "group": "07_FinEars",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 2788,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   780,
+   513,
+   1016,
+   713
+  ],
+  "png": "layers_png/07_FinEars/FinEar_L.png",
+  "sha256": "d94e43cc6d2fbcdb5a6ecfde569c5b56fb2b51b8585c7c9a3557d46e662120b3",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 40,
+  "name": "EyeWhite_R",
+  "group": "10_Eyes_R",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 15457,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   330,
+   525,
+   485,
+   658
+  ],
+  "png": "layers_png/10_Eyes_R/EyeWhite_R.png",
+  "sha256": "230867254c6528d6c6c42950dec150e0ce8282372ff67b788b52c15c86e07fb3",
+  "revision": "v03_2"
+ },
+ {
+  "id": 41,
+  "name": "IrisPupil_R",
+  "group": "10_Eyes_R",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 10497,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   374,
+   508,
+   484,
+   654
+  ],
+  "png": "layers_png/10_Eyes_R/IrisPupil_R.png",
+  "sha256": "fb71d952d3624c609ec77bc82b8b96bd8191c8a927a2f4a71a63a6c301d228e2",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "EyeSocketMask_R",
+  "group": "10_Eyes_R",
+  "visible": true,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "png": "layers_png/10_Eyes_R/EyeSocketMask_R.png",
+  "source": "native_skin_occlusion",
+  "sha256": "5b282d9deaa9ff74e8952804835b88a2fa6a9c8e9fc271efebd3af1b4fbd81c6",
+  "status": "v03.1原层保留；本轮未改",
+  "bbox_alpha_gt12": [
+   348,
+   509,
+   485,
+   658
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 42,
+  "name": "EyeLineLower_R",
+  "group": "10_Eyes_R",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 295,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   320,
+   550,
+   480,
+   653
+  ],
+  "png": "layers_png/10_Eyes_R/EyeLineLower_R.png",
+  "sha256": "108537e2d4d3dedb6c606a22a677f0f30b40cf403d923b82d7088ad2685ee5b8",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 43,
+  "name": "EyeLineUpper_R",
+  "group": "10_Eyes_R",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 550,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   312,
+   524,
+   484,
+   569
+  ],
+  "png": "layers_png/10_Eyes_R/EyeLineUpper_R.png",
+  "sha256": "9b574de443f7fd23e34144716f8106272fc5a76083e5e4bd3e19e185e9c7a5ee",
+  "revision": "v03_2"
+ },
+ {
+  "id": 44,
+  "name": "EyeHighlightUpper_R",
+  "group": "10_Eyes_R",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   406,
+   552,
+   457,
+   597
+  ],
+  "png": "layers_png/10_Eyes_R/EyeHighlightUpper_R.png",
+  "sha256": "765640e9f51f514e348c09c2bf7026f2e2646972146d775a86dc63c4ce1d5afb",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 45,
+  "name": "EyeHighlightLower_R",
+  "group": "10_Eyes_R",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   406,
+   609,
+   458,
+   649
+  ],
+  "png": "layers_png/10_Eyes_R/EyeHighlightLower_R.png",
+  "sha256": "0c5f342fddeaebe4cddcf4ab85dbd47a4a9c3441da595fcd21c7bf9cad5e1186",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "EyelidUpper_R",
+  "group": "10_Eyes_R",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "generated_head_skin",
+  "note": "静态默认隐藏；仅在眨眼参数闭合时启用",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   310,
+   503,
+   490,
+   607
+  ],
+  "png": "layers_png/10_Eyes_R/EyelidUpper_R.png",
+  "sha256": "ac3313a600ffed654030a26ea65bb9a5b5e4365b988e5b7d558c304420802fcc",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "EyelidLower_R",
+  "group": "10_Eyes_R",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "generated_head_skin",
+  "note": "静态默认隐藏；仅在眨眼参数闭合时启用",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   315,
+   583,
+   490,
+   663
+  ],
+  "png": "layers_png/10_Eyes_R/EyelidLower_R.png",
+  "sha256": "cb7c09e903893db67d4ab55e3067a3e4987cd6e341ff837fbb45caa44256b956",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "EyeLineClosed_R",
+  "group": "10_Eyes_R",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "expression_reference",
+  "note": "来自五表情表；应随闭眼变形调整",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   321,
+   586,
+   484,
+   607
+  ],
+  "png": "layers_png/10_Eyes_R/EyeLineClosed_R.png",
+  "sha256": "6f21e5485406dbb86904a1b8875a4d96f445aafde94443ad2ad38497746c6fbc",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 47,
+  "name": "EyeWhite_L",
+  "group": "10_Eyes_L",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 15222,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   591,
+   538,
+   744,
+   668
+  ],
+  "png": "layers_png/10_Eyes_L/EyeWhite_L.png",
+  "sha256": "fc0d88ca3f50da5b188a2fbc2e4619961879f71bb7c2651e04b8460d2db8392a",
+  "revision": "v03_2"
+ },
+ {
+  "id": 48,
+  "name": "IrisPupil_L",
+  "group": "10_Eyes_L",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 10950,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   596,
+   519,
+   710,
+   665
+  ],
+  "png": "layers_png/10_Eyes_L/IrisPupil_L.png",
+  "sha256": "50667c82f9ca41f5b29cdbebd3f9b538f462bb55b0efa8f4e0fb447399b31e36",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "EyeSocketMask_L",
+  "group": "10_Eyes_L",
+  "visible": true,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "png": "layers_png/10_Eyes_L/EyeSocketMask_L.png",
+  "source": "native_skin_occlusion",
+  "sha256": "6d84f45f0a60a7e7ccc73b1acc74a2fc7e9ac6b15490d8b90f5774bbe3e02cd5",
+  "status": "v03.1原层保留；本轮未改",
+  "bbox_alpha_gt12": [
+   591,
+   519,
+   717,
+   668
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 49,
+  "name": "EyeLineLower_L",
+  "group": "10_Eyes_L",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 312,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   605,
+   572,
+   742,
+   672
+  ],
+  "png": "layers_png/10_Eyes_L/EyeLineLower_L.png",
+  "sha256": "067fa1bc6ecb3a1d432f41245968361a260218d39aad6e88b4015d5697861fea",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 50,
+  "name": "EyeLineUpper_L",
+  "group": "10_Eyes_L",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 498,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   590,
+   538,
+   761,
+   592
+  ],
+  "png": "layers_png/10_Eyes_L/EyeLineUpper_L.png",
+  "sha256": "fb4902c0341e5da9a121003c1a3ce5a67925dbb9cb125ad256432547a8e0869c",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 51,
+  "name": "EyeHighlightUpper_L",
+  "group": "10_Eyes_L",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   631,
+   564,
+   679,
+   610
+  ],
+  "png": "layers_png/10_Eyes_L/EyeHighlightUpper_L.png",
+  "sha256": "25b14d558db2442d9b97cd2f094f372a5d603a4fb70b4fd30b83c17c37e9a82b",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 52,
+  "name": "EyeHighlightLower_L",
+  "group": "10_Eyes_L",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   624,
+   620,
+   676,
+   661
+  ],
+  "png": "layers_png/10_Eyes_L/EyeHighlightLower_L.png",
+  "sha256": "f2f29581f4e9c5eab2a7d46d2084b44b445119642440b602c2cfa64e183766c7",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "EyelidUpper_L",
+  "group": "10_Eyes_L",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "generated_head_skin",
+  "note": "静态默认隐藏；仅在眨眼参数闭合时启用",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   585,
+   514,
+   763,
+   616
+  ],
+  "png": "layers_png/10_Eyes_L/EyelidUpper_L.png",
+  "sha256": "d72e27c55128a97ac4851f659497c30e7fb1363357d44cebf79950bad01f5d93",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "EyelidLower_L",
+  "group": "10_Eyes_L",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "generated_head_skin",
+  "note": "静态默认隐藏；仅在眨眼参数闭合时启用",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   586,
+   592,
+   755,
+   677
+  ],
+  "png": "layers_png/10_Eyes_L/EyelidLower_L.png",
+  "sha256": "4d02b230adba31c269a30e15d1a691f7cda8b62827233ed9e59f3fed91d109ad",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "EyeLineClosed_L",
+  "group": "10_Eyes_L",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "expression_reference",
+  "note": "来自五表情表；应随闭眼变形调整",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   585,
+   595,
+   741,
+   616
+  ],
+  "png": "layers_png/10_Eyes_L/EyeLineClosed_L.png",
+  "sha256": "c414f3cf1a7137562a8690bc59742196b1355c5486d1edbc577ab9294510de48",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 55,
+  "name": "CheekBlush_R",
+  "group": "11_FaceFeatures",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 34,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   330,
+   644,
+   396,
+   686
+  ],
+  "png": "layers_png/11_FaceFeatures/CheekBlush_R.png",
+  "sha256": "c5b9c3a96fef5c6e37f89e923f56cae45083b511d4557b0b950b1fedb92c6348",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 56,
+  "name": "CheekBlush_L",
+  "group": "11_FaceFeatures",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 46,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   646,
+   666,
+   720,
+   702
+  ],
+  "png": "layers_png/11_FaceFeatures/CheekBlush_L.png",
+  "sha256": "bf5a85275e283228f9f426b109567dd9113a16f36bdece227a36d553a1dbb8a6",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 54,
+  "name": "MouthLineClosed",
+  "group": "12_Mouth",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   499,
+   667,
+   563,
+   679
+  ],
+  "png": "layers_png/12_Mouth/MouthLineClosed.png",
+  "sha256": "6ce3ba4db5995525fdf85e600f324db181e3be5f48180c21f9e35062e56b038e",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthCavity",
+  "group": "12_Mouth",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "expression_reference",
+  "note": "静态默认隐藏；张嘴时隐藏 MouthLineClosed 并启用本组",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   502,
+   662,
+   558,
+   706
+  ],
+  "png": "layers_png/12_Mouth/MouthCavity.png",
+  "sha256": "721c0d24c8acccdb31710a73380f50b60f1df34e1b5313392170ae796f4c2b33",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthTongue",
+  "group": "12_Mouth",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "expression_reference",
+  "note": "静态默认隐藏；张嘴时隐藏 MouthLineClosed 并启用本组",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   507,
+   680,
+   555,
+   706
+  ],
+  "png": "layers_png/12_Mouth/MouthTongue.png",
+  "sha256": "289a1b4f13b158e5481b44cfc2db67fbe9d465c71b243e0bdb8f12c738fd4a0f",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthLipUpper",
+  "group": "12_Mouth",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "expression_reference",
+  "note": "静态默认隐藏；张嘴时隐藏 MouthLineClosed 并启用本组",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   501,
+   661,
+   558,
+   678
+  ],
+  "png": "layers_png/12_Mouth/MouthLipUpper.png",
+  "sha256": "f47da3ddb915a342b954535b276f831572fab92f2f9e40ad38a46c747e8830fe",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthLipLower",
+  "group": "12_Mouth",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "expression_reference",
+  "note": "静态默认隐藏；张嘴时隐藏 MouthLineClosed 并启用本组",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   502,
+   678,
+   558,
+   707
+  ],
+  "png": "layers_png/12_Mouth/MouthLipLower.png",
+  "sha256": "9dc056ffd04436eea6fdec50346cc77aa3f68a8ba6b399a1a471121d95c721e8",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthCavityMicro",
+  "group": "12_Mouth",
+  "visible": false,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "source": "native_curve_repaint",
+  "status": "v03.1原层保留；本轮未改",
+  "png": "layers_png/12_Mouth/MouthCavityMicro.png",
+  "sha256": "763de0f0aceca17695d9c3a82d030ba460d86622399ad586a1bacd607a4d335a",
+  "bbox_alpha_gt12": [
+   512,
+   669,
+   548,
+   692
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthTongueMicro",
+  "group": "12_Mouth",
+  "visible": false,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "source": "native_curve_repaint",
+  "status": "v03.1原层保留；本轮未改",
+  "png": "layers_png/12_Mouth/MouthTongueMicro.png",
+  "sha256": "8ae75413cfd5de1619c41aa97c7a471ad63dd66b74e12f24ab3209968fcc2e26",
+  "bbox_alpha_gt12": [
+   516,
+   682,
+   545,
+   692
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthLipUpperMicro",
+  "group": "12_Mouth",
+  "visible": false,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "source": "native_curve_repaint",
+  "status": "v03.1原层保留；本轮未改",
+  "png": "layers_png/12_Mouth/MouthLipUpperMicro.png",
+  "sha256": "eeeb97ce0bed7cd1c1dac79d2bf41e1772cee3a0ad67e6eae20074b2b1d30a71",
+  "bbox_alpha_gt12": [
+   511,
+   668,
+   549,
+   678
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthLipLowerMicro",
+  "group": "12_Mouth",
+  "visible": false,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "source": "native_curve_repaint",
+  "status": "v03.1原层保留；本轮未改",
+  "png": "layers_png/12_Mouth/MouthLipLowerMicro.png",
+  "sha256": "1d9b3bd040ec97c67391d3b6d06384c78ac2093e1c0a43a3335216f01af798bd",
+  "bbox_alpha_gt12": [
+   512,
+   678,
+   549,
+   693
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthCavityO",
+  "group": "12_Mouth",
+  "visible": false,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "source": "native_curve_repaint",
+  "status": "v03.1原层保留；本轮未改",
+  "png": "layers_png/12_Mouth/MouthCavityO.png",
+  "sha256": "bc14c21e0c536d2a4fd46ca4290bb90e94b109b564ecfc1c38fada0794eb0539",
+  "bbox_alpha_gt12": [
+   510,
+   659,
+   550,
+   706
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthTongueO",
+  "group": "12_Mouth",
+  "visible": false,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "source": "native_curve_repaint",
+  "status": "v03.1原层保留；本轮未改",
+  "png": "layers_png/12_Mouth/MouthTongueO.png",
+  "sha256": "e8a88629a6e18c9e90a2fd9728d388342e31bf3070f007e44424995888767910",
+  "bbox_alpha_gt12": [
+   511,
+   680,
+   550,
+   706
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthLipUpperO",
+  "group": "12_Mouth",
+  "visible": false,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "source": "native_curve_repaint",
+  "status": "v03.1原层保留；本轮未改",
+  "png": "layers_png/12_Mouth/MouthLipUpperO.png",
+  "sha256": "e5bdbbca874598cf155605057310a07009944ad6a37db2ee651663aed64b3c2d",
+  "bbox_alpha_gt12": [
+   509,
+   658,
+   551,
+   678
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "MouthLipLowerO",
+  "group": "12_Mouth",
+  "visible": false,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "source": "native_curve_repaint",
+  "status": "v03.1原层保留；本轮未改",
+  "png": "layers_png/12_Mouth/MouthLipLowerO.png",
+  "sha256": "cfb275cceffa4a8776cff93a0e893a60b43523ced1dae766b17c3429f827cd44",
+  "bbox_alpha_gt12": [
+   509,
+   678,
+   551,
+   707
+  ],
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 28,
+  "name": "HairSide_R",
+  "group": "08_HairFront",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 7166,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   138,
+   273,
+   430,
+   734
+  ],
+  "png": "layers_png/08_HairFront/HairSide_R.png",
+  "sha256": "d80efdb059ce54ca7fba35b56dcd7012b76fb28892947d526347ca00626b4f8d",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 29,
+  "name": "HairSide_L",
+  "group": "08_HairFront",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 2905,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   680,
+   441,
+   851,
+   756
+  ],
+  "png": "layers_png/08_HairFront/HairSide_L.png",
+  "sha256": "2e8a1a010829c2763b6b1c099435bcf4ca0486a7241498ffa275b9aa9ecb6c8d",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 31,
+  "name": "HairFront_Center",
+  "group": "08_HairFront",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 5410,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   412,
+   155,
+   666,
+   641
+  ],
+  "png": "layers_png/08_HairFront/HairFront_Center.png",
+  "sha256": "21f5d86483ef62e521067bb5f4cce27a0ea0f9719f08ad5f84a6cc68a742f8cc",
+  "revision": "v03_2"
+ },
+ {
+  "id": 30,
+  "name": "HairFront_R",
+  "group": "08_HairFront",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 11580,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   194,
+   178,
+   505,
+   546
+  ],
+  "png": "layers_png/08_HairFront/HairFront_R.png",
+  "sha256": "7ba2fc15bb6245bb2aa023102a409dfa259eb587a8d3440a600bca5304f82309",
+  "revision": "v03_2"
+ },
+ {
+  "id": 32,
+  "name": "HairFront_L",
+  "group": "08_HairFront",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 7558,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   582,
+   159,
+   838,
+   555
+  ],
+  "png": "layers_png/08_HairFront/HairFront_L.png",
+  "sha256": "3ac5509321a5fa1c3d47b6ddc291f74b5d9302a41b58156d55e3df4281e46878",
+  "revision": "v03_2"
+ },
+ {
+  "id": 34,
+  "name": "Ahoge",
+  "group": "08_HairFront",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 38,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   296,
+   30,
+   616,
+   189
+  ],
+  "png": "layers_png/08_HairFront/Ahoge.png",
+  "sha256": "75cc2d26ee32c9565e4ef540f057a4b2e2bf42b187885390fa2a834e084309ca",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 46,
+  "name": "Eyebrow_R",
+  "group": "14_Eyebrows",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 402,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   396,
+   456,
+   466,
+   478
+  ],
+  "png": "layers_png/14_Eyebrows/Eyebrow_R.png",
+  "sha256": "422f791bd2ea7e3ed5ae994eb4263596244bbecf6160426648fc4e446f0f2d17",
+  "revision": "v03_2"
+ },
+ {
+  "id": 53,
+  "name": "Eyebrow_L",
+  "group": "14_Eyebrows",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.2图像编辑与原坐标组装；静态检查完成；待绑定动作验收",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 48,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   617,
+   473,
+   670,
+   493
+  ],
+  "png": "layers_png/14_Eyebrows/Eyebrow_L.png",
+  "sha256": "b6ecaec9f65a91823098da2801e2da67cf9e8944d377a5f76e42d02b30912992",
+  "revision": "v03_2"
+ },
+ {
+  "id": 33,
+  "name": "Headband",
+  "group": "09_Accessories",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 255,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   193,
+   74,
+   866,
+   470
+  ],
+  "png": "layers_png/09_Accessories/Headband.png",
+  "sha256": "3d83ec382b82c9a8dc90212711d463d4ee3ab3154366c5160d6f276d48f6998d",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 35,
+  "name": "HairRibbon_L",
+  "group": "09_Accessories",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   815,
+   442,
+   905,
+   524
+  ],
+  "png": "layers_png/09_Accessories/HairRibbon_L.png",
+  "sha256": "de6280c98cf3f2fa37862552e2f007ae39b33a7a44bd646b5237aad357a92f9f",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 37,
+  "name": "NeckBow_R",
+  "group": "09_Accessories",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 326,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   443,
+   757,
+   530,
+   874
+  ],
+  "png": "layers_png/09_Accessories/NeckBow_R.png",
+  "sha256": "8698a8ee18f5f45152817170fd9d98d5a0d40f6f0e22c3edb30f33d70364c591",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 38,
+  "name": "NeckBow_L",
+  "group": "09_Accessories",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 322,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   528,
+   759,
+   615,
+   875
+  ],
+  "png": "layers_png/09_Accessories/NeckBow_L.png",
+  "sha256": "202f9c9cee1afb5edd890cc4c7ae41cba398881b2fa9b9224fd756fa68a8db48",
+  "revision": "retained_v03_1"
+ },
+ {
+  "id": 39,
+  "name": "Sapphire",
+  "group": "09_Accessories",
+  "note": "",
+  "kind": "original_visible",
+  "visible": true,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "original_pixels_plus_reserve",
+  "reserve_pixels": 0,
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   502,
+   768,
+   558,
+   830
+  ],
+  "png": "layers_png/09_Accessories/Sapphire.png",
+  "sha256": "eded654dec996f84bc656d3ef4890de7fac81ef356b0e230abd5b94844db46b6",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "Reserve_HeadSkin",
+  "group": "00_ReserveReview_HIDDEN",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "imagegen",
+  "note": "完整补绘资产的对齐版本；工作层已经合入相应隐藏区域",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   288,
+   310,
+   788,
+   795
+  ],
+  "png": "layers_png/00_ReserveReview_HIDDEN/Reserve_HeadSkin.png",
+  "sha256": "bbe62eb431e79651d56c03687d7f1c39162be8ab821a1d536826c8d21ef2e624",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "Reserve_BackHair",
+  "group": "00_ReserveReview_HIDDEN",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "imagegen",
+  "note": "完整补绘资产的对齐版本；工作层已经合入相应隐藏区域",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   135,
+   215,
+   966,
+   1176
+  ],
+  "png": "layers_png/00_ReserveReview_HIDDEN/Reserve_BackHair.png",
+  "sha256": "0c2139dd2373b56b9c462dcac89badbdc7f461a5aa7801e1d51a32068e3e04e9",
+  "revision": "retained_v03_1"
+ },
+ {
+  "name": "Reserve_Dress",
+  "group": "00_ReserveReview_HIDDEN",
+  "visible": false,
+  "status": "v03.1原层保留；本轮未改",
+  "source": "imagegen",
+  "note": "完整补绘资产的对齐版本；工作层已经合入相应隐藏区域",
+  "canvas": [
+   1086,
+   1448
+  ],
+  "offset": [
+   0,
+   0
+  ],
+  "bbox_alpha_gt12": [
+   277,
+   731,
+   784,
+   1185
+  ],
+  "png": "layers_png/00_ReserveReview_HIDDEN/Reserve_Dress.png",
+  "sha256": "2525624423ee452396a6e923548639b391e933ca69e5d093ec0102543931634b",
+  "revision": "retained_v03_1"
+ }
+]
