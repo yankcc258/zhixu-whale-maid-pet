@@ -1,0 +1,181 @@
+{
+  "source_main_commit": "ff5394713c04f7bd0da0f22117a82fa0a8959644",
+  "source_art_inbox_commit": "4a9b2a570bdeb3b7dd3f14206d405e3bfe01ad1a",
+  "generator": "built-in imagegen",
+  "sprite_count": 7,
+  "sprites": [
+    {
+      "file": "idle.png",
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "bounds": [
+        84,
+        51,
+        429,
+        481
+      ],
+      "bottommost_pixel_y": 480,
+      "transparent_pixels": 165197,
+      "sha256": "be05bc5341847aafa49741bd30174f01adf993ebc6c53c7da7edbb4aa2cfa5cd"
+    },
+    {
+      "file": "happy.png",
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "bounds": [
+        82,
+        51,
+        430,
+        481
+      ],
+      "bottommost_pixel_y": 480,
+      "transparent_pixels": 164417,
+      "sha256": "ed5ff84241812a17530f9e9128279bb138ffd98732724bf2d2a7c34733a38f70"
+    },
+    {
+      "file": "sleepy.png",
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "bounds": [
+        83,
+        51,
+        430,
+        481
+      ],
+      "bottommost_pixel_y": 480,
+      "transparent_pixels": 164720,
+      "sha256": "c5232dee86a0b4dcd58820f7eb28476364789f3798ef0de9c45bacb1de0c2ae6"
+    },
+    {
+      "file": "surprised.png",
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "bounds": [
+        83,
+        51,
+        430,
+        481
+      ],
+      "bottommost_pixel_y": 480,
+      "transparent_pixels": 164861,
+      "sha256": "e0c8910d552131c64f3f240840ba45511de2124d781b076099855f267e6ebdab"
+    },
+    {
+      "file": "walk_01.png",
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "bounds": [
+        63,
+        63,
+        450,
+        481
+      ],
+      "bottommost_pixel_y": 480,
+      "transparent_pixels": 168377,
+      "sha256": "6637e8770ff791a926fb83ce5400d4fe83a22fb2ed0742e45fa7698ce8242c67"
+    },
+    {
+      "file": "walk_02.png",
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "bounds": [
+        60,
+        62,
+        452,
+        481
+      ],
+      "bottommost_pixel_y": 480,
+      "transparent_pixels": 169708,
+      "sha256": "69fc63ee12b19a4084afa009dbba977af1f1577dda1871ca25e290fa111b285f"
+    },
+    {
+      "file": "sit.png",
+      "width": 512,
+      "height": 512,
+      "channels": 4,
+      "bounds": [
+        82,
+        104,
+        431,
+        481
+      ],
+      "bottommost_pixel_y": 480,
+      "transparent_pixels": 172980,
+      "sha256": "d0be1a036f4626dd86df03ef651b5e9b1af8bc5047f82e0525b8a00c7c8b7955"
+    }
+  ],
+  "shared_baseline_y": 480,
+  "preview": {
+    "file": "preview.png",
+    "width": 2048,
+    "height": 1024,
+    "hasAlpha": true
+  },
+  "visual_review": {
+    "full_size": "passed",
+    "approximately_100px_character_height": "passed",
+    "identity_features": [
+      "blue long hair",
+      "ahoge",
+      "whale fin ears",
+      "blue eyes",
+      "cyan side bow",
+      "maid outfit"
+    ],
+    "walk_frames_distinct_poses": true,
+    "sitting_head_scale_matches_standing": true
+  },
+  "delivery_stage": "concept, not layered",
+  "files": {
+    ".gitattributes": {
+      "bytes": 27,
+      "sha256": "c089985639038cc07dc37c07a8d0d543df7ddf9b1873a948000494a6e230530d"
+    },
+    "README.md": {
+      "bytes": 2339,
+      "sha256": "2853c0249492ee09a5b0ceeca1bed4323d9c63c16df5ba2c4aa551b828519abf"
+    },
+    "generation-prompts.md": {
+      "bytes": 12233,
+      "sha256": "f1d5ee2a5b3f80d04fa15a277c2c771a8cd26226b50698579b624ce78fe72b76"
+    },
+    "happy.png": {
+      "bytes": 241911,
+      "sha256": "ed5ff84241812a17530f9e9128279bb138ffd98732724bf2d2a7c34733a38f70"
+    },
+    "idle.png": {
+      "bytes": 238801,
+      "sha256": "be05bc5341847aafa49741bd30174f01adf993ebc6c53c7da7edbb4aa2cfa5cd"
+    },
+    "preview.png": {
+      "bytes": 1699183,
+      "sha256": "fe396ec12eab6c3b55ebd7759cc007a2957b3a1e9a3d53e752228a6dfc2729c2"
+    },
+    "sit.png": {
+      "bytes": 221542,
+      "sha256": "d0be1a036f4626dd86df03ef651b5e9b1af8bc5047f82e0525b8a00c7c8b7955"
+    },
+    "sleepy.png": {
+      "bytes": 235600,
+      "sha256": "c5232dee86a0b4dcd58820f7eb28476364789f3798ef0de9c45bacb1de0c2ae6"
+    },
+    "surprised.png": {
+      "bytes": 238730,
+      "sha256": "e0c8910d552131c64f3f240840ba45511de2124d781b076099855f267e6ebdab"
+    },
+    "walk_01.png": {
+      "bytes": 229748,
+      "sha256": "6637e8770ff791a926fb83ce5400d4fe83a22fb2ed0742e45fa7698ce8242c67"
+    },
+    "walk_02.png": {
+      "bytes": 227463,
+      "sha256": "69fc63ee12b19a4084afa009dbba977af1f1577dda1871ca25e290fa111b285f"
+    }
+  }
+}
