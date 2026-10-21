@@ -153,8 +153,8 @@ function setMood(m, ms) {
   mood = m;
   unlock(m);
   moodUntil = ms ? Date.now() + ms : 0;
-  // 穿女仆装、站着的时候交给 Live2D；躲边、跑步这些没做成 Live2D 的动作照旧用立绘
-  const live = prefs.live2d && outfitNow() === 'maid' && L2D.show(m);
+  // 穿着做成 Live2D 的衣服、站着的时候交给 Live2D；躲边、跑步这些动作和别的衣服照旧用立绘
+  const live = prefs.live2d && L2D.show(m, outfitNow());
   if (!live) L2D.hide();
   img.hidden = live;
   document.body.classList.toggle('live2d', live);
@@ -482,6 +482,8 @@ function installUpdate() {
 tauri?.event.listen('open-site', () => openSite());
 // Rust 每隔一会儿告诉这里鼠标在哪（相对窗口左上角，CSS 像素）：Live2D 的眼睛和头跟着看
 tauri?.event.listen('cursor', ({ payload }) => L2D.lookTo(payload[0], payload[1]));
+// 某套衣服的 Live2D 模型刚加载好：表情不变，重新摆一次，从立绘换成 Live2D
+L2D.onLoaded(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
 if (prefs.live2d) L2D.load().then(() => setMood(autoMood()));
 tauri?.event.listen('summoned', () => {
   setMood(autoMood());

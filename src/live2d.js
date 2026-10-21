@@ -1,5 +1,5 @@
-// Live2D 版希可（女仆装）。只在穿女仆装、站着的时候用；躲在屏幕边、跑步、看书、啃饭团这些
-// 没做成 Live2D 的动作，还是换回立绘图。加载失败（显卡不支持 WebGL 之类）就一直用立绘，什么都不坏。
+// Live2D 版希可。只在穿着做成 Live2D 的衣服（MODELS 里的）、站着的时候用；躲在屏幕边、跑步、看书、
+// 啃饭团这些没做成 Live2D 的动作，还有没做成 Live2D 的衣服，还是换回立绘图。加载失败（显卡不支持 WebGL 之类）就一直用立绘，什么都不坏。
 // 模型在 live2d/seeko/，运行库在 vendor/（Cubism Core 是 Live2D 的专有许可，见 vendor/README.md）。
 // eslint-disable-next-line no-unused-vars
 const L2D = (() => {
@@ -45,14 +45,27 @@ const L2D = (() => {
   // 头顶那一截和气泡叠一点点没关系
   const W = 150,
     H = 180;
+  // 做成 Live2D 的衣服（桌宠的衣服 id → 模型）。每套衣服一个模型：同一副骨架、同样的参数，
+  // 只有贴图和网格不一样，所以动作、表情、物理都共用 live2d/seeko/ 里的那一份。
+  // 没在这里的衣服照旧用立绘。
+  const MODELS = {
+    maid: 'live2d/seeko/seeko.model3.json',
+  };
   let canvas = null,
     app = null,
-    model = null,
-    state = 'off', // 'off' | 'loading' | 'ready' | 'failed'
+    model = null, // 现在台上的那个
+    cur = '', // 它是哪套衣服
+    state = 'off', // 'off' | 'loading' | 'ready' | 'failed'（运行库和画布）
     curExp = undefined,
     lastMood = '',
     talkUntil = 0,
     lookAt = 0;
+  const models = {}, // 衣服 id → 加载好的模型
+    pending = {}, // 衣服 id → 正在加载的 Promise
+    broken = new Set(); // 加载失败的衣服，不再重试，一直用立绘
+
+  // 某套衣服的模型加载好以后调一下（桌宠那边重新摆一次表情，从立绘换成 Live2D）
+  let onModel = null;
 
   async function load() {
     if (state !== 'off') return;
@@ -73,23 +86,8 @@ const L2D = (() => {
         autoDensity: true,
       });
       app.ticker.maxFPS = 30; // 桌宠不需要 60 帧，省电
-      model = await PIXI.live2d.Live2DModel.from('live2d/seeko/seeko.model3.json', { autoInteract: false });
-      // 原图 1086×1448：按高度缩到 180，左右居中，脚踩到底
-      const s = H / model.internalModel.originalHeight;
-      model.scale.set(s);
-      model.x = (W - model.internalModel.originalWidth * s) / 2;
-      model.y = 0;
-      app.stage.addChild(model);
-      // 说话时嘴一张一合：在动作和表情算完之后覆盖张嘴参数
-      model.internalModel.on('beforeModelUpdate', () => {
-        const core = model.internalModel.coreModel;
-        const now = performance.now();
-        if (now < talkUntil) {
-          const v = 0.5 + 0.5 * Math.sin(now / 70) * Math.sin(now / 190);
-          core.setParameterValueById('ParamMouthOpenY', Math.max(0, v));
-        }
-      });
       state = 'ready';
+      await ensure('maid'); // 女仆装先加载好，其他衣服用到时再加载
     } catch (e) {
       console.warn('Live2D 加载失败，用立绘：', e);
       state = 'failed';
@@ -98,12 +96,75 @@ const L2D = (() => {
     }
   }
 
+  // 加载某套衣服的模型（加载过就直接返回）
+  function ensure(outfit) {
+    if (models[outfit]) return Promise.resolve(models[outfit]);
+    if (pending[outfit]) return pending[outfit];
+    pending[outfit] = (async () => {
+      try {
+        const m = await PIXI.live2d.Live2DModel.from(MODELS[outfit], { autoInteract: false });
+        // 原图 1086×1448：按高度缩到 180，左右居中，脚踩到底
+        const s = H / m.internalModel.originalHeight;
+        m.scale.set(s);
+        m.x = (W - m.internalModel.originalWidth * s) / 2;
+        m.y = 0;
+        // 说话时嘴一张一合：在动作和表情算完之后覆盖张嘴参数
+        m.internalModel.on('beforeModelUpdate', () => {
+          const now = performance.now();
+          if (m === model && now < talkUntil) {
+            const v = 0.5 + 0.5 * Math.sin(now / 70) * Math.sin(now / 190);
+            m.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', Math.max(0, v));
+          }
+        });
+        models[outfit] = m;
+        onModel?.(outfit);
+        return m;
+      } catch (e) {
+        console.warn(`Live2D 模型（${outfit}）加载失败，这套衣服用立绘：`, e);
+        broken.add(outfit);
+        throw e;
+      } finally {
+        delete pending[outfit];
+      }
+    })();
+    return pending[outfit];
+  }
+
+  // 换上某套衣服的模型。还没加载好就先开始加载、返回 false（这一下先用立绘，加载好了会叫 onModel）
+  function wearOutfit(outfit) {
+    if (cur === outfit && model) return true;
+    const m = models[outfit];
+    if (!m) {
+      if (!broken.has(outfit)) ensure(outfit).catch(() => {});
+      return false;
+    }
+    const prev = model;
+    if (prev) {
+      prev.internalModel.motionManager.stopAllMotions();
+      app.stage.removeChild(prev);
+    }
+    model = m;
+    cur = outfit;
+    app.stage.addChild(m);
+    // 新模型的表情、动作从头来；眼睛接着看原来的方向
+    curExp = undefined;
+    lastMood = '';
+    if (prev) {
+      const f = prev.internalModel.focusController;
+      m.internalModel.focusController.focus(f.targetX, f.targetY, true);
+    }
+    return true;
+  }
+
+  // 这套衣服做没做成 Live2D
+  const has = (outfit) => Object.prototype.hasOwnProperty.call(MODELS, outfit) && !broken.has(outfit);
   // 这个心情能不能用 Live2D 演
-  const can = (mood) => state === 'ready' && Object.prototype.hasOwnProperty.call(EXP, mood);
+  const can = (mood, outfit = 'maid') =>
+    state === 'ready' && has(outfit) && Object.prototype.hasOwnProperty.call(EXP, mood);
 
   // 显示某个心情。返回 true = Live2D 接管了；false = 请用立绘
-  function show(mood) {
-    if (!can(mood)) {
+  function show(mood, outfit = 'maid') {
+    if (!can(mood, outfit) || !wearOutfit(outfit)) {
       if (canvas) canvas.hidden = true;
       lastMood = '';
       return false;
@@ -144,7 +205,7 @@ const L2D = (() => {
   function hide() {
     if (canvas) canvas.hidden = true;
   }
-  const active = () => !!canvas && !canvas.hidden;
+  const active = () => !!canvas && !canvas.hidden && !!model;
 
   function talk(ms) {
     talkUntil = performance.now() + Math.min(ms, 2500); // 只在冒话头几秒动嘴
@@ -170,5 +231,6 @@ const L2D = (() => {
     }
   }, 1000);
 
-  return { load, show, hide, active, talk, lookTo, can, act, poke };
+  const onLoaded = (fn) => (onModel = fn);
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, onLoaded };
 })();
