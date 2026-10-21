@@ -82,6 +82,7 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 - [x] 0.4.1：睡衣探头、烟花图、睡衣和浴衣补齐常用动作
 - [x] 0.4.2：节日装饰全部换成图、穿别的衣服不再变回女仆装
 - [x] 0.5.0：体操服、慢跑服（叼吐司跑）、冬装（冷天自动穿）、实验白大褂
+- [x] 0.6.0：女仆装换成 Live2D：会眨眼、呼吸、眼睛和头跟着鼠标、说话动嘴、被拎起来甩头发
 - [ ] 番茄钟陪学（看书的立绘已经有了）
 - [ ] 爬到窗口顶上坐着、沿着任务栏跑
 - [ ] 接知序数据（只读）：今天吃了什么、待复习单词、作业，用来吐槽
@@ -90,5 +91,6 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 ## 授权与致谢
 
 - **代码**：MIT，见 [LICENSE](LICENSE)。
-- **立绘和图标**（`src/sprites/`、`app-icon.png`、`src-tauri/icons/`）：**不在 MIT 范围内**，按原样随程序分发，仅用于运行本程序。来源和说明见 [PROVENANCE.md](PROVENANCE.md)。
+- **立绘、Live2D 模型和图标**（`src/sprites/`、`src/live2d/`、`app-icon.png`、`src-tauri/icons/`）：**不在 MIT 范围内**，按原样随程序分发，仅用于运行本程序。来源和说明见 [PROVENANCE.md](PROVENANCE.md)。
+- **Live2D 运行库**（`src/vendor/`）：Cubism Core 是 Live2D 的专有许可（个人非商用），PixiJS 和 pixi-live2d-display 是 MIT，详见 [src/vendor/README.md](src/vendor/README.md)。
 - 鲸鱼娘的形象参考了 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) 的鲸鱼娘，谢谢原作者。本项目和 DeepSeek 官方无关。

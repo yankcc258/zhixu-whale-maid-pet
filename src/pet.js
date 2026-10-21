@@ -29,6 +29,7 @@ const DEFAULTS = {
   wardrobeMode: 'auto', // 'auto'：节日、晚上自己换；'lock'：一直穿衣柜里选的那套
   outfit: 'maid', // 锁定时穿哪套
   examUntil: 0, // 考试周（必胜头巾）到什么时候
+  live2d: true, // 穿女仆装时用 Live2D（会眨眼、看鼠标、说话动嘴）
 };
 let prefs = loadPrefs();
 function loadPrefs() {
@@ -50,6 +51,7 @@ addEventListener('storage', (e) => {
   renderMenu();
   invoke('set_game_mode', { on: !!prefs.gameMode });
   if (prefs.resetAt !== resetBefore) resetPos();
+  if (prefs.live2d) L2D.load().then(() => setMood(autoMood()));
   weatherTick();
   nextChat = Date.now() + rand(...chatGap()) * 60000;
   nextRoam = 0;
@@ -151,7 +153,12 @@ function setMood(m, ms) {
   mood = m;
   unlock(m);
   moodUntil = ms ? Date.now() + ms : 0;
-  showSprite(spriteFor(outfitNow(), m));
+  // 穿女仆装、站着的时候交给 Live2D；躲边、跑步这些没做成 Live2D 的动作照旧用立绘
+  const live = prefs.live2d && outfitNow() === 'maid' && L2D.show(m, { dragging: m === 'dangle' });
+  if (!live) L2D.hide();
+  img.hidden = live;
+  document.body.classList.toggle('live2d', live);
+  if (!live) showSprite(spriteFor(outfitNow(), m));
   const stand = standInFor(outfitNow(), m);
   document.body.classList.toggle('standin-side', stand === 'side');
   document.body.classList.toggle('standin-bottom', stand === 'bottom');
@@ -183,6 +190,7 @@ function say(text, m, ms = 4500) {
   bubble.textContent = fill(text);
   bubble.hidden = false;
   if (m) setMood(m, ms);
+  L2D.talk(text.length * 120);
   clearTimeout(sayTimer);
   sayTimer = setTimeout(() => {
     bubble.hidden = true;
@@ -197,9 +205,10 @@ function pop(text, m, ms) {
   say(text, m, ms);
 }
 function duang() {
-  img.classList.remove('duang');
-  void img.offsetWidth;
-  img.classList.add('duang');
+  const el = L2D.active() ? document.getElementById('l2d') : img;
+  el.classList.remove('duang');
+  void el.offsetWidth;
+  el.classList.add('duang');
 }
 
 // ---------- 鼠标穿透：告诉 Rust 哪些地方算「她」 ----------
@@ -470,6 +479,9 @@ function installUpdate() {
 }
 
 tauri?.event.listen('open-site', () => openSite());
+// Rust 每隔一会儿告诉这里鼠标在哪（相对窗口左上角，CSS 像素）：Live2D 的眼睛和头跟着看
+tauri?.event.listen('cursor', ({ payload }) => L2D.lookTo(payload[0], payload[1]));
+if (prefs.live2d) L2D.load().then(() => setMood(autoMood()));
 tauri?.event.listen('summoned', () => {
   setMood(autoMood());
   say(pick(LINES.summoned), sleep ? undefined : pick(['happy', 'excited']), 4000);

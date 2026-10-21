@@ -211,10 +211,11 @@ fn foreground_fullscreen(_own: isize) -> bool {
     false
 }
 
-/// 后台小循环：每 60ms 看一次鼠标在不在鲸鱼娘身上，决定窗口要不要让鼠标穿过去；每秒看一次有没有全屏程序。
+/// 后台小循环：每 60ms 看一次鼠标在不在鲸鱼娘身上，决定窗口要不要让鼠标穿过去（顺便把鼠标位置告诉网页）；每秒看一次有没有全屏程序。
 fn watch(app: AppHandle) {
     std::thread::spawn(move || {
         let mut tick: u32 = 0;
+        let mut last_cursor = (f64::NAN, f64::NAN);
         loop {
             std::thread::sleep(Duration::from_millis(60));
             tick = tick.wrapping_add(1);
@@ -242,6 +243,11 @@ fn watch(app: AppHandle) {
                 continue;
             };
             let (x, y) = ((c.x - p.x as f64) / scale, (c.y - p.y as f64) / scale);
+            // 每 120ms、鼠标动了才告诉网页一次：Live2D 的眼睛和头跟着鼠标看
+            if tick % 2 == 0 && ((x - last_cursor.0).abs() > 1.0 || (y - last_cursor.1).abs() > 1.0) {
+                last_cursor = (x, y);
+                let _ = w.emit_to("pet", "cursor", [x, y]);
+            }
             let inside = state
                 .rects
                 .lock()
