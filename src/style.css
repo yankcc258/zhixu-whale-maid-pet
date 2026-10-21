@@ -31,6 +31,30 @@ body.dock-left #pet {
 body.flip #pet img {
   scale: -1 1;
 }
+/* Live2D 版（女仆装站着时）：和立绘一样大、一样的影子和弹一下 */
+#pet canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+}
+#pet canvas[hidden],
+#pet img[hidden] {
+  display: none;
+}
+body.flip #pet canvas {
+  scale: -1 1;
+}
+#pet canvas.duang {
+  animation: duang 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
+  transform-origin: 50% 100%;
+}
+/* Live2D 自己会呼吸、甩头、生气，不用再整个上下晃和抖 */
+body.live2d #pet {
+  width: 150px;
+  height: 180px;
+  animation: none;
+}
 #pet img.duang {
   animation: duang 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
   transform-origin: 50% 100%;
@@ -159,6 +183,7 @@ body.dock-left .z {
   color: #263c37;
   border: 1px solid #e1e5dd;
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.16);
+  z-index: 2; /* Live2D 版个子高，呆毛会伸到气泡下面 */
 }
 #bubble p {
   margin: 0;
