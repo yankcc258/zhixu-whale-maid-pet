@@ -40,24 +40,80 @@
 		"Motions": {
 			"Idle": [
 				{
-					"File": "motions/idle.motion3.json",
-					"FadeInTime": 0.5,
-					"FadeOutTime": 0.5
+					"File": "motions/idle_sway.motion3.json",
+					"FadeInTime": 0.8,
+					"FadeOutTime": 0.8
+				},
+				{
+					"File": "motions/idle_look.motion3.json",
+					"FadeInTime": 0.8,
+					"FadeOutTime": 0.8
+				},
+				{
+					"File": "motions/idle_think.motion3.json",
+					"FadeInTime": 0.8,
+					"FadeOutTime": 0.8
+				},
+				{
+					"File": "motions/idle_swing.motion3.json",
+					"FadeInTime": 0.8,
+					"FadeOutTime": 0.8
+				}
+			],
+			"Wave": [
+				{
+					"File": "motions/wave.motion3.json",
+					"FadeInTime": 0.25,
+					"FadeOutTime": 0.4
+				}
+			],
+			"Hop": [
+				{
+					"File": "motions/hop.motion3.json",
+					"FadeInTime": 0.15,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Tilt": [
+				{
+					"File": "motions/tilt.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.4
+				}
+			],
+			"Stretch": [
+				{
+					"File": "motions/stretch.motion3.json",
+					"FadeInTime": 0.4,
+					"FadeOutTime": 0.6
+				}
+			],
+			"Flinch": [
+				{
+					"File": "motions/flinch.motion3.json",
+					"FadeInTime": 0.05,
+					"FadeOutTime": 0.3
 				}
 			],
 			"Nod": [
 				{
-					"File": "motions/nod.motion3.json"
+					"File": "motions/nod.motion3.json",
+					"FadeInTime": 0.2,
+					"FadeOutTime": 0.3
 				}
 			],
 			"Shake": [
 				{
-					"File": "motions/shake.motion3.json"
+					"File": "motions/shake.motion3.json",
+					"FadeInTime": 0.2,
+					"FadeOutTime": 0.3
 				}
 			],
 			"Swing": [
 				{
-					"File": "motions/swing.motion3.json"
+					"File": "motions/swing.motion3.json",
+					"FadeInTime": 0.2,
+					"FadeOutTime": 0.5
 				}
 			]
 		}

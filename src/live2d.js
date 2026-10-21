@@ -25,6 +25,22 @@ const L2D = (() => {
     hot: 'pout',
     cold: 'pout',
   };
+  // 心情刚变成这个时顺便做的动作（motions/ 里的分组）；之后回到随机的待机动作
+  const ACT = {
+    wave: 'Wave',
+    happy: 'Hop',
+    excited: 'Hop',
+    newyear: 'Hop',
+    surprised: 'Flinch',
+    sleepy: 'Stretch',
+    angry: 'Shake',
+    wake: 'Shake',
+    pat: 'Nod',
+    smug: 'Tilt',
+    smirk: 'Tilt',
+    pout: 'Tilt',
+    dangle: 'Swing',
+  };
   // 全身像比立绘（半身大头）小，所以 Live2D 时 #pet 加高到 150×180（style.css 的 body.live2d），
   // 头顶那一截和气泡叠一点点没关系
   const W = 150,
@@ -34,8 +50,8 @@ const L2D = (() => {
     model = null,
     state = 'off', // 'off' | 'loading' | 'ready' | 'failed'
     curExp = undefined,
+    lastMood = '',
     talkUntil = 0,
-    look = null, // 鼠标在窗口里的位置（CSS 像素），null = 不看
     lookAt = 0;
 
   async function load() {
@@ -86,9 +102,10 @@ const L2D = (() => {
   const can = (mood) => state === 'ready' && Object.prototype.hasOwnProperty.call(EXP, mood);
 
   // 显示某个心情。返回 true = Live2D 接管了；false = 请用立绘
-  function show(mood, { dragging = false } = {}) {
+  function show(mood) {
     if (!can(mood)) {
       if (canvas) canvas.hidden = true;
+      lastMood = '';
       return false;
     }
     canvas.hidden = false;
@@ -99,9 +116,30 @@ const L2D = (() => {
       if (e) model.expression(e);
       else em?.resetExpression();
     }
-    if (dragging) model.motion('Swing', 0, 3); // 被拎起来：甩头，头发跟着物理晃
+    if (mood !== lastMood) {
+      // 刚从拎着放下来：停掉甩头，回到待机
+      if (lastMood === 'dangle') model.internalModel.motionManager.stopAllMotions();
+      lastMood = mood;
+      act(ACT[mood]);
+    }
     return true;
   }
+  // 做一个动作（强制打断待机；做完自动回到随机待机）。蹦一下时整个人往上跳一下
+  let flinchEnd = 0;
+  function act(group) {
+    if (!group || !active()) return;
+    const now = performance.now();
+    // 刚被戳了一下：让「缩一下」做完再做下一个动作
+    if (group !== 'Flinch' && now < flinchEnd) return void setTimeout(() => act(group), flinchEnd - now);
+    if (group === 'Flinch') flinchEnd = now + 550;
+    model.motion(group, 0, 3);
+    if (group === 'Hop') {
+      canvas.classList.remove('hop');
+      void canvas.offsetWidth;
+      canvas.classList.add('hop');
+    }
+  }
+  const poke = () => act('Flinch');
 
   function hide() {
     if (canvas) canvas.hidden = true;
@@ -111,25 +149,26 @@ const L2D = (() => {
   function talk(ms) {
     talkUntil = performance.now() + Math.min(ms, 2500); // 只在冒话头几秒动嘴
   }
-  function nod() {
-    if (active()) model.motion('Nod', 0, 2);
-  }
-
-  // 眼睛和头跟着鼠标。x、y 是鼠标相对窗口左上角的 CSS 像素
+  // 眼睛和头跟着鼠标。x、y 是鼠标相对窗口左上角的 CSS 像素。
+  // 以她的脸为中心：鼠标越远转得越多（最多 90%），贴着脸时只轻轻看一下；转的过程由运行库自己缓动
   function lookTo(x, y) {
     if (!active()) return;
     const r = canvas.getBoundingClientRect();
-    look = { x: x - r.left, y: y - r.top };
+    const dx = x - (r.left + r.width / 2),
+      dy = y - (r.top + r.height * 0.3);
+    const d = Math.hypot(dx, dy);
+    if (d < 1) return;
+    const k = (0.9 * d) / (d + 120) / d;
+    model.internalModel.focusController.focus(dx * k, -dy * k);
     lookAt = Date.now();
-    model.focus(look.x, look.y);
   }
-  // 鼠标太久没动：慢慢看回正前方
+  // 鼠标 5 秒没动：慢慢看回正前方
   setInterval(() => {
-    if (active() && look && Date.now() - lookAt > 6000) {
-      look = null;
-      model.focus(W / 2, H * 0.3);
+    if (active() && lookAt && Date.now() - lookAt > 5000) {
+      lookAt = 0;
+      model.internalModel.focusController.focus(0, 0);
     }
   }, 1000);
 
-  return { load, show, hide, active, talk, nod, lookTo, can };
+  return { load, show, hide, active, talk, lookTo, can, act, poke };
 })();
