@@ -1,0 +1,1347 @@
+{
+  "canvas": [
+    1086,
+    1448
+  ],
+  "mode": "3",
+  "depth": 8,
+  "layer_count": 82,
+  "visible_count": 59,
+  "all_layers_full_canvas": true,
+  "names_order_visibility_match_requirement": true,
+  "paint_bounds": [
+    35,
+    75,
+    1051,
+    1401
+  ],
+  "character_height": 1326,
+  "sole_y": 1400,
+  "source_psd_sha256": "51dcb08c16c1fb9eda8d080854b55d4f96b481fb1bbd9f4f36e9e1709aae6345",
+  "source_psd_unchanged": true,
+  "layers": [
+    {
+      "name": "HairBack_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        50,
+        370,
+        555,
+        1235
+      ]
+    },
+    {
+      "name": "HairBack_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        531,
+        370,
+        1038,
+        1235
+      ]
+    },
+    {
+      "name": "LegStocking_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        406,
+        1147,
+        540,
+        1340
+      ]
+    },
+    {
+      "name": "LegStocking_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        544,
+        1147,
+        678,
+        1340
+      ]
+    },
+    {
+      "name": "Shoe_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        406,
+        1284,
+        543,
+        1401
+      ]
+    },
+    {
+      "name": "Shoe_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        543,
+        1284,
+        680,
+        1401
+      ]
+    },
+    {
+      "name": "DressBase",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        322,
+        846,
+        757,
+        1188
+      ]
+    },
+    {
+      "name": "SkirtHemLace",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        313,
+        1090,
+        760,
+        1222
+      ]
+    },
+    {
+      "name": "SkirtFront",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        322,
+        1000,
+        757,
+        1186
+      ]
+    },
+    {
+      "name": "BodiceWhite",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        433,
+        850,
+        643,
+        995
+      ]
+    },
+    {
+      "name": "ChestLace_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        405,
+        829,
+        463,
+        989
+      ]
+    },
+    {
+      "name": "ChestLace_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        617,
+        829,
+        675,
+        989
+      ]
+    },
+    {
+      "name": "ApronLace",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        411,
+        979,
+        655,
+        1150
+      ]
+    },
+    {
+      "name": "ApronBody",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        440,
+        986,
+        634,
+        1118
+      ]
+    },
+    {
+      "name": "Waistband",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        437,
+        976,
+        639,
+        1015
+      ]
+    },
+    {
+      "name": "NeckCollar",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        465,
+        823,
+        619,
+        890
+      ]
+    },
+    {
+      "name": "ArmUpper_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        331,
+        854,
+        444,
+        990
+      ]
+    },
+    {
+      "name": "ArmLower_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        323,
+        956,
+        409,
+        1061
+      ]
+    },
+    {
+      "name": "ArmUpper_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        640,
+        854,
+        753,
+        990
+      ]
+    },
+    {
+      "name": "ArmLower_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        677,
+        956,
+        763,
+        1061
+      ]
+    },
+    {
+      "name": "Hand_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        282,
+        1058,
+        361,
+        1137
+      ]
+    },
+    {
+      "name": "Hand_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        725,
+        1058,
+        804,
+        1137
+      ]
+    },
+    {
+      "name": "Cuff_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        279,
+        1004,
+        405,
+        1100
+      ]
+    },
+    {
+      "name": "Cuff_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        681,
+        1004,
+        807,
+        1100
+      ]
+    },
+    {
+      "name": "Neck",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        495,
+        795,
+        587,
+        892
+      ]
+    },
+    {
+      "name": "FaceBase",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        274,
+        288,
+        812,
+        835
+      ]
+    },
+    {
+      "name": "FaceHairShadow",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        326,
+        583,
+        766,
+        641
+      ]
+    },
+    {
+      "name": "FaceHairShadow_FR",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        332,
+        480,
+        476,
+        642
+      ]
+    },
+    {
+      "name": "FaceHairShadow_FC",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        430,
+        588,
+        645,
+        644
+      ]
+    },
+    {
+      "name": "FaceHairShadow_FL",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        609,
+        480,
+        752,
+        642
+      ]
+    },
+    {
+      "name": "FaceHairShadow_SR",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        300,
+        594,
+        346,
+        792
+      ]
+    },
+    {
+      "name": "FaceHairShadow_SL",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        740,
+        594,
+        786,
+        792
+      ]
+    },
+    {
+      "name": "FinEar_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        35,
+        590,
+        219,
+        802
+      ]
+    },
+    {
+      "name": "FinEar_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        867,
+        590,
+        1051,
+        802
+      ]
+    },
+    {
+      "name": "EyeWhite_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        314,
+        628,
+        477,
+        751
+      ]
+    },
+    {
+      "name": "IrisPupil_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        355,
+        631,
+        474,
+        750
+      ]
+    },
+    {
+      "name": "EyeSocketMask_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        305,
+        619,
+        486,
+        760
+      ]
+    },
+    {
+      "name": "EyeLineLower_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        316,
+        721,
+        479,
+        754
+      ]
+    },
+    {
+      "name": "EyeLineUpper_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        296,
+        613,
+        484,
+        670
+      ]
+    },
+    {
+      "name": "EyeHighlightUpper_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        397,
+        638,
+        445,
+        679
+      ]
+    },
+    {
+      "name": "EyeHighlightLower_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        390,
+        700,
+        450,
+        746
+      ]
+    },
+    {
+      "name": "EyelidUpper_R",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        307,
+        614,
+        484,
+        694
+      ]
+    },
+    {
+      "name": "EyelidLower_R",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        307,
+        688,
+        484,
+        760
+      ]
+    },
+    {
+      "name": "EyeLineClosed_R",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        310,
+        683,
+        483,
+        711
+      ]
+    },
+    {
+      "name": "EyeWhite_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        596,
+        628,
+        759,
+        751
+      ]
+    },
+    {
+      "name": "IrisPupil_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        599,
+        631,
+        718,
+        750
+      ]
+    },
+    {
+      "name": "EyeSocketMask_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        587,
+        619,
+        768,
+        760
+      ]
+    },
+    {
+      "name": "EyeLineLower_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        598,
+        721,
+        761,
+        754
+      ]
+    },
+    {
+      "name": "EyeLineUpper_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        578,
+        613,
+        766,
+        670
+      ]
+    },
+    {
+      "name": "EyeHighlightUpper_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        644,
+        642,
+        692,
+        684
+      ]
+    },
+    {
+      "name": "EyeHighlightLower_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        635,
+        706,
+        688,
+        746
+      ]
+    },
+    {
+      "name": "EyelidUpper_L",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        589,
+        614,
+        766,
+        694
+      ]
+    },
+    {
+      "name": "EyelidLower_L",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        589,
+        688,
+        766,
+        760
+      ]
+    },
+    {
+      "name": "EyeLineClosed_L",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        592,
+        683,
+        765,
+        711
+      ]
+    },
+    {
+      "name": "CheekBlush_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        347,
+        753,
+        389,
+        785
+      ]
+    },
+    {
+      "name": "CheekBlush_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        653,
+        752,
+        723,
+        794
+      ]
+    },
+    {
+      "name": "MouthLineClosed",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        495,
+        760,
+        565,
+        773
+      ]
+    },
+    {
+      "name": "MouthCavity",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        504,
+        750,
+        565,
+        793
+      ]
+    },
+    {
+      "name": "MouthTongue",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        511,
+        773,
+        560,
+        789
+      ]
+    },
+    {
+      "name": "MouthLipUpper",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        504,
+        750,
+        565,
+        759
+      ]
+    },
+    {
+      "name": "MouthLipLower",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        504,
+        759,
+        565,
+        793
+      ]
+    },
+    {
+      "name": "MouthCavityMicro",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        517,
+        759,
+        553,
+        783
+      ]
+    },
+    {
+      "name": "MouthTongueMicro",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        522,
+        763,
+        547,
+        779
+      ]
+    },
+    {
+      "name": "MouthLipUpperMicro",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        517,
+        759,
+        553,
+        768
+      ]
+    },
+    {
+      "name": "MouthLipLowerMicro",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        518,
+        768,
+        553,
+        783
+      ]
+    },
+    {
+      "name": "MouthCavityO",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        515,
+        748,
+        553,
+        795
+      ]
+    },
+    {
+      "name": "MouthTongueO",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        520,
+        775,
+        548,
+        791
+      ]
+    },
+    {
+      "name": "MouthLipUpperO",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        515,
+        748,
+        553,
+        772
+      ]
+    },
+    {
+      "name": "MouthLipLowerO",
+      "visible": false,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        515,
+        772,
+        553,
+        795
+      ]
+    },
+    {
+      "name": "HairSide_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        172,
+        480,
+        368,
+        846
+      ]
+    },
+    {
+      "name": "HairSide_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        677,
+        480,
+        880,
+        866
+      ]
+    },
+    {
+      "name": "HairFront_Center",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        215,
+        250,
+        872,
+        634
+      ]
+    },
+    {
+      "name": "HairFront_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        175,
+        280,
+        502,
+        752
+      ]
+    },
+    {
+      "name": "HairFront_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        626,
+        280,
+        866,
+        758
+      ]
+    },
+    {
+      "name": "Ahoge",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        300,
+        75,
+        650,
+        236
+      ]
+    },
+    {
+      "name": "Eyebrow_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        372,
+        543,
+        459,
+        566
+      ]
+    },
+    {
+      "name": "Eyebrow_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        654,
+        543,
+        741,
+        566
+      ]
+    },
+    {
+      "name": "Headband",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        207,
+        203,
+        900,
+        546
+      ]
+    },
+    {
+      "name": "HairRibbon_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        831,
+        508,
+        940,
+        599
+      ]
+    },
+    {
+      "name": "NeckBow_R",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        451,
+        845,
+        540,
+        966
+      ]
+    },
+    {
+      "name": "NeckBow_L",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        540,
+        845,
+        629,
+        966
+      ]
+    },
+    {
+      "name": "Sapphire",
+      "visible": true,
+      "canvas_bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        509,
+        862,
+        565,
+        918
+      ]
+    }
+  ],
+  "independent_render_check": {
+    "krita_export_size": [
+      1086,
+      1448
+    ],
+    "alpha_max_difference": 1.0,
+    "premultiplied_rgb_max_difference": 2.937255859375,
+    "premultiplied_rgb_mean_difference": 0.31273406744003296,
+    "all_82_psd_pixel_layers_exactly_match_png_sources": true,
+    "comparison_note": "Independent compositors differ by at most 3/255 RGB and 1/255 alpha due to compositing rounding. Final preview uses Krita export."
+  }
+}

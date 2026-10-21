@@ -1,0 +1,15 @@
+希可 v04 / 女仆装 Q 版 Live2D 底稿
+
+seeko_cubism_import_v04.psd：1086×1448，RGB 8 bit，82 个整画布像素图层。
+preview.png：默认透明合成。
+preview_closed_open.png：默认、闭眼、普通张嘴、小张嘴、O 型嘴及脸部放大对照。
+validation.json：逐层名称、顺序、默认显隐、内容范围和源文件校验记录。
+
+R/L 沿用角色自身左右，即 R 在画面左侧。图层顺序由下至上与拆层要求.md 一致。
+闭眼对照：关闭 EyeWhite、IrisPupil、EyeSocketMask、上下眼线及高光，开启 EyelidUpper、EyelidLower、EyeLineClosed。闭眼皮与脸底同色。
+张嘴对照：关闭 MouthLineClosed，按组开启 Cavity、Tongue、LipUpper、LipLower；普通、Micro、O 三组互斥。
+每只眼的 IrisPupil 保留完整圆形，EyeSocketMask 是肤色遮罩。实际左右转眼时，请在 Cubism 中设置相应裁剪关系。
+
+这是待重新绑定的美术 PSD。已检查图层结构与静态表情组合，尚未进行 Cubism 变形、物理或动作验收。
+旧 PSD 只读保留。新文件的身体比例按迷你概念稿重绘，不能直接套用旧身体的变形网格。
+生成方式及提示词规格见 generation-prompts.txt。
