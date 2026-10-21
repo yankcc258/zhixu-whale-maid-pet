@@ -1,0 +1,62 @@
+[
+ {
+  "name": "HairBack_R",
+  "png": "layers_png/01_HairBack/HairBack_R.png",
+  "sha256": "aca80ec85d10f5c4c489ce39f0ce692718fb9b89c4bd3f4808551fc7f9ca8a31"
+ },
+ {
+  "name": "HairBack_L",
+  "png": "layers_png/01_HairBack/HairBack_L.png",
+  "sha256": "dfdc6d22512d9f1eb52f3ceb27eb66e723a664ddd7f89782ac4fff7b1e922e10"
+ },
+ {
+  "name": "ArmUpper_R",
+  "png": "layers_png/05_Arms/ArmUpper_R.png",
+  "sha256": "15a5c9b7a2a9ba76fbeecac51fe966fee06117d30c79ab6270327f09e28f5ff5"
+ },
+ {
+  "name": "ArmLower_R",
+  "png": "layers_png/05_Arms/ArmLower_R.png",
+  "sha256": "0d12ec46ed0d6031af7b8af96738f1da0c2d9f15c43715863bc26a0e2e2373c0"
+ },
+ {
+  "name": "ArmUpper_L",
+  "png": "layers_png/05_Arms/ArmUpper_L.png",
+  "sha256": "28e6d3b55614e3571227b72f5b42199b7190de6523ea89d49e8ffee06f88b7ec"
+ },
+ {
+  "name": "ArmLower_L",
+  "png": "layers_png/05_Arms/ArmLower_L.png",
+  "sha256": "4d07fa2dd78893347a7ff7a94ae1d6e5ef687e3c19244872975e6ec0f1a9e5e6"
+ },
+ {
+  "name": "Hand_R",
+  "png": "layers_png/05_Arms/Hand_R.png",
+  "sha256": "72f5eef1af315a5dd3edc05d8ebe0f6b1ac5830e46f28047d189f56abec87884"
+ },
+ {
+  "name": "Hand_L",
+  "png": "layers_png/05_Arms/Hand_L.png",
+  "sha256": "e1ad53b20eb03fa3662721ab04e34120369068bfc53698a5a1141c3732ce51db"
+ },
+ {
+  "name": "Cuff_R",
+  "png": "layers_png/05_Arms/Cuff_R.png",
+  "sha256": "289f7d85150d77caf50e8a2bb8e9e6d9ddcd7343a0e9af984cbf5daedc93299d"
+ },
+ {
+  "name": "Cuff_L",
+  "png": "layers_png/05_Arms/Cuff_L.png",
+  "sha256": "ef523452ae3dd2f2b5959f5aeb360f8b382a4e0ce6d23f235d12e0dfe044612a"
+ },
+ {
+  "name": "FinEar_R",
+  "png": "layers_png/07_FinEars/FinEar_R.png",
+  "sha256": "7f343bfb4c511c80b8182963e29a9e50c775b936c94048ed92b3219a69cbc19c"
+ },
+ {
+  "name": "FinEar_L",
+  "png": "layers_png/07_FinEars/FinEar_L.png",
+  "sha256": "784a21ef6c26ca1b686205f5247cd340aa89fb366b2654af893c4cf5296b4e3d"
+ }
+]
