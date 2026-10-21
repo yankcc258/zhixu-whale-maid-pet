@@ -50,6 +50,7 @@ const L2D = (() => {
   // 没在这里的衣服照旧用立绘。
   const MODELS = {
     maid: 'live2d/seeko/seeko.model3.json',
+    pajamas: 'live2d/seeko/seeko_pajamas.model3.json', // 睡衣（晚上、睡觉时自动换上）
   };
   let canvas = null,
     app = null,
