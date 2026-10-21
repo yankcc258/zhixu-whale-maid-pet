@@ -1,3 +1,5 @@
 * text eol=lf
 *.png binary
 *.psd binary
+*.cmo3 binary
+*.moc3 binary
