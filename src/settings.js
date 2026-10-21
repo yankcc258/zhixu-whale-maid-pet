@@ -1,7 +1,7 @@
 // 设置窗口：改 localStorage 'whale-prefs'，鲸鱼娘的窗口收到 storage 事件后马上生效。开机自启走 Rust。
 const tauri = window.__TAURI__;
 const invoke = (cmd, args) => tauri?.core.invoke(cmd, args) ?? Promise.resolve();
-const DEFAULTS = { activity: 'normal', sleep: '23-6', chatty: 'mid', gameMode: true, quiet: false, wardrobeLocked: false, live2d: true };
+const DEFAULTS = { activity: 'normal', sleep: '23-6', chatty: 'mid', gameMode: true, quiet: false, wardrobeLocked: false, figure: 'q', qStyle: 'live2d' };
 // 文字框：称呼、网站名、网址（输入停下 0.4 秒后保存）
 for (const t of document.querySelectorAll('input[type="text"][data-key], input[type="url"][data-key]')) {
   let timer = 0;
@@ -16,7 +16,9 @@ for (const t of document.querySelectorAll('input[type="text"][data-key], input[t
 }
 const load = () => {
   try {
-    return { ...DEFAULTS, ...JSON.parse(localStorage.getItem('whale-prefs') || '{}') };
+    const p = { ...DEFAULTS, ...JSON.parse(localStorage.getItem('whale-prefs') || '{}') };
+    if (p.live2d === false && !('qStyleSet' in p)) p.qStyle = 'static'; // 0.6.x 关掉过 Live2D 的
+    return p;
   } catch {
     return { ...DEFAULTS };
   }
@@ -36,6 +38,7 @@ document.addEventListener('click', (e) => {
   if (!b) return;
   const p = load();
   p[b.closest('.seg').dataset.key] = b.dataset.v;
+  if (b.closest('.seg').dataset.key === 'qStyle') p.qStyleSet = true;
   save(p);
   render();
 });

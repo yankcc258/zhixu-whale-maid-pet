@@ -29,16 +29,22 @@ const DEFAULTS = {
   wardrobeMode: 'auto', // 'auto'：节日、晚上自己换；'lock'：一直穿衣柜里选的那套
   outfit: 'maid', // 锁定时穿哪套
   examUntil: 0, // 考试周（必胜头巾）到什么时候
-  live2d: true, // 穿女仆装时用 Live2D（会眨眼、看鼠标、说话动嘴）
+  figure: 'q', // 形象：'q' Q 版（现在这个）；'mini' 迷你人形（制作中）
+  qStyle: 'live2d', // Q 版的样子：'live2d' 动态（会眨眼、看鼠标、做动作）；'static' 静态（以前的立绘）
 };
 let prefs = loadPrefs();
 function loadPrefs() {
   try {
-    return { ...DEFAULTS, ...JSON.parse(localStorage.getItem('whale-prefs') || '{}') };
+    const p = { ...DEFAULTS, ...JSON.parse(localStorage.getItem('whale-prefs') || '{}') };
+    // 0.6.x 的「女仆装用 Live2D」开关关掉过的，换成 Q 版静态
+    if (p.live2d === false && !('qStyleSet' in p)) p.qStyle = 'static';
+    return p;
   } catch {
     return { ...DEFAULTS };
   }
 }
+// 现在要不要用 Live2D（Q 版动态）。迷你人形做好以前，选迷你也先用 Q 版
+const useL2D = () => prefs.qStyle !== 'static';
 function savePrefs() {
   try {
     localStorage.setItem('whale-prefs', JSON.stringify(prefs));
@@ -51,7 +57,7 @@ addEventListener('storage', (e) => {
   renderMenu();
   invoke('set_game_mode', { on: !!prefs.gameMode });
   if (prefs.resetAt !== resetBefore) resetPos();
-  if (prefs.live2d) L2D.load().then(() => setMood(autoMood()));
+  if (useL2D()) L2D.load().then(() => setMood(autoMood()));
   weatherTick();
   nextChat = Date.now() + rand(...chatGap()) * 60000;
   nextRoam = 0;
@@ -154,7 +160,7 @@ function setMood(m, ms) {
   unlock(m);
   moodUntil = ms ? Date.now() + ms : 0;
   // 穿着做成 Live2D 的衣服、站着的时候交给 Live2D；躲边、跑步这些动作和别的衣服照旧用立绘
-  const live = prefs.live2d && L2D.show(m, outfitNow());
+  const live = useL2D() && L2D.show(m, outfitNow());
   if (!live) L2D.hide();
   img.hidden = live;
   document.body.classList.toggle('live2d', live);
@@ -484,7 +490,7 @@ tauri?.event.listen('open-site', () => openSite());
 tauri?.event.listen('cursor', ({ payload }) => L2D.lookTo(payload[0], payload[1]));
 // 某套衣服的 Live2D 模型刚加载好：表情不变，重新摆一次，从立绘换成 Live2D
 L2D.onLoaded(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
-if (prefs.live2d) L2D.load().then(() => setMood(autoMood()));
+if (useL2D()) L2D.load().then(() => setMood(autoMood()));
 tauri?.event.listen('summoned', () => {
   setMood(autoMood());
   say(pick(LINES.summoned), sleep ? undefined : pick(['happy', 'excited']), 4000);
@@ -539,6 +545,14 @@ menu.addEventListener('click', (e) => {
     say(prefs.quiet ? '好吧，我安静待着。（安静模式）' : '提醒打开了，我要开始唠叨了哦。', 'idle', 3000);
     renderMenu();
   }
+  if (act === 'style') {
+    prefs.qStyle = useL2D() ? 'static' : 'live2d';
+    prefs.qStyleSet = true;
+    savePrefs();
+    if (useL2D()) L2D.load().then(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
+    else setMood(mood, Math.max(0, moodUntil - Date.now()));
+    renderMenu();
+  }
   if (act === 'hide') {
     say(pick(LINES.bye), 'wave', 1500);
     setTimeout(() => (bubble.hidden = true, win?.hide()), 1300);
@@ -550,6 +564,8 @@ function renderMenu() {
   pet.title = `戳一下 · 双击打开${site} · 右键菜单`;
   const q = menu.querySelector('[data-act="quiet"]');
   if (q) q.textContent = prefs.quiet ? '🔔 打开提醒' : '🔕 安静模式';
+  const st = menu.querySelector('[data-act="style"]');
+  if (st) st.textContent = useL2D() ? '🖼️ 换成静态立绘' : '✨ 换成动态 Live2D';
 }
 addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
