@@ -154,7 +154,7 @@ function setMood(m, ms) {
   unlock(m);
   moodUntil = ms ? Date.now() + ms : 0;
   // 穿女仆装、站着的时候交给 Live2D；躲边、跑步这些没做成 Live2D 的动作照旧用立绘
-  const live = prefs.live2d && outfitNow() === 'maid' && L2D.show(m, { dragging: m === 'dangle' });
+  const live = prefs.live2d && outfitNow() === 'maid' && L2D.show(m);
   if (!live) L2D.hide();
   img.hidden = live;
   document.body.classList.toggle('live2d', live);
@@ -205,7 +205,8 @@ function pop(text, m, ms) {
   say(text, m, ms);
 }
 function duang() {
-  const el = L2D.active() ? document.getElementById('l2d') : img;
+  if (L2D.active()) return L2D.poke(); // Live2D：缩一下（手收回来、头往后）
+  const el = img;
   el.classList.remove('duang');
   void el.offsetWidth;
   el.classList.add('duang');

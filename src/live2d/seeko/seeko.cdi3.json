@@ -135,6 +135,16 @@
 			"Id": "ParamHairBack",
 			"GroupId": "",
 			"Name": "摇动 后发"
+		},
+		{
+			"Id": "ParamArmLA",
+			"GroupId": "",
+			"Name": "左臂 抬起"
+		},
+		{
+			"Id": "ParamArmRA",
+			"GroupId": "",
+			"Name": "右臂 抬起"
 		}
 	],
 	"ParameterGroups": [],
