@@ -108,6 +108,10 @@
   ],
   "cubism_motion_import_test": "not performed",
   "files": {
+    ".gitattributes": {
+      "bytes": 80,
+      "sha256": "c94fd3d2a858018efbaff57a3a232694a27c3271064fe5d8dd5ced46ddb174a1"
+    },
     "generation-prompts.md": {
       "bytes": 7778,
       "sha256": "4e9ef282732100bda52fd415368bc84d45ea49d74f765f054c61e2c793d9571c"
@@ -117,8 +121,8 @@
       "sha256": "ddc1f9139c06b7b63bf25a4ea805f74efe62b4d39c3fe3f4590fb166470bcc9f"
     },
     "README.md": {
-      "bytes": 2688,
-      "sha256": "be4521fcc9bd967fe45ad47e7dc2f7dee4a63711672a392a99badd223b3d5087"
+      "bytes": 2653,
+      "sha256": "22052f4abbed992cccc0d4b584436d18f909b2932b67a7c8298744b88c8d4aaa"
     },
     "seeko_outfit_pajamas.psd": {
       "bytes": 21145938,
@@ -130,5 +134,6 @@
     "psd_open_and_png_export": "passed",
     "premultiplied_rgba_max_difference_vs_layer_assembly": 0.00392156862745098,
     "preview_source": "Krita export of delivered PSD"
-  }
+  },
+  "text_line_endings": "LF (enforced by folder .gitattributes)"
 }
