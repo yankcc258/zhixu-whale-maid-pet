@@ -1,0 +1,170 @@
+[
+  {
+    "name": "ArmLower_L",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 928,
+    "nontransparent_pixels": 10794,
+    "sha256": "d8111442f083f0edcf557bdd70cb323f579878a3252b1581bcd7bfd5710c2b89"
+  },
+  {
+    "name": "ArmLower_R",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 914,
+    "nontransparent_pixels": 10236,
+    "sha256": "d7ef798ab5c3e033cbf77157f39f50cc1fac4b2bf89d68180c60055161e6db39"
+  },
+  {
+    "name": "ArmUpper_L",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 261,
+    "nontransparent_pixels": 7949,
+    "sha256": "4453f9177a5130bdb24e400316a357cd840424cac9807379fa2a5923aab74c8d"
+  },
+  {
+    "name": "ArmUpper_R",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 394,
+    "nontransparent_pixels": 8342,
+    "sha256": "8c7fb1ba54f970ad58b3e6db45142d30dbb97a071a8a382305b30afe896fd93b"
+  },
+  {
+    "name": "Cuff_L",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 751,
+    "nontransparent_pixels": 7401,
+    "sha256": "87743d4dbd41b41307e8f437224e2a6727181f8c3b4585c472b5dee0841b46bf"
+  },
+  {
+    "name": "Cuff_R",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 613,
+    "nontransparent_pixels": 7229,
+    "sha256": "11b82f91cac11cbce5247b58568634de59c3eb65455a5b29506fece6e548e76d"
+  },
+  {
+    "name": "FinEar_L",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 2436,
+    "nontransparent_pixels": 26088,
+    "sha256": "b3e7c5dc354cab0db59c3d8493bcdd54bdde8a9dbdd31f9f6b53fc74cec0703e"
+  },
+  {
+    "name": "FinEar_R",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 1320,
+    "nontransparent_pixels": 20903,
+    "sha256": "1b67fe0778d82bcf5dbbdfcaa0708350fc5ad4404e6dcfa39088537648873a9f"
+  },
+  {
+    "name": "HairBack_L",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 100511,
+    "nontransparent_pixels": 341473,
+    "sha256": "d0f9d551fa869239616f64f184cd8c5312dceaa5570682f1034efe1df7a7c434"
+  },
+  {
+    "name": "HairBack_R",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 68401,
+    "nontransparent_pixels": 332239,
+    "sha256": "33d516748b23d8e063896ec01c783f262dc809c917e9621a4d74b7f2721d7883"
+  },
+  {
+    "name": "Hand_L",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 1410,
+    "nontransparent_pixels": 9546,
+    "sha256": "c5f968a42140e8703d29b936ead3b2b56e9f8877ed5db56176c8e6c6db532d85"
+  },
+  {
+    "name": "Hand_R",
+    "canvas": [
+      1086,
+      1448
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "changed_pixels": 973,
+    "nontransparent_pixels": 8664,
+    "sha256": "924e297f1c4161bc7770ad41e0019ba914a988a8f37df0f8f0e9f2bdd92446e7"
+  }
+]
