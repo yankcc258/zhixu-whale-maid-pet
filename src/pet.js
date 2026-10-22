@@ -345,7 +345,10 @@ pet.addEventListener('pointerup', async () => {
     return say(pick(LINES.mad), 'wake', 8000);
   }
   if (dock) say(pick(LINES.hide), 'peek', 3500);
-  else say(pick(LINES.dropped), pick(['pout', 'meh']), 3000);
+  else {
+    const own = Math.random() < 0.6 && outfitLine(outfitNow(), 'dropped');
+    say(own ? own[0] : pick(LINES.dropped), own ? own[1] : pick(['pout', 'meh']), 3000);
+  }
 });
 pet.addEventListener('pointercancel', () => {
   down = null;
@@ -394,7 +397,8 @@ function poke() {
   if (pokes.length >= 6) {
     warnedAt = now;
     pokes = [];
-    return say(pick(LINES.angry), 'angry', 6000);
+    const own = Math.random() < 0.5 && outfitLine(outfitNow(), 'angry');
+    return say(own ? own[0] : pick(LINES.angry), 'angry', 6000);
   }
   // 躲在边上被戳：戳脸或者戳头
   if (dock) {
@@ -405,7 +409,10 @@ function poke() {
   const h = new Date().getHours();
   if (h < 5) return say(fill(pick(LINES.pokeNight), { h }), 'meh', 3500);
   if (h < 8 && Math.random() < 0.6) return say(pick(LINES.pokeMorning), 'idle', 3500);
-  say(pick(LINES.poke), pick(['happy', 'happy', 'smug', 'smirk', 'bleh']), 3500);
+  const own = Math.random() < 0.5 && outfitLine(outfitNow(), 'poke');
+  if (own) return say(own[0], own[1], 3500);
+  const line = pick(LINES.poke);
+  say(line, moodFor(line), 3500);
 }
 // 节日里戳她：初詣抽签、节分撒豆，其他节日一半概率说节日台词
 function festPoke() {
@@ -520,7 +527,8 @@ function patTrack(e) {
   if (sleep === 'asleep') return say(pick(LINES.patSleep), undefined, 3000);
   pokes = [];
   warnedAt = 0;
-  say(pick(LINES.pat), 'pat', 3500);
+  const own = Math.random() < 0.6 && outfitLine(outfitNow(), 'pat');
+  say(own ? own[0] : pick(LINES.pat), 'pat', 3500);
 }
 
 // ---------- 右键菜单 ----------
@@ -604,8 +612,10 @@ function chat(force = false) {
   }
   const w = weatherLine();
   if (w && Math.random() < 0.4) return force ? say(w[0], w[1], 8000) : pop(w[0], w[1], 12000);
+  const own = Math.random() < 0.3 && outfitLine(outfitNow(), 'chat');
+  if (own) return force ? say(own[0], own[1], 8000) : pop(own[0], own[1], 12000);
   const line = chatLine();
-  const m = /还不睡|恨现在|关灯/.test(line) ? 'meh' : /吃|饿|饭/.test(line) ? 'smug' : pick(['happy', 'smirk', 'idle']);
+  const m = /还不睡|恨现在|关灯/.test(line) ? 'meh' : moodFor(line, 'happy');
   force ? say(line, m, 8000) : pop(line, m, 12000);
 }
 
@@ -822,9 +832,11 @@ function festTick() {
     for (let i = 0; i < 6; i++) setTimeout(() => burst(['🎆', '🎇', '✨'], 5, true), i * 700);
     say('🎆 新年快乐！！{n}，今年也请多关照！', 'excited', 15000);
   }
-  if (!f?.fx?.length || sleep || dock || dragging || Math.random() < 0.4) return;
+  // 装饰：节日衣服飘节日的；成套的衣服（体操服、白大褂……）也有自己的装饰
+  const fx = f?.fx?.length ? f.fx : OUTFITS[outfitNow()]?.fx;
+  if (!fx?.length || sleep || dock || dragging || Math.random() < 0.4) return;
   if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  for (let i = Math.floor(rand(1, 3)); i > 0; i--) setTimeout(() => fall(pick(f.fx)), rand(0, 2500));
+  for (let i = Math.floor(rand(1, 3)); i > 0; i--) setTimeout(() => fall(pick(fx)), rand(0, 2500));
 }
 // 从窗口上方慢慢飘下来的装饰（不挡鼠标）
 // 有画好的装饰图就用图（fx/<名字>-<几号>.webp），没有就用 emoji

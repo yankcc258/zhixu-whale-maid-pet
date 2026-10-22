@@ -33,6 +33,7 @@ const lunarIs = (d, m, a, b) => {
 const FESTS = [
   {
     id: 'birthday',
+    say: { pat: ['……寿星摸头加倍幸福。哼。'], dropped: [['蛋糕！！蛋糕要掉了！！', 'surprised']], angry: ['💢 今天我最大！不许惹寿星！'] },
     name: '希可的生日',
     off: '我生日', // 不是日子却穿着时说「明明不是我生日」
     kind: 'fest',
@@ -44,6 +45,7 @@ const FESTS = [
   },
   {
     id: 'toshikoshi',
+    say: { pat: ['……今年最后一次摸头，记住了。'], dropped: [['面！面要洒了！', 'surprised']], angry: ['💢 今年的最后一天也要被你气到吗！'] },
     name: '大晦日',
     kind: 'fest',
     when: (d) => md(d) === 1231,
@@ -54,6 +56,7 @@ const FESTS = [
   },
   {
     id: 'omikuji',
+    say: { pat: ['新年第一摸……算你大吉。'], dropped: [['签筒要摇散了！', 'surprised']], angry: ['💢 新年就惹本鲸生气，今年一整年都要还的！'] },
     name: '初詣',
     off: '新年', // 不是日子却穿着时说「明明不是新年」
     kind: 'fest',
@@ -65,6 +68,7 @@ const FESTS = [
   },
   {
     id: 'shogatsu',
+    say: { pat: ['……正月摸头，福气加一。'], dropped: [['镜饼！镜饼要掉了！', 'surprised']], angry: ['💢 正月还没过完就欺负鲸鱼！'] },
     name: '正月',
     kind: 'fest',
     when: (d) => inRange(d, 104, 107),
@@ -75,6 +79,7 @@ const FESTS = [
   },
   {
     id: 'cny',
+    say: { pat: ['……摸头可以，红包另算。'], dropped: [['红包撒了一地啦！', 'surprised']], angry: ['💢 大过年的！红包没收！'] },
     name: '春节',
     kind: 'fest',
     when: (d) => nearDay(CNY, d, 0, 6) ?? lunarIs(d, 1, 1, 7),
@@ -85,6 +90,7 @@ const FESTS = [
   },
   {
     id: 'setsubun',
+    say: { pat: ['……今天是福，不是鬼，摸吧。'], dropped: [['豆子撒了一地……要捡起来吃吗？', 'pout']], angry: ['💢 鬼は外——！说的就是你！'] },
     name: '节分',
     kind: 'fest',
     when: (d) => inRange(d, 202, 203),
@@ -95,6 +101,7 @@ const FESTS = [
   },
   {
     id: 'valentine',
+    say: { pat: ['……（脸红）是、是义理摸头。'], dropped: [['巧克力会化的啦！', 'pout']], angry: ['💢 巧克力收回了！义理的也不给了！'] },
     name: '情人节',
     kind: 'fest',
     when: (d) => inRange(d, 213, 214),
@@ -105,6 +112,7 @@ const FESTS = [
   },
   {
     id: 'hanami',
+    say: { pat: ['（花瓣落在头上）……别把花瓣摸掉。'], dropped: [['团子！三色团子掉了！', 'surprised']], angry: ['💢 赏花的心情都被你破坏了！'] },
     name: '赏樱',
     off: '樱花季', // 不是日子却穿着时说「明明不是樱花季」
     kind: 'fest',
@@ -116,6 +124,7 @@ const FESTS = [
   },
   {
     id: 'tanabata',
+    say: { pat: ['……摸头的愿望，许过了。'], dropped: [['短册要被风吹走了！', 'surprised']], angry: ['💢 我要在短册上写「{n} 不许乱戳」！'] },
     name: '七夕',
     kind: 'fest',
     when: (d) => inRange(d, 706, 707),
@@ -126,6 +135,7 @@ const FESTS = [
   },
   {
     id: 'hanabi',
+    say: { pat: ['……浴衣盘发，轻点。'], dropped: [['苹果糖！！', 'surprised']], angry: ['💢 本鲸的怒火比烟花还响！'] },
     name: '花火大会',
     off: '夏天', // 不是日子却穿着时说「明明不是夏天」
     kind: 'fest',
@@ -137,6 +147,7 @@ const FESTS = [
   },
   {
     id: 'tsukimi',
+    say: { pat: ['……月亮看着呢，就一下。'], dropped: [['兔子要掉下去了！', 'surprised']], angry: ['💢 团子没收！月亮也不给你看了！'] },
     name: '月见',
     kind: 'fest',
     when: (d) => nearDay(MOON, d, -1, 1) ?? lunarIs(d, 8, 14, 16),
@@ -147,6 +158,7 @@ const FESTS = [
   },
   {
     id: 'halloween',
+    say: { pat: ['……魔女的帽子别碰歪。摸头费：一颗糖。'], dropped: [['南瓜篮里的糖全撒了啦！', 'pout']], angry: ['💢 再惹本魔女，就把你变成南瓜！真的！'] },
     name: '万圣节',
     kind: 'fest',
     when: (d) => inRange(d, 1025, 1031),
@@ -157,6 +169,7 @@ const FESTS = [
   },
   {
     id: 'christmas',
+    say: { pat: ['……摸头算圣诞礼物？太便宜你了。'], dropped: [['礼物盒要摔坏了！', 'surprised']], angry: ['💢 坏孩子没有礼物！'] },
     name: '圣诞节',
     kind: 'fest',
     when: (d) => inRange(d, 1220, 1225),
@@ -168,6 +181,7 @@ const FESTS = [
   // ---- 季节：闲着时偶尔换上 ----
   {
     id: 'tsuyu',
+    say: { poke: [['（甩雨衣上的水）别戳，水都甩你身上了。', 'meh']], pat: ['……雨衣湿湿的，摸了别怪我。'], dropped: [['雨靴掉了一只！', 'pout']], angry: ['💢 下雨天心情本来就不好！'] },
     name: '梅雨',
     off: '梅雨季', // 不是日子却穿着时说「明明不是梅雨季」
     kind: 'season',
@@ -177,6 +191,7 @@ const FESTS = [
   },
   {
     id: 'kakigori',
+    say: { poke: [['刨冰要化了！别戳！', 'surprised'], ['（头疼）……吃太快了……别戳……', 'pout']], pat: ['……凉凉的，嗯，舒服。'], dropped: [['刨冰！！洒了！！', 'surprised']], angry: ['💢 刨冰化掉的仇，本鲸记住了！'] },
     name: '刨冰',
     off: '夏天', // 不是日子却穿着时说「明明不是夏天」
     kind: 'season',
@@ -186,6 +201,7 @@ const FESTS = [
   },
   {
     id: 'momiji',
+    say: { poke: [['烤红薯是我的，别伸手。', 'onigiri'], ['（抱紧烤红薯）……一口都不给。', 'smug']], pat: ['……落叶掉头上了？帮我拿掉。'], dropped: [['烤红薯掉了！还是热的！', 'surprised']], angry: ['💢 秋天的鲸鱼也是会咬人的！'] },
     name: '红叶',
     off: '秋天', // 不是日子却穿着时说「明明不是秋天」
     kind: 'season',
@@ -195,6 +211,7 @@ const FESTS = [
   },
   {
     id: 'kotatsu',
+    say: { poke: [['不出来。被炉外面是地狱。', 'sleepy'], ['（剥橘子）……分你一瓣，别再戳了。', 'smug']], pat: ['……被炉加摸头，人生巅峰。'], dropped: [['把我从被炉里拎出来是犯罪！！', 'angry']], angry: ['💢 冬天把鲸鱼拖出被炉的人，没有资格吃橘子！'] },
     name: '被炉',
     off: '冬天', // 不是日子却穿着时说「明明不是冬天」
     kind: 'season',
@@ -205,6 +222,7 @@ const FESTS = [
   // ---- 手动：考试周（右键菜单里开，两周后自动摘下） ----
   {
     id: 'hisshou',
+    say: { pat: ['……摸头可以，摸完回去复习。'], dropped: [['头巾歪了！考试运要跑了！', 'surprised']], angry: ['💢 考试周还有空惹我？去背书！'] },
     name: '考试周',
     kind: 'manual',
     when: () => false,
