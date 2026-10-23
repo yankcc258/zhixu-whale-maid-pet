@@ -41,10 +41,16 @@ const L2D = (() => {
     pout: 'Tilt',
     dangle: 'Swing',
   };
-  // 全身像比立绘（半身大头）小，所以 Live2D 时 #pet 加高到 150×180（style.css 的 body.live2d），
-  // 头顶那一截和气泡叠一点点没关系
-  const W = 150,
+  // 全身像比立绘（半身大头）小，所以 Live2D 时 #pet 加高到 170×180（style.css 的 body.live2d），
+  // 头顶那一截和气泡叠一点点没关系。人只有 135 宽，左右各留一截，转头时耳鳍和头发不会被切掉
+  const W = 170,
     H = 180;
+  // 眼珠：新身体的眼珠几乎占满眼白，骨架里的眼珠位移是给旧的小眼睛放大过的，这里缩回去，
+  // 不然一转眼就露出一大片眼白、像在瞪人
+  const EYE_GAIN = 0.4;
+  // 这几个表情是闭着眼的（见 live2d/seeko/expressions/）；模型自带的自动眨眼存在 blinks 里
+  const EYES_SHUT = new Set(['happy', 'smug', 'shy', 'sleepy']);
+  const blinks = new WeakMap();
   // 做成 Live2D 的衣服（桌宠的衣服 id → 模型）。每套衣服一个模型：同一副骨架、同样的参数，
   // 只有贴图和网格不一样，所以动作、表情、物理都共用 live2d/seeko/ 里的那一份。
   // 没在这里的衣服照旧用立绘。
@@ -109,14 +115,20 @@ const L2D = (() => {
         m.scale.set(s);
         m.x = (W - m.internalModel.originalWidth * s) / 2;
         m.y = 0;
-        // 说话时嘴一张一合：在动作和表情算完之后覆盖张嘴参数
+        // 动作、表情、看鼠标都算完以后、画之前：调眼珠、加小眼神、说话动嘴
         m.internalModel.on('beforeModelUpdate', () => {
+          if (m !== model) return;
+          const core = m.internalModel.coreModel;
           const now = performance.now();
-          if (m === model && now < talkUntil) {
+          const [ex, ey] = saccade(now);
+          core.setParameterValueById('ParamEyeBallX', core.getParameterValueById('ParamEyeBallX') * EYE_GAIN + ex);
+          core.setParameterValueById('ParamEyeBallY', core.getParameterValueById('ParamEyeBallY') * EYE_GAIN + ey);
+          if (now < talkUntil) {
             const v = 0.5 + 0.5 * Math.sin(now / 70) * Math.sin(now / 190);
-            m.internalModel.coreModel.setParameterValueById('ParamMouthOpenY', Math.max(0, v));
+            core.setParameterValueById('ParamMouthOpenY', Math.max(0, v));
           }
         });
+        blinks.set(m, m.internalModel.eyeBlink);
         models[outfit] = m;
         onModel?.(outfit);
         return m;
@@ -176,7 +188,13 @@ const L2D = (() => {
       curExp = e;
       const em = model.internalModel.motionManager.expressionManager;
       if (e) model.expression(e);
-      else em?.resetExpression();
+      else if (em) {
+        em.resetExpression();
+        // 运行库的 resetExpression 不会清掉「当前表情」，下次再设同一个表情会被当成没变而跳过
+        em.currentExpression = em.defaultExpression;
+      }
+      // 闭着眼的表情（^^ 笑眼、犯困）：自动眨眼会每帧把眼睛重新设成睁开，盖掉表情，所以先停掉
+      model.internalModel.eyeBlink = EYES_SHUT.has(e) ? undefined : blinks.get(model);
     }
     if (mood !== lastMood) {
       // 刚从拎着放下来：停掉甩头，回到待机
@@ -203,6 +221,26 @@ const L2D = (() => {
   }
   const poke = () => act('Flinch');
 
+  // 小眼神：真人的眼睛不会一直定住，隔一两秒会很快地瞟一下别处再停住。
+  // 鼠标在动的时候只轻轻瞟，鼠标停着时瞟得大一点；切换只用几十毫秒（眼珠是「跳」过去的）
+  let sac = { x: 0, y: 0, tx: 0, ty: 0, next: 0, last: 0 };
+  function saccade(now) {
+    if (now > sac.next) {
+      const idle = !lookAt || Date.now() - lookAt > 1500;
+      const r = idle ? 0.35 : 0.12;
+      const back = Math.random() < 0.35; // 有时候瞟回正中
+      sac.tx = back ? 0 : (Math.random() * 2 - 1) * r;
+      sac.ty = back ? 0 : (Math.random() * 2 - 1) * r * 0.6;
+      sac.next = now + 900 + Math.random() * 2600;
+    }
+    const dt = Math.min(100, now - (sac.last || now));
+    sac.last = now;
+    const a = Math.min(1, dt / 60);
+    sac.x += (sac.tx - sac.x) * a;
+    sac.y += (sac.ty - sac.y) * a;
+    return [sac.x, sac.y];
+  }
+
   function hide() {
     if (canvas) canvas.hidden = true;
   }
@@ -212,7 +250,7 @@ const L2D = (() => {
     talkUntil = performance.now() + Math.min(ms, 2500); // 只在冒话头几秒动嘴
   }
   // 眼睛和头跟着鼠标。x、y 是鼠标相对窗口左上角的 CSS 像素。
-  // 以她的脸为中心：鼠标越远转得越多（最多 90%），贴着脸时只轻轻看一下；转的过程由运行库自己缓动
+  // 以她的脸为中心：鼠标越远转得越多（最多 70%），贴着脸时只轻轻看一下；转的过程由运行库自己缓动
   function lookTo(x, y) {
     if (!active()) return;
     const r = canvas.getBoundingClientRect();
@@ -220,7 +258,7 @@ const L2D = (() => {
       dy = y - (r.top + r.height * 0.3);
     const d = Math.hypot(dx, dy);
     if (d < 1) return;
-    const k = (0.9 * d) / (d + 120) / d;
+    const k = (0.7 * d) / (d + 120) / d;
     model.internalModel.focusController.focus(dx * k, -dy * k);
     lookAt = Date.now();
   }
