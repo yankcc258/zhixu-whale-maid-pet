@@ -61,7 +61,7 @@ body.flip #pet canvas {
 }
 /* Live2D 自己会呼吸、甩头、生气，不用再整个上下晃和抖 */
 body.live2d #pet {
-  width: 150px;
+  width: 170px;
   height: 180px;
   animation: none;
 }
