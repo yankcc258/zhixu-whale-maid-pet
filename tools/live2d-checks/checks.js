@@ -31,7 +31,7 @@ const SETS = {
   ],
 };
 for (const f of [-1, 0, 1]) for (const o of [0, 0.25, 0.5, 0.75, 1]) SETS.mouth.push([`形${f} 开${o}`, { ParamMouthForm: f, ParamMouthOpenY: o }]);
-const MOTIONS = ['Wave', 'Hop', 'Stretch', 'Flinch', 'Nod', 'Shake', 'Tilt', 'Swing'];
+const MOTIONS = (process.env.MOTIONS || 'Wave,Hop,Stretch,Flinch,Nod,Shake,Tilt,Swing,Cheer,Shy,Slump,Kick').split(',');
 
 async function sheet(files, out, cols, label = []) {
   const { execFileSync } = require('child_process');

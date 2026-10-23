@@ -97,8 +97,12 @@ r.add_rot('左小臂旋转', '左臂旋转', (693, 1010), [('ParamArmLB', [-10, 
           lambda v: ({-10: -12.0, 0: 0.0, 10: 55.0}[v[0]], 0, 0, 1.0), ['ArmLower_L', 'Cuff_L', 'Hand_L'], handle=80)
 r.add_rot('右小臂旋转', '右臂旋转', (361, 1008), [('ParamArmRB', [-10, 0, 10])],
           lambda v: ({-10: 12.0, 0: 0.0, 10: -55.0}[v[0]], 0, 0, 1.0), ['ArmLower_R', 'Cuff_R', 'Hand_R'], handle=80)
-r.set_draw_order('ArmLower_L', 398)
-r.set_draw_order('ArmLower_R', 396)
+# 小臂、手、袖口放到侧发前面（抬手挥手时手不会躲到头发后面；放下时它们本来就不和侧发重叠），
+# 前发及以上的整体 +2 给袖口腾位置
+for n, o in [('ArmLower_R', 651), ('ArmLower_L', 652), ('Hand_R', 653), ('Hand_L', 654), ('Cuff_R', 655), ('Cuff_L', 656),
+             ('HairFront_Center', 657), ('HairFront_R', 662), ('HairFront_L', 667), ('Ahoge', 672), ('Eyebrow_R', 677), ('Eyebrow_L', 682),
+             ('Headband', 687), ('HairRibbon_L', 692), ('NeckBow_R', 697), ('NeckBow_L', 702), ('Sapphire', 707)]:
+    r.set_draw_order(n, o)
 
 # ---------- 5. 身子上下 ----------
 BODY_DY = {-10: 19.0, 0: 0.0, 10: -24.0}
