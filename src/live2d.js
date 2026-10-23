@@ -57,7 +57,11 @@ const L2D = (() => {
   const MODELS = {
     maid: 'live2d/seeko/seeko.model3.json',
     pajamas: 'live2d/seeko/seeko_pajamas.model3.json', // 睡衣（晚上、睡觉时自动换上）
+    winter: 'live2d/seeko/seeko_winter.model3.json', // 冬装（最高气温不到 10°C）
+    kotatsu: 'live2d/seeko/seeko_kotatsu.model3.json', // 被炉（12～2 月；下半身画在被炉里，不跳）
   };
+  // 坐在被炉里跳不起来：这几套衣服把「蹦一下」换成点头
+  const NO_HOP = new Set(['kotatsu']);
   let canvas = null,
     app = null,
     model = null, // 现在台上的那个
@@ -171,9 +175,9 @@ const L2D = (() => {
 
   // 这套衣服做没做成 Live2D
   const has = (outfit) => Object.prototype.hasOwnProperty.call(MODELS, outfit) && !broken.has(outfit);
-  // 这个心情能不能用 Live2D 演
+  // 这个心情能不能用 Live2D 演。节日/季节衣服平时的心情就是衣服 id 本身（比如 'kotatsu'），当待机演
   const can = (mood, outfit = 'maid') =>
-    state === 'ready' && has(outfit) && Object.prototype.hasOwnProperty.call(EXP, mood);
+    state === 'ready' && has(outfit) && (Object.prototype.hasOwnProperty.call(EXP, mood) || mood === outfit);
 
   // 显示某个心情。返回 true = Live2D 接管了；false = 请用立绘
   function show(mood, outfit = 'maid') {
@@ -183,7 +187,7 @@ const L2D = (() => {
       return false;
     }
     canvas.hidden = false;
-    const e = EXP[mood];
+    const e = EXP[mood] ?? null;
     if (e !== curExp) {
       curExp = e;
       const em = model.internalModel.motionManager.expressionManager;
@@ -208,6 +212,7 @@ const L2D = (() => {
   let flinchEnd = 0;
   function act(group) {
     if (!group || !active()) return;
+    if (group === 'Hop' && NO_HOP.has(cur)) group = 'Nod';
     const now = performance.now();
     // 刚被戳了一下：让「缩一下」做完再做下一个动作
     if (group !== 'Flinch' && now < flinchEnd) return void setTimeout(() => act(group), flinchEnd - now);
