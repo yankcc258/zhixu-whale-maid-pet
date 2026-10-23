@@ -1,0 +1,101 @@
+[
+  {
+    "kind": "v05d",
+    "layer": "Cuff_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      7133
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "Cuff_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      7654
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "IrisPupil_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      12582
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "EyeLineLower_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      367
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "IrisPupil_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      12795
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "EyeLineLower_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      748
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "HairSide_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      35675
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "HairSide_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      42496
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "HairFront_Center",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      70310
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "HairFront_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      62680
+    ]
+  },
+  {
+    "kind": "v05d",
+    "layer": "HairFront_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      45375
+    ]
+  }
+]

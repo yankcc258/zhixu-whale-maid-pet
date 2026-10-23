@@ -1,0 +1,16 @@
+希可 v05 身体睡衣 pajamas
+
+基准：本次 seeko_cubism_import_v05d.psd。
+输出：seeko_outfit_pajamas.psd；1086×1448，RGB 8-bit，82 层。
+奶油白、浅蓝鲸鱼印花长袖长裤，软睡帽、鲸鱼拖鞋；青蓝发饰保留设计并补全轮廓。
+
+仅在要求中的 25 个服装槽位内更换像素。其余 57 层与 v05d 的 RGBA 逐像素一致。
+82 层名称、顺序、默认显隐、位置、透明度、混合模式不变；手、脸、头发不移动。
+有内容的 14 槽位：DressBase、NeckCollar、Headband、HairRibbon_L、ArmUpper_R/L、ArmLower_R/L、Cuff_R/L、LegStocking_R/L、Shoe_R/L。
+其余 11 个服装槽位保持图层及显隐，内容全透明：SkirtFront、SkirtHemLace、BodiceWhite、ChestLace_R/L、ApronBody、ApronLace、Waistband、NeckBow_R/L、Sapphire。
+袖根、裤腿上端保留完整遮挡余量；单层不包含手、脸或头发。
+
+preview.png 为默认透明合成；compare_maid_pajamas.png 为与 v05d 女仆装的并排图；clothing_layers.png 为服装部件展开图。
+validation.json 包含逐层像素校验及源/交付 PSD 哈希。
+PSD 重新打开验证，并用 Krita 独立渲染检查。未执行 Cubism 动态绑定测试，需导入模型副本确认动作极限。
+绘制使用内置 image_gen；选用提示词见 generation-prompts.txt。

@@ -1,0 +1,28 @@
+Mode: built-in image_gen; separate transparent components; registered to v05d clothing slots.
+
+body
+Draw ONE isolated sleeveless pajama tunic BODY for a very short round chibi Live2D. Reference image supplies cream fabric, pale blue whale pattern, blue piping and navy outline style. Broad squat A-line shirt body width 480 height 340, shallow round neckline, modest rounded shoulders, round broad lower hem; center button placket with 3 blue buttons, cream white fabric with several small soft pale-blue whale silhouettes and dots. Soft clean anime cel shading. NO sleeves, collar, skin, hands, legs, hair, head, bows or other pieces. Closed complete silhouette including upper shoulders that will be hidden under head. Transparent background. Rounded childlike torso, not tall dress.
+
+cap
+Draw ONE isolated soft floppy sleeping cap, matching cream-white pale-blue whale printed fabric and navy clean line style of reference. Wide low arch brim curving like an upside-down U, opening entirely transparent beneath it for large blue hair. Brim spans about 650px width and 280px height, with the soft fabric crown behind brim sweeping to viewer right into one drooping tip and attached round white pompom. Cap only, NO hair, head, ahoge, face, bow or other pieces. Complete clean single connected cutout with own outline. Soft cel shading, transparent background.
+
+upper2
+Draw ONE short plump oval of cream-white pajama fabric, as a chibi upper-arm sleeve segment. Silhouette is a single fat bean with width 90% of height, sloping subtly from upper right to lower left. A single small pale blue whale print at center. Smooth navy outline, subtle light blue-gray cel shading, ivory fabric. The top and bottom are BOTH smoothly rounded and fully closed. NO wrist opening, NO cuff, NO long tube, NO forearm, NO extra bulge or segment, NO other parts. Transparent background, no glow. It is ONLY the upper arm between shoulder and elbow, very short and round.
+
+lower2
+Draw ONE very short fat lower-arm pajama sleeve fabric segment, cream-white with a single pale blue whale print. One smooth plump rounded trapezoid tube, its whole silhouette nearly square, angled down-left about 30 degrees. Width roughly equal to length. Top elbow root is smoothly rounded and closed, wrist bottom slightly flared with a simple navy edge. NO shoulder ball, NO joint lump, NO cuff stripe, NO hand or skin. Clean navy outline soft blue-gray cel shading. Transparent background no exterior shadow or glow.
+
+pants
+ONE isolated complete short pajama trouser leg, cream-white cloth with pale blue whale silhouettes and dots, blue piping ankle hem, dark navy outline, soft anime cel shaded matching reference. Short wide straight leg tapering slightly toward ankle, frontal view, width to height about 0.72. Rounded completely filled top extends high under shirt. Bottom ankle edge nearly horizontal slightly curved. No foot, shoe, other leg, torso, hands, sleeve or extra pieces. Transparent background with no exterior shadow or glow.
+
+slipper
+ONE isolated cute pale blue whale slipper for round chibi Live2D, frontal slightly top-down view like reference shoe, short rounded oval shoe width to height about 1.3, blue soft stuffed whale-shaped upper with tiny dark eyes and smile, little side flippers, pale sole, small open ankle hole at top. Thick clean navy outline and soft anime cel shading. No foot, leg, other shoe, body or extra pieces. Transparent background no shadow/glow.
+
+collar
+ONE isolated complete small pajama shirt collar, front view, cream white two connected rounded pointed lapels making a shallow V opening, pale blue piping, dark navy outline, subtle soft blue-gray shading matching reference. Width about 2.4 times height. Empty transparent space in neck opening. No neck, skin, body fabric below, buttons, bows, hair or other piece. Transparent background no shadow or glow.
+
+cuff
+ONE isolated tiny pajama wrist cuff band, cream white rounded fabric strip with a single pale blue stripe and navy outline, slanted diagonally from upper left to lower right about 45 degrees. Soft cel shading matching reference. Aspect width:height about 1:1 due diagonal tilt; actual band length 3 times its thickness. Fully closed single curved rounded rectangular fabric band. No hand, sleeve tube, skin, torso or extra pieces. Transparent background, no glow or outside shadow.
+
+bow
+Restore this one tiny cyan-blue hair bow as a COMPLETE bow with two smooth rounded teardrop loops meeting in the center, clean thick navy outline all around and soft cyan highlight. Keep exact simple original design, no tails, no patterns, no other pieces. Repair chopped left edge and remove blue hair scraps outside the bow. The left loop is slightly larger than right. Transparent background no exterior glow. One isolated accessory only.

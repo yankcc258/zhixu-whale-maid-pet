@@ -1,0 +1,205 @@
+[
+  {
+    "kind": "pajamas",
+    "layer": "DressBase",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      120929
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "SkirtFront",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "SkirtHemLace",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "BodiceWhite",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "ChestLace_R",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "ChestLace_L",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "ApronBody",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "ApronLace",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "Waistband",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "NeckCollar",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      6835
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "ArmUpper_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      13529
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "ArmUpper_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      13529
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "ArmLower_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      9425
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "ArmLower_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      9425
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "Cuff_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      7138
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "Cuff_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      7138
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "LegStocking_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      23128
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "LegStocking_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      23128
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "Shoe_R",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      11973
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "Shoe_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      11973
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "Headband",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      96652
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "HairRibbon_L",
+    "components": 1,
+    "components_at_least_5px": 1,
+    "largest_components": [
+      7171
+    ]
+  },
+  {
+    "kind": "pajamas",
+    "layer": "NeckBow_R",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "NeckBow_L",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  },
+  {
+    "kind": "pajamas",
+    "layer": "Sapphire",
+    "components": 0,
+    "components_at_least_5px": 0,
+    "largest_components": []
+  }
+]

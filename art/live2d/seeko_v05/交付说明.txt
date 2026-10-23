@@ -1,0 +1,17 @@
+希可 v05d 局部修复
+
+输入：art-inbox/art/live2d/seeko_v05/seeko_cubism_import_v05c.psd。
+输出：seeko_cubism_import_v05d.psd；1086×1448，RGB 8-bit，82 层。
+
+修改范围严格限定为 11 层：IrisPupil_R/L、HairFront_R/L/Center、HairSide_R/L、Cuff_R/L、EyeLineLower_R/L。
+眼珠改成完整椭圆，去除顶部深色月牙；高光仍使用原来的独立图层。
+前发与侧发补全轮廓和发梢，清除夹带的零散残片。修补发层有局部轮廓、高光与描边变化，请用 compare_v05c_v05d.png 对照。
+袖口清理孤立碎块；下眼线另清理附着的浅色杂点。
+
+82 层名称、顺序、显隐、位置、透明度、混合模式保持源文件不变。
+其余 71 层 RGBA 逐像素一致；每层哈希及变化像素数见 validation.json。
+源 v05c 未修改。PSD 保存后重新打开验证，并用 Krita 独立渲染检查。
+这是静态 PSD 交付，未执行 Cubism 动态参数、物理或闭眼动作验收。
+
+绘制使用内置 image_gen；选用提示词见 generation-prompts.txt。
+preview_v05d.png 为默认透明合成；repaired_layers.png 为修复层展开图。

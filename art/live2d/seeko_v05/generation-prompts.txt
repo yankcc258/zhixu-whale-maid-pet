@@ -1,0 +1,19 @@
+Mode: built-in image_gen; precise-object-edit; transparent PNG outputs; PSD layer packing and registration.
+
+d_iris_prompt
+Repair this single isolated anime blue IrisPupil cutout. Make ONE clean complete vertically oval iris, width:height about 0.82, with a smooth navy outer rim and soft blue gradient, deeper blue upper half and lighter blue lower half. One small dark blue centered round pupil. REMOVE the extraneous dark curved crescent/eyelash above the iris, all rings/fragments outside the oval, and all white or cyan catchlight shapes: catchlights are separate Live2D layers. Fill the iris fully with no holes. Preserve the soft blue palette of the target. No eye white, no eyelashes, no face, no additional pieces. Large centered oval cutout on transparent background.
+
+d_final_R_prompt
+Remove ONLY the curved hook above the main bang and the scalloped blue strip behind its left edge. Keep the main broad diagonal blue hair lock absolutely unchanged, including its exact silhouette, colors, highlights and three pointed ends. Close the resulting upper boundary with a smooth outline. One main diagonal hair lock, no other hair components, transparent background.
+
+local_prompt_HairFront_Center
+Precise restoration of this transparent Live2D hair layer. Preserve the existing painted blue pixels, exact shading, exact highlights, scale and layout. ONLY repair cut-off edges and missing tips, extend those few pixels naturally with the same color and clean navy outline. Remove floating scraps and skin-colored residues. Do NOT reinterpret, restyle or change the hair. Keep all the original hair detail. Keep the same transparent canvas and placement. This is a restoration, not a new hairstyle. One isolated hair component only.
+
+local_prompt_HairFront_L
+Precise restoration of this transparent Live2D hair layer. Preserve existing blue shading, highlights, silhouette and flow exactly. ONLY repair chopped edges, missing tapered ends, and missing outline to create a complete smooth hair lock. Remove floating scraps and skin-colored residues. Do NOT restyle or change the hair. Keep the same transparent canvas and placement. One isolated hair component only, no extra parts.
+
+local_prompt_HairSide_R
+Precise restoration of this transparent Live2D hair layer. Preserve existing blue shading, highlights, silhouette and flow exactly. ONLY repair chopped edges, missing tapered ends, and missing outline to create a complete smooth hair lock. Remove floating scraps and skin-colored residues. Do NOT restyle or change the hair. Keep the same transparent canvas and placement. One isolated hair component only, no extra parts.
+
+local_prompt_HairSide_L
+Precise restoration of this transparent Live2D hair layer. Preserve existing blue shading, highlights, silhouette and flow exactly. ONLY repair chopped edges, missing tapered ends, and missing outline to create a complete smooth hair lock. Remove floating scraps and skin-colored residues. Do NOT restyle or change the hair. Keep the same transparent canvas and placement. One isolated hair component only, no extra parts.
