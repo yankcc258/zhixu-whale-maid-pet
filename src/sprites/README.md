@@ -7,6 +7,9 @@
 - `sprites/<表情>.webp`：女仆装（最早的那批），比如 `happy.webp`、`peek.webp`
 - `sprites/<节日>.webp`：节日/季节衣服，每套一张待机图，id 见 `src/festivals.js`
 - `sprites/<衣服>/<动作>.webp`：成套的衣服，比如 `pajamas/sleep.webp`、`yukata/run1.webp`
+- `sprites/<节日>/<动作>.webp`：节日/季节衣服补画的动作（待机图还是 `sprites/<节日>.webp`），在 `festivals.js` 那一项写上 `has`
+
+还缺哪些图：`npm run art-todo`（按一年里穿几天排），给 AI 画图的提示词模板在根目录 `ART-TODO.md`。
 - `../fx/<名字>-<编号>.webp`：飘落的装饰（雪花、樱花瓣、枫叶、星星、雨滴、蝙蝠），64px
 
 ## 缺图怎么办

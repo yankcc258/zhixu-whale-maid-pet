@@ -70,6 +70,7 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 | `.github/workflows/build.yml` | 在 Windows 机器上自动打包；打 `v*` 标签时签名并发布到 Releases |
 | `scripts/latest-json.mjs` | 生成更新用的 `latest.json` |
 | `release-notes.md` | 这一版的更新说明 |
+| `ART-TODO.md`、`scripts/art-todo.mjs` | 每套衣服还缺哪些动作立绘、给 AI 画图的提示词模板 |
 
 ## 路线图
 
@@ -86,6 +87,8 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 - [x] 0.6.1：Live2D 转头幅度加大、待机头身协调、挥手/蹦跳/伸懒腰/歪头等动作
 - [x] 0.6.2：Live2D 换装（同一副骨架换皮）：睡衣做成 Live2D
 - [x] 0.7.0：Q 版动态换成圆润二头身的新身体
+- [x] 0.8.0：衣服专属台词（戳、摸头、放下来、生气、自言自语）、成套衣服的装饰、台词和表情对上、节日衣服能补画动作（`npm run art-todo` 列缺图）
+- [ ] 节日衣服补画常用动作（见 ART-TODO.md）
 - [ ] 睡衣按新身体重画、更多衣服做成 Live2D（浴衣、体操服、慢跑服、冬装、白大褂……）
 - [ ] 番茄钟陪学（看书的立绘已经有了）
 - [ ] 爬到窗口顶上坐着、沿着任务栏跑
