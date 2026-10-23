@@ -1,0 +1,62 @@
+[
+  {
+    "file": "arms_detail_v3.png",
+    "sha256": "eab2aef9bccb559c672cfeafa118868465854d619e230cb250e57d3aeecd553a",
+    "bytes": 992057
+  },
+  {
+    "file": "comparison_v3.png",
+    "sha256": "a9ab1497aebadf11d95a15f3736ed8772eed292de30915dfa8783549a07852dd",
+    "bytes": 385047
+  },
+  {
+    "file": "components_v3.json",
+    "sha256": "e88eb38d27950b579cca07d4bc79e91d54984d8bea1581deb26bfea2329cf401",
+    "bytes": 164
+  },
+  {
+    "file": "imagegen_prompts_v3.json",
+    "sha256": "fed5836bd61704f795d060782d77b485cc8375bbaddecddeb498053139ace0dc",
+    "bytes": 2880
+  },
+  {
+    "file": "krita_v3.png",
+    "sha256": "475c99c37095681cedadac8a025571aaf14b4d0bde136e7377f035bad9890543",
+    "bytes": 1370793
+  },
+  {
+    "file": "parts_v3.png",
+    "sha256": "2870b6a2cb8eb41cf0bba6f27d14b192dcd314a4b8e87e04e1b500f236acc7d0",
+    "bytes": 80117
+  },
+  {
+    "file": "preview_v3.png",
+    "sha256": "7b6fb533384e4cd4301816de89e39b25ea608c4f2a2d48990d151e2cace3bc6f",
+    "bytes": 1443191
+  },
+  {
+    "file": "seeko_outfit_pajamas_v3.psd",
+    "sha256": "489fb71d479005aea22ea448e2c9d1de7d46594d6285624d2d551dd72f5bf6b9",
+    "bytes": 19830530
+  },
+  {
+    "file": "validation_v3.json",
+    "sha256": "4f66dcf4afdd09ee982dab161258d39f9c7dccd1d439a69789610b7f938e9877",
+    "bytes": 17617
+  },
+  {
+    "file": "wrist_metrics_v3.json",
+    "sha256": "3afcf62bc1e46d3a26e1d69728802ec3b51bd6473f47c0902ff46cfe855df56a",
+    "bytes": 483
+  },
+  {
+    "file": "wrist_rotation_v3.png",
+    "sha256": "c5329b5dbc6a7a87e5ea74fadf20380c7a7fd7805135e254d20d78a64cd85f94",
+    "bytes": 227433
+  },
+  {
+    "file": "交付说明_v3.md",
+    "sha256": "cd0d6f5f255f0b7955cd4ebee40c10077b6b74e36d0d0dae70712b95081be0af",
+    "bytes": 1827
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "file": "arms_detail_v2.png",
+    "sha256": "a2db0a4d163636eeb48a5a4bb3110f24fbabb47fe6f6c447344725bcafa56a99",
+    "bytes": 1229644
+  },
+  {
+    "file": "comparison_v2.png",
+    "sha256": "5761328a338d0bdfc6d8a11d13387679cae2b48e8dd011d9d41527d6959abf5a",
+    "bytes": 454205
+  },
+  {
+    "file": "components_v2.json",
+    "sha256": "e2b01882ac73f09a5d73329c703e39f5181295bded9e8ca65023ad1d14efa4c1",
+    "bytes": 164
+  },
+  {
+    "file": "imagegen_prompts_v2.json",
+    "sha256": "159752848ffeea0daaf6a22c2dc83c18627fa5963433904e131c79ebd4f57239",
+    "bytes": 3459
+  },
+  {
+    "file": "krita_v2.png",
+    "sha256": "da4dacb96e419aa8fb04ef5c606dec91eda141b63cc5a77fa4a4e7bfb0c86e99",
+    "bytes": 1478048
+  },
+  {
+    "file": "parts_v2.png",
+    "sha256": "1ce6d4c63d7d2adefbfc4b8726b79be2182493003a757938c035b9e88abe64d6",
+    "bytes": 84157
+  },
+  {
+    "file": "preview_v2.png",
+    "sha256": "84ce2aa09b73d8ac0988dbb9f9b5e7968cf51c08d125365a5b52943042ee0486",
+    "bytes": 1617985
+  },
+  {
+    "file": "seeko_outfit_winter_v2.psd",
+    "sha256": "7eaaf60c916ee4eb2897ec27178ed4009f26551618649dae41e2a7a9c8ad5f3b",
+    "bytes": 20131566
+  },
+  {
+    "file": "validation_v2.json",
+    "sha256": "f8f70fe2df7528d939e1c455d01a94c50596b6c43931f08350c4665fce0a763d",
+    "bytes": 17617
+  },
+  {
+    "file": "wrist_metrics_v2.json",
+    "sha256": "0636e75f07b3a9281180160e61c92667748febd246efeb602ade0b79e20df71d",
+    "bytes": 484
+  },
+  {
+    "file": "wrist_rotation_v2.png",
+    "sha256": "791ba28c1be9a1d23ae7e018e43d02e8d173d46a07c1bab583cf68d1a518c058",
+    "bytes": 220105
+  },
+  {
+    "file": "交付说明_v2.md",
+    "sha256": "925a5731a243edc750a49ba719f227667dae829325b4597b39403f34a31749e2",
+    "bytes": 1814
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "side": "R",
+    "whole_hand_alpha_area": 6304.725490196077,
+    "visible_hand_fraction": 0.6777636444496971,
+    "required_fraction": 0.6666666666666666,
+    "wrist_test_pixels": 805,
+    "wrist_missing": 0,
+    "examples": []
+  },
+  {
+    "side": "L",
+    "whole_hand_alpha_area": 5844.525490196078,
+    "visible_hand_fraction": 0.670852009972522,
+    "required_fraction": 0.6666666666666666,
+    "wrist_test_pixels": 987,
+    "wrist_missing": 0,
+    "examples": []
+  }
+]

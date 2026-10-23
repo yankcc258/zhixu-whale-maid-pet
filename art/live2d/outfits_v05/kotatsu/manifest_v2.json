@@ -1,0 +1,62 @@
+[
+  {
+    "file": "arms_detail_v2.png",
+    "sha256": "e2fb92ab50d1b6469396503f17befedbfd5e0277d90d897400eee37d0ffeea51",
+    "bytes": 1000614
+  },
+  {
+    "file": "comparison_v2.png",
+    "sha256": "f57cb3d2bc290931f8adb9973dd5980dde5a17dbea7cc810fee39d018441d6ed",
+    "bytes": 460518
+  },
+  {
+    "file": "components_v2.json",
+    "sha256": "760a44ab104cf5ac220e4d2da6d60a329078492dbe743b7e9d1baf909600a19a",
+    "bytes": 508
+  },
+  {
+    "file": "imagegen_prompts_v2.json",
+    "sha256": "fed5836bd61704f795d060782d77b485cc8375bbaddecddeb498053139ace0dc",
+    "bytes": 2880
+  },
+  {
+    "file": "krita_v2.png",
+    "sha256": "82a64a0fbe4232e53dc22218a8d39b019c67b5a9cdafc94cd6500eb58221278e",
+    "bytes": 1400155
+  },
+  {
+    "file": "parts_v2.png",
+    "sha256": "c2f9d3b55b42149b535f38521325bc81883c66196cdbbb24e1f584fbd956dc23",
+    "bytes": 280150
+  },
+  {
+    "file": "preview_v2.png",
+    "sha256": "e4c242caaeb9d8616138405af240306257a6c6cebffcc14e02f14d2d58146fbe",
+    "bytes": 1501253
+  },
+  {
+    "file": "seeko_outfit_kotatsu_v2.psd",
+    "sha256": "6bb9a8311a5580f393bc79ab5e874cff8490e0a65fc436742f69f05b333028d0",
+    "bytes": 20063050
+  },
+  {
+    "file": "validation_v2.json",
+    "sha256": "9ecf8f143e990f3833eeb444275cd1bacf6ad80385567510b27546c027780a14",
+    "bytes": 18097
+  },
+  {
+    "file": "wrist_metrics_v2.json",
+    "sha256": "3afcf62bc1e46d3a26e1d69728802ec3b51bd6473f47c0902ff46cfe855df56a",
+    "bytes": 483
+  },
+  {
+    "file": "wrist_rotation_v2.png",
+    "sha256": "efa5890012ccaed2f2d807e380a43e8f47419408c93e7c3951cd196782552656",
+    "bytes": 235288
+  },
+  {
+    "file": "交付说明_v2.md",
+    "sha256": "38274cf330310598a7ffc81695699cd24ad15476c5088863e1f2032f26491ee3",
+    "bytes": 1942
+  }
+]
