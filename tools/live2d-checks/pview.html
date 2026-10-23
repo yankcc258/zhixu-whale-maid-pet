@@ -1,0 +1,22 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#c8ffc8}</style>
+<script src="node_modules/live2dcubismcore/live2dcubismcore.min.js"></script>
+<script src="node_modules/pixi.js/dist/browser/pixi.min.js"></script>
+<script src="node_modules/pixi-live2d-display/dist/cubism4.min.js"></script>
+</head><body>
+<canvas id="c" width="400" height="534"></canvas>
+<script>
+window.ready = (async () => {
+  const app = new PIXI.Application({ view: document.getElementById('c'), width: 400, height: 534, backgroundColor: 0xc8ffc8, preserveDrawingBuffer: true, autoStart: false });
+  const model = await PIXI.live2d.Live2DModel.fromSync('runtime/' + (new URLSearchParams(location.search).get('m')||'seeko') + '.model3.json', { autoInteract: false, autoUpdate: false });
+  await new Promise((r) => { model.once('load', r); });
+  model.scale.set(400 / model.internalModel.originalWidth * 1.0);
+  app.stage.addChild(model);
+  window.model = model; window.app = app;
+  const core = model.internalModel.coreModel;
+  window.ids = core._parameterIds || [];
+  window.step = (ms) => { for (let t = 0; t < ms; t += 16) model.update(16); app.render(); };
+  window.setParam = (id, v) => core.setParameterValueById(id, v);
+  return 'ok';
+})().catch((e) => 'ERR ' + e + ' ' + (e.stack || ''));
+</script></body></html>
