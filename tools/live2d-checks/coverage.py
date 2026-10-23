@@ -1,7 +1,7 @@
 """哪些网格盖不住 PSD 里同名图层的图（导入新图后要重铺的）。用法：python3 coverage.py 工程.cmo3 底稿.psd"""
 import sys, re
 import numpy as np
-sys.path.insert(0, '/tmp/claude-0/-home-claude/5d1ddcc7-fe5e-5109-8e8f-60afaa718bac/scratchpad/caff')
+sys.path.insert(0, __import__('os').path.dirname(__import__('os').path.abspath(__file__)))
 from caff import read_xml
 from psd_tools import PSDImage
 from matplotlib.path import Path

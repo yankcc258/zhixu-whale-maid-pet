@@ -52,7 +52,7 @@ S.save(out)`, JSON.stringify(files), out, String(cols), JSON.stringify(label)]);
 }
 
 (async () => {
-  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium_headless_shell-1194/chrome-linux/headless_shell', args: ['--use-gl=swiftshader', '--enable-webgl', '--ignore-gpu-blocklist'] });
+  const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium_headless_shell-1243/chrome-headless-shell-linux64/chrome-headless-shell', args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--enable-webgl', '--ignore-gpu-blocklist'] });
   const pg = await b.newPage({ viewport: { width: 400, height: 534 } });
   await pg.goto('http://localhost:8737/pview.html?m=' + M);
   const ready = await pg.evaluate(() => window.ready);
