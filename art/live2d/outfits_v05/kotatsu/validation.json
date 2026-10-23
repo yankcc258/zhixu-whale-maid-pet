@@ -1,0 +1,589 @@
+{
+  "source_sha256": "6d2e6c6c5d06fd5cfb6e1550e9cc9bcb71fe45df27d7907d06b18aa55fd86473",
+  "output_sha256": "7abde69a57f92bb056893dc7ab2c4405f6f03fa8303710c1318877f797840ff0",
+  "canvas": [
+    1086,
+    1448
+  ],
+  "layer_count": 82,
+  "contract_unchanged": true,
+  "fixed_layers_identical": 57,
+  "layers": [
+    {
+      "name": "HairBack_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "cd887f8e3f3aed562f109613add3828163c72ef911de0b0ee5f742bca58dc7dc"
+    },
+    {
+      "name": "HairBack_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "9e538312300d09b01d7b71c10299180559e7a36316770c550a1f12d870c750d5"
+    },
+    {
+      "name": "LegStocking_R",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 22512,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "LegStocking_L",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 22985,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "Shoe_R",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 12524,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "Shoe_L",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 12497,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "DressBase",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 127809,
+      "pixel_sha256": "df54a5c4ddd4817315e3a32ccf4288111e23a2d95d50d461eb6f2fc43de3ebce"
+    },
+    {
+      "name": "SkirtHemLace",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 110879,
+      "pixel_sha256": "48dbf2f8a6b8110f66bd5fd0c3d976a68a3690ec5e3e0e7cafda8c9fc601ccd2"
+    },
+    {
+      "name": "SkirtFront",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 237595,
+      "pixel_sha256": "54ee0771d2f7a441ed7d9db47f27131fe63d4046bb83501260bb04739dab6d38"
+    },
+    {
+      "name": "ArmUpper_R",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 14644,
+      "pixel_sha256": "65855f4313c230efbdf7e9300fe761c9492b2f21ded8a00805dacd2742ec4909"
+    },
+    {
+      "name": "ArmLower_R",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 11896,
+      "pixel_sha256": "94c651158c4f9edcc365d404290e2017ac87342ad9ece440b8d66a38a2c63f33"
+    },
+    {
+      "name": "ArmUpper_L",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 14236,
+      "pixel_sha256": "0aab72f8efdf5c84487a93fe3b4956128a8e755032918e860fb6a4dc3f26ce10"
+    },
+    {
+      "name": "ArmLower_L",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 11885,
+      "pixel_sha256": "fc4d73cc44d43b401c0fcd3cb848bef09d56b54d5cc99db5dbcaa2d2dcdaef73"
+    },
+    {
+      "name": "BodiceWhite",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 31621,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "ChestLace_R",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 7059,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "ChestLace_L",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 7091,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "ApronLace",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 37682,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "ApronBody",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 19696,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "Waistband",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 5075,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "NeckCollar",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 6743,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "Hand_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "0c6f081b4d798d2844a393e27437e0ee41685f6e7cf48af904ccc5fb6ade1db4"
+    },
+    {
+      "name": "Hand_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "9596090dc41d7af0b2fc59516f91b484d56ba82a2608878558b6c2044cb85614"
+    },
+    {
+      "name": "Cuff_R",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 14076,
+      "pixel_sha256": "73897291dbc47ba031412965039f8bb42e73e9d1783ba18c870d9863d18a9f8c"
+    },
+    {
+      "name": "Cuff_L",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 13283,
+      "pixel_sha256": "2fa05bfbaa56029640dc542260650a4bc80396d4db9f4f904b53cc04c9c62234"
+    },
+    {
+      "name": "Neck",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "5866821a3742bd4f487f3b181db0a38231719958bf405b342a9be1d754b1bbcf"
+    },
+    {
+      "name": "FaceBase",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "2e6b14c7d0fe2ff000d40a0d3d6dbd3c69a5017d516232fd6ef89431ee3cc0b5"
+    },
+    {
+      "name": "FaceHairShadow",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "4ee2cb085fe98b4d495d2382a29140621c30f347eb1266e255b2aa208e984650"
+    },
+    {
+      "name": "FaceHairShadow_FR",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "07900570a613f3709b6ed57c3ed48536b7bd2808f7c22ef8e81cee3d82fc3b2c"
+    },
+    {
+      "name": "FaceHairShadow_FC",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "5e2c8e8298a860f7d8241f2a265b9eb1fdb816da9fd79cc3895bfaf3e20c4363"
+    },
+    {
+      "name": "FaceHairShadow_FL",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "113fdd3e9d3dd4b5caa187ef61261b293138250b47526c6298d107f996dbd8fd"
+    },
+    {
+      "name": "FaceHairShadow_SR",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "121987a980c3b6e63426bcc174cfb4b5b6847684cec9de249c5a5a305bc86649"
+    },
+    {
+      "name": "FaceHairShadow_SL",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "e94b516e8e80b53f1d22748f3fd0d25674ad16b59e5090e6e6b5aaef36e6f1b6"
+    },
+    {
+      "name": "FinEar_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "03581db1831d13f57cc36bea33c2e8f8b261028c207e107459e96bbe7d37e068"
+    },
+    {
+      "name": "FinEar_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "48140b84331bd40b6585c4da02a80b29ecc85afe8d5998be447c7291adfc2386"
+    },
+    {
+      "name": "EyeWhite_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "69764eb85ccf025e455a680e337bfd4235fc17ed132c3e1ca2f8b722fe8f535b"
+    },
+    {
+      "name": "IrisPupil_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "df43b31887a5aeff94b86e7609d2e3fbc8dbd922ba25de8bee3302570e3f6b1f"
+    },
+    {
+      "name": "EyeSocketMask_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "838558683d7ca2df3015990d29cccbb153e96637f568ea8d756a74b20359dc50"
+    },
+    {
+      "name": "EyeLineLower_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "6e7857e7f0a36b3a3bbd555b72541c5c923b07b62a2828944bced5f5af23278d"
+    },
+    {
+      "name": "EyeLineUpper_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "235d15ce7ecd58359de7e3cbbc7d36ac13ac310ac4df8bf600ab0c36519cefea"
+    },
+    {
+      "name": "EyeHighlightUpper_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "af1e54a9a51d098eddd63380eb298faa965a7ff192805c6771cf61960ab1f4ca"
+    },
+    {
+      "name": "EyeHighlightLower_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "0b0ad6c09cb0cde8636fb1a3ceb877a76f04ba0facbfd776fe42ebfba11d28bd"
+    },
+    {
+      "name": "EyelidUpper_R",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "23048c255022e4c10313fb1f5360388b76598aafacf01279265cbaa3ae705896"
+    },
+    {
+      "name": "EyelidLower_R",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "c88089b8a41a0e7070fadf2511573b2e5f6c7ea55e9440a6e04c843793cdf035"
+    },
+    {
+      "name": "EyeLineClosed_R",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "82a7382d78ed1f79e7bbaa93df49b64394c4360587b04151f899f2154728b2bc"
+    },
+    {
+      "name": "EyeWhite_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "8a8db94b13e7a0e37934eb3642e8cd8cefd66123a77ee855d9cc95cafdad7e77"
+    },
+    {
+      "name": "IrisPupil_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "9713731a7bbbd2df770dadda2654325b98ede8166fafa51df5f21fde18961f61"
+    },
+    {
+      "name": "EyeSocketMask_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "d0c7238f7c3ebe4fe5d534a0fe90e5060e48ca743c53ccee9b1ab4dcc559ddca"
+    },
+    {
+      "name": "EyeLineLower_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "eb338e2ac91e80f6497b1261ab8ba9676a8b1b0b5834c6426a81898b8e1f4b1e"
+    },
+    {
+      "name": "EyeLineUpper_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "91b7280149f06834580fdc9fd845f253d72075f29411ed2042181be64e1e0a1f"
+    },
+    {
+      "name": "EyeHighlightUpper_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "9d38cb4202a25e175f726825af0258ccf00bda5c16125d3f3ada9121c9e8f0e0"
+    },
+    {
+      "name": "EyeHighlightLower_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "4f2978d30d7db593d1696e0648367538109aacf843fd9e2b3ecbe97f6a25d39a"
+    },
+    {
+      "name": "EyelidUpper_L",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "9e1e6e3089ee84ee55bf7b624853f91a2ea6110d0d6dc2919ed91afff3b7ebcc"
+    },
+    {
+      "name": "EyelidLower_L",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "81d0ed08e5af2ad83c44ba0cdf72887af630d5bd4dedc99a1355516128ba496d"
+    },
+    {
+      "name": "EyeLineClosed_L",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "bf1f61a4cee707ee5677930ce5d26e38fbd1f7e623b465798b70b0c5effc71a9"
+    },
+    {
+      "name": "CheekBlush_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "dd6ba199279db5032401d71851e349598e2084a9cb6c19951f6dcb04e33eeb12"
+    },
+    {
+      "name": "CheekBlush_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "1979df2890c4c0e6f7f0f33a97a37ffddff5642aa0f4758dc0f530d3ce007df2"
+    },
+    {
+      "name": "MouthLineClosed",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "b8056006f5b7b0990d85ee7e63b19d40677cb560a92ad491d4101e442fe6c5a5"
+    },
+    {
+      "name": "MouthCavity",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "fd467ab264241119357891fd553744224d93e1592c1fed3298705e0740aecd96"
+    },
+    {
+      "name": "MouthTongue",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "243c535a11e2dbfc3a40daf5c3679425d6d463d943fb1806e5dd2f897a6bbc6d"
+    },
+    {
+      "name": "MouthLipUpper",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "7fa275fcab22e5517fb115b4e53dade7781020ab234e84dff64f6b8936a51c1c"
+    },
+    {
+      "name": "MouthLipLower",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "e8d56a21c08bd435847a8d33877cc514c3eee5f9640889fcf698fd6a7b13f4a5"
+    },
+    {
+      "name": "MouthCavityMicro",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "ee5f7060c5b3f5ba70be2cfc8f26b1c40049af50d7370d41ed270eee75b2a26b"
+    },
+    {
+      "name": "MouthTongueMicro",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "a0edd297af046c97e6882312016c9f63e5c6d8c99954a921e2cb55ee415e4233"
+    },
+    {
+      "name": "MouthLipUpperMicro",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "b308a4d01a2ca887c3f84b968cd6fd075018818aa0d22435c8e6e3abc8c0de34"
+    },
+    {
+      "name": "MouthLipLowerMicro",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "ac28a68a31602960850f072984fe0828501b113fc4962cbafd9097e43364e9df"
+    },
+    {
+      "name": "MouthCavityO",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "5a76876312e75910e1ecbb577207714d0d28691d177e9c5c35ddf74d9d8c9ad0"
+    },
+    {
+      "name": "MouthTongueO",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "f2bfc7c70009a0f61f18207116ce6e408d8f1280fe107ca397a14b3fa6aa5b7f"
+    },
+    {
+      "name": "MouthLipUpperO",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "026deaef47fd0c884d3e880709679b7676552d9a03eade18891a0fded4b7bad4"
+    },
+    {
+      "name": "MouthLipLowerO",
+      "visible": false,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "af8ed7b75d781577aa898eaa12f6e1dcbfc3772ca1da83a122038822bc947b57"
+    },
+    {
+      "name": "HairSide_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "e75a2ba80f448c3a0fce53deddd466dc1ef18c2160c72888f18f902381ef8860"
+    },
+    {
+      "name": "HairSide_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "de498057316ff2ec50405458d3f0b072e468fd2b36c38e304317c612f6318c9a"
+    },
+    {
+      "name": "HairFront_Center",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "f0548abea098c3211440d71ad6e1165e32a3644052e776c5dc1d9473fe2dbc0d"
+    },
+    {
+      "name": "HairFront_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "9bac50d6b2088a4e4c1b385a10bef422f5cd2886b4cb0081d0a8965d997b6969"
+    },
+    {
+      "name": "HairFront_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "c4b1154ba5493aa82352abc8c3e546fc80812b93451a7650debae110bce010d4"
+    },
+    {
+      "name": "Ahoge",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "2650f83dd370f737c356d80bdf27ab93d52817cac890721642c7011fd1597088"
+    },
+    {
+      "name": "Eyebrow_R",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "c099d7d655c994b3ba2f3374e4b569afe0e3b1c7ed1dcc0870812a1e084479ee"
+    },
+    {
+      "name": "Eyebrow_L",
+      "visible": true,
+      "allowed_change": false,
+      "changed_pixels": 0,
+      "pixel_sha256": "a5081033310d98d61283e946a651d90aa28a2458a2465971d46dc7c0a951a696"
+    },
+    {
+      "name": "Headband",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 0,
+      "pixel_sha256": "a3c279f08f9162c6dc488a3e645bd13b729abda8027a571031a26ee67b2e1d97"
+    },
+    {
+      "name": "HairRibbon_L",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 0,
+      "pixel_sha256": "4d0e670b89167da232b7dbe38fbb2c3fdb9fb1e47afd4da58c9417a2eb307b6e"
+    },
+    {
+      "name": "NeckBow_R",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 7463,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "NeckBow_L",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 6758,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    },
+    {
+      "name": "Sapphire",
+      "visible": true,
+      "allowed_change": true,
+      "changed_pixels": 1756,
+      "pixel_sha256": "3b47af4a37e2e4a4e3f1397c2ddf863b02840262cb912b39e5a622570b5de67b"
+    }
+  ],
+  "baseline": "v05c",
+  "v05e_status": "withheld: repair did not pass visual review"
+}

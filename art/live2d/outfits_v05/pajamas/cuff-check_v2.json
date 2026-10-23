@@ -1,0 +1,34 @@
+[
+  {
+    "layer": "Cuff_R",
+    "box": [
+      210,
+      1005,
+      383,
+      1125
+    ],
+    "wrist_band_y": [
+      1042,
+      1065
+    ],
+    "margin_px": 6,
+    "uncovered_checks": 0,
+    "examples": []
+  },
+  {
+    "layer": "Cuff_L",
+    "box": [
+      687,
+      1006,
+      855,
+      1126
+    ],
+    "wrist_band_y": [
+      1048,
+      1071
+    ],
+    "margin_px": 6,
+    "uncovered_checks": 0,
+    "examples": []
+  }
+]

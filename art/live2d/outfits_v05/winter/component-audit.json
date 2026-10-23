@@ -1,0 +1,93 @@
+[
+  {
+    "layer": "DressBase",
+    "removed_pixels": 0,
+    "remaining_components": [
+      133496
+    ]
+  },
+  {
+    "layer": "Headband",
+    "removed_pixels": 0,
+    "remaining_components": [
+      158361
+    ]
+  },
+  {
+    "layer": "ArmUpper_R",
+    "removed_pixels": 0,
+    "remaining_components": [
+      12181
+    ]
+  },
+  {
+    "layer": "ArmLower_R",
+    "removed_pixels": 0,
+    "remaining_components": [
+      10443
+    ]
+  },
+  {
+    "layer": "Cuff_R",
+    "removed_pixels": 0,
+    "remaining_components": [
+      12958
+    ]
+  },
+  {
+    "layer": "Shoe_R",
+    "removed_pixels": 0,
+    "remaining_components": [
+      18667
+    ]
+  },
+  {
+    "layer": "NeckBow_R",
+    "removed_pixels": 0,
+    "remaining_components": [
+      30302
+    ]
+  },
+  {
+    "layer": "NeckBow_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      10988
+    ]
+  },
+  {
+    "layer": "Cuff_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      12591
+    ]
+  },
+  {
+    "layer": "ArmUpper_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      12181
+    ]
+  },
+  {
+    "layer": "ArmLower_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      10443
+    ]
+  },
+  {
+    "layer": "Cuff_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      12591
+    ]
+  },
+  {
+    "layer": "Shoe_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      18667
+    ]
+  }
+]

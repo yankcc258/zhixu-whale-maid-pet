@@ -1,0 +1,72 @@
+[
+  {
+    "layer": "DressBase",
+    "removed_pixels": 0,
+    "remaining_components": [
+      96807
+    ]
+  },
+  {
+    "layer": "ArmUpper_R",
+    "removed_pixels": 0,
+    "remaining_components": [
+      13697
+    ]
+  },
+  {
+    "layer": "ArmLower_R",
+    "removed_pixels": 0,
+    "remaining_components": [
+      11755
+    ]
+  },
+  {
+    "layer": "Cuff_R",
+    "removed_pixels": 0,
+    "remaining_components": [
+      13399
+    ]
+  },
+  {
+    "layer": "SkirtFront",
+    "removed_pixels": 0,
+    "remaining_components": [
+      176205
+    ]
+  },
+  {
+    "layer": "SkirtHemLace",
+    "removed_pixels": 0,
+    "remaining_components": [
+      87641
+    ]
+  },
+  {
+    "layer": "Cuff_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      13006
+    ]
+  },
+  {
+    "layer": "ArmUpper_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      13697
+    ]
+  },
+  {
+    "layer": "ArmLower_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      11755
+    ]
+  },
+  {
+    "layer": "Cuff_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      13006
+    ]
+  }
+]

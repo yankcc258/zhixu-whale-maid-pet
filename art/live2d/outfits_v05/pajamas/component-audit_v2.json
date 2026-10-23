@@ -1,0 +1,23 @@
+[
+  {
+    "layer": "Cuff_R",
+    "removed_pixels": 2,
+    "remaining_components": [
+      11425
+    ]
+  },
+  {
+    "layer": "Cuff_L",
+    "removed_pixels": 2,
+    "remaining_components": [
+      11089
+    ]
+  },
+  {
+    "layer": "Cuff_L",
+    "removed_pixels": 0,
+    "remaining_components": [
+      11089
+    ]
+  }
+]

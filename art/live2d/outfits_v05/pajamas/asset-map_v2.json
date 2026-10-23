@@ -1,0 +1,25 @@
+{
+  "retain": [],
+  "assets": {
+    "Cuff_R": [
+      "9bf060d6-3de6-433a-80bd-6d0c0fc7b72a",
+      [
+        210,
+        1005,
+        383,
+        1125
+      ]
+    ],
+    "Cuff_L": [
+      "9bf060d6-3de6-433a-80bd-6d0c0fc7b72a",
+      [
+        687,
+        1006,
+        855,
+        1126
+      ]
+    ]
+  },
+  "cuff_rotation_before_fit": 25,
+  "baseline": "seeko_outfit_pajamas_v05c.psd"
+}
