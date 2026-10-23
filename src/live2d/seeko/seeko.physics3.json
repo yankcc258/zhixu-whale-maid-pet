@@ -40,7 +40,7 @@
 						"Target": "Parameter",
 						"Id": "ParamAngleX"
 					},
-					"Weight": 60,
+					"Weight": 35,
 					"Type": "X",
 					"Reflect": false
 				},
@@ -49,7 +49,7 @@
 						"Target": "Parameter",
 						"Id": "ParamAngleZ"
 					},
-					"Weight": 60,
+					"Weight": 35,
 					"Type": "Angle",
 					"Reflect": false
 				},
@@ -58,7 +58,7 @@
 						"Target": "Parameter",
 						"Id": "ParamBodyAngleX"
 					},
-					"Weight": 40,
+					"Weight": 25,
 					"Type": "X",
 					"Reflect": false
 				},
@@ -67,7 +67,7 @@
 						"Target": "Parameter",
 						"Id": "ParamBodyAngleZ"
 					},
-					"Weight": 40,
+					"Weight": 25,
 					"Type": "Angle",
 					"Reflect": false
 				}
@@ -128,7 +128,7 @@
 						"Target": "Parameter",
 						"Id": "ParamAngleX"
 					},
-					"Weight": 60,
+					"Weight": 35,
 					"Type": "X",
 					"Reflect": false
 				},
@@ -137,7 +137,7 @@
 						"Target": "Parameter",
 						"Id": "ParamAngleZ"
 					},
-					"Weight": 60,
+					"Weight": 35,
 					"Type": "Angle",
 					"Reflect": false
 				},
@@ -146,7 +146,7 @@
 						"Target": "Parameter",
 						"Id": "ParamBodyAngleX"
 					},
-					"Weight": 40,
+					"Weight": 25,
 					"Type": "X",
 					"Reflect": false
 				},
@@ -155,7 +155,7 @@
 						"Target": "Parameter",
 						"Id": "ParamBodyAngleZ"
 					},
-					"Weight": 40,
+					"Weight": 25,
 					"Type": "Angle",
 					"Reflect": false
 				}
@@ -216,7 +216,7 @@
 						"Target": "Parameter",
 						"Id": "ParamAngleX"
 					},
-					"Weight": 60,
+					"Weight": 35,
 					"Type": "X",
 					"Reflect": false
 				},
@@ -225,7 +225,7 @@
 						"Target": "Parameter",
 						"Id": "ParamAngleZ"
 					},
-					"Weight": 60,
+					"Weight": 35,
 					"Type": "Angle",
 					"Reflect": false
 				},
@@ -234,7 +234,7 @@
 						"Target": "Parameter",
 						"Id": "ParamBodyAngleX"
 					},
-					"Weight": 40,
+					"Weight": 25,
 					"Type": "X",
 					"Reflect": false
 				},
@@ -243,7 +243,7 @@
 						"Target": "Parameter",
 						"Id": "ParamBodyAngleZ"
 					},
-					"Weight": 40,
+					"Weight": 25,
 					"Type": "Angle",
 					"Reflect": false
 				}

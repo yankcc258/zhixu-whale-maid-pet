@@ -48,6 +48,13 @@ const L2D = (() => {
   // 眼珠：新身体的眼珠几乎占满眼白，骨架里的眼珠位移是给旧的小眼睛放大过的，这里缩回去，
   // 不然一转眼就露出一大片眼白、像在瞪人
   const EYE_GAIN = 0.4;
+  // 头和身子：骨架里转头是「头整个往旁边挪」，转满 30 度时头像是从脖子上滑开了，身子却几乎不动。
+  // 所以动作和看鼠标给的转头角度都先打折（HEAD_GAIN），让身子跟着转一部分（BODY_FOLLOW），
+  // 再把整个人以脚底为轴跟着身体的歪斜轻轻倾一下（BODY_TILT 度 / 每单位 ParamBodyAngleZ，最多 MAX_TILT 度）
+  const HEAD_GAIN = 0.55,
+    BODY_FOLLOW = 0.35,
+    BODY_TILT = 0.6,
+    MAX_TILT = 5;
   // 这几个表情是闭着眼的（见 live2d/seeko/expressions/）；模型自带的自动眨眼存在 blinks 里
   const EYES_SHUT = new Set(['happy', 'smug', 'shy', 'sleepy']);
   const blinks = new WeakMap();
@@ -114,11 +121,31 @@ const L2D = (() => {
     pending[outfit] = (async () => {
       try {
         const m = await PIXI.live2d.Live2DModel.from(MODELS[outfit], { autoInteract: false });
-        // 原图 1086×1448：按高度缩到 180，左右居中，脚踩到底
-        const s = H / m.internalModel.originalHeight;
+        // 原图 1086×1448：按高度缩到 180，左右居中，脚踩到底。轴心放在脚底，整个人倾斜时脚不离地
+        const ow = m.internalModel.originalWidth,
+          oh = m.internalModel.originalHeight;
+        const s = H / oh;
         m.scale.set(s);
-        m.x = (W - m.internalModel.originalWidth * s) / 2;
-        m.y = 0;
+        m.pivot.set(ow / 2, oh * 0.97);
+        m.x = W / 2;
+        m.y = oh * 0.97 * s;
+        // 看鼠标这一步在物理之前：在这里把转头打折、让身子跟着转，头发的物理也就跟着变温和
+        const im = m.internalModel;
+        const focus = im.updateFocus.bind(im);
+        im.updateFocus = () => {
+          const core = im.coreModel;
+          const get = (id) => core.getParameterValueById(id);
+          const set = (id, v) => core.setParameterValueById(id, v);
+          focus();
+          const hx = get('ParamAngleX') * HEAD_GAIN,
+            hy = get('ParamAngleY') * HEAD_GAIN,
+            hz = get('ParamAngleZ') * HEAD_GAIN;
+          set('ParamAngleX', hx);
+          set('ParamAngleY', hy);
+          set('ParamAngleZ', hz);
+          set('ParamBodyAngleX', get('ParamBodyAngleX') + hx * BODY_FOLLOW);
+          set('ParamBodyAngleZ', get('ParamBodyAngleZ') + hz * BODY_FOLLOW);
+        };
         // 动作、表情、看鼠标都算完以后、画之前：调眼珠、加小眼神、说话动嘴
         m.internalModel.on('beforeModelUpdate', () => {
           if (m !== model) return;
@@ -131,6 +158,8 @@ const L2D = (() => {
             const v = 0.5 + 0.5 * Math.sin(now / 70) * Math.sin(now / 190);
             core.setParameterValueById('ParamMouthOpenY', Math.max(0, v));
           }
+          const tilt = core.getParameterValueById('ParamBodyAngleZ') * BODY_TILT;
+          m.rotation = (-Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt)) * Math.PI) / 180;
         });
         blinks.set(m, m.internalModel.eyeBlink);
         models[outfit] = m;
