@@ -1,0 +1,18 @@
+{
+  "type": "PSD layer occlusion simulation, not Cubism",
+  "upper_lid_height_scale": [
+    1,
+    0.85,
+    1.55
+  ],
+  "lower_lid_height_scale": [
+    1,
+    0.85,
+    1.55
+  ],
+  "half_upper_line_translation_y": 29,
+  "half_lower_line_translation_y": -13,
+  "closed_hide_open_eye_layers": true,
+  "closed_show_original_closed_line": true,
+  "source_lid_layers_unchanged": true
+}

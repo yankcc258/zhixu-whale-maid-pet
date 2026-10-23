@@ -1,0 +1,6 @@
+{
+  "renderer": "Krita",
+  "mean_absolute_rgb_difference": 0.001627739961810961,
+  "max_rgb_difference": 1,
+  "channels_difference_over_4": 0
+}

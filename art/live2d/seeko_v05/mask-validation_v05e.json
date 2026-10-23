@@ -1,0 +1,16 @@
+[
+  {
+    "layer": "EyeSocketMask_R",
+    "changed_rgb_pixels": 2763,
+    "alpha_identical": true,
+    "retained_skin_shape": true,
+    "repair_color_source": "FaceBase at same coordinates; no FaceBase edits"
+  },
+  {
+    "layer": "EyeSocketMask_L",
+    "changed_rgb_pixels": 2128,
+    "alpha_identical": true,
+    "retained_skin_shape": true,
+    "repair_color_source": "FaceBase at same coordinates; no FaceBase edits"
+  }
+]

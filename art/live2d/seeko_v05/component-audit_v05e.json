@@ -1,0 +1,32 @@
+[
+  {
+    "layer": "IrisPupil_R",
+    "kept_component_pixels": 11054,
+    "removed_fragment_pixels": 2
+  },
+  {
+    "layer": "IrisPupil_L",
+    "kept_component_pixels": 11347,
+    "removed_fragment_pixels": 0
+  },
+  {
+    "layer": "EyeWhite_R",
+    "kept_component_pixels": 14407,
+    "removed_fragment_pixels": 0
+  },
+  {
+    "layer": "EyeWhite_L",
+    "kept_component_pixels": 14499,
+    "removed_fragment_pixels": 0
+  },
+  {
+    "layer": "EyeLineUpper_R",
+    "kept_component_pixels": 3824,
+    "removed_fragment_pixels": 0
+  },
+  {
+    "layer": "EyeLineUpper_L",
+    "kept_component_pixels": 4218,
+    "removed_fragment_pixels": 39
+  }
+]

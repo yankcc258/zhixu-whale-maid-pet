@@ -1,0 +1,9 @@
+{
+  "mode": "built-in image_gen",
+  "prompts": {
+    "mask": "Precise cleanup of this Live2D skin-colored eye socket mask. Preserve exactly the rectangular outer skin shape, large oval transparent eye opening, skin shading and dimensions. Remove white rim along oval opening and all dark blue/black leftover eyebrow/eye fragments, replace those stains with matching adjacent peach skin. Keep the large central oval fully transparent. Do not fill the eye opening. Keep the outer rectangular mask geometry and top/bottom skin areas. This is a functional eye occlusion mask, not an illustration. Transparent background. No eyelashes, eyes, new shading or outlines.",
+    "iris": "Edit only the interior of this clean isolated Live2D iris. Keep same oval outline, medium periwinkle blue palette and soft bright curved blue reflection on the lower iris. Make the center pupil 20 percent smaller and MUCH LIGHTER muted blue #293b7f, softly edged, not nearly black. Remove the round cyan spot at the bottom and fill that spot with continuous blue iris gradient; cyan and white catchlights are separate unchanged Live2D layers, so this base must contain NO round highlights at all. Complete clean oval, no holes, no dark cap, no outline fragments, transparent outside. Match softly shaded original chibi blue eye, not glowing or saturated. This is iris and small soft blue pupil ONLY."
+  },
+  "other_prompts": "EyeWhite and EyeLineUpper prompts retained in eye6 generation record.",
+  "notes": "Final mask patch restricted to source mask alpha and stain selection, skin repair sampled from unchanged FaceBase. Iris color calibrated to v05c; original highlight appearance composited at existing positions."
+}
