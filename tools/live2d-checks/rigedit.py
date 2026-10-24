@@ -480,3 +480,108 @@ class Rig:
             out.append(mb[p:])
             self.s = self.s[:bst] + ''.join(out) + self.s[ben:]
         self.log.append(f'旋转 {name} 轴心 {old.round(1).tolist()} → {new_pivot.tolist()}')
+
+    # ---------- 给网格的关键形态插一个新的参数键（在相邻两键之间线性插值得到形态，透明度可指定）----------
+    def mesh_insert_key(self, name, pid, newkey, opacity=None):
+        import model as M
+        st, en = self.mesh_block(name)
+        b = self.s[st:en]
+        P = M.params(self.s)
+        km = re.search(r'<KeyformGridSource xs.n="keyformGridSource"( xs.ref="(#\d+)")?', b)
+        if km.group(2):
+            gst = self.s.find(f'<KeyformGridSource xs.id="{km.group(2)}"')
+            gen = self.s.find('</KeyformGridSource>', gst) + len('</KeyformGridSource>')
+            inline = False
+        else:
+            gst = st + km.start()
+            gen = self.s.find('</KeyformGridSource>', gst) + len('</KeyformGridSource>')
+            inline = True
+        gb = self.s[gst:gen]
+        pg = self.param_guid(pid)
+        # 这个参数的 binding
+        bref = None
+        for br in re.findall(r'<KeyformBindingSource xs.ref="(#\d+)" />', gb[gb.find('keyformBindings'):]):
+            k = self.s.find(f'<KeyformBindingSource xs.id="{br}"')
+            kb = self.s[k:self.s.find('</KeyformBindingSource>', k)]
+            if re.search(r'parameterGuid" xs.ref="' + re.escape(pg) + '"', kb):
+                bref = br
+                keys = [float(v) for v in re.findall(r'<f>([^<]*)</f>', kb)]
+                kst, ken = k, self.s.find('</KeyformBindingSource>', k)
+        assert bref, (name, pid)
+        assert newkey not in keys
+        nk = sorted(keys + [newkey])
+        ni = nk.index(newkey)
+        lo, hi = nk[ni - 1], nk[ni + 1]
+        w = (newkey - lo) / (hi - lo)
+        # 现有 KeyformOnGrid 条目
+        entries = []
+        for kog in re.finditer(r'<KeyformOnGrid>(.*?)</KeyformOnGrid>\n?', gb, re.S):
+            kp = re.findall(r'<KeyformBindingSource xs.n="binding" xs.ref="(#\d+)" />\s*<i xs.n="keyIndex">(\d+)</i>', kog.group(1))
+            fr = re.search(r'<CFormGuid xs.n="keyformGuid" xs.ref="(#\d+)"', kog.group(1)).group(1)
+            entries.append((dict(kp), fr, kog.group(0)))
+        # 这个 binding 的 keyIndex 重排：>= ni 的 +1
+        def remap(kp):
+            kp = dict(kp)
+            if int(kp[bref]) >= ni:
+                kp[bref] = str(int(kp[bref]) + 1)
+            return kp
+        # forms 文本
+        kfl = b.find('<carray_list xs.n="keyforms"')
+        kfe = b.find('</carray_list>', kfl)
+        forms = {}
+        for fm in re.finditer(r'<CArtMeshForm>(.*?)</CArtMeshForm>\n?', b[kfl:kfe], re.S):
+            fr = re.search(r'<CFormGuid xs.n="guid" xs.ref="(#\d+)"', fm.group(1)).group(1)
+            forms[fr] = fm.group(0)
+        new_entries, new_forms, new_guids = [], [], []
+        # 按其它 binding 的组合分组，找 lo/hi 两个 form
+        others = lambda kp: tuple(sorted((k, v) for k, v in kp.items() if k != bref))
+        groups = {}
+        for kp, fr, txt in entries:
+            groups.setdefault(others(kp), {})[int(kp[bref])] = fr
+        for kp, fr, txt in entries:
+            new_entries.append((remap(kp), fr))
+        for og, m in groups.items():
+            flo, fhi = forms[m[ni - 1]], forms[m[ni]]  # 原索引：lo 是 ni-1，hi 是 ni（插入前）
+            plo = np.array(re.search(r'<float-array xs.n="positions" count="\d+">([^<]*)<', flo).group(1).split(), float)
+            phi = np.array(re.search(r'<float-array xs.n="positions" count="\d+">([^<]*)<', fhi).group(1).split(), float)
+            pos = plo * (1 - w) + phi * w
+            olo = float(re.search(r'<f xs.n="opacity">([^<]*)<', flo).group(1))
+            ohi = float(re.search(r'<f xs.n="opacity">([^<]*)<', fhi).group(1))
+            op = opacity if opacity is not None else olo * (1 - w) + ohi * w
+            fid, fx = self.new()
+            new_guids.append((fid, fx))
+            nf = re.sub(r'(<float-array xs.n="positions" count="\d+">)[^<]*<', lambda mm: mm.group(1) + ' '.join(f'{x:.7g}' for x in pos) + '<', fhi)
+            nf = re.sub(r'<f xs.n="opacity">[^<]*<', f'<f xs.n="opacity">{op}<', nf)
+            nf = nf.replace(f'<CFormGuid xs.n="guid" xs.ref="{m[ni]}" />', f'<CFormGuid xs.n="guid" xs.ref="{fid}" />')
+            new_forms.append(nf)
+            kp = dict(og)
+            kp[bref] = str(ni)
+            new_entries.append((kp, fid))
+        # 写回 grid
+        binds_order = re.findall(r'<KeyformBindingSource xs.ref="(#\d+)" />', gb[gb.find('keyformBindings'):])
+        ent = []
+        for kp, fr in new_entries:
+            kps = ''.join(f'<KeyOnParameter>\n<KeyformBindingSource xs.n="binding" xs.ref="{bb}" />\n<i xs.n="keyIndex">{kp[bb]}</i>\n</KeyOnParameter>\n' for bb in binds_order)
+            ent.append(f'<KeyformOnGrid>\n<KeyformGridAccessKey xs.n="accessKey">\n<array_list xs.n="_keyOnParameterList" count="{len(binds_order)}">\n{kps}</array_list>\n</KeyformGridAccessKey>\n<CFormGuid xs.n="keyformGuid" xs.ref="{fr}" />\n</KeyformOnGrid>\n')
+        head = gb[: gb.find('>') + 1] + '\n'
+        bl = ''.join(f'<KeyformBindingSource xs.ref="{bb}" />\n' for bb in binds_order)
+        ngb = head + f'<array_list xs.n="keyformsOnGrid" count="{len(ent)}">\n{"".join(ent)}</array_list>\n<array_list xs.n="keyformBindings" count="{len(binds_order)}">\n{bl}</array_list>\n</KeyformGridSource>\n'
+        # 顺序：先改靠后的
+        edits = []
+        # keys 列表（binding 块）
+        kb = self.s[kst:ken]
+        nkb = re.sub(r'<array_list xs.n="keys" count="\d+">.*?</array_list>', '<array_list xs.n="keys" count="%d">\n%s</array_list>' % (len(nk), ''.join(f'<f>{k}</f>\n' for k in nk)), kb, flags=re.S)
+        edits.append((kst, ken, nkb))
+        # forms 追加
+        edits.append((st + kfe, st + kfe, ''.join(new_forms)))
+        edits.append((gst, gen, ngb))
+        for a, e, t in sorted(edits, key=lambda x: -x[0]):
+            self.s = self.s[:a] + t + self.s[e:]
+        # keyforms count
+        st2, en2 = self.mesh_block(name)
+        kfl2 = self.s.find('<carray_list xs.n="keyforms"', st2)
+        self.bump_count(kfl2, len(new_forms))
+        # 新 form guid 定义
+        (st3, en3) = self.mesh_block(name)
+        self.s = self.s[:en3] + '\n' + ''.join(f'<CFormGuid uuid="{self.uid()}" note="Key [  ]" xs.id="{f}" xs.idx="{x}" />\n' for f, x in new_guids) + self.s[en3:]
+        self.log.append(f'{name}: {pid} 插键 {newkey}（{len(new_forms)} 个形态，透明度 {opacity}）')

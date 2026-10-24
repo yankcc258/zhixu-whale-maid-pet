@@ -362,6 +362,95 @@ motion('kick', 2.0, {
     'ParamAhoge': lambda t: 6 * math.sin(2 * PI * t / 0.6) * math.sin(PI * t / 2.0),
 })
 
+# 走路（跑动时循环；桌宠横着移动，身子和头朝屏幕左边，往右走时画布镜像）：
+# 每步 0.42 秒，腿交替，身子每步颠一下，手臂反向摆，头跟着轻轻点
+STEP = 0.42
+def walk_curves():
+    tri = lambda ph: (lambda t: math.sin(2 * PI * t / (2 * STEP) + ph))
+    bob = lambda t: -3.2 * abs(math.sin(PI * t / STEP)) + 1.6
+    return {
+        'ParamLegL': lambda t: 10 * tri(0)(t),
+        'ParamLegR': lambda t: 10 * tri(PI)(t),
+        'ParamBodyAngleY': bob,
+        'ParamArmLA': lambda t: -2.5 + 4.5 * tri(PI)(t),
+        'ParamArmRA': lambda t: -2.5 + 4.5 * tri(0)(t),
+        'ParamArmLB': lambda t: 3 + 1.5 * tri(PI)(t),
+        'ParamArmRB': lambda t: 3 + 1.5 * tri(0)(t),
+        'ParamAngleX': lambda t: -14.0,
+        'ParamBodyAngleX': lambda t: -6.0,
+        'ParamAngleY': lambda t: -1.5 * abs(math.sin(PI * t / STEP + 0.6)),
+        'ParamAngleZ': lambda t: 2.0 * tri(0.4)(t),
+        'ParamBodyAngleZ': lambda t: 1.5 * tri(0.4)(t),
+        'ParamEyeBallX': lambda t: -0.5,
+        'ParamBreath': lambda t: 0.5 + 0.5 * math.sin(2 * PI * t / 1.2),
+    }
+motion('walk', 20.0, wrap(20.0, walk_curves(), a=0.3), step=0.05)
+# 停下喘口气：身子一下一下塌，张嘴，手撑一下
+motion('pant', 1.8, {
+    'ParamBodyAngleY': lambda t: -3.5 * abs(math.sin(2 * PI * t / 0.9)) * math.sin(PI * t / 1.8),
+    'ParamAngleY': lambda t: -6 * math.sin(PI * t / 1.8),
+    'ParamMouthOpenY': lambda t: 0.6 * math.sin(PI * t / 1.8),
+    'ParamArmLB': lambda t: 4 * math.sin(PI * t / 1.8),
+    'ParamArmRB': lambda t: 4 * math.sin(PI * t / 1.8),
+    'ParamFinL': lambda t: -4 * math.sin(PI * t / 1.8),
+    'ParamFinR': lambda t: -4 * math.sin(PI * t / 1.8),
+})
+
+# 被拎着（拖拽时一直播）：手举过头像被提着领子，一开始晃几下然后慢慢稳住，腿一直轻轻荡
+def hang_curves():
+    dec = lambda t: math.exp(-t * 0.9)
+    return {
+        'ParamArmLA': lambda t: 9.5 + 0.5 * math.sin(2 * PI * t / 1.7),
+        'ParamArmRA': lambda t: 9.5 + 0.5 * math.sin(2 * PI * t / 1.7 + 1),
+        'ParamArmLB': lambda t: 2.0,
+        'ParamArmRB': lambda t: 2.0,
+        'ParamAngleZ': lambda t: 14 * math.sin(2 * PI * t / 0.7) * dec(t) + 3 * math.sin(2 * PI * t / 2.3),
+        'ParamAngleX': lambda t: 8 * math.sin(2 * PI * t / 0.9) * dec(t),
+        'ParamAngleY': lambda t: -4 + 2 * math.sin(2 * PI * t / 2.9),
+        'ParamBodyAngleZ': lambda t: 7 * math.sin(2 * PI * t / 0.7) * dec(t) + 2.5 * math.sin(2 * PI * t / 2.3),
+        'ParamLegL': lambda t: 8 * math.sin(2 * PI * t / 0.5) * dec(t) + 3.5 * math.sin(2 * PI * t / 1.6),
+        'ParamLegR': lambda t: -8 * math.sin(2 * PI * t / 0.5) * dec(t) + 3.5 * math.sin(2 * PI * t / 1.6 + 0.9),
+        'ParamBodyAngleY': lambda t: 3.0,
+        'ParamAhoge': lambda t: 8 * math.sin(2 * PI * t / 0.45) * dec(t),
+        'ParamFinL': lambda t: -5 + 6 * math.sin(2 * PI * t / 0.5) * dec(t),
+        'ParamFinR': lambda t: -5 - 6 * math.sin(2 * PI * t / 0.5) * dec(t),
+        'ParamEyeBallY': lambda t: -0.4,
+    }
+motion('hang', 20.0, wrap(20.0, hang_curves(), a=0.25), step=0.05)
+# 掉下去：手举高、腿张开蹬、仰头，呆毛耳鳍被风吹起
+motion('fall', 3.0, {
+    'ParamArmLA': lambda t: 10.0,
+    'ParamArmRA': lambda t: 10.0,
+    'ParamLegL': lambda t: 6 + 3 * math.sin(2 * PI * t / 0.35),
+    'ParamLegR': lambda t: 6 - 3 * math.sin(2 * PI * t / 0.35),
+    'ParamAngleY': lambda t: 9.0,
+    'ParamAngleZ': lambda t: 4 * math.sin(2 * PI * t / 0.6),
+    'ParamBodyAngleY': lambda t: 6.0,
+    'ParamAhoge': lambda t: 10.0,
+    'ParamFinL': lambda t: 10.0,
+    'ParamFinR': lambda t: 10.0,
+    'ParamEyeLOpen': lambda t: 1.0,
+    'ParamEyeROpen': lambda t: 1.0,
+    'ParamMouthOpenY': lambda t: 0.8,
+    'ParamMouthForm': lambda t: 1.0,
+}, step=0.05)
+# 落地：蹲下去弹一下再站直，手放下，呆毛耳鳍甩一下
+motion('land', 1.0, {
+    'ParamBodyAngleY': seq((0.0, 0.1, 6, -10), (0.1, 0.45, -10, 2), (0.45, 0.75, 2, -1), (0.75, 1.0, -1, 0)),
+    'ParamLegL': seq((0.0, 0.1, 6, 4), (0.1, 0.6, 4, 0)),
+    'ParamLegR': seq((0.0, 0.1, 6, 4), (0.1, 0.6, 4, 0)),
+    'ParamArmLA': seq((0.0, 0.12, 10, 2), (0.12, 0.7, 2, 0)),
+    'ParamArmRA': seq((0.0, 0.12, 10, 2), (0.12, 0.7, 2, 0)),
+    'ParamArmLB': seq((0.0, 0.12, 0, 4), (0.12, 0.7, 4, 0)),
+    'ParamArmRB': seq((0.0, 0.12, 0, 4), (0.12, 0.7, 4, 0)),
+    'ParamAngleY': seq((0.0, 0.1, 9, -8), (0.1, 0.5, -8, 2), (0.5, 1.0, 2, 0)),
+    'ParamAhoge': lambda t: 10 * math.cos(2 * PI * t / 0.4) * math.exp(-t * 3),
+    'ParamFinL': lambda t: 10 * math.cos(2 * PI * t / 0.45) * math.exp(-t * 3),
+    'ParamFinR': lambda t: 10 * math.cos(2 * PI * t / 0.45) * math.exp(-t * 3),
+    'ParamEyeLOpen': seq((0.0, 0.1, 1, 0.2), (0.3, 0.6, 0.2, 1)),
+    'ParamEyeROpen': seq((0.0, 0.1, 1, 0.2), (0.3, 0.6, 0.2, 1)),
+})
+
 # ======================= 表情里加耳鳍 / 呆毛 =======================
 A = 'Add'
 FINS = {
@@ -381,7 +470,9 @@ for name, v in FINS.items():
 IDLE = ['idle_sway', 'idle_look', 'idle_think', 'idle_fidget', 'idle_rock', 'idle_peek']
 ACTS = {'Wave': ('wave', 0.25, 0.4), 'Hop': ('hop', 0.12, 0.3), 'Cheer': ('cheer', 0.2, 0.4), 'Tilt': ('tilt', 0.3, 0.4),
         'Stretch': ('stretch', 0.4, 0.6), 'Flinch': ('flinch', 0.05, 0.3), 'Nod': ('nod', 0.2, 0.4), 'Shake': ('shake', 0.2, 0.4),
-        'Swing': ('swing', 0.1, 0.5), 'Shy': ('shy', 0.3, 0.5), 'Slump': ('slump', 0.5, 0.8), 'Kick': ('kick', 0.25, 0.4)}
+        'Swing': ('swing', 0.1, 0.5), 'Shy': ('shy', 0.3, 0.5), 'Slump': ('slump', 0.5, 0.8), 'Kick': ('kick', 0.25, 0.4),
+        'Walk': ('walk', 0.25, 0.3), 'Pant': ('pant', 0.2, 0.5),
+        'Hang': ('hang', 0.15, 0.3), 'Fall': ('fall', 0.1, 0.1), 'Land': ('land', 0.0, 0.4)}
 motions = {'Idle': [{'File': f'motions/{n}.motion3.json', 'FadeInTime': 0.8, 'FadeOutTime': 0.8} for n in IDLE]}
 for g, (n, fi, fo) in ACTS.items():
     motions[g] = [{'File': f'motions/{n}.motion3.json', 'FadeInTime': fi, 'FadeOutTime': fo}]
