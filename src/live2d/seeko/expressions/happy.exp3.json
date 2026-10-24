@@ -37,6 +37,16 @@
 			"Id": "ParamCheek",
 			"Value": 0.7,
 			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamFinL",
+			"Value": 7,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamFinR",
+			"Value": 7,
+			"Blend": "Add"
 		}
 	]
 }

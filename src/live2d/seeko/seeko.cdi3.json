@@ -145,6 +145,41 @@
 			"Id": "ParamArmRA",
 			"GroupId": "",
 			"Name": "右臂 抬起"
+		},
+		{
+			"Id": "ParamArmLB",
+			"GroupId": "",
+			"Name": "左臂 弯肘"
+		},
+		{
+			"Id": "ParamArmRB",
+			"GroupId": "",
+			"Name": "右臂 弯肘"
+		},
+		{
+			"Id": "ParamLegL",
+			"GroupId": "",
+			"Name": "左腿 摆动"
+		},
+		{
+			"Id": "ParamLegR",
+			"GroupId": "",
+			"Name": "右腿 摆动"
+		},
+		{
+			"Id": "ParamAhoge",
+			"GroupId": "",
+			"Name": "呆毛 摆动"
+		},
+		{
+			"Id": "ParamFinL",
+			"GroupId": "",
+			"Name": "左耳鳍 摆动"
+		},
+		{
+			"Id": "ParamFinR",
+			"GroupId": "",
+			"Name": "右耳鳍 摆动"
 		}
 	],
 	"ParameterGroups": [],

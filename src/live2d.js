@@ -29,16 +29,19 @@ const L2D = (() => {
   const ACT = {
     wave: 'Wave',
     happy: 'Hop',
-    excited: 'Hop',
-    newyear: 'Hop',
+    excited: 'Cheer',
+    newyear: 'Cheer',
     surprised: 'Flinch',
-    sleepy: 'Stretch',
+    sleepy: 'Slump',
+    sleep: 'Slump',
     angry: 'Shake',
-    wake: 'Shake',
-    pat: 'Nod',
+    wake: 'Stretch',
+    pat: 'Shy',
     smug: 'Tilt',
     smirk: 'Tilt',
-    pout: 'Tilt',
+    pout: 'Kick',
+    meh: 'Kick',
+    bleh: 'Tilt',
     dangle: 'Swing',
   };
   // 全身像比立绘（半身大头）小，所以 Live2D 时 #pet 加高到 170×180（style.css 的 body.live2d），
@@ -48,13 +51,12 @@ const L2D = (() => {
   // 眼珠：新身体的眼珠几乎占满眼白，骨架里的眼珠位移是给旧的小眼睛放大过的，这里缩回去，
   // 不然一转眼就露出一大片眼白、像在瞪人
   const EYE_GAIN = 0.4;
-  // 头和身子：骨架里转头是「头整个往旁边挪」，转满 30 度时头像是从脖子上滑开了，身子却几乎不动。
-  // 所以动作和看鼠标给的转头角度都先打折（HEAD_GAIN），让身子跟着转一部分（BODY_FOLLOW），
-  // 再把整个人以脚底为轴跟着身体的歪斜轻轻倾一下（BODY_TILT 度 / 每单位 ParamBodyAngleZ，最多 MAX_TILT 度）
-  const HEAD_GAIN = 0.55,
-    BODY_FOLLOW = 0.35,
-    BODY_TILT = 0.6,
-    MAX_TILT = 5;
+  // 头和身子：v09 骨架里歪头的轴心已经在脖子上、转头时下巴跟着脖子走，所以转头只轻轻打一点折（HEAD_GAIN），
+  // 身子跟着头转一部分（BODY_FOLLOW），再把整个人以脚底为轴跟着身体的歪斜倾一下（BODY_TILT 度 / 每单位 ParamBodyAngleZ，最多 MAX_TILT 度）
+  const HEAD_GAIN = 0.8,
+    BODY_FOLLOW = 0.3,
+    BODY_TILT = 0.4,
+    MAX_TILT = 4;
   // 这几个表情是闭着眼的（见 live2d/seeko/expressions/）；模型自带的自动眨眼存在 blinks 里
   const EYES_SHUT = new Set(['happy', 'smug', 'shy', 'sleepy']);
   const blinks = new WeakMap();
@@ -67,8 +69,10 @@ const L2D = (() => {
     winter: 'live2d/seeko/seeko_winter.model3.json', // 冬装（最高气温不到 10°C）
     kotatsu: 'live2d/seeko/seeko_kotatsu.model3.json', // 被炉（12～2 月；下半身画在被炉里，不跳）
   };
-  // 坐在被炉里跳不起来：这几套衣服把「蹦一下」换成点头
+  // 坐在被炉里跳不起来：这几套衣服把「蹦一下」换成点头、「欢呼」换成挥手
   const NO_HOP = new Set(['kotatsu']);
+  // 被炉桌画在下半身的槽位里，身子上下、腿摆动会把桌子一起带走：这几套衣服把这些参数钉在 0
+  const FROZEN = { kotatsu: ['ParamBodyAngleY', 'ParamLegL', 'ParamLegR'] };
   let canvas = null,
     app = null,
     model = null, // 现在台上的那个
@@ -158,6 +162,7 @@ const L2D = (() => {
             const v = 0.5 + 0.5 * Math.sin(now / 70) * Math.sin(now / 190);
             core.setParameterValueById('ParamMouthOpenY', Math.max(0, v));
           }
+          for (const id of FROZEN[cur] || []) core.setParameterValueById(id, 0);
           const tilt = core.getParameterValueById('ParamBodyAngleZ') * BODY_TILT;
           m.rotation = (-Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt)) * Math.PI) / 180;
         });
@@ -241,7 +246,7 @@ const L2D = (() => {
   let flinchEnd = 0;
   function act(group) {
     if (!group || !active()) return;
-    if (group === 'Hop' && NO_HOP.has(cur)) group = 'Nod';
+    if (NO_HOP.has(cur)) group = { Hop: 'Nod', Cheer: 'Wave', Kick: 'Tilt', Stretch: 'Stretch' }[group] || group;
     const now = performance.now();
     // 刚被戳了一下：让「缩一下」做完再做下一个动作
     if (group !== 'Flinch' && now < flinchEnd) return void setTimeout(() => act(group), flinchEnd - now);

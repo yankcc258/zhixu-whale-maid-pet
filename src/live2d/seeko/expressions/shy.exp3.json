@@ -42,6 +42,16 @@
 			"Id": "ParamAngleZ",
 			"Value": -5,
 			"Blend": "Add"
+		},
+		{
+			"Id": "ParamFinL",
+			"Value": -4,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamFinR",
+			"Value": -4,
+			"Blend": "Add"
 		}
 	]
 }

@@ -55,7 +55,17 @@
 					"FadeOutTime": 0.8
 				},
 				{
-					"File": "motions/idle_swing.motion3.json",
+					"File": "motions/idle_fidget.motion3.json",
+					"FadeInTime": 0.8,
+					"FadeOutTime": 0.8
+				},
+				{
+					"File": "motions/idle_rock.motion3.json",
+					"FadeInTime": 0.8,
+					"FadeOutTime": 0.8
+				},
+				{
+					"File": "motions/idle_peek.motion3.json",
 					"FadeInTime": 0.8,
 					"FadeOutTime": 0.8
 				}
@@ -70,8 +80,15 @@
 			"Hop": [
 				{
 					"File": "motions/hop.motion3.json",
-					"FadeInTime": 0.15,
+					"FadeInTime": 0.12,
 					"FadeOutTime": 0.3
+				}
+			],
+			"Cheer": [
+				{
+					"File": "motions/cheer.motion3.json",
+					"FadeInTime": 0.2,
+					"FadeOutTime": 0.4
 				}
 			],
 			"Tilt": [
@@ -99,21 +116,42 @@
 				{
 					"File": "motions/nod.motion3.json",
 					"FadeInTime": 0.2,
-					"FadeOutTime": 0.3
+					"FadeOutTime": 0.4
 				}
 			],
 			"Shake": [
 				{
 					"File": "motions/shake.motion3.json",
 					"FadeInTime": 0.2,
-					"FadeOutTime": 0.3
+					"FadeOutTime": 0.4
 				}
 			],
 			"Swing": [
 				{
 					"File": "motions/swing.motion3.json",
-					"FadeInTime": 0.2,
+					"FadeInTime": 0.1,
 					"FadeOutTime": 0.5
+				}
+			],
+			"Shy": [
+				{
+					"File": "motions/shy.motion3.json",
+					"FadeInTime": 0.3,
+					"FadeOutTime": 0.5
+				}
+			],
+			"Slump": [
+				{
+					"File": "motions/slump.motion3.json",
+					"FadeInTime": 0.5,
+					"FadeOutTime": 0.8
+				}
+			],
+			"Kick": [
+				{
+					"File": "motions/kick.motion3.json",
+					"FadeInTime": 0.25,
+					"FadeOutTime": 0.4
 				}
 			]
 		}

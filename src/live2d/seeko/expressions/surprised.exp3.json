@@ -37,6 +37,21 @@
 			"Id": "ParamAngleY",
 			"Value": 8,
 			"Blend": "Add"
+		},
+		{
+			"Id": "ParamFinL",
+			"Value": 10,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamFinR",
+			"Value": 10,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamAhoge",
+			"Value": 8,
+			"Blend": "Add"
 		}
 	]
 }
