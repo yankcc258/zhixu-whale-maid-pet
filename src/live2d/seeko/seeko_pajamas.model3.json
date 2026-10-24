@@ -167,6 +167,27 @@
 					"FadeInTime": 0.2,
 					"FadeOutTime": 0.5
 				}
+			],
+			"Hang": [
+				{
+					"File": "motions/hang.motion3.json",
+					"FadeInTime": 0.15,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Fall": [
+				{
+					"File": "motions/fall.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			],
+			"Land": [
+				{
+					"File": "motions/land.motion3.json",
+					"FadeInTime": 0.0,
+					"FadeOutTime": 0.4
+				}
 			]
 		}
 	},

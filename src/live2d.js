@@ -43,7 +43,7 @@ const L2D = (() => {
     pout: 'Kick',
     meh: 'Kick',
     bleh: 'Tilt',
-    dangle: 'Swing',
+    dangle: 'Hang',
     run: 'Walk',
   };
   // 全身像比立绘（半身大头）小，所以 Live2D 时 #pet 加高到 170×180（style.css 的 body.live2d），
@@ -75,6 +75,9 @@ const L2D = (() => {
   const NO_HOP = new Set(['kotatsu']);
   // 被炉桌画在下半身的槽位里，身子上下、腿摆动会把桌子一起带走：这几套衣服把这些参数钉在 0
   const FROZEN = { kotatsu: ['ParamBodyAngleY', 'ParamLegL', 'ParamLegR'] };
+  // 拖着走时整个人往后仰（拎着她横着跑）：目标值由 pet.js 按拖动速度给，这里慢慢追上去
+  let swayTarget = 0,
+    swayNow = 0;
   let canvas = null,
     app = null,
     model = null, // 现在台上的那个
@@ -163,6 +166,13 @@ const L2D = (() => {
           if (now < talkUntil) {
             const v = 0.5 + 0.5 * Math.sin(now / 70) * Math.sin(now / 190);
             core.setParameterValueById('ParamMouthOpenY', Math.max(0, v));
+          }
+          swayNow += (swayTarget - swayNow) * 0.12;
+          if (Math.abs(swayNow) > 0.01) {
+            core.setParameterValueById('ParamBodyAngleZ', core.getParameterValueById('ParamBodyAngleZ') + swayNow);
+            core.setParameterValueById('ParamAngleZ', core.getParameterValueById('ParamAngleZ') + swayNow * 1.5);
+            core.setParameterValueById('ParamLegL', core.getParameterValueById('ParamLegL') - swayNow * 0.5);
+            core.setParameterValueById('ParamLegR', core.getParameterValueById('ParamLegR') + swayNow * 0.5);
           }
           for (const id of FROZEN[cur] || []) core.setParameterValueById(id, 0);
           const tilt = core.getParameterValueById('ParamBodyAngleZ') * BODY_TILT;
@@ -311,6 +321,9 @@ const L2D = (() => {
     }
   }, 1000);
 
+  // 拎着她横着拖：按速度（CSS 像素/秒）往后仰，最多 ±8
+  const sway = (vx) => (swayTarget = Math.max(-8, Math.min(8, -vx / 120)));
+
   const onLoaded = (fn) => (onModel = fn);
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, onLoaded };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, onLoaded };
 })();
