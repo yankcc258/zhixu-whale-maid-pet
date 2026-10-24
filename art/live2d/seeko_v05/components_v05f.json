@@ -1,0 +1,89 @@
+{
+  "new_layers": [
+    {
+      "name": "MouthCat",
+      "components_alpha128": [
+        297
+      ],
+      "expected_components": 1
+    },
+    {
+      "name": "MouthPout",
+      "components_alpha128": [
+        169
+      ],
+      "expected_components": 1
+    },
+    {
+      "name": "MouthWavy",
+      "components_alpha128": [
+        378
+      ],
+      "expected_components": 1
+    },
+    {
+      "name": "MouthFlat",
+      "components_alpha128": [
+        296
+      ],
+      "expected_components": 1
+    },
+    {
+      "name": "MouthGrin",
+      "components_alpha128": [
+        1960
+      ],
+      "expected_components": 1
+    },
+    {
+      "name": "EyeSparkle_R",
+      "components_alpha128": [
+        201,
+        88,
+        26
+      ],
+      "expected_components": 3
+    },
+    {
+      "name": "EyeSparkle_L",
+      "components_alpha128": [
+        201,
+        88,
+        26
+      ],
+      "expected_components": 3
+    },
+    {
+      "name": "Tear_R",
+      "components_alpha128": [
+        382
+      ],
+      "expected_components": 1
+    },
+    {
+      "name": "Tear_L",
+      "components_alpha128": [
+        382
+      ],
+      "expected_components": 1
+    },
+    {
+      "name": "SweatDrop",
+      "components_alpha128": [
+        452
+      ],
+      "expected_components": 1
+    },
+    {
+      "name": "AngerMark",
+      "components_alpha128": [
+        121,
+        116,
+        109,
+        105
+      ],
+      "expected_components": 4
+    }
+  ],
+  "default_rgba_identical_to_v05e": true
+}

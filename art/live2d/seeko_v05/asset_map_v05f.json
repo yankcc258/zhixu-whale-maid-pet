@@ -1,0 +1,123 @@
+[
+  {
+    "name": "MouthCat",
+    "id": "c7ad78d4-21cc-4986-9291-e9c671e5cdd5",
+    "box": [
+      485,
+      816,
+      557,
+      835
+    ],
+    "flip": false
+  },
+  {
+    "name": "MouthPout",
+    "id": "c61e843b-b0d3-4b84-a116-fa0c26c857b0",
+    "box": [
+      509,
+      813,
+      532,
+      837
+    ],
+    "flip": false
+  },
+  {
+    "name": "MouthWavy",
+    "id": "b71e85d8-d3dc-44d0-82cd-64a78225c224",
+    "box": [
+      488,
+      817,
+      554,
+      832
+    ],
+    "flip": false
+  },
+  {
+    "name": "MouthFlat",
+    "id": "fdcc7d74-348c-4df7-a3ea-1a831347d0ef",
+    "box": [
+      491,
+      822,
+      551,
+      827
+    ],
+    "flip": false
+  },
+  {
+    "name": "MouthGrin",
+    "id": "136dad11-1ec4-4380-aedd-84c6525bd4af",
+    "box": [
+      479,
+      810,
+      563,
+      842
+    ],
+    "flip": false
+  },
+  {
+    "name": "EyeSparkle_R",
+    "id": "c14f97e3-a5ea-4df4-997b-43abfbf33c84",
+    "box": [
+      365,
+      734,
+      403,
+      772
+    ],
+    "flip": false
+  },
+  {
+    "name": "EyeSparkle_L",
+    "id": "c14f97e3-a5ea-4df4-997b-43abfbf33c84",
+    "box": [
+      667,
+      746,
+      705,
+      784
+    ],
+    "flip": true
+  },
+  {
+    "name": "Tear_R",
+    "id": "589bc1cd-c823-477d-8cfb-d824f0b8cd27",
+    "box": [
+      338,
+      781,
+      358,
+      811
+    ],
+    "flip": false
+  },
+  {
+    "name": "Tear_L",
+    "id": "589bc1cd-c823-477d-8cfb-d824f0b8cd27",
+    "box": [
+      680,
+      795,
+      700,
+      825
+    ],
+    "flip": false
+  },
+  {
+    "name": "SweatDrop",
+    "id": "7e6bb2c5-0e31-4052-98b3-a8022e4bff2d",
+    "box": [
+      687,
+      651,
+      706,
+      688
+    ],
+    "flip": false
+  },
+  {
+    "name": "AngerMark",
+    "id": "9dd6ed2a-2b50-49b8-b68b-e579e547575a",
+    "box": [
+      650,
+      647,
+      681,
+      678
+    ],
+    "flip": false
+  }
+]

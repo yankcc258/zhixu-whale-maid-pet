@@ -1,0 +1,107 @@
+[
+  {
+    "file": "asset_map_v05f.json",
+    "sha256": "016ae40cec0bc64b75f2bf2481f7cda37441ddd7809f5b77bec59e49034a032d",
+    "bytes": 1815
+  },
+  {
+    "file": "components_v05f.json",
+    "sha256": "cedbb7c47b3c9738202ab91b0ae892690b642d1691492a23099adc34299977a7",
+    "bytes": 1506
+  },
+  {
+    "file": "imagegen_prompts_v05f.json",
+    "sha256": "8d8ac8096c1437ae1828f9c9ec00793cc7cbe488f5cb26f8945e0d8532e6e96c",
+    "bytes": 5371
+  },
+  {
+    "file": "krita_default_v05f.png",
+    "sha256": "e344ad28305460e66ddd9be2c4bdd13044f7aa68498cbf45a1b19d9159ec4a7c",
+    "bytes": 1308735
+  },
+  {
+    "file": "parts_v05f_独立部件.png",
+    "sha256": "f42a530147721e9e4793fbf03a2625ff0500636278480fa66fa98f4b9b9edfd3",
+    "bytes": 252761
+  },
+  {
+    "file": "preview_v05f_default.png",
+    "sha256": "e25a8240cbbbaccedd85416db39b5980bb556e66a4b4ad7d225310b2c1df5687",
+    "bytes": 1435181
+  },
+  {
+    "file": "preview_v05f_新图层.png",
+    "sha256": "ed26cbaba618bc244158a19868270260c65d279f94ebb42bd6fe5c5040451843",
+    "bytes": 823557
+  },
+  {
+    "file": "seeko_cubism_import_v05f.psd",
+    "sha256": "742bfd62c76b0dd8832bf9bd43e648a70ea0874293df0288e8c684cbf26bca86",
+    "bytes": 21543886
+  },
+  {
+    "file": "validation_v05f.json",
+    "sha256": "eccf25dd96568ed6f5952cc66c98d64791f29ca5d99401c948ffd733843b8554",
+    "bytes": 19246
+  },
+  {
+    "file": "交付说明_v05f.md",
+    "sha256": "1ca5ad5fbece471d74dfdbfaefb8325d5dcc9899918454f3604db09172a00b71",
+    "bytes": 2483
+  },
+  {
+    "file": "new_layers_v05f/AngerMark.png",
+    "sha256": "8b4e7c909cbd54c8342729402540e6c53164b92e55abe3b1d849df84eb5a10b2",
+    "bytes": 8830
+  },
+  {
+    "file": "new_layers_v05f/EyeSparkle_L.png",
+    "sha256": "76eff112e461b7ac2796107696ee9b7731f8d6ced7406468ae42641edb47d306",
+    "bytes": 8338
+  },
+  {
+    "file": "new_layers_v05f/EyeSparkle_R.png",
+    "sha256": "c22e7c2aed833b38fd467ab14c66735d88215d32a675bd7ea19511642caf7565",
+    "bytes": 8341
+  },
+  {
+    "file": "new_layers_v05f/MouthCat.png",
+    "sha256": "99170f6026846da44decfc32510a1ff5aab1bb0a4616bc3065a6b890e27ae22a",
+    "bytes": 8140
+  },
+  {
+    "file": "new_layers_v05f/MouthFlat.png",
+    "sha256": "678b1f4e32f3a3671c461f753ca0d945197814aa094bb87b4bd8d7a36f92148b",
+    "bytes": 7040
+  },
+  {
+    "file": "new_layers_v05f/MouthGrin.png",
+    "sha256": "2d27b98256268863537d488824352bdac2f2ff78265e7b5c71221c83c98a8287",
+    "bytes": 12285
+  },
+  {
+    "file": "new_layers_v05f/MouthPout.png",
+    "sha256": "eed877b0744603b6c11660f4c26182d6f211db4822e6f6d8fc4c9f0655df9018",
+    "bytes": 7454
+  },
+  {
+    "file": "new_layers_v05f/MouthWavy.png",
+    "sha256": "e2353a8940916336e26e1a17cf972b37360105aa0495fd378a2eedeb620f0ba7",
+    "bytes": 8165
+  },
+  {
+    "file": "new_layers_v05f/SweatDrop.png",
+    "sha256": "2e4f2df94c3d6cf14986edbdadfbd79a6f60436a9fd910d7e6e2a2bc183f8f8d",
+    "bytes": 8019
+  },
+  {
+    "file": "new_layers_v05f/Tear_L.png",
+    "sha256": "6e3a8d9e01f11313e9938a4cfe8fcc547662299731e5be82b58a0c05a8018024",
+    "bytes": 7869
+  },
+  {
+    "file": "new_layers_v05f/Tear_R.png",
+    "sha256": "51424330aeae84eb5d265e46d62ab4ed9207ebeb5de7703d4a139bc086da09d9",
+    "bytes": 7869
+  }
+]
