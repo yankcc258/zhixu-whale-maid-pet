@@ -533,6 +533,11 @@ function installUpdate() {
 tauri?.event.listen('open-site', () => openSite());
 // Rust 每隔一会儿告诉这里鼠标在哪（相对窗口左上角，CSS 像素）：Live2D 的眼睛和头跟着看
 tauri?.event.listen('cursor', ({ payload }) => L2D.lookTo(payload[0], payload[1]));
+// 鼠标从她面前飞快划过：吓一跳，偶尔嘟囔一句
+L2D.onStartled(() => {
+  if (sleep || dock || dragging || !menu.hidden || !bubble.hidden) return;
+  if (Math.random() < 0.5) say(pick(LINES.startled), 'surprised', 2500);
+});
 // 某套衣服的 Live2D 模型刚加载好：表情不变，重新摆一次，从立绘换成 Live2D
 L2D.onLoaded(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
 if (useL2D()) L2D.load().then(() => setMood(autoMood()));
@@ -542,6 +547,7 @@ tauri?.event.listen('summoned', () => {
 });
 
 pet.addEventListener('dblclick', () => {
+  if (!sleep) L2D.act('Cheer');
   say(pick(LINES.openZhixu), sleep ? undefined : pick(['smug', 'surprised']), 2500);
   openSite().catch((e) => say('没打开：' + e, 'pout'));
 });
