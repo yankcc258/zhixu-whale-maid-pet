@@ -6,24 +6,25 @@ const L2D = (() => {
   // 桌宠的心情 → 模型的表情（null = 不加表情，只放待机动作）
   const EXP = {
     idle: null,
+    run: null, // 跑动：Live2D 走路循环（往右跑时画布镜像，见 pet.js 的 flip）
     happy: 'happy',
-    excited: 'happy',
-    wave: 'happy',
-    newyear: 'happy',
+    excited: 'sparkle',
+    wave: 'grin',
+    newyear: 'sparkle',
     smug: 'smug',
     smirk: 'smug',
-    bleh: 'smug',
+    bleh: 'wink',
     angry: 'angry',
-    wake: 'angry',
-    pat: 'shy',
+    wake: 'dazed',
+    pat: 'blush',
     sleepy: 'sleepy',
     sleep: 'sleepy',
     surprised: 'surprised',
-    dangle: 'surprised',
+    dangle: 'teary',
     pout: 'pout',
-    meh: 'pout',
-    hot: 'pout',
-    cold: 'pout',
+    meh: 'deadpan',
+    hot: 'dazed',
+    cold: 'puff',
   };
   // 心情刚变成这个时顺便做的动作（motions/ 里的分组）；之后回到随机的待机动作
   const ACT = {
@@ -42,7 +43,8 @@ const L2D = (() => {
     pout: 'Kick',
     meh: 'Kick',
     bleh: 'Tilt',
-    dangle: 'Swing',
+    dangle: 'Hang',
+    run: 'Walk',
   };
   // 全身像比立绘（半身大头）小，所以 Live2D 时 #pet 加高到 170×180（style.css 的 body.live2d），
   // 头顶那一截和气泡叠一点点没关系。人只有 135 宽，左右各留一截，转头时耳鳍和头发不会被切掉
@@ -73,6 +75,10 @@ const L2D = (() => {
   const NO_HOP = new Set(['kotatsu']);
   // 被炉桌画在下半身的槽位里，身子上下、腿摆动会把桌子一起带走：这几套衣服把这些参数钉在 0
   const FROZEN = { kotatsu: ['ParamBodyAngleY', 'ParamLegL', 'ParamLegR'] };
+  // 拖着走时整个人往后仰（拎着她横着跑）：目标值由 pet.js 按拖动速度给，这里慢慢追上去
+  let swayTarget = 0,
+    swayNow = 0,
+    finNow = 0;
   let canvas = null,
     app = null,
     model = null, // 现在台上的那个
@@ -162,6 +168,22 @@ const L2D = (() => {
             const v = 0.5 + 0.5 * Math.sin(now / 70) * Math.sin(now / 190);
             core.setParameterValueById('ParamMouthOpenY', Math.max(0, v));
           }
+          // 新嘴型（ω、撅嘴、波浪、一字、咧笑）亮着的时候，把默认的 :3 嘴线藏掉（它是按张嘴程度淡出的）
+          const alt = ['ParamMouthCat', 'ParamMouthPout', 'ParamMouthWavy', 'ParamMouthFlat', 'ParamMouthGrin'].reduce((a, id) => Math.max(a, core.getParameterValueById(id)), 0);
+          core.setParameterValueById('ParamMouthAlt', alt);
+          finNow += (near * 7 - finNow) * 0.08;
+          if (Math.abs(finNow) > 0.01) {
+            core.setParameterValueById('ParamFinL', core.getParameterValueById('ParamFinL') + finNow);
+            core.setParameterValueById('ParamFinR', core.getParameterValueById('ParamFinR') + finNow);
+            core.setParameterValueById('ParamAhoge', core.getParameterValueById('ParamAhoge') + finNow * 0.5);
+          }
+          swayNow += (swayTarget - swayNow) * 0.12;
+          if (Math.abs(swayNow) > 0.01) {
+            core.setParameterValueById('ParamBodyAngleZ', core.getParameterValueById('ParamBodyAngleZ') + swayNow);
+            core.setParameterValueById('ParamAngleZ', core.getParameterValueById('ParamAngleZ') + swayNow * 1.5);
+            core.setParameterValueById('ParamLegL', core.getParameterValueById('ParamLegL') - swayNow * 0.5);
+            core.setParameterValueById('ParamLegR', core.getParameterValueById('ParamLegR') + swayNow * 0.5);
+          }
           for (const id of FROZEN[cur] || []) core.setParameterValueById(id, 0);
           const tilt = core.getParameterValueById('ParamBodyAngleZ') * BODY_TILT;
           m.rotation = (-Math.max(-MAX_TILT, Math.min(MAX_TILT, tilt)) * Math.PI) / 180;
@@ -235,8 +257,8 @@ const L2D = (() => {
       model.internalModel.eyeBlink = EYES_SHUT.has(e) ? undefined : blinks.get(model);
     }
     if (mood !== lastMood) {
-      // 刚从拎着放下来：停掉甩头，回到待机
-      if (lastMood === 'dangle') model.internalModel.motionManager.stopAllMotions();
+      // 刚从拎着放下来 / 刚跑完：停掉甩头、走路，回到待机
+      if (lastMood === 'dangle' || lastMood === 'run') model.internalModel.motionManager.stopAllMotions();
       lastMood = mood;
       act(ACT[mood]);
     }
@@ -290,6 +312,12 @@ const L2D = (() => {
   }
   // 眼睛和头跟着鼠标。x、y 是鼠标相对窗口左上角的 CSS 像素。
   // 以她的脸为中心：鼠标越远转得越多（最多 70%），贴着脸时只轻轻看一下；转的过程由运行库自己缓动
+  // 鼠标离她多近（0 = 很远，1 = 贴着脸）、停在她身上多久、刚才有没有从她面前飞快划过
+  let near = 0,
+    hoverSince = 0,
+    tilted = false,
+    lastCur = null,
+    startleAt = -1e9;
   function lookTo(x, y) {
     if (!active()) return;
     const r = canvas.getBoundingClientRect();
@@ -300,15 +328,42 @@ const L2D = (() => {
     const k = (0.7 * d) / (d + 120) / d;
     model.internalModel.focusController.focus(dx * k, -dy * k);
     lookAt = Date.now();
+    // 靠近：耳鳍慢慢竖起来（160px 以内开始，贴着时最大）
+    near = Math.max(0, 1 - d / 160);
+    // 快速划过脸前（200ms 内移动超过 260px、而且擦着她过去）：吓一跳，8 秒内不重复
+    const now = performance.now();
+    if (lastCur && now - lastCur.t < 200 && Math.hypot(x - lastCur.x, y - lastCur.y) > 260 && d < 140 && now - startleAt > 8000) {
+      startleAt = now;
+      act('Flinch');
+      onStartle?.();
+    }
+    lastCur = { x, y, t: now };
+    // 停在她身上：1.8 秒后歪头看你（鼠标离开 60px 外就复位）
+    const on = d < 70;
+    if (on && !hoverSince) hoverSince = now;
+    if (!on) hoverSince = 0;
+    if (on && !tilted && now - hoverSince > 1800) {
+      tilted = true;
+      act('Tilt');
+    }
+    if (!on) tilted = false;
   }
-  // 鼠标 5 秒没动：慢慢看回正前方
+  let onStartle = null;
+  // 鼠标 5 秒没动：慢慢看回正前方，耳鳍放下
   setInterval(() => {
     if (active() && lookAt && Date.now() - lookAt > 5000) {
       lookAt = 0;
+      near = 0;
+      hoverSince = 0;
+      tilted = false;
       model.internalModel.focusController.focus(0, 0);
     }
   }, 1000);
 
+  // 拎着她横着拖：按速度（CSS 像素/秒）往后仰，最多 ±8
+  const sway = (vx) => (swayTarget = Math.max(-8, Math.min(8, -vx / 120)));
+
   const onLoaded = (fn) => (onModel = fn);
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, onLoaded };
+  const onStartled = (fn) => (onStartle = fn);
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, onLoaded, onStartled };
 })();

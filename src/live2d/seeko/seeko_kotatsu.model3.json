@@ -35,6 +35,38 @@
 			{
 				"Name": "pout",
 				"File": "expressions/pout.exp3.json"
+			},
+			{
+				"Name": "wink",
+				"File": "expressions/wink.exp3.json"
+			},
+			{
+				"Name": "teary",
+				"File": "expressions/teary.exp3.json"
+			},
+			{
+				"Name": "deadpan",
+				"File": "expressions/deadpan.exp3.json"
+			},
+			{
+				"Name": "sparkle",
+				"File": "expressions/sparkle.exp3.json"
+			},
+			{
+				"Name": "puff",
+				"File": "expressions/puff.exp3.json"
+			},
+			{
+				"Name": "dazed",
+				"File": "expressions/dazed.exp3.json"
+			},
+			{
+				"Name": "blush",
+				"File": "expressions/blush.exp3.json"
+			},
+			{
+				"Name": "grin",
+				"File": "expressions/grin.exp3.json"
 			}
 		],
 		"Motions": {
@@ -151,6 +183,41 @@
 				{
 					"File": "motions/kick.motion3.json",
 					"FadeInTime": 0.25,
+					"FadeOutTime": 0.4
+				}
+			],
+			"Walk": [
+				{
+					"File": "motions/walk.motion3.json",
+					"FadeInTime": 0.25,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Pant": [
+				{
+					"File": "motions/pant.motion3.json",
+					"FadeInTime": 0.2,
+					"FadeOutTime": 0.5
+				}
+			],
+			"Hang": [
+				{
+					"File": "motions/hang.motion3.json",
+					"FadeInTime": 0.15,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Fall": [
+				{
+					"File": "motions/fall.motion3.json",
+					"FadeInTime": 0.1,
+					"FadeOutTime": 0.1
+				}
+			],
+			"Land": [
+				{
+					"File": "motions/land.motion3.json",
+					"FadeInTime": 0.0,
 					"FadeOutTime": 0.4
 				}
 			]

@@ -5364,7 +5364,7 @@ dependencies = [
 
 [[package]]
 name = "zhixu-whale-pet"
-version = "0.9.4"
+version = "0.9.8"
 dependencies = [
  "serde",
  "serde_json",

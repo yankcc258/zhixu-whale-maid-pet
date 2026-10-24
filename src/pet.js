@@ -311,8 +311,40 @@ pet.addEventListener('pointermove', (e) => {
     document.body.classList.add('dragging');
     setMood('dangle');
   }
+  // 拖动速度 → Live2D 往后仰
+  const now = performance.now();
+  if (down.t) L2D.sway(((e.screenX - down.lx) / (now - down.t)) * 1000);
+  down.lx = e.screenX;
+  down.t = now;
   moveTo(down.x + dx, down.y + dy);
 });
+// 松手后真的往下掉：重力加速，落到工作区底边（任务栏上沿），落地蹲一下
+let falling = null;
+function fallTo(targetY) {
+  return new Promise((done) => {
+    if (falling) cancelAnimationFrame(falling.raf);
+    if (pos.y >= targetY - 2) return done(false);
+    L2D.act('Fall');
+    let y = pos.y,
+      v = 0,
+      last = performance.now();
+    const step = (t) => {
+      const dt = Math.min(0.05, (t - last) / 1000);
+      last = t;
+      v = Math.min(2200, v + 2600 * dt);
+      y += v * dt;
+      if (y >= targetY) {
+        moveTo(pos.x, targetY);
+        falling = null;
+        L2D.act('Land');
+        return done(true);
+      }
+      moveTo(pos.x, y);
+      falling.raf = requestAnimationFrame(step);
+    };
+    falling = { raf: requestAnimationFrame(step) };
+  });
+}
 pet.addEventListener('pointerup', async () => {
   const d = down;
   down = null;
@@ -321,6 +353,7 @@ pet.addEventListener('pointerup', async () => {
   if (!d.moved) return poke();
   dragging = false;
   document.body.classList.remove('dragging');
+  L2D.sway(0);
   await readGeometry();
   const petLeft = pos.x + WIN_W - PET_MARGIN - 140,
     petRight = pos.x + WIN_W - PET_MARGIN;
@@ -329,7 +362,11 @@ pet.addEventListener('pointerup', async () => {
   // 拖到任务栏上：扒着屏幕底边只露个头（睡着时就钻下去接着睡）
   else if (area && pos.y + WIN_H > area.y + area.h - 4) dock = 'bottom';
   else dock = null;
-  if (!dock) moveTo(clampX(pos.x), clampY(pos.y));
+  let landed = false;
+  if (!dock) {
+    moveTo(clampX(pos.x), clampY(pos.y));
+    if (area) landed = await fallTo(area.y + area.h - WIN_H);
+  }
   applyDock();
   rememberPos();
   if (dock === 'bottom') {
@@ -347,7 +384,8 @@ pet.addEventListener('pointerup', async () => {
   if (dock) say(pick(LINES.hide), 'peek', 3500);
   else {
     const own = Math.random() < 0.6 && outfitLine(outfitNow(), 'dropped');
-    say(own ? own[0] : pick(LINES.dropped), own ? own[1] : pick(['pout', 'meh']), 3000);
+    // 刚落地：等蹲下站直（Land 动作 1 秒）再抱怨
+    setTimeout(() => say(own ? own[0] : pick(LINES.dropped), own ? own[1] : pick(['pout', 'meh']), 3000), landed ? 900 : 0);
   }
 });
 pet.addEventListener('pointercancel', () => {
@@ -495,6 +533,11 @@ function installUpdate() {
 tauri?.event.listen('open-site', () => openSite());
 // Rust 每隔一会儿告诉这里鼠标在哪（相对窗口左上角，CSS 像素）：Live2D 的眼睛和头跟着看
 tauri?.event.listen('cursor', ({ payload }) => L2D.lookTo(payload[0], payload[1]));
+// 鼠标从她面前飞快划过：吓一跳，偶尔嘟囔一句
+L2D.onStartled(() => {
+  if (sleep || dock || dragging || !menu.hidden || !bubble.hidden) return;
+  if (Math.random() < 0.5) say(pick(LINES.startled), 'surprised', 2500);
+});
 // 某套衣服的 Live2D 模型刚加载好：表情不变，重新摆一次，从立绘换成 Live2D
 L2D.onLoaded(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
 if (useL2D()) L2D.load().then(() => setMood(autoMood()));
@@ -504,6 +547,7 @@ tauri?.event.listen('summoned', () => {
 });
 
 pet.addEventListener('dblclick', () => {
+  if (!sleep) L2D.act('Cheer');
   say(pick(LINES.openZhixu), sleep ? undefined : pick(['smug', 'surprised']), 2500);
   openSite().catch((e) => say('没打开：' + e, 'pout'));
 });
@@ -704,6 +748,7 @@ async function roamTick() {
       stopRoam();
       rememberPos();
       setMood(autoMood());
+      L2D.act('Pant'); // Live2D：跑完停下来喘口气
     }
   };
   roam.raf = requestAnimationFrame(step);

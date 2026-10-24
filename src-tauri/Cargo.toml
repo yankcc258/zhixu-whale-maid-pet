@@ -1,6 +1,6 @@
 [package]
 name = "zhixu-whale-pet"
-version = "0.9.4"
+version = "0.9.8"
 description = "知序的鲸鱼娘桌宠"
 authors = ["Yank"]
 edition = "2021"
