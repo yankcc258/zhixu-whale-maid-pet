@@ -557,8 +557,9 @@ class Rig:
             kp = dict(og)
             kp[bref] = str(ni)
             new_entries.append((kp, fid))
-        # 写回 grid
+        # 写回 grid（条目必须按 keyIndex 的字典序排列，Cubism 按位置读）
         binds_order = re.findall(r'<KeyformBindingSource xs.ref="(#\d+)" />', gb[gb.find('keyformBindings'):])
+        new_entries.sort(key=lambda e: tuple(int(e[0][bb]) for bb in reversed(binds_order)))  # 第一个 binding 变得最快
         ent = []
         for kp, fr in new_entries:
             kps = ''.join(f'<KeyOnParameter>\n<KeyformBindingSource xs.n="binding" xs.ref="{bb}" />\n<i xs.n="keyIndex">{kp[bb]}</i>\n</KeyOnParameter>\n' for bb in binds_order)
@@ -585,3 +586,181 @@ class Rig:
         (st3, en3) = self.mesh_block(name)
         self.s = self.s[:en3] + '\n' + ''.join(f'<CFormGuid uuid="{self.uid()}" note="Key [  ]" xs.id="{f}" xs.idx="{x}" />\n' for f, x in new_guids) + self.s[en3:]
         self.log.append(f'{name}: {pid} 插键 {newkey}（{len(new_forms)} 个形态，透明度 {opacity}）')
+
+    # ---------- 把根级网格挂到曲面变形器下，并绑一个 0/1 显隐参数 ----------
+    def mesh_attach_toggle(self, name, parent, pid, draw_order=None, visible=True):
+        """name：根级网格（关键形态只有 1 个，坐标=画布）；parent：曲面变形器；pid：参数（0 隐 1 显，已存在）。
+        结果：网格挂到 parent 下（坐标换算到 0~1），关键形态变成 2 个（pid=0 透明度 0，pid=1 透明度 1）。"""
+        st, en = self.mesh_block(name)
+        b = self.s[st:en]
+        off, sc = self.frame_of(parent)
+        pg_ref = self.deformer_guid(parent)
+        # 1) targetDeformerGuid
+        b = re.sub(r'(<CDeformerGuid xs.n="targetDeformerGuid" xs.ref=")#\d+(")', r'\g<1>' + pg_ref + r'\2', b, count=1)
+        # 2) isVisible
+        b = re.sub(r'<b xs.n="isVisible">\w+</b>', f'<b xs.n="isVisible">{"true" if visible else "false"}</b>', b, count=1)
+        # 3) 关键形态：原来 1 个（画布坐标）→ 复制成 2 个，坐标换算，透明度 0 / 1
+        ks, ke = self._keyforms_span(b)
+        kfl = b.find('<carray_list xs.n="keyforms"')
+        fm = re.search(r'<CArtMeshForm>(.*?)</CArtMeshForm>\n?', b[kfl:], re.S)
+        ftxt = fm.group(0)
+        fr0 = re.search(r'<CFormGuid xs.n="guid" xs.ref="(#\d+)"', ftxt).group(1)
+        pm = re.search(r'<float-array xs.n="positions" count="\d+">([^<]*)<', ftxt)
+        pos = np.array(pm.group(1).split(), float).reshape(-1, 2)
+        local = (pos - off) / sc
+        ltxt = ' '.join(f'{x:.7g}' for x in local.reshape(-1))
+        def mk(fid, op):
+            t = ftxt[: pm.start(1)] + ltxt + ftxt[pm.end(1):]
+            t = re.sub(r'<f xs.n="opacity">[^<]*<', f'<f xs.n="opacity">{op}<', t)
+            t = t.replace(f'<CFormGuid xs.n="guid" xs.ref="{fr0}" />', f'<CFormGuid xs.n="guid" xs.ref="{fid}" />')
+            if draw_order is not None:
+                t = re.sub(r'<i xs.n="drawOrder">\d+</i>', f'<i xs.n="drawOrder">{draw_order}</i>', t)
+            return t
+        f1, f1x = self.new()
+        forms_txt = mk(fr0, 0.0) + mk(f1, 1.0)
+        b = b[:kfl + fm.start()] + forms_txt + b[kfl + fm.end():]
+        b = re.sub(r'(<carray_list xs.n="keyforms" count=")1(")', r'\g<1>2\2', b, count=1)
+        # 4) 关键形态网格：binding on pid, keys [0,1]
+        pg = self.param_guid(pid)
+        gid, gx = self.new()
+        bid, bx = self.new()
+        btext = (
+            f'<KeyformBindingSource xs.id="{bid}" xs.idx="{bx}">\n<KeyformGridSource xs.n="_gridSource" xs.ref="{gid}" />\n'
+            f'<CParameterGuid xs.n="parameterGuid" xs.ref="{pg}" />\n<array_list xs.n="keys" count="2">\n<f>0.0</f>\n<f>1.0</f>\n</array_list>\n'
+            '<InterpolationType xs.n="interpolationType" v="LINEAR" />\n<ExtendedInterpolationType xs.n="extendedInterpolationType" v="LINEAR" />\n'
+            '<i xs.n="insertPointCount">1</i>\n<f xs.n="extendedInterpolationScale">1.0</f>\n<s xs.n="description" />\n</KeyformBindingSource>\n'
+        )
+        gtext = self._grid_text(gid, gx, [bid], [(0,), (1,)], [fr0, f1], 1)
+        b = re.sub(r'<KeyformGridSource xs.n="keyformGridSource">.*?</KeyformGridSource>', f'<KeyformGridSource xs.n="keyformGridSource" xs.ref="{gid}" />', b, count=1, flags=re.S)
+        self.s = self.s[:st] + b + self.s[en:]
+        st2, en2 = self.mesh_block(name)
+        self.s = self.s[:en2] + '\n' + gtext + btext + f'<CFormGuid uuid="{self.uid()}" note="Key [  ]" xs.id="{f1}" xs.idx="{f1x}" />\n' + self.s[en2:]
+        self.log.append(f'{name} → {parent}，参数 {pid} 0/1，描画 {draw_order}')
+
+    # ---------- 把一个「整画布 4 点」的网格重铺成贴着图像 bbox 的小矩形（新导入的小图层用）----------
+    def mesh_fit_bbox(self, name, bbox, margin=6, canvas=(1086, 1448)):
+        """bbox：(x0,y0,x1,y1) 画布像素。网格重铺为 4 点 2 三角；关键形态 positions 按当前父坐标系换算；uv 对应整张图层画布。"""
+        import model as M
+        st, en = self.mesh_block(name)
+        b = self.s[st:en]
+        x0, y0, x1, y1 = bbox
+        x0 -= margin; y0 -= margin; x1 += margin; y1 += margin
+        pts = np.array([[x0, y0], [x1, y0], [x1, y1], [x0, y1]], float)
+        W, H = canvas
+        uvs = np.c_[pts[:, 0] / W, pts[:, 1] / H]
+        # 父坐标
+        par = self.parent_name_of_mesh(name)
+        off, sc = self.frame_of(par)
+        local = (pts - off) / sc
+        P = ' '.join(f'{v:.7g}' for v in pts.reshape(-1))
+        L = ' '.join(f'{v:.7g}' for v in local.reshape(-1))
+        U = ' '.join(f'{v:.7g}' for v in uvs.reshape(-1))
+        b = re.sub(r'<float-array xs.n="point" count="\d+">[^<]*<', f'<float-array xs.n="point" count="8">{P}<', b, count=1)
+        b = re.sub(r'<short-array xs.n="edge" count="\d+">[^<]*<', '<short-array xs.n="edge" count="10">0 1 1 2 2 3 0 3 0 2<', b, count=1)
+        b = re.sub(r'<byte-array xs.n="edgePriority" count="\d+">[^<]*<', '<byte-array xs.n="edgePriority" count="5">30 30 30 30 30<', b, count=1)
+        b = re.sub(r'<byte-array xs.n="pointPriority" count="\d+">[^<]*<', '<byte-array xs.n="pointPriority" count="4">10 10 10 10<', b, count=1)
+        b = re.sub(r'<int-array xs.n="pointUid" count="\d+">[^<]*<', '<int-array xs.n="pointUid" count="4">0 1 2 3<', b, count=1)
+        b = re.sub(r'nextPointUid="\d+"', 'nextPointUid="4"', b, count=1)
+        b = re.sub(r'<int-array xs.n="indices" count="\d+">[^<]*<', '<int-array xs.n="indices" count="6">0 1 2 0 2 3<', b, count=1)
+        ks, ke = self._keyforms_span(b)
+        b = b[:ks] + re.sub(r'(<float-array xs.n="positions" count=")\d+(">)[^<]*<', r'\g<1>8\g<2>' + L + '<', b[ks:ke]) + b[ke:]
+        # 末尾缓存：画布坐标 + uv
+        tail = b[ke:]
+        tail = re.sub(r'(<float-array xs.n="positions" count=")\d+(">)[^<]*<', r'\g<1>8\g<2>' + P + '<', tail, count=1)
+        tail = re.sub(r'(<float-array xs.n="uvs" count=")\d+(">)[^<]*<', r'\g<1>8\g<2>' + U + '<', tail, count=1)
+        b = b[:ke] + tail
+        self.s = self.s[:st] + b + self.s[en:]
+        self.log.append(f'{name} 网格重铺到 bbox {bbox}')
+
+    def parent_name_of_mesh(self, name):
+        import model as M
+        st, en = self.mesh_block(name)
+        t = re.search(r'<CDeformerGuid xs.n="targetDeformerGuid" xs.ref="(#\d+)"', self.s[st:en]).group(1)
+        for n, dd in M.deformers(self.s).items():
+            if dd['guid'] == t:
+                return n
+        return None
+
+    # ---------- 把所有关键形态网格的条目按规范顺序排好（第一个 binding 变得最快）----------
+    def canonicalize_grids(self):
+        n = 0
+        out, p = [], 0
+        for m in re.finditer(r'<KeyformGridSource( xs.n="keyformGridSource")?( xs.id="#\d+" xs.idx="\d+")?>\r?\n<array_list xs.n="keyformsOnGrid" count="(\d+)">\r?\n(.*?)</array_list>\r?\n<array_list xs.n="keyformBindings" count="\d+">\r?\n(.*?)</array_list>', self.s, re.S):
+            binds = re.findall(r'<KeyformBindingSource xs.ref="(#\d+)" />', m.group(5))
+            if len(binds) < 1:
+                continue
+            ents = [(dict(re.findall(r'<KeyformBindingSource xs.n="binding" xs.ref="(#\d+)" />\s*<i xs.n="keyIndex">(\d+)</i>', k.group(1))), k.group(0)) for k in re.finditer(r'<KeyformOnGrid>(.*?)</KeyformOnGrid>\r?\n?', m.group(4), re.S)]
+            if len(ents) != int(m.group(3)):
+                continue
+            key = lambda e: tuple(int(e[0].get(bb, 0)) for bb in reversed(binds))
+            srt = sorted(ents, key=key)
+            if [e[1] for e in srt] != [e[1] for e in ents]:
+                n += 1
+                out.append(self.s[p:m.start(4)] + ''.join(e[1] for e in srt))
+                p = m.end(4)
+        out.append(self.s[p:])
+        self.s = ''.join(out)
+        self.log.append(f'关键形态网格重新排序 ×{n}')
+        return n
+
+    # ---------- 给一个网格加一个「隐藏」参数轴：pid=1 时所有关键形态透明度 0 ----------
+    def mesh_add_hide_axis(self, name, pid):
+        """现有网格可能已有 1 个或多个 binding；新加 pid [0,1] 轴，复制全部关键形态，pid=1 的副本透明度 0。"""
+        import model as M
+        st, en = self.mesh_block(name)
+        b = self.s[st:en]
+        km = re.search(r'<KeyformGridSource xs.n="keyformGridSource"( xs.ref="(#\d+)")?', b)
+        inline = not km.group(2)
+        if inline:
+            gst = st + km.start()
+        else:
+            gst = self.s.find(f'<KeyformGridSource xs.id="{km.group(2)}"')
+        gen = self.s.find('</KeyformGridSource>', gst) + len('</KeyformGridSource>')
+        gb = self.s[gst:gen]
+        binds = re.findall(r'<KeyformBindingSource xs.ref="(#\d+)" />', gb[gb.find('keyformBindings'):])
+        ents = [(dict(re.findall(r'<KeyformBindingSource xs.n="binding" xs.ref="(#\d+)" />\s*<i xs.n="keyIndex">(\d+)</i>', k.group(1))), re.search(r'<CFormGuid xs.n="keyformGuid" xs.ref="(#\d+)"', k.group(1)).group(1)) for k in re.finditer(r'<KeyformOnGrid>(.*?)</KeyformOnGrid>', gb, re.S)]
+        pg = self.param_guid(pid)
+        gref = km.group(2)
+        if inline:
+            gref, gx2 = self.new()
+        bid, bx = self.new()
+        btext = (f'<KeyformBindingSource xs.id="{bid}" xs.idx="{bx}">\n<KeyformGridSource xs.n="_gridSource" xs.ref="{gref}" />\n'
+                 f'<CParameterGuid xs.n="parameterGuid" xs.ref="{pg}" />\n<array_list xs.n="keys" count="2">\n<f>0.0</f>\n<f>1.0</f>\n</array_list>\n'
+                 '<InterpolationType xs.n="interpolationType" v="LINEAR" />\n<ExtendedInterpolationType xs.n="extendedInterpolationType" v="LINEAR" />\n'
+                 '<i xs.n="insertPointCount">1</i>\n<f xs.n="extendedInterpolationScale">1.0</f>\n<s xs.n="description" />\n</KeyformBindingSource>\n')
+        kfl = b.find('<carray_list xs.n="keyforms"')
+        kfe = b.rfind('</CArtMeshForm>') + len('</CArtMeshForm>')
+        forms = {}
+        for fm in re.finditer(r'<CArtMeshForm>(.*?)</CArtMeshForm>\r?\n?', b[kfl:kfe + 2], re.S):
+            forms[re.search(r'<CFormGuid xs.n="guid" xs.ref="(#\d+)"', fm.group(1)).group(1)] = fm.group(0)
+        new_forms, new_guids, new_entries = [], [], []
+        for kp, fr in ents:
+            new_entries.append((dict(kp, **{bid: '0'}), fr))
+            fid, fx = self.new()
+            new_guids.append((fid, fx))
+            t = re.sub(r'<f xs.n="opacity">[^<]*<', '<f xs.n="opacity">0.0<', forms[fr])
+            t = t.replace(f'<CFormGuid xs.n="guid" xs.ref="{fr}" />', f'<CFormGuid xs.n="guid" xs.ref="{fid}" />')
+            new_forms.append(t)
+            new_entries.append((dict(kp, **{bid: '1'}), fid))
+        binds2 = binds + [bid]
+        new_entries.sort(key=lambda e: tuple(int(e[0][bb]) for bb in reversed(binds2)))
+        ent = ''.join(f'<KeyformOnGrid>\n<KeyformGridAccessKey xs.n="accessKey">\n<array_list xs.n="_keyOnParameterList" count="{len(binds2)}">\n'
+                      + ''.join(f'<KeyOnParameter>\n<KeyformBindingSource xs.n="binding" xs.ref="{bb}" />\n<i xs.n="keyIndex">{kp[bb]}</i>\n</KeyOnParameter>\n' for bb in binds2)
+                      + f'</array_list>\n</KeyformGridAccessKey>\n<CFormGuid xs.n="keyformGuid" xs.ref="{fr}" />\n</KeyformOnGrid>\n' for kp, fr in new_entries)
+        bl = ''.join(f'<KeyformBindingSource xs.ref="{bb}" />\n' for bb in binds2)
+        head = f'<KeyformGridSource xs.id="{gref}" xs.idx="{gx2}">\n' if inline else gb[: gb.find('>') + 1] + '\n'
+        ngb = head + f'<array_list xs.n="keyformsOnGrid" count="{len(new_entries)}">\n{ent}</array_list>\n<array_list xs.n="keyformBindings" count="{len(binds2)}">\n{bl}</array_list>\n</KeyformGridSource>\n'
+        # 写回：forms 追加（在 mesh 内，靠后）→ grid（inline 在 mesh 内靠前 / 独立对象在 mesh 外）
+        b2 = b[:kfe] + ''.join(new_forms) + b[kfe:]
+        b2 = re.sub(r'(<carray_list xs.n="keyforms" count=")(\d+)(")', lambda m: m.group(1) + str(int(m.group(2)) + len(new_forms)) + m.group(3), b2, count=1)
+        if inline:
+            b2 = b2[:km.start()] + f'<KeyformGridSource xs.n="keyformGridSource" xs.ref="{gref}" />' + b2[gen - st:]
+            self.s = self.s[:st] + b2 + self.s[en:]
+            st2, en2 = self.mesh_block(name)
+            self.s = self.s[:en2] + '\n' + ngb + btext + ''.join(f'<CFormGuid uuid="{self.uid()}" note="Key [  ]" xs.id="{f}" xs.idx="{x}" />\n' for f, x in new_guids) + self.s[en2:]
+        else:
+            self.s = self.s[:st] + b2 + self.s[en:]
+            gst = self.s.find(f'<KeyformGridSource xs.id="{gref}"')
+            gen = self.s.find('</KeyformGridSource>', gst) + len('</KeyformGridSource>')
+            self.s = self.s[:gst] + ngb + btext + ''.join(f'<CFormGuid uuid="{self.uid()}" note="Key [  ]" xs.id="{f}" xs.idx="{x}" />\n' for f, x in new_guids) + self.s[gen:]
+        self.log.append(f'{name}: 加隐藏轴 {pid}（{len(new_forms)} 个形态）')
