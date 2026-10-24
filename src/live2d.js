@@ -8,23 +8,23 @@ const L2D = (() => {
     idle: null,
     run: null, // 跑动：Live2D 走路循环（往右跑时画布镜像，见 pet.js 的 flip）
     happy: 'happy',
-    excited: 'happy',
-    wave: 'happy',
-    newyear: 'happy',
+    excited: 'sparkle',
+    wave: 'grin',
+    newyear: 'sparkle',
     smug: 'smug',
     smirk: 'smug',
-    bleh: 'smug',
+    bleh: 'wink',
     angry: 'angry',
-    wake: 'angry',
-    pat: 'shy',
+    wake: 'dazed',
+    pat: 'blush',
     sleepy: 'sleepy',
     sleep: 'sleepy',
     surprised: 'surprised',
-    dangle: 'surprised',
+    dangle: 'teary',
     pout: 'pout',
-    meh: 'pout',
-    hot: 'pout',
-    cold: 'pout',
+    meh: 'deadpan',
+    hot: 'dazed',
+    cold: 'puff',
   };
   // 心情刚变成这个时顺便做的动作（motions/ 里的分组）；之后回到随机的待机动作
   const ACT = {
@@ -168,6 +168,9 @@ const L2D = (() => {
             const v = 0.5 + 0.5 * Math.sin(now / 70) * Math.sin(now / 190);
             core.setParameterValueById('ParamMouthOpenY', Math.max(0, v));
           }
+          // 新嘴型（ω、撅嘴、波浪、一字、咧笑）亮着的时候，把默认的 :3 嘴线藏掉（它是按张嘴程度淡出的）
+          const alt = ['ParamMouthCat', 'ParamMouthPout', 'ParamMouthWavy', 'ParamMouthFlat', 'ParamMouthGrin'].reduce((a, id) => Math.max(a, core.getParameterValueById(id)), 0);
+          core.setParameterValueById('ParamMouthAlt', alt);
           finNow += (near * 7 - finNow) * 0.08;
           if (Math.abs(finNow) > 0.01) {
             core.setParameterValueById('ParamFinL', core.getParameterValueById('ParamFinL') + finNow);

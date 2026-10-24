@@ -1,6 +1,6 @@
 {
 	"Type": "Live2D Expression",
-	"FadeInTime": 0.3,
+	"FadeInTime": 0.25,
 	"FadeOutTime": 0.3,
 	"Parameters": [
 		{
@@ -14,6 +14,16 @@
 			"Blend": "Overwrite"
 		},
 		{
+			"Id": "ParamEyeLSmile",
+			"Value": 0.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamEyeRSmile",
+			"Value": 0.0,
+			"Blend": "Overwrite"
+		},
+		{
 			"Id": "ParamBrowLY",
 			"Value": 1,
 			"Blend": "Overwrite"
@@ -24,18 +34,88 @@
 			"Blend": "Overwrite"
 		},
 		{
-			"Id": "ParamMouthForm",
-			"Value": 1,
+			"Id": "ParamBrowLAngle",
+			"Value": 0.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamBrowRAngle",
+			"Value": -0.0,
 			"Blend": "Overwrite"
 		},
 		{
 			"Id": "ParamMouthOpenY",
+			"Value": 1.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamMouthForm",
+			"Value": 1.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamMouthCat",
+			"Value": 0.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamMouthPout",
+			"Value": 0.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamMouthWavy",
+			"Value": 0.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamMouthFlat",
+			"Value": 0.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamMouthGrin",
+			"Value": 0.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamSparkle",
+			"Value": 0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamTear",
+			"Value": 0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamSweat",
 			"Value": 1,
 			"Blend": "Overwrite"
 		},
 		{
+			"Id": "ParamAnger",
+			"Value": 0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamCheek",
+			"Value": 0.0,
+			"Blend": "Overwrite"
+		},
+		{
+			"Id": "ParamAngleX",
+			"Value": 0,
+			"Blend": "Add"
+		},
+		{
 			"Id": "ParamAngleY",
 			"Value": 8,
+			"Blend": "Add"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"Value": 0,
 			"Blend": "Add"
 		},
 		{

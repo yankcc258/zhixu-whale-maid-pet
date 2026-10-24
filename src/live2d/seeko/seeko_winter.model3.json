@@ -35,6 +35,38 @@
 			{
 				"Name": "pout",
 				"File": "expressions/pout.exp3.json"
+			},
+			{
+				"Name": "wink",
+				"File": "expressions/wink.exp3.json"
+			},
+			{
+				"Name": "teary",
+				"File": "expressions/teary.exp3.json"
+			},
+			{
+				"Name": "deadpan",
+				"File": "expressions/deadpan.exp3.json"
+			},
+			{
+				"Name": "sparkle",
+				"File": "expressions/sparkle.exp3.json"
+			},
+			{
+				"Name": "puff",
+				"File": "expressions/puff.exp3.json"
+			},
+			{
+				"Name": "dazed",
+				"File": "expressions/dazed.exp3.json"
+			},
+			{
+				"Name": "blush",
+				"File": "expressions/blush.exp3.json"
+			},
+			{
+				"Name": "grin",
+				"File": "expressions/grin.exp3.json"
 			}
 		],
 		"Motions": {

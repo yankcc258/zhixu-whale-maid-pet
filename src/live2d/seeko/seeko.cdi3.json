@@ -180,8 +180,58 @@
 			"Id": "ParamFinR",
 			"GroupId": "",
 			"Name": "右耳鳍 摆动"
+		},
+		{
+			"Id": "ParamMouthCat",
+			"GroupId": "",
+			"Name": "嘴 ω"
+		},
+		{
+			"Id": "ParamMouthPout",
+			"GroupId": "",
+			"Name": "嘴 撅"
+		},
+		{
+			"Id": "ParamMouthWavy",
+			"GroupId": "",
+			"Name": "嘴 波浪"
+		},
+		{
+			"Id": "ParamMouthFlat",
+			"GroupId": "",
+			"Name": "嘴 一字"
+		},
+		{
+			"Id": "ParamMouthGrin",
+			"GroupId": "",
+			"Name": "嘴 咧笑"
+		},
+		{
+			"Id": "ParamSparkle",
+			"GroupId": "",
+			"Name": "眼 闪闪"
+		},
+		{
+			"Id": "ParamTear",
+			"GroupId": "",
+			"Name": "泪珠"
+		},
+		{
+			"Id": "ParamSweat",
+			"GroupId": "",
+			"Name": "汗滴"
+		},
+		{
+			"Id": "ParamAnger",
+			"GroupId": "",
+			"Name": "青筋"
 		}
 	],
 	"ParameterGroups": [],
-	"Parts": []
+	"Parts": [
+		{
+			"Id": "Part",
+			"Name": "seeko_cubism_import_v05f_clean.psd(未找到对应图层)"
+		}
+	]
 }
