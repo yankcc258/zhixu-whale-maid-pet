@@ -704,6 +704,7 @@ async function roamTick() {
       stopRoam();
       rememberPos();
       setMood(autoMood());
+      L2D.act('Pant'); // Live2D：跑完停下来喘口气
     }
   };
   roam.raf = requestAnimationFrame(step);

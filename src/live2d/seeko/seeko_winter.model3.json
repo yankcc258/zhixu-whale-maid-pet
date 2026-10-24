@@ -153,6 +153,20 @@
 					"FadeInTime": 0.25,
 					"FadeOutTime": 0.4
 				}
+			],
+			"Walk": [
+				{
+					"File": "motions/walk.motion3.json",
+					"FadeInTime": 0.25,
+					"FadeOutTime": 0.3
+				}
+			],
+			"Pant": [
+				{
+					"File": "motions/pant.motion3.json",
+					"FadeInTime": 0.2,
+					"FadeOutTime": 0.5
+				}
 			]
 		}
 	},

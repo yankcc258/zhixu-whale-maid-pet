@@ -6,6 +6,7 @@ const L2D = (() => {
   // 桌宠的心情 → 模型的表情（null = 不加表情，只放待机动作）
   const EXP = {
     idle: null,
+    run: null, // 跑动：Live2D 走路循环（往右跑时画布镜像，见 pet.js 的 flip）
     happy: 'happy',
     excited: 'happy',
     wave: 'happy',
@@ -43,6 +44,7 @@ const L2D = (() => {
     meh: 'Kick',
     bleh: 'Tilt',
     dangle: 'Swing',
+    run: 'Walk',
   };
   // 全身像比立绘（半身大头）小，所以 Live2D 时 #pet 加高到 170×180（style.css 的 body.live2d），
   // 头顶那一截和气泡叠一点点没关系。人只有 135 宽，左右各留一截，转头时耳鳍和头发不会被切掉
@@ -235,8 +237,8 @@ const L2D = (() => {
       model.internalModel.eyeBlink = EYES_SHUT.has(e) ? undefined : blinks.get(model);
     }
     if (mood !== lastMood) {
-      // 刚从拎着放下来：停掉甩头，回到待机
-      if (lastMood === 'dangle') model.internalModel.motionManager.stopAllMotions();
+      // 刚从拎着放下来 / 刚跑完：停掉甩头、走路，回到待机
+      if (lastMood === 'dangle' || lastMood === 'run') model.internalModel.motionManager.stopAllMotions();
       lastMood = mood;
       act(ACT[mood]);
     }
