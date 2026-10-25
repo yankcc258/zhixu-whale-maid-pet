@@ -31,6 +31,8 @@ const DEFAULTS = {
   examUntil: 0, // 考试周（必胜头巾）到什么时候
   figure: 'q', // 形象：'q' Q 版（现在这个）；'mini' 迷你人形（制作中）
   qStyle: 'live2d', // Q 版的样子：'live2d' 动态（会眨眼、看鼠标、做动作）；'static' 静态（以前的立绘）
+  pixel: false, // 像素模式：红白机画风（马赛克 + 颜色压级），Live2D 和立绘都变
+  sfx: 'low', // 音效音量：'off' | 'low' | 'mid' | 'high'（安静模式时也不响）
 };
 let prefs = loadPrefs();
 function loadPrefs() {
@@ -45,6 +47,15 @@ function loadPrefs() {
 }
 // 现在要不要用 Live2D（Q 版动态）。迷你人形做好以前，选迷你也先用 Q 版
 const useL2D = () => prefs.qStyle !== 'static';
+// 像素模式：body.pixel 管立绘和气泡的样子（style.css），Live2D 的画布交给 L2D
+function applyPixel() {
+  document.body.classList.toggle('pixel', !!prefs.pixel);
+  L2D.setPixel(!!prefs.pixel);
+}
+function applySfx() {
+  SFX.setLevel(prefs.sfx);
+  SFX.setMuted(!!prefs.quiet);
+}
 function savePrefs() {
   try {
     localStorage.setItem('whale-prefs', JSON.stringify(prefs));
@@ -55,6 +66,8 @@ addEventListener('storage', (e) => {
   const resetBefore = prefs.resetAt;
   prefs = loadPrefs();
   renderMenu();
+  applyPixel();
+  applySfx();
   invoke('set_game_mode', { on: !!prefs.gameMode });
   if (prefs.resetAt !== resetBefore) resetPos();
   if (useL2D()) L2D.load().then(() => setMood(autoMood()));
@@ -142,6 +155,7 @@ function unlock(id) {
   if (!festById(id) || prefs.wardrobe.includes(id)) return;
   prefs.wardrobe = [...prefs.wardrobe, id];
   savePrefs();
+  SFX.play('fanfare'); // 通关！衣柜收到新衣服
 }
 // 躲在左右边时能用的表情（左边会镜像）
 const DOCK_MOODS = ['peek', 'peekPhone', 'peekCheek', 'peekHead', 'peekAngry', 'peekSleep'];
@@ -174,19 +188,83 @@ function setMood(m, ms) {
   document.body.classList.toggle('angry', m === 'angry' || m === 'wake' || m === 'peekAngry');
 }
 
-// 换图；多帧的（浴衣跑步）轮流换
+// 换图；多帧的（浴衣跑步）轮流换。像素模式下先把图缩成小格子再放大（见 pixelSprite）
 let frameTimer = 0,
   shownFrames = '';
 function showSprite(src) {
   const frames = Array.isArray(src) ? src : [src];
-  if (frames.join() === shownFrames) return;
-  shownFrames = frames.join();
+  const key = frames.join() + (prefs.pixel ? '#px' : '');
+  if (key === shownFrames) return;
+  shownFrames = key;
   clearInterval(frameTimer);
-  img.src = frames[0];
-  if (frames.length < 2) return;
-  frames.forEach((f) => (new Image().src = f)); // 先载好，免得闪
-  let i = 0;
-  frameTimer = setInterval(() => (img.src = frames[(i = (i + 1) % frames.length)]), 170);
+  if (!prefs.pixel) img.src = frames[0]; // 马上换，别等
+  (prefs.pixel ? Promise.all(frames.map(pixelSprite)) : Promise.resolve(frames)).then((fs) => {
+    if (shownFrames !== key) return; // 等的时候又换了
+    img.src = fs[0];
+    if (fs.length < 2) return;
+    fs.forEach((f) => (new Image().src = f)); // 先载好，免得闪
+    let i = 0;
+    frameTimer = setInterval(() => (img.src = fs[(i = (i + 1) % fs.length)]), 170);
+  });
+}
+// 像素模式的立绘：把 440×440 的图画到 70 格宽的小画布上（显示 140px，每 2 像素一格，和 Live2D 的格子差不多大），
+// 明暗压成 7 级（色相不动，饱和度略提）、半透明的边一刀切掉，存成 data URL；CSS 的 image-rendering: pixelated 负责放大成马赛克。
+// 做过的记着，同一张图只算一次。读不出来（跨域之类）就退回原图
+const PIXEL_CELLS = 70,
+  PIXEL_LEVELS = 7,
+  PIXEL_SAT = 1.15,
+  pixelCache = new Map();
+function pixelSprite(src) {
+  if (pixelCache.has(src)) return pixelCache.get(src);
+  const p = new Promise((done) => {
+    const im = new Image();
+    im.onload = () => {
+      try {
+        const k = PIXEL_CELLS / Math.max(im.naturalWidth, im.naturalHeight);
+        const w = Math.max(1, Math.round(im.naturalWidth * k)),
+          h = Math.max(1, Math.round(im.naturalHeight * k));
+        // 直接把 440 像素平均成 70 格，深色描边会把整块头发染灰；先平滑缩到 2 倍大，再按格子中心取点，颜色留得住
+        const mid = document.createElement('canvas');
+        mid.width = w * 2;
+        mid.height = h * 2;
+        const mg = mid.getContext('2d');
+        mg.imageSmoothingQuality = 'high';
+        mg.drawImage(im, 0, 0, mid.width, mid.height);
+        const c = document.createElement('canvas');
+        c.width = w;
+        c.height = h;
+        const g = c.getContext('2d', { willReadFrequently: true });
+        g.imageSmoothingEnabled = false;
+        g.drawImage(mid, 0, 0, w, h);
+        const d = g.getImageData(0, 0, w, h),
+          px = d.data;
+        for (let i = 0; i < px.length; i += 4) {
+          if (px[i + 3] < 128) {
+            px[i + 3] = 0;
+            continue;
+          }
+          px[i + 3] = 255;
+          // 只把明暗分成几级、色相和饱和度留着（三个通道各自分级的话，她那种偏灰的蓝头发会被压成灰紫色）
+          const r = px[i],
+            gg = px[i + 1],
+            b = px[i + 2],
+            y = 0.299 * r + 0.587 * gg + 0.114 * b,
+            yq = (Math.round((y / 255) * (PIXEL_LEVELS - 1)) / (PIXEL_LEVELS - 1)) * 255;
+          px[i] = Math.max(0, Math.min(255, yq + (r - y) * PIXEL_SAT));
+          px[i + 1] = Math.max(0, Math.min(255, yq + (gg - y) * PIXEL_SAT));
+          px[i + 2] = Math.max(0, Math.min(255, yq + (b - y) * PIXEL_SAT));
+        }
+        g.putImageData(d, 0, 0);
+        done(c.toDataURL('image/png'));
+      } catch {
+        done(src);
+      }
+    };
+    im.onerror = () => done(src);
+    im.src = src;
+  });
+  pixelCache.set(src, p);
+  return p;
 }
 
 // ---------- 气泡和菜单 ----------
@@ -310,6 +388,7 @@ pet.addEventListener('pointermove', (e) => {
     menu.hidden = bubble.hidden = true;
     document.body.classList.add('dragging');
     setMood('dangle');
+    SFX.play('pickup');
   }
   // 拖动速度 → Live2D 往后仰
   const now = performance.now();
@@ -337,6 +416,7 @@ function fallTo(targetY) {
         moveTo(pos.x, targetY);
         falling = null;
         L2D.act('Land');
+        SFX.play('land');
         return done(true);
       }
       moveTo(pos.x, y);
@@ -379,6 +459,7 @@ pet.addEventListener('pointerup', async () => {
   if (sleep) {
     sleep = 'mad';
     sleepUntil = Date.now() + 15000;
+    SFX.play('angry');
     return say(pick(LINES.mad), 'wake', 8000);
   }
   if (dock) say(pick(LINES.hide), 'peek', 3500);
@@ -397,6 +478,7 @@ pet.addEventListener('pointercancel', () => {
 
 function poke() {
   duang();
+  SFX.play('poke');
   // 钻在任务栏下面睡：戳一下就迷迷糊糊地爬出来；醒着扒在底边就嘟囔一句
   if (dock === 'bottom' && !sleep) {
     document.body.classList.add('peeking');
@@ -412,11 +494,13 @@ function poke() {
     sleep = 'groggy';
     groggyAt = Date.now();
     sleepUntil = Date.now() + 20000;
+    SFX.play('wake');
     return say(pick(LINES.groggy), 'sleepy', 20000);
   }
   if (sleep === 'groggy' && Date.now() - groggyAt < 12000) {
     sleep = 'mad';
     sleepUntil = Date.now() + 14000;
+    SFX.play('angry');
     return say(pick(LINES.mad), 'wake', 12000);
   }
   if (dock) {
@@ -430,10 +514,12 @@ function poke() {
   if (warnedAt && now - warnedAt > 30000) warnedAt = 0;
   if (warnedAt) {
     if (pokes.filter((t) => t > warnedAt).length >= 4) return runAway();
+    SFX.play('angry');
     return say(pick(LINES.bugged), 'angry', 4000);
   }
   if (pokes.length >= 6) {
     warnedAt = now;
+    SFX.play('angry');
     pokes = [];
     const own = Math.random() < 0.5 && outfitLine(outfitNow(), 'angry');
     return say(own ? own[0] : pick(LINES.angry), 'angry', 6000);
@@ -536,10 +622,13 @@ tauri?.event.listen('cursor', ({ payload }) => L2D.lookTo(payload[0], payload[1]
 // 鼠标从她面前飞快划过：吓一跳，偶尔嘟囔一句
 L2D.onStartled(() => {
   if (sleep || dock || dragging || !menu.hidden || !bubble.hidden) return;
+  SFX.play('startle');
   if (Math.random() < 0.5) say(pick(LINES.startled), 'surprised', 2500);
 });
 // 某套衣服的 Live2D 模型刚加载好：表情不变，重新摆一次，从立绘换成 Live2D
 L2D.onLoaded(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
+applyPixel();
+applySfx();
 if (useL2D()) L2D.load().then(() => setMood(autoMood()));
 tauri?.event.listen('summoned', () => {
   setMood(autoMood());
@@ -547,7 +636,10 @@ tauri?.event.listen('summoned', () => {
 });
 
 pet.addEventListener('dblclick', () => {
-  if (!sleep) L2D.act('Cheer');
+  if (!sleep) {
+    L2D.act('Cheer');
+    SFX.play('cheer');
+  }
   say(pick(LINES.openZhixu), sleep ? undefined : pick(['smug', 'surprised']), 2500);
   openSite().catch((e) => say('没打开：' + e, 'pout'));
 });
@@ -572,6 +664,7 @@ function patTrack(e) {
   pokes = [];
   warnedAt = 0;
   const own = Math.random() < 0.6 && outfitLine(outfitNow(), 'pat');
+  SFX.play('pat');
   say(own ? own[0] : pick(LINES.pat), 'pat', 3500);
 }
 
@@ -580,6 +673,7 @@ pet.addEventListener('contextmenu', (e) => {
   e.preventDefault();
   bubble.hidden = true;
   menu.hidden = !menu.hidden;
+  if (!menu.hidden) SFX.play('menu');
   updateHit();
 });
 menu.addEventListener('click', (e) => {
@@ -587,6 +681,7 @@ menu.addEventListener('click', (e) => {
   if (!act) return;
   menu.hidden = true;
   updateHit();
+  SFX.play('menu');
   if (act === 'open') openSite();
   if (act === 'chat') chat(true);
   if (act === 'settings') invoke('open_settings');
@@ -594,6 +689,7 @@ menu.addEventListener('click', (e) => {
   if (act === 'quiet') {
     prefs.quiet = !prefs.quiet;
     savePrefs();
+    applySfx();
     say(prefs.quiet ? '好吧，我安静待着。（安静模式）' : '提醒打开了，我要开始唠叨了哦。', 'idle', 3000);
     renderMenu();
   }
@@ -605,7 +701,16 @@ menu.addEventListener('click', (e) => {
     else setMood(mood, Math.max(0, moodUntil - Date.now()));
     renderMenu();
   }
+  if (act === 'pixel') {
+    prefs.pixel = !prefs.pixel;
+    savePrefs();
+    applyPixel();
+    setMood(mood, Math.max(0, moodUntil - Date.now()));
+    say(prefs.pixel ? '噔噔噔噔～像素模式！（红白机画风）' : '变回高清的我啦。', prefs.pixel ? 'excited' : 'smug', 3000);
+    renderMenu();
+  }
   if (act === 'hide') {
+    SFX.play('bye');
     say(pick(LINES.bye), 'wave', 1500);
     setTimeout(() => (bubble.hidden = true, win?.hide()), 1300);
   }
@@ -618,6 +723,8 @@ function renderMenu() {
   if (q) q.textContent = prefs.quiet ? '🔔 打开提醒' : '🔕 安静模式';
   const st = menu.querySelector('[data-act="style"]');
   if (st) st.textContent = useL2D() ? '🖼️ 换成静态立绘' : '✨ 换成动态 Live2D';
+  const px = menu.querySelector('[data-act="pixel"]');
+  if (px) px.textContent = prefs.pixel ? '🎨 变回高清' : '👾 像素模式';
 }
 addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
@@ -678,6 +785,7 @@ function sleepTick() {
   } else if (!sleep && night && now > sleepUntil && !dragging && menu.hidden) {
     stopRoam();
     sleep = 'asleep';
+    if (!prefs.quiet) SFX.play('sleep'); // 到点睡觉：轻轻的三个音
     lastSleepTalk = now;
     setMood('sleep');
   } else if (sleep === 'asleep' && !night) {
@@ -749,6 +857,7 @@ async function roamTick() {
       rememberPos();
       setMood(autoMood());
       L2D.act('Pant'); // Live2D：跑完停下来喘口气
+      SFX.play('pant');
     }
   };
   roam.raf = requestAnimationFrame(step);

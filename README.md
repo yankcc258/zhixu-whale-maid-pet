@@ -61,7 +61,7 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 
 | 路径 | 内容 |
 | --- | --- |
-| `src/` | 窗口里的网页：`index.html`、`style.css`、`pet.js`（动作）、`lines.js`（台词）、`festivals.js`（节日日期和台词）、`outfits.js`（衣服和缺图怎么回退）、`settings.*`（设置窗口） |
+| `src/` | 窗口里的网页：`index.html`、`style.css`、`pet.js`（动作）、`live2d.js`（Live2D，含像素模式）、`sfx.js`（合成音效）、`lines.js`（台词）、`festivals.js`（节日日期和台词）、`outfits.js`（衣服和缺图怎么回退）、`settings.*`（设置窗口） |
 | `src/sprites/` | 立绘，440px 透明 WebP，成套的衣服在子文件夹里，规范见 `src/sprites/README.md`（不在 MIT 范围内，见 PROVENANCE.md） |
 | `src-tauri/src/lib.rs` | 窗口、托盘、鼠标穿透、全屏检测、开机自启、设置窗口、打开知序（网址写死在这里） |
 | `src-tauri/tauri.conf.json` | 窗口大小、透明、置顶、安装包设置 |
@@ -91,6 +91,7 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 - [ ] 节日衣服补画常用动作（见 ART-TODO.md）
 - [x] 0.9.0：Q 版动态按概念稿重画（v05），眼皮压下来的闭眼
 - [x] 0.9.1：睡衣按新身体重画，变回 Live2D
+- [x] 0.9.9：像素模式（马赛克 + 复古配色，Live2D 和立绘都变），红白机风格音效（Web Audio 合成，衣柜收新衣服放通关音乐）
 - [x] 0.9.8：表情扩到 15 个（闪闪眼、泪珠、汗滴、青筋、ω 嘴、撅嘴、波浪嘴、一字嘴、咧嘴笑），半闭眼不再重影
 - [x] 0.9.7：鼠标反应：靠近耳鳍竖起、悬停歪头、快速划过吓一跳、双击欢呼
 - [x] 0.9.6：拎起来/放下：悬空蹬腿、横拖后仰、松手重力下落、落地蹲一下
