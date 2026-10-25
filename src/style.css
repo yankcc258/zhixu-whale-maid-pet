@@ -317,6 +317,24 @@ body.dock-left .z {
   border-color: #326b59;
   color: #fffefa;
 }
+/* 像素模式（红白机画风）：画布 / 立绘按低分辨率画好以后由这里放大成马赛克（不要平滑），
+   影子变成硬边的一块；气泡和菜单也换成直角、粗边、不透明的硬影子 */
+body.pixel #pet canvas,
+body.pixel #pet img {
+  image-rendering: pixelated;
+  filter: drop-shadow(3px 3px 0 rgba(0, 0, 0, 0.25));
+}
+body.pixel #bubble,
+body.pixel #menu {
+  border-radius: 0;
+  border: 2px solid #263c37;
+  box-shadow: 4px 4px 0 rgba(38, 60, 55, 0.3);
+}
+body.pixel #menu button,
+body.pixel #bubble .acts button {
+  border-radius: 0;
+  border-width: 2px;
+}
 @media (prefers-reduced-motion: reduce) {
   #pet,
   #pet img {

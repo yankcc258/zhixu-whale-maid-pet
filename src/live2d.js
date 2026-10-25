@@ -79,6 +79,27 @@ const L2D = (() => {
   let swayTarget = 0,
     swayNow = 0,
     finNow = 0;
+  // 像素模式（红白机画风）：画布按低分辨率画（每个格子约 2 个 CSS 像素，凑成整数个屏幕像素，
+  // 格子才会一样大），再交给 CSS 的 image-rendering: pixelated 放大成马赛克；颜色用下面的着色器压成
+  // 明暗 LEVELS 级（色相、饱和度留着，不然偏灰的蓝头发会变成灰紫色），半透明边缘一刀切掉，格子才会干干净净。
+  // 模型本身、动作、表情都不变，只是画出来的样子变了。170×180 的她大约是 70～85 格高
+  const PIX_CSS = 2,
+    LEVELS = 7;
+  const PIXEL_FRAG = `
+precision mediump float;
+varying vec2 vTextureCoord;
+uniform sampler2D uSampler;
+uniform float levels;
+void main() {
+  vec4 c = texture2D(uSampler, vTextureCoord);
+  if (c.a < 0.5) { gl_FragColor = vec4(0.0); return; }
+  vec3 rgb = c.rgb / c.a;
+  float y = dot(rgb, vec3(0.299, 0.587, 0.114));
+  float yq = floor(y * levels + 0.5) / levels;
+  gl_FragColor = vec4(clamp(yq + (rgb - y) * 1.15, 0.0, 1.0), 1.0);
+}`;
+  let pixel = false,
+    posterize = null;
   let canvas = null,
     app = null,
     model = null, // 现在台上的那个
@@ -114,6 +135,7 @@ const L2D = (() => {
         autoDensity: true,
       });
       app.ticker.maxFPS = 30; // 桌宠不需要 60 帧，省电
+      applyPixel();
       state = 'ready';
       await ensure('maid'); // 女仆装先加载好，其他衣服用到时再加载
     } catch (e) {
@@ -121,6 +143,29 @@ const L2D = (() => {
       state = 'failed';
       canvas?.remove();
       canvas = null;
+    }
+  }
+
+  // 开/关像素模式。还没建画布就先记着，建好时再套上
+  function setPixel(on) {
+    pixel = !!on;
+    if (app) applyPixel();
+  }
+  function applyPixel() {
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const block = Math.max(2, Math.round(PIX_CSS * dpr)); // 一格几个屏幕像素
+    const res = pixel ? dpr / block : dpr;
+    app.renderer.resolution = res;
+    app.renderer.resize(W, H); // autoDensity：画布的 CSS 尺寸不变，只有像素数变
+    canvas.classList.toggle('pixel', pixel);
+    if (pixel) {
+      posterize ||= new PIXI.Filter(undefined, PIXEL_FRAG, { levels: LEVELS });
+      posterize.resolution = res; // 滤镜的中间纹理也用低分辨率，不然先高清上色再缩小会糊
+      app.stage.filters = [posterize];
+      app.stage.filterArea = app.renderer.screen;
+    } else {
+      app.stage.filters = null;
+      app.stage.filterArea = null;
     }
   }
 
@@ -365,5 +410,5 @@ const L2D = (() => {
 
   const onLoaded = (fn) => (onModel = fn);
   const onStartled = (fn) => (onStartle = fn);
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, onLoaded, onStartled };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, onLoaded, onStartled };
 })();
