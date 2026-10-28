@@ -1,0 +1,11 @@
+{
+	"Version": 3,
+	"FileReferences": {
+		"Moc": "seeko.moc3",
+		"Textures": [
+			"seeko.2048/texture_00.png"
+		],
+		"Physics": "seeko.physics3.json",
+		"DisplayInfo": "seeko.cdi3.json"
+	}
+}

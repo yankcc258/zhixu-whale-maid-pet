@@ -1,0 +1,316 @@
+{
+	"Version": 3,
+	"Parameters": [
+		{
+			"Id": "ParamAngleX",
+			"GroupId": "",
+			"Name": "角度 X"
+		},
+		{
+			"Id": "ParamAngleY",
+			"GroupId": "",
+			"Name": "角度 Y"
+		},
+		{
+			"Id": "ParamAngleZ",
+			"GroupId": "",
+			"Name": "角度 Z"
+		},
+		{
+			"Id": "ParamEyeLOpen",
+			"GroupId": "",
+			"Name": "左眼 开闭"
+		},
+		{
+			"Id": "ParamEyeLSmile",
+			"GroupId": "",
+			"Name": "左眼 微笑"
+		},
+		{
+			"Id": "ParamEyeROpen",
+			"GroupId": "",
+			"Name": "右眼 开闭"
+		},
+		{
+			"Id": "ParamEyeRSmile",
+			"GroupId": "",
+			"Name": "右眼 微笑"
+		},
+		{
+			"Id": "ParamEyeBallX",
+			"GroupId": "",
+			"Name": "眼珠 X"
+		},
+		{
+			"Id": "ParamEyeBallY",
+			"GroupId": "",
+			"Name": "眼珠 Y"
+		},
+		{
+			"Id": "ParamBrowLY",
+			"GroupId": "",
+			"Name": "左眉 上下"
+		},
+		{
+			"Id": "ParamBrowRY",
+			"GroupId": "",
+			"Name": "右眉 上下"
+		},
+		{
+			"Id": "ParamBrowLX",
+			"GroupId": "",
+			"Name": "左眉 左右"
+		},
+		{
+			"Id": "ParamBrowRX",
+			"GroupId": "",
+			"Name": "右眉 左右"
+		},
+		{
+			"Id": "ParamBrowLAngle",
+			"GroupId": "",
+			"Name": "左眉 角度"
+		},
+		{
+			"Id": "ParamBrowRAngle",
+			"GroupId": "",
+			"Name": "右眉 角度"
+		},
+		{
+			"Id": "ParamBrowLForm",
+			"GroupId": "",
+			"Name": "左眉 変形"
+		},
+		{
+			"Id": "ParamBrowRForm",
+			"GroupId": "",
+			"Name": "右眉 変形"
+		},
+		{
+			"Id": "ParamMouthForm",
+			"GroupId": "",
+			"Name": "嘴 变形"
+		},
+		{
+			"Id": "ParamMouthOpenY",
+			"GroupId": "",
+			"Name": "嘴 开闭"
+		},
+		{
+			"Id": "ParamCheek",
+			"GroupId": "",
+			"Name": "脸颊泛红"
+		},
+		{
+			"Id": "ParamBodyAngleX",
+			"GroupId": "",
+			"Name": "身体旋转 X"
+		},
+		{
+			"Id": "ParamBodyAngleY",
+			"GroupId": "",
+			"Name": "身体旋转 Y"
+		},
+		{
+			"Id": "ParamBodyAngleZ",
+			"GroupId": "",
+			"Name": "身体旋转 Z"
+		},
+		{
+			"Id": "ParamBreath",
+			"GroupId": "",
+			"Name": "呼吸"
+		},
+		{
+			"Id": "ParamHairFront",
+			"GroupId": "",
+			"Name": "摇动 前发"
+		},
+		{
+			"Id": "ParamHairSide",
+			"GroupId": "",
+			"Name": "摇动 侧发"
+		},
+		{
+			"Id": "ParamHairBack",
+			"GroupId": "",
+			"Name": "摇动 后发"
+		},
+		{
+			"Id": "ParamArmLA",
+			"GroupId": "",
+			"Name": "左臂 抬起"
+		},
+		{
+			"Id": "ParamArmRA",
+			"GroupId": "",
+			"Name": "右臂 抬起"
+		},
+		{
+			"Id": "ParamArmLB",
+			"GroupId": "",
+			"Name": "左臂 弯肘"
+		},
+		{
+			"Id": "ParamArmRB",
+			"GroupId": "",
+			"Name": "右臂 弯肘"
+		},
+		{
+			"Id": "ParamLegL",
+			"GroupId": "",
+			"Name": "左腿 摆动"
+		},
+		{
+			"Id": "ParamLegR",
+			"GroupId": "",
+			"Name": "右腿 摆动"
+		},
+		{
+			"Id": "ParamAhoge",
+			"GroupId": "",
+			"Name": "呆毛 摆动"
+		},
+		{
+			"Id": "ParamFinL",
+			"GroupId": "",
+			"Name": "左耳鳍 摆动"
+		},
+		{
+			"Id": "ParamFinR",
+			"GroupId": "",
+			"Name": "右耳鳍 摆动"
+		},
+		{
+			"Id": "ParamMouthCat",
+			"GroupId": "",
+			"Name": "嘴 ω"
+		},
+		{
+			"Id": "ParamMouthPout",
+			"GroupId": "",
+			"Name": "嘴 撅"
+		},
+		{
+			"Id": "ParamMouthWavy",
+			"GroupId": "",
+			"Name": "嘴 波浪"
+		},
+		{
+			"Id": "ParamMouthFlat",
+			"GroupId": "",
+			"Name": "嘴 一字"
+		},
+		{
+			"Id": "ParamMouthGrin",
+			"GroupId": "",
+			"Name": "嘴 咧笑"
+		},
+		{
+			"Id": "ParamSparkle",
+			"GroupId": "",
+			"Name": "眼 闪闪"
+		},
+		{
+			"Id": "ParamTear",
+			"GroupId": "",
+			"Name": "泪珠"
+		},
+		{
+			"Id": "ParamSweat",
+			"GroupId": "",
+			"Name": "汗滴"
+		},
+		{
+			"Id": "ParamAnger",
+			"GroupId": "",
+			"Name": "青筋"
+		},
+		{
+			"Id": "ParamMouthAlt",
+			"GroupId": "",
+			"Name": "嘴 换型"
+		},
+		{
+			"Id": "ParamHandL",
+			"GroupId": "",
+			"Name": "左手 张开"
+		},
+		{
+			"Id": "ParamHandR",
+			"GroupId": "",
+			"Name": "右手 张开"
+		},
+		{
+			"Id": "ParamWristL",
+			"GroupId": "",
+			"Name": "左手腕"
+		},
+		{
+			"Id": "ParamWristR",
+			"GroupId": "",
+			"Name": "右手腕"
+		},
+		{
+			"Id": "ParamKneeL",
+			"GroupId": "",
+			"Name": "左膝 弯曲"
+		},
+		{
+			"Id": "ParamKneeR",
+			"GroupId": "",
+			"Name": "右膝 弯曲"
+		},
+		{
+			"Id": "ParamBodyStretch",
+			"GroupId": "",
+			"Name": "全身 拉伸"
+		},
+		{
+			"Id": "ParamSkirtX",
+			"GroupId": "",
+			"Name": "裙摆 左右"
+		},
+		{
+			"Id": "ParamSkirtY",
+			"GroupId": "",
+			"Name": "裙摆 上下"
+		},
+		{
+			"Id": "ParamApron",
+			"GroupId": "",
+			"Name": "围裙 摆动"
+		},
+		{
+			"Id": "ParamHairBackY",
+			"GroupId": "",
+			"Name": "后发 上下"
+		},
+		{
+			"Id": "ParamHairBack1",
+			"GroupId": "",
+			"Name": "后发 外缕"
+		},
+		{
+			"Id": "ParamHairBack2",
+			"GroupId": "",
+			"Name": "后发 中缕"
+		},
+		{
+			"Id": "ParamHairBack3",
+			"GroupId": "",
+			"Name": "后发 内缕"
+		}
+	],
+	"ParameterGroups": [],
+	"Parts": [
+		{
+			"Id": "Part2",
+			"Name": "seeko_cubism_import_v12.psd(未找到对应图层)"
+		},
+		{
+			"Id": "Part",
+			"Name": "seeko_cubism_import_v05f_clean.psd(未找到对应图层)"
+		}
+	]
+}
