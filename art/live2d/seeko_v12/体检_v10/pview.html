@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#e9f2ee}</style>
+<script src="vendor/live2dcubismcore.min.js"></script>
+<script src="vendor/pixi.min.js"></script>
+<script src="vendor/pixi-unsafe-eval.min.js"></script>
+<script src="vendor/cubism4.min.js"></script>
+</head><body>
+<canvas id="c" width="360" height="480"></canvas>
+<script>
+window.ready = (async () => {
+  const app = new PIXI.Application({ view: document.getElementById('c'), width: 360, height: 480, backgroundColor: 0xe9f2ee, preserveDrawingBuffer: true, autoStart: false });
+  const model = await PIXI.live2d.Live2DModel.fromSync('runtime/' + (new URLSearchParams(location.search).get('m')||'seeko') + '.model3.json', { autoInteract: false, autoUpdate: false });
+  await new Promise((r) => { model.once('load', r); });
+  model.scale.set(480 / model.internalModel.originalHeight);
+  model.x = (360 - model.internalModel.originalWidth * model.scale.x) / 2;
+  app.stage.addChild(model);
+  window.model = model; window.app = app;
+  window.step = (ms) => { for (let t = 0; t < ms; t += 16) model.update(16); app.render(); };
+  return 'ok';
+})().catch((e) => 'ERR ' + e + ' ' + (e.stack || ''));
+</script></body></html>
