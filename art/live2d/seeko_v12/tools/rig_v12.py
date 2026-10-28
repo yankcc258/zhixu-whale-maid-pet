@@ -3,7 +3,7 @@
 
 做了什么（细节见 骨架规格_v12.md）：
 1. 删掉旧的 DressBase / HairBack_L/R / LegStocking_L/R；新图层挂到该在的变形器下、描画顺序排好。
-2. 手臂：肩轴心挪到肩球中心，抬手范围 -10~10 → +30°(往后)~-110°(举过头)；肘 -10~10 → -15°~120°。
+2. 手臂：肩轴心挪到肩球中心，抬手范围 -10~10 → +30°(往后)~-110°(举过头)；肘 -10~10 → -120°(往外/往上抬)~+120°(往身体里弯)。
 3. 新关节：手腕（ParamWristL/R ±30°，挂两只手，ParamHandL/R 0 握拳 1 张开）、膝（ParamKneeL/R 0~60°）。
 4. 腿摆动 ±10 → ±30°。
 5. 躯干：上半身 Z 从「平移」改成绕髋部的弯（顶行 ±5°，底行不动）；X 改成剪切；裙子反向微剪切。
@@ -82,8 +82,8 @@ r.rot_set_forms('左臂旋转', lambda c, a, ox, oy, s: ({-10: 30.0, 0: 0.0, 10:
 r.rot_set_forms('右臂旋转', lambda c, a, ox, oy, s: ({-10: -30.0, 0: 0.0, 10: 110.0}[round(c['ParamArmRA'])], ox, oy, s))
 r.rot_move_pivot('左小臂旋转', (700, 1018))
 r.rot_move_pivot('右小臂旋转', (365, 1018))
-r.rot_set_forms('左小臂旋转', lambda c, a, ox, oy, s: ({-10: -15.0, 0: 0.0, 10: 120.0}[round(c['ParamArmLB'])], ox, oy, s))
-r.rot_set_forms('右小臂旋转', lambda c, a, ox, oy, s: ({-10: 15.0, 0: 0.0, 10: -120.0}[round(c['ParamArmRB'])], ox, oy, s))
+r.rot_set_forms('左小臂旋转', lambda c, a, ox, oy, s: ({-10: -120.0, 0: 0.0, 10: 120.0}[round(c['ParamArmLB'])], ox, oy, s))
+r.rot_set_forms('右小臂旋转', lambda c, a, ox, oy, s: ({-10: 120.0, 0: 0.0, 10: -120.0}[round(c['ParamArmRB'])], ox, oy, s))
 
 # ---------- 3. 手腕 + 两只手切换 ----------
 r.add_rot('左手腕旋转', '左小臂旋转', (760, 1075), [('ParamWristL', [-10, 0, 10])],

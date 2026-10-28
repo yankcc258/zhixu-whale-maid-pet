@@ -11,7 +11,8 @@ def deformers(s):
         b=s[st:en]
         nm=re.search(r'<s xs.n="localName">([^<]*)</s>',b).group(1)
         g=re.search(r'<CDeformerGuid xs.n="guid" xs.ref="(#\d+)"',b).group(1)
-        t=re.search(r'<CDeformerGuid xs.n="targetDeformerGuid" xs.ref="(#\d+)"',b).group(1)
+        tm=re.search(r'<CDeformerGuid xs.n="targetDeformerGuid" (?:xs.ref="(#\d+)"|uuid="[^"]*" note="([^"]*)")',b)
+        t=tm.group(1) or tm.group(2)  # Cubism 保存后第一个引用 ROOT 的地方会把定义内联进来（没有 xs.ref）
         km=re.search(r'<KeyformGridSource xs.n="keyformGridSource"( xs.ref="(#\d+)")?',b)
         if km.group(2):
             kg=s.find(f'xs.id="{km.group(2)}"'); kg=s.rfind('<KeyformGridSource',0,kg+1)
