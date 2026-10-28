@@ -375,6 +375,38 @@ class Rig:
         self.log.append(f'曲面变形器 {name}（父 {parent}，bbox {bbox.round(1).tolist()}，{cols}×{rows}，{len(kf)} 个关键形态）← {list(children) + list(child_deformers)}')
         return dg
 
+    def warp_bbox(self, name):
+        off, sc = self.warp_frame(name)
+        return (off[0], off[1], off[0] + sc[0], off[1] + sc[1])
+
+    def reparent_to_warp(self, name, old_parent, warp, kind='mesh'):
+        """把网格/变形器从 old_parent 挂到已有的曲面变形器 warp 下"""
+        self._reparent_to_warp(name, old_parent, self.warp_bbox(warp), self.deformer_guid(warp), kind)
+        self.log.append(f'{name} → {warp}')
+
+    def reparent_to_rot(self, name, old_parent, rot):
+        self.reparent_mesh(name, old_parent, self.rot_pivot(rot), self.deformer_guid(rot))
+        self.log.append(f'{name} → {rot}')
+
+    def set_visible(self, name, on=True):
+        st, en = self.mesh_block(name)
+        b = self.s[st:en]
+        b = re.sub(r'<b xs.n="isVisible">\w+</b>', f'<b xs.n="isVisible">{"true" if on else "false"}</b>', b, count=1)
+        self.s = self.s[:st] + b + self.s[en:]
+
+    def set_param_range(self, pid, mn, mx, default=None):
+        g = self.param_guid(pid)
+        i = self.s.find(f'<CParameterGuid xs.n="guid" xs.ref="{g}" />')
+        st = self.s.rfind('<CParameterSource>', 0, i)
+        en = self.s.find('</CParameterSource>', i)
+        b = self.s[st:en]
+        b = re.sub(r'<f xs.n="minValue">[^<]*<', f'<f xs.n="minValue">{float(mn)}<', b)
+        b = re.sub(r'<f xs.n="maxValue">[^<]*<', f'<f xs.n="maxValue">{float(mx)}<', b)
+        if default is not None:
+            b = re.sub(r'<f xs.n="defaultValue">[^<]*<', f'<f xs.n="defaultValue">{float(default)}<', b)
+        self.s = self.s[:st] + b + self.s[en:]
+        self.log.append(f'参数 {pid} 范围 → {mn}~{mx}')
+
     def _reparent_to_warp(self, name, old_parent, bbox, new_guid, kind):
         """把网格或变形器挂到新曲面下：positions（或旋转轴心）从旧父坐标换算到新曲面的 0~1。"""
         off, sc = self.frame_of(old_parent)
@@ -856,8 +888,8 @@ class Rig:
         return n
 
     # ---------- 给一个网格加一个「隐藏」参数轴：pid=1 时所有关键形态透明度 0 ----------
-    def mesh_add_hide_axis(self, name, pid):
-        """现有网格可能已有 1 个或多个 binding；新加 pid [0,1] 轴，复制全部关键形态，pid=1 的副本透明度 0。"""
+    def mesh_add_hide_axis(self, name, pid, hide_at=1):
+        """现有网格可能已有 1 个或多个 binding；新加 pid [0,1] 轴，复制全部关键形态，pid=hide_at 的副本透明度 0。"""
         import model as M
         st, en = self.mesh_block(name)
         b = self.s[st:en]
@@ -887,13 +919,17 @@ class Rig:
             forms[re.search(r'<CFormGuid xs.n="guid" xs.ref="(#\d+)"', fm.group(1)).group(1)] = fm.group(0)
         new_forms, new_guids, new_entries = [], [], []
         for kp, fr in ents:
-            new_entries.append((dict(kp, **{bid: '0'}), fr))
             fid, fx = self.new()
             new_guids.append((fid, fx))
             t = re.sub(r'<f xs.n="opacity">[^<]*<', '<f xs.n="opacity">0.0<', forms[fr])
             t = t.replace(f'<CFormGuid xs.n="guid" xs.ref="{fr}" />', f'<CFormGuid xs.n="guid" xs.ref="{fid}" />')
             new_forms.append(t)
-            new_entries.append((dict(kp, **{bid: '1'}), fid))
+            if hide_at == 1:
+                new_entries.append((dict(kp, **{bid: '0'}), fr))
+                new_entries.append((dict(kp, **{bid: '1'}), fid))
+            else:
+                new_entries.append((dict(kp, **{bid: '0'}), fid))
+                new_entries.append((dict(kp, **{bid: '1'}), fr))
         binds2 = binds + [bid]
         new_entries.sort(key=lambda e: tuple(int(e[0][bb]) for bb in reversed(binds2)))
         ent = ''.join(f'<KeyformOnGrid>\n<KeyformGridAccessKey xs.n="accessKey">\n<array_list xs.n="_keyOnParameterList" count="{len(binds2)}">\n'
