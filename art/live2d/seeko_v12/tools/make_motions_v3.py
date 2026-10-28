@@ -3,7 +3,7 @@
 
 v12 参数口径（都是 -10~10 或 0~10 的刻度）：
   ArmLA/RA  +k = 抬 11k°（10 = 举过头 110°），-k = 往后 3k°
-  ArmLB/RB  +k = 弯肘 12k°            WristL/R ±k = 手掌 3k°      HandL/R 0 拳 1 张
+  ArmLB/RB  +k = 小臂往身体里弯 12k°，-k = 小臂往外/往上抬 12k°            WristL/R ±k = 手掌 3k°      HandL/R 0 拳 1 张
   LegL/R    +k = 大腿往外 3k°         KneeL/R +k = 小腿 6k°
   BodyAngleY + 踮起 - 蹲下；BodyStretch 0~1 全身拉长；SkirtX/Y、Apron、HairBack1/2/3、HairBackY 主要交给物理
 """
@@ -60,9 +60,9 @@ reg('Idle', m)
 # ---------- 挥手（2.8 s）----------
 m = Motion('wave', 2.8, fade_in=0.2, fade_out=0.5)
 arm = m.track('ParamArmLA')
-t = arm.hit(0.1, 0, 7.5, antic=0.12, rise=0.2, over=0.12, antic_k=0.12, over_k=0.08, pause=0.05)
+t = arm.hit(0.1, 0, 6, antic=0.12, rise=0.2, over=0.12, antic_k=0.12, over_k=0.08, pause=0.05)
 el = m.track('ParamArmLB')
-el.key(0.1, 0, 'linear').key(0.42, 7.5, 'out')
+el.key(0.1, 0, 'linear').key(0.2, 1, 'inout').key(0.46, -8.5, 'out')
 m.track('ParamHandL').key(0, 0, 'hold').key(0.3, 1, 'hold').key(2.35, 1, 'hold').key(2.4, 0, 'hold')
 # 手腕摆：不等间隔、越来越小
 wr = m.track('ParamWristL')
@@ -71,8 +71,8 @@ for d, a in [(0.15, 8), (0.14, -7), (0.15, 7), (0.13, -5), (0.15, 4), (0.14, -2)
     t += d
     wr.key(t, a, 'inout')
 wr.key(t + 0.2, 0, 'out')
-arm.key(t + 0.25, 7.5, 'linear').key(t + 0.95, 0, 'inout')
-el.key(t + 0.3, 7.5, 'linear').key(t + 0.85, 0, 'inout')
+arm.key(t + 0.25, 6, 'linear').key(t + 0.95, 0, 'inout')
+el.key(t + 0.3, -8.5, 'linear').key(t + 0.85, 0, 'inout')
 body_follow(m, 0.08, 3.5, head_k=1.3, delay=0.07, dur=0.28)
 body_release(m, t + 0.3, 0.7)
 ra = m.track('ParamArmRA')
@@ -101,11 +101,11 @@ reg('Hop', m, FadeInTime=0.1, FadeOutTime=0.3)
 m = Motion('shy', 2.3, fade_in=0.25, fade_out=0.6)
 for pid in ('ParamArmLA', 'ParamArmRA'):
     tr = m.track(pid)
-    tr.hit(0.05, 0, 7.5, antic=0.1, rise=0.26, over=0.12, antic_k=0.1, over_k=0.08)
-    tr.key(1.55, 7.5, 'linear').key(2.25, 0, 'inout')
+    tr.hit(0.05, 0, 2.5, antic=0.1, rise=0.26, over=0.12, antic_k=0.2, over_k=0.1)
+    tr.key(1.55, 2.5, 'linear').key(2.25, 0, 'inout')
 for pid in ('ParamArmLB', 'ParamArmRB'):
     tr = m.track(pid)
-    tr.key(0.1, 0, 'linear').key(0.45, 9, 'out').key(1.55, 9, 'linear').key(2.2, 0, 'inout')
+    tr.key(0.1, 0, 'linear').key(0.18, 0.8, 'inout').key(0.5, -9.5, 'back').key(1.55, -9.5, 'linear').key(2.2, 0, 'inout')
 m.track('ParamAngleZ').key(0, 0, 'linear').key(0.15, -2, 'inout').key(0.5, 11, 'back').key(1.5, 11, 'linear').key(2.2, 0, 'inout')
 m.track('ParamAngleY').key(0, 0, 'linear').key(0.5, -6, 'inout').key(1.5, -6, 'linear').key(2.2, 0, 'inout')
 m.track('ParamBodyAngleZ').key(0, 0, 'linear').key(0.55, 3, 'inout').key(1.55, 3, 'linear').key(2.25, 0, 'inout')

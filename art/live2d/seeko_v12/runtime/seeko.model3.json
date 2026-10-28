@@ -1,11 +1,160 @@
 {
-	"Version": 3,
-	"FileReferences": {
-		"Moc": "seeko.moc3",
-		"Textures": [
-			"seeko.2048/texture_00.png"
-		],
-		"Physics": "seeko.physics3.json",
-		"DisplayInfo": "seeko.cdi3.json"
-	}
+  "Version": 3,
+  "FileReferences": {
+    "Moc": "seeko.moc3",
+    "Textures": [
+      "seeko.2048/texture_00.png"
+    ],
+    "Physics": "seeko.physics3.json",
+    "DisplayInfo": "seeko.cdi3.json",
+    "Expressions": [
+      {
+        "Name": "happy",
+        "File": "expressions/happy.exp3.json"
+      },
+      {
+        "Name": "smug",
+        "File": "expressions/smug.exp3.json"
+      },
+      {
+        "Name": "angry",
+        "File": "expressions/angry.exp3.json"
+      },
+      {
+        "Name": "shy",
+        "File": "expressions/shy.exp3.json"
+      },
+      {
+        "Name": "sleepy",
+        "File": "expressions/sleepy.exp3.json"
+      },
+      {
+        "Name": "surprised",
+        "File": "expressions/surprised.exp3.json"
+      },
+      {
+        "Name": "pout",
+        "File": "expressions/pout.exp3.json"
+      },
+      {
+        "Name": "wink",
+        "File": "expressions/wink.exp3.json"
+      },
+      {
+        "Name": "teary",
+        "File": "expressions/teary.exp3.json"
+      },
+      {
+        "Name": "deadpan",
+        "File": "expressions/deadpan.exp3.json"
+      },
+      {
+        "Name": "sparkle",
+        "File": "expressions/sparkle.exp3.json"
+      },
+      {
+        "Name": "puff",
+        "File": "expressions/puff.exp3.json"
+      },
+      {
+        "Name": "dazed",
+        "File": "expressions/dazed.exp3.json"
+      },
+      {
+        "Name": "blush",
+        "File": "expressions/blush.exp3.json"
+      },
+      {
+        "Name": "grin",
+        "File": "expressions/grin.exp3.json"
+      }
+    ],
+    "Motions": {
+      "Idle": [
+        {
+          "File": "motions/idle_breathe.motion3.json",
+          "FadeInTime": 0.8,
+          "FadeOutTime": 0.8
+        },
+        {
+          "File": "motions/idle_shift.motion3.json",
+          "FadeInTime": 0.8,
+          "FadeOutTime": 0.8
+        }
+      ],
+      "Wave": [
+        {
+          "File": "motions/wave.motion3.json",
+          "FadeInTime": 0.2,
+          "FadeOutTime": 0.5
+        }
+      ],
+      "Hop": [
+        {
+          "File": "motions/hop.motion3.json",
+          "FadeInTime": 0.1,
+          "FadeOutTime": 0.3
+        }
+      ],
+      "Shy": [
+        {
+          "File": "motions/shy.motion3.json",
+          "FadeInTime": 0.25,
+          "FadeOutTime": 0.6
+        }
+      ],
+      "Flinch": [
+        {
+          "File": "motions/flinch.motion3.json",
+          "FadeInTime": 0.05,
+          "FadeOutTime": 0.3
+        }
+      ],
+      "Hang": [
+        {
+          "File": "motions/hang.motion3.json",
+          "FadeInTime": 0.25,
+          "FadeOutTime": 0.4
+        }
+      ],
+      "Fall": [
+        {
+          "File": "motions/fall.motion3.json",
+          "FadeInTime": 0.15,
+          "FadeOutTime": 0.15
+        }
+      ],
+      "Land": [
+        {
+          "File": "motions/land.motion3.json",
+          "FadeInTime": 0.05,
+          "FadeOutTime": 0.4
+        }
+      ],
+      "Walk": [
+        {
+          "File": "motions/walk.motion3.json",
+          "FadeInTime": 0.25,
+          "FadeOutTime": 0.25
+        }
+      ]
+    }
+  },
+  "Groups": [
+    {
+      "Target": "Parameter",
+      "Name": "EyeBlink",
+      "Ids": [
+        "ParamEyeLOpen",
+        "ParamEyeROpen"
+      ]
+    },
+    {
+      "Target": "Parameter",
+      "Name": "LipSync",
+      "Ids": [
+        "ParamMouthOpenY"
+      ]
+    }
+  ]
 }
