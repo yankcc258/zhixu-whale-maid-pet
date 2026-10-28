@@ -204,6 +204,126 @@ m.track('ParamArmRB').key(0, 2.5, 'linear').key(T, 1, 'inout').key(0.84, 2.5, 'i
 m.track('ParamBreath').key(0, 0.3, 'linear').key(T, 0.8, 'inout').key(0.84, 0.3, 'inout')
 reg('Walk', m, FadeInTime=0.25, FadeOutTime=0.25)
 
+# ---------- 欢呼（1.6 s）：双手举起来晃两下 ----------
+m = Motion('cheer', 1.6, fade_in=0.15, fade_out=0.5)
+for pid, sg in (('ParamArmLA', 1), ('ParamArmRA', 1)):
+    tr = m.track(pid)
+    t = tr.hit(0.05, 0, 9.5, antic=0.12, rise=0.2, over=0.12, antic_k=0.15, over_k=0.08)
+    tr.key(1.1, 9.5, 'linear').key(1.6, 0, 'inout')
+for pid in ('ParamArmLB', 'ParamArmRB'):
+    m.track(pid).key(0.1, 0, 'linear').key(0.4, -3, 'out').key(1.1, -3, 'linear').key(1.55, 0, 'inout')
+m.track('ParamHandL').key(0, 0, 'hold').key(0.3, 1, 'hold').key(1.3, 1, 'hold').key(1.35, 0, 'hold')
+m.track('ParamHandR').key(0, 0, 'hold').key(0.3, 1, 'hold').key(1.3, 1, 'hold').key(1.35, 0, 'hold')
+wl, wr = m.track('ParamWristL'), m.track('ParamWristR')
+t = 0.45
+wl.key(t, 0, 'linear'); wr.key(t, 0, 'linear')
+for d, a in [(0.14, 7), (0.16, -6), (0.15, 6), (0.17, -4)]:
+    t += d; wl.key(t, a, 'inout'); wr.key(t, -a, 'inout')
+wl.key(t + 0.3, 0, 'out'); wr.key(t + 0.3, 0, 'out')
+m.track('ParamBodyAngleY').key(0, 0, 'linear').key(0.15, -3, 'in').key(0.38, 4, 'out').key(0.55, 2, 'inout').key(0.75, 3.5, 'inout').key(1.0, 2, 'inout').key(1.6, 0, 'inout')
+m.track('ParamAngleY').key(0, 0, 'linear').key(0.15, -5, 'in').key(0.4, 10, 'out').key(1.1, 8, 'linear').key(1.6, 0, 'inout')
+m.track('ParamAngleZ').key(0, 0, 'linear').key(0.5, 4, 'inout').key(0.8, -4, 'inout').key(1.1, 3, 'inout').key(1.6, 0, 'inout')
+reg('Cheer', m)
+
+# ---------- 伸懒腰（3.4 s）：手臂举过头、身子拉长、头后仰，停住，松下来 ----------
+m = Motion('stretch', 3.4, fade_in=0.3, fade_out=0.6)
+for pid in ('ParamArmLA', 'ParamArmRA'):
+    m.track(pid).key(0, 0, 'linear').key(0.25, -1, 'inout').key(1.0, 10, 'inout').key(2.2, 10, 'linear').key(2.5, 9, 'inout').key(3.3, 0, 'inout')
+for pid in ('ParamArmLB', 'ParamArmRB'):
+    m.track(pid).key(0, 0, 'linear').key(1.0, -2, 'inout').key(2.2, -2, 'linear').key(3.3, 0, 'inout')
+m.track('ParamBodyStretch').key(0, 0, 'linear').key(0.3, 0, 'linear').key(1.1, 0.8, 'inout').key(2.2, 0.8, 'linear').key(2.6, 0, 'in').key(2.8, 0.1, 'out').key(3.1, 0, 'inout')
+m.track('ParamBodyAngleY').key(0, 0, 'linear').key(1.1, 6, 'inout').key(2.2, 6, 'linear').key(2.6, -3, 'in').key(2.9, 0.5, 'out').key(3.4, 0, 'inout')
+m.track('ParamAngleY').key(0, 0, 'linear').key(0.3, -3, 'inout').key(1.1, 14, 'inout').key(2.2, 14, 'linear').key(2.6, -6, 'in').key(3.0, 1, 'out').key(3.4, 0, 'inout')
+m.track('ParamBodyAngleZ').key(0, 0, 'linear').key(1.1, 3, 'inout').key(2.2, 3, 'linear').key(3.0, 0, 'inout')
+m.track('ParamMouthOpenY').key(0, 0, 'linear').key(0.8, 0, 'linear').key(1.2, 0.7, 'inout').key(2.1, 0.7, 'linear').key(2.6, 0, 'inout')
+m.track('ParamEyeLOpen').key(0, 1, 'linear').key(0.9, 1, 'linear').key(1.2, 0, 'inout').key(2.3, 0, 'linear').key(2.7, 1, 'inout')
+m.track('ParamEyeROpen').key(0, 1, 'linear').key(0.9, 1, 'linear').key(1.2, 0, 'inout').key(2.3, 0, 'linear').key(2.7, 1, 'inout')
+reg('Stretch', m)
+
+# ---------- 歪头（1.9 s）：歪过去停一会儿，眼珠跟着 ----------
+m = Motion('tilt', 1.9, fade_in=0.2, fade_out=0.5)
+m.track('ParamAngleZ').key(0, 0, 'linear').key(0.1, -2, 'inout').key(0.45, 18, 'back').key(1.3, 18, 'linear').key(1.9, 0, 'inout')
+m.track('ParamBodyAngleZ').key(0, 0, 'linear').key(0.5, 3, 'inout').key(1.3, 3, 'linear').key(1.9, 0, 'inout')
+m.track('ParamAngleX').key(0, 0, 'linear').key(0.5, 5, 'inout').key(1.3, 5, 'linear').key(1.9, 0, 'inout')
+m.track('ParamEyeBallX').key(0, 0, 'linear').key(0.35, 0.5, 'out').key(1.3, 0.5, 'linear').key(1.8, 0, 'inout')
+m.track('ParamAhoge').key(0, 0, 'linear').key(0.5, -6, 'out').key(0.75, 4, 'inout').key(1.0, -2, 'inout').key(1.3, 0, 'inout')
+reg('Tilt', m)
+
+# ---------- 点头（1.4 s）：两下，第二下小 ----------
+m = Motion('nod', 1.4, fade_in=0.15, fade_out=0.4)
+hy = m.track('ParamAngleY')
+hy.key(0, 0, 'linear').key(0.1, 4, 'inout').key(0.3, -14, 'out').key(0.5, 3, 'inout').key(0.75, -9, 'out').key(0.95, 1, 'inout').key(1.4, 0, 'out')
+m.track('ParamBodyAngleY').key(0, 0, 'linear').key(0.32, -1.5, 'out').key(0.55, 0.5, 'inout').key(0.78, -1, 'out').key(1.1, 0, 'inout')
+m.track('ParamEyeLOpen').key(0, 1, 'linear').key(0.25, 1, 'linear').key(0.32, 0.5, 'out').key(0.5, 1, 'inout')
+m.track('ParamEyeROpen').key(0, 1, 'linear').key(0.25, 1, 'linear').key(0.32, 0.5, 'out').key(0.5, 1, 'inout')
+reg('Nod', m)
+
+# ---------- 摇头（1.5 s）：三下，幅度递减 ----------
+m = Motion('shake', 1.5, fade_in=0.15, fade_out=0.4)
+hx = m.track('ParamAngleX')
+hx.key(0, 0, 'linear').key(0.12, 6, 'inout').key(0.32, -22, 'out').key(0.55, 18, 'inout').key(0.78, -12, 'inout').key(1.0, 6, 'inout').key(1.5, 0, 'out')
+m.track('ParamBodyAngleX').key(0, 0, 'linear').key(0.36, -4, 'out').key(0.6, 3, 'inout').key(0.84, -2, 'inout').key(1.5, 0, 'inout')
+m.track('ParamEyeBallX').key(0, 0, 'linear').key(0.3, -0.4, 'out').key(0.55, 0.4, 'inout').key(0.78, -0.3, 'inout').key(1.2, 0, 'inout')
+reg('Shake', m)
+
+# ---------- 踢一下（1.4 s）：先收再踢，脚尖带一下 ----------
+m = Motion('kick', 1.4, fade_in=0.15, fade_out=0.4)
+m.track('ParamLegL').key(0, 0, 'linear').key(0.2, -3, 'in').key(0.42, 8, 'out').key(0.6, 7, 'linear').key(1.1, 0, 'inout')
+m.track('ParamKneeL').key(0, 0, 'linear').key(0.2, 5, 'in').key(0.42, 0.5, 'out').key(0.6, 1, 'linear').key(1.1, 0, 'inout')
+m.track('ParamLegR').key(0, 0, 'linear').key(0.42, -2, 'out').key(1.1, 0, 'inout')
+m.track('ParamBodyAngleZ').key(0, 0, 'linear').key(0.2, 2, 'in').key(0.42, -5, 'out').key(0.6, -4, 'linear').key(1.2, 0, 'inout')
+m.track('ParamBodyAngleY').key(0, 0, 'linear').key(0.2, -2, 'in').key(0.42, 1.5, 'out').key(1.0, 0, 'inout')
+m.track('ParamAngleZ').key(0, 0, 'linear').key(0.25, -3, 'inout').key(0.5, 6, 'out').key(1.2, 0, 'inout')
+m.track('ParamAngleY').key(0, 0, 'linear').key(0.45, -8, 'out').key(0.7, -8, 'linear').key(1.2, 0, 'inout')
+m.track('ParamArmLA').key(0, 0, 'linear').key(0.42, 2, 'out').key(1.1, 0, 'inout')
+reg('Kick', m)
+
+# ---------- 垂头（3 s）：慢慢塌下去，停住 ----------
+m = Motion('slump', 3.0, fade_in=0.4, fade_out=0.8)
+m.track('ParamAngleY').key(0, 0, 'linear').key(0.3, 2, 'inout').key(1.2, -22, 'inout').key(2.4, -22, 'linear').key(3.0, -18, 'inout')
+m.track('ParamBodyAngleY').key(0, 0, 'linear').key(1.2, -5, 'inout').key(3.0, -5, 'linear')
+m.track('ParamBodyAngleX').key(0, 0, 'linear').key(1.3, 2, 'inout').key(3.0, 2, 'linear')
+for pid in ('ParamArmLA', 'ParamArmRA'):
+    m.track(pid).key(0, 0, 'linear').key(1.2, -1.5, 'inout').key(3.0, -1.5, 'linear')
+m.track('ParamFinL').key(0, 0, 'linear').key(1.3, -8, 'inout').key(3.0, -8, 'linear')
+m.track('ParamFinR').key(0, 0, 'linear').key(1.3, -8, 'inout').key(3.0, -8, 'linear')
+m.track('ParamAhoge').key(0, 0, 'linear').key(1.4, -8, 'inout').key(3.0, -8, 'linear')
+m.track('ParamBreath').key(0, 0, 'linear').key(1.5, 1, 'inout').key(2.4, 0.2, 'inout').key(3.0, 0.6, 'inout')
+reg('Slump', m)
+
+# ---------- 喘气（1.8 s）：跑完停下，两口大气 ----------
+m = Motion('pant', 1.8, fade_in=0.15, fade_out=0.5)
+m.track('ParamBodyAngleY').key(0, 0, 'linear').key(0.25, -4, 'out').key(0.6, -2, 'inout').key(0.9, -4.5, 'inout').key(1.3, -2, 'inout').key(1.8, 0, 'inout')
+m.track('ParamAngleY').key(0, 0, 'linear').key(0.25, -10, 'out').key(0.6, -6, 'inout').key(0.9, -11, 'inout').key(1.3, -5, 'inout').key(1.8, 0, 'inout')
+m.track('ParamBreath').key(0, 0, 'linear').key(0.3, 1, 'out').key(0.6, 0.2, 'inout').key(0.9, 1, 'out').key(1.3, 0.2, 'inout').key(1.8, 0.5, 'inout')
+m.track('ParamMouthOpenY').key(0, 0, 'linear').key(0.25, 0.6, 'out').key(0.6, 0.2, 'inout').key(0.9, 0.6, 'out').key(1.4, 0.1, 'inout').key(1.8, 0, 'inout')
+for pid in ('ParamArmLA', 'ParamArmRA'):
+    m.track(pid).key(0, 0, 'linear').key(0.3, 1.5, 'out').key(1.8, 0, 'inout')
+m.track('ParamFinL').key(0, 0, 'linear').key(0.3, -6, 'out').key(1.8, 0, 'inout')
+m.track('ParamFinR').key(0, 0, 'linear').key(0.3, -6, 'out').key(1.8, 0, 'inout')
+reg('Pant', m)
+
+# ---------- 荡（被拎着横拖，2.4 s）：整个人往后仰、腿甩 ----------
+m = Motion('swing', 2.4, fade_in=0.2, fade_out=0.4)
+m.track('ParamBodyStretch').key(0, 1, 'linear').key(2.4, 1, 'linear')
+m.track('ParamBodyAngleZ').key(0, 0, 'linear').key(0.3, 8, 'out').key(1.2, 6, 'inout').key(2.0, -3, 'inout').key(2.4, 0, 'inout')
+m.track('ParamAngleZ').key(0, 0, 'linear').key(0.35, 14, 'out').key(1.2, 10, 'inout').key(2.1, -4, 'inout').key(2.4, 0, 'inout')
+m.track('ParamLegL').key(0, 0, 'linear').key(0.35, -8, 'out').key(1.2, -6, 'inout').key(2.0, 2, 'inout').key(2.4, 0, 'inout')
+m.track('ParamLegR').key(0, 0, 'linear').key(0.35, -8, 'out').key(1.2, -6, 'inout').key(2.0, 2, 'inout').key(2.4, 0, 'inout')
+m.track('ParamKneeL').key(0, 0, 'linear').key(0.4, 5, 'out').key(2.4, 0, 'inout')
+m.track('ParamHairBackY').key(0, 0, 'linear').key(0.4, 1, 'out').key(2.4, 0, 'inout')
+reg('Swing', m)
+
+# ---------- 待机 3：东张西望（6 s 循环）----------
+m = Motion('idle_look', 6.0, loop=True, fade_in=0.8, fade_out=0.8)
+m.track('ParamBreath').key(0, 0, 'linear').key(1.7, 1, 'inout').key(3.3, 0, 'inout').key(4.9, 1, 'inout').key(6.0, 0, 'inout')
+hx = m.track('ParamAngleX')
+hx.key(0, 0, 'linear').key(0.8, 0, 'linear').key(1.1, -14, 'out').key(2.3, -14, 'linear').key(2.6, -10, 'inout').key(3.4, 12, 'out').key(4.6, 12, 'linear').key(5.3, 0, 'inout')
+m.track('ParamEyeBallX').key(0, 0, 'linear').key(0.8, 0, 'linear').key(0.95, -0.8, 'out').key(2.3, -0.8, 'linear').key(3.25, 0.8, 'out').key(4.6, 0.8, 'linear').key(5.1, 0, 'inout')
+m.track('ParamBodyAngleX').key(0, 0, 'linear').key(1.2, -3, 'inout').key(2.5, -3, 'linear').key(3.5, 3, 'inout').key(4.6, 3, 'linear').key(5.4, 0, 'inout')
+m.track('ParamAngleZ').key(0, 0, 'linear').key(1.2, 3, 'inout').key(3.5, -3, 'inout').key(5.4, 0, 'inout')
+reg('Idle', m)
+
 # ---------- 写进 model3.json ----------
 p = OUT / 'seeko.model3.json'
 mj = json.load(open(p))

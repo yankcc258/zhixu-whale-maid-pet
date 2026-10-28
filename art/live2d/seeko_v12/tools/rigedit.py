@@ -663,12 +663,24 @@ class Rig:
         self.s = self.s[: m.start(2)] + f'{new_pivot[0]:.7g} {new_pivot[1]:.7g}' + self.s[m.end(2):]
         g = self.deformer_guid(name)
         D = M.deformers(self.s)
-        for n, dd in D.items():
+        for n, dd in sorted(D.items(), key=lambda kv: -kv[1]['start']):
             if dd['target'] == g:
-                assert dd['kind'] == 'CRotationDeformerSource', ('warp child not supported', n)
                 cst, cen = dd['start'], dd['end']
-                cb = re.sub(r'originX="([^"]*)" originY="([^"]*)"',
-                            lambda m: f'originX="{float(m.group(1)) - delta[0]:.7g}" originY="{float(m.group(2)) - delta[1]:.7g}"', self.s[cst:cen])
+                if dd['kind'] == 'CRotationDeformerSource':
+                    cb = re.sub(r'originX="([^"]*)" originY="([^"]*)"',
+                                lambda m: f'originX="{float(m.group(1)) - delta[0]:.7g}" originY="{float(m.group(2)) - delta[1]:.7g}"', self.s[cst:cen])
+                else:  # 曲面子物件：关键形态 positions 是相对轴心的画布偏移
+                    b = self.s[cst:cen]
+                    kl = b.find('<carray_list xs.n="keyforms"')
+                    out, p = [], 0
+                    for pm in re.finditer(r'(<float-array xs.n="positions" count="\d+">)([^<]*)<', b):
+                        if pm.start() < kl:
+                            continue
+                        v = np.array(pm.group(2).split(), float).reshape(-1, 2) - delta
+                        out.append(b[p: pm.start(2)] + ' '.join(f'{x:.7g}' for x in v.reshape(-1)))
+                        p = pm.end(2)
+                    out.append(b[p:])
+                    cb = ''.join(out)
                 self.s = self.s[:cst] + cb + self.s[cen:]
         # 子网格
         for m in list(re.finditer(r'<CDeformerGuid xs.n="targetDeformerGuid" xs.ref="' + re.escape(g) + '"', self.s))[::-1]:
