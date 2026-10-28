@@ -407,6 +407,30 @@ class Rig:
         self.s = self.s[:st] + b + self.s[en:]
         self.log.append(f'参数 {pid} 范围 → {mn}~{mx}')
 
+    def delete_mesh(self, name):
+        """删掉一个网格：块本身、CArtMeshSourceSet._sources 里的引用、所在 Part 的 _childGuids 里的 CDrawableGuid 引用。
+        它独占的自由对象（CDrawableGuid / CFormGuid 定义等）留在流里不引用，Cubism 读取时忽略。"""
+        st, en = self.mesh_block(name)
+        b = self.s[st:en]
+        mid = re.search(r'<CArtMeshSource xs.id="(#\d+)"', b).group(1)
+        dg = re.search(r'<CDrawableGuid xs.n="guid" xs.ref="(#\d+)"', b).group(1)
+        self.s = self.s[:st] + self.s[en:]
+        # _sources
+        j = self.s.find(f'<CArtMeshSource xs.ref="{mid}" />')
+        assert j > 0, name
+        lp = self.s.rfind('<carray_list xs.n="_sources"', 0, j)
+        k = self.s.find('\n', j)
+        self.s = self.s[:j] + self.s[k + 1:]
+        self.bump_count(lp, -1)
+        # part _childGuids
+        j = self.s.find(f'<CDrawableGuid xs.ref="{dg}" />')
+        assert j > 0, name
+        lp = self.s.rfind('<carray_list xs.n="_childGuids"', 0, j)
+        k = self.s.find('\n', j)
+        self.s = self.s[:j] + self.s[k + 1:]
+        self.bump_count(lp, -1)
+        self.log.append(f'删除网格 {name}')
+
     def _reparent_to_warp(self, name, old_parent, bbox, new_guid, kind):
         """把网格或变形器挂到新曲面下：positions（或旋转轴心）从旧父坐标换算到新曲面的 0~1。"""
         off, sc = self.frame_of(old_parent)

@@ -2,7 +2,7 @@
 用法：python3 rig_v12.py seeko_q_v12_raw.cmo3 seeko_q_v12.cmo3
 
 做了什么（细节见 骨架规格_v12.md）：
-1. 新图层挂到该在的变形器下、描画顺序排好（旧的 DressBase / HairBack_L/R / LegStocking_L/R 在 Cubism 里手动删）。
+1. 删掉旧的 DressBase / HairBack_L/R / LegStocking_L/R；新图层挂到该在的变形器下、描画顺序排好。
 2. 手臂：肩轴心挪到肩球中心，抬手范围 -10~10 → +30°(往后)~-110°(举过头)；肘 -10~10 → -15°~120°。
 3. 新关节：手腕（ParamWristL/R ±30°，挂两只手，ParamHandL/R 0 握拳 1 张开）、膝（ParamKneeL/R 0~60°）。
 4. 腿摆动 ±10 → ±30°。
@@ -47,7 +47,7 @@ r.add_param('ParamHairBack1', '后发 外缕', -1, 1, 0, '底端 ±35px')
 r.add_param('ParamHairBack2', '后发 中缕', -1, 1, 0, '底端 ±30px')
 r.add_param('ParamHairBack3', '后发 内缕', -1, 1, 0, '底端 ±25px')
 
-# ---------- 1. 新图层归位 + 描画顺序 ----------
+# ---------- 1. 删旧图层、新图层归位、描画顺序 ----------
 ORDER = {
     'HairBack_Under': 290, 'HairBack_R_Inner': 294, 'HairBack_R_Mid': 296, 'HairBack_R_Outer': 298,
     'HairBack_L_Inner': 300, 'HairBack_L_Mid': 302, 'HairBack_L_Outer': 304,
@@ -71,6 +71,8 @@ for side in 'LR':
     r.reparent_to_rot(f'HandOpen_{side}', None, f'{"左" if side == "L" else "右"}小臂旋转')
 for n in ['HairBack_Under', 'HairBack_L_Outer', 'HairBack_L_Mid', 'HairBack_L_Inner', 'HairBack_R_Outer', 'HairBack_R_Mid', 'HairBack_R_Inner']:
     r.reparent_to_warp(n, None, 'HairBackSway')
+for n in ['DressBase', 'HairBack_L', 'HairBack_R', 'LegStocking_L', 'LegStocking_R']:
+    r.delete_mesh(n)
 
 # ---------- 2. 手臂：轴心 + 范围 ----------
 # 左 = 画面右。抬手：左臂负角度是往外抬（v09 约定），右臂相反
