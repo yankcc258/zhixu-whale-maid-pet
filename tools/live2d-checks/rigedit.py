@@ -272,6 +272,158 @@ class Rig:
         self.log.append(f'旋转变形器 {name}（父 {parent}，轴心 {pivot.round(1).tolist()}，{len(kf)} 个关键形态）← {children}')
         return dg
 
+    # ---------- 新建曲面变形器 ----------
+    def add_warp(self, name, parent, bbox, axes, forms, children, cols=5, rows=5, child_deformers=()):
+        """新建一个曲面变形器。
+        name：显示名；parent：父变形器名（None=根）；bbox：画布像素 (x0,y0,x1,y1)，neutral 时格点均匀铺满它
+        axes：[(paramId, [keys])]（可为空 → 只有一个关键形态）
+        forms：函数 (keyvalues tuple, grid ndarray((rows+1)*(cols+1),2) 画布像素) -> 画布像素 ndarray；None = 全部等于 neutral
+        children：要挂进来的网格名（现在的父物件必须是 parent）；child_deformers：要挂进来的变形器名（同上）
+        返回变形器 guid ref。"""
+        bbox = np.array(bbox, float)
+        off, sc = self.frame_of(parent)
+        # neutral 格点（画布）
+        xs = np.linspace(bbox[0], bbox[2], cols + 1)
+        ys = np.linspace(bbox[1], bbox[3], rows + 1)
+        grid = np.array([[x, y] for y in ys for x in xs])
+        pguids = [(self.param_guid(p), k) for p, k in axes]
+        if axes:
+            gid, gx, binds, btexts, combos = self._grid(pguids)
+        else:
+            gid, gx, binds, btexts, combos = (*self.new(), [], [], [()])
+        dg, dgx = self.new()
+        did, dix = self.new()
+        pid, pix = self.new()
+        cid, cix = self.new()
+        fids = [self.new() for _ in combos]
+        if parent:
+            parent_ref = self.deformer_guid(parent)
+            (pst, pen), _ = self.deformer_block(parent)
+        else:
+            parent_ref = re.search(r'<CDeformerGuid uuid="[^"]*" note="ROOT" xs.id="(#\d+)"', self.s).group(1)
+            pst, pen = self.mesh_block(children[0]) if children else self.deformer_block(child_deformers[0])[0]
+        part = self.part_guid_of(pst, pen)
+        wn = 1 + max([int(x) for x in re.findall(r'idstr="Warp(\d+)"', self.s)] + [0])
+        kf = []
+        for c, (fid, fx) in zip(combos, fids):
+            vals = tuple(axes[i][1][k] for i, k in enumerate(c))
+            g = grid.copy() if forms is None else np.asarray(forms(vals, grid.copy()), float)
+            local = (g - off) / sc  # 父坐标系
+            pos = ' '.join(f'{x:.7g}' for x in local.reshape(-1))
+            kf.append(
+                '<CWarpDeformerForm>\n<ACDeformerForm xs.n="super">\n<ACForm xs.n="super">\n'
+                f'<CFormGuid xs.n="guid" xs.ref="{fid}" />\n<b xs.n="isAnimatedForm">false</b>\n<b xs.n="isLocalAnimatedForm">false</b>\n'
+                f'<CWarpDeformerSource xs.n="_source" xs.ref="{did}" />\n<null xs.n="name" />\n<s xs.n="notes" />\n</ACForm>\n'
+                '<f xs.n="opacity">1.0</f>\n<CFloatColor xs.n="multiplyColor" red="1.0" green="1.0" blue="1.0" alpha="1.0" />\n'
+                f'<CFloatColor xs.n="screenColor" red="0.0" green="0.0" blue="0.0" alpha="1.0" />\n<CoordType xs.n="coordType" xs.ref="{cid}" />\n</ACDeformerForm>\n'
+                f'<float-array xs.n="positions" count="{len(local)*2}">{pos}</float-array>\n</CWarpDeformerForm>\n'
+            )
+        shape = (
+            f'<float-array xs.n="positions" xs.ref="{pid}" />\n<s xs.n="lastUpdatedTimeString">2026-10-28T17:00:00.000000000+09:00[Asia/Tokyo]</s>\n'
+            '<b xs.n="autoRefreshIsAvailable">true</b>\n<CreationMethod xs.n="creationMethod" v="DEFORMER_CREATED" />\n'
+            f'<i xs.n="col">{cols}</i>\n<i xs.n="row">{rows}</i>\n'
+        )
+        def bez(level, n):
+            return ('<CWarpDeformerBezierExtension>\n<ACExtension xs.n="super">\n'
+                    f'<CExtensionGuid xs.n="guid" uuid="{self.uid()}" note="(no debug info)" />\n<CWarpDeformerSource xs.n="_owner" xs.ref="{did}" />\n</ACExtension>\n'
+                    f'<i xs.n="editLevel">{level}</i>\n<i xs.n="bezierCol">{n}</i>\n<i xs.n="bezierRow">{n}</i>\n</CWarpDeformerBezierExtension>\n')
+        block = (
+            f'<CWarpDeformerSource xs.id="{did}" xs.idx="{dix}">\n<ACDeformerSource xs.n="super">\n<ACParameterControllableSource xs.n="super">\n'
+            f'<s xs.n="localName">{name}</s>\n<b xs.n="isVisible">true</b>\n<b xs.n="isLocked">false</b>\n<CPartGuid xs.n="parentGuid" xs.ref="{part}" />\n'
+            f'<KeyformGridSource xs.n="keyformGridSource" xs.ref="{gid}" />\n<KeyFormMorphTargetSet xs.n="keyformMorphTargetSet">\n<carray_list xs.n="_morphTargets" count="0" />\n'
+            '<MorphTargetBlendWeightConstraintSet xs.n="blendWeightConstraintSet">\n<carray_list xs.n="_constraints" count="0" />\n</MorphTargetBlendWeightConstraintSet>\n</KeyFormMorphTargetSet>\n'
+            '<carray_list xs.n="_extensions" count="3">\n' + bez(2, 2) + bez(3, 1) +
+            '<CDeformerOriginalShapeExtension>\n<ACExtension xs.n="super">\n'
+            f'<CExtensionGuid xs.n="guid" uuid="{self.uid()}" note="(no debug info)" />\n<CWarpDeformerSource xs.n="_owner" xs.ref="{did}" />\n</ACExtension>\n'
+            f'<WarpDeformerOriginalShape xs.n="originalShape">\n<ACDeformerOriginalShape xs.n="super">\n{shape}</ACDeformerOriginalShape>\n{shape}</WarpDeformerOriginalShape>\n'
+            '</CDeformerOriginalShapeExtension>\n</carray_list>\n<null xs.n="internalColor_direct_argb" />\n<CLabelColor xs.n="labelColor" customizedColorInt="-1">\n'
+            '<CLabelColorType xs.n="labelType" v="GRAY" />\n</CLabelColor>\n</ACParameterControllableSource>\n'
+            f'<CDeformerGuid xs.n="guid" xs.ref="{dg}" />\n<CDeformerId xs.n="id" idstr="Warp{wn}" />\n<CDeformerGuid xs.n="targetDeformerGuid" xs.ref="{parent_ref}" />\n</ACDeformerSource>\n'
+            f'<i xs.n="col">{cols}</i>\n<i xs.n="row">{rows}</i>\n<b xs.n="isQuadTransform">true</b>\n'
+            f'<carray_list xs.n="keyforms" count="{len(kf)}">\n{"".join(kf)}</carray_list>\n</CWarpDeformerSource>\n'
+        )
+        orig = ' '.join(f'{x:.7g}' for x in grid.reshape(-1))
+        trail = (
+            f'<float-array count="{len(grid)*2}" xs.id="{pid}" xs.idx="{pix}">{orig}</float-array>\n'
+            + ''.join(f'<CFormGuid uuid="{self.uid()}" note="Key [  ]" xs.id="{fid}" xs.idx="{fx}" />\n' for fid, fx in fids)
+            + f'<CoordType xs.id="{cid}" xs.idx="{cix}">\n<s xs.n="coordName">DeformerLocal</s>\n</CoordType>\n'
+        )
+        if axes:
+            gtext = self._grid_text(gid, gx, binds, combos, [f for f, _ in fids], len(axes))
+        else:
+            gtext = (f'<KeyformGridSource xs.id="{gid}" xs.idx="{gx}">\n<array_list xs.n="keyformsOnGrid" count="1">\n<KeyformOnGrid>\n'
+                     '<KeyformGridAccessKey xs.n="accessKey">\n<array_list xs.n="_keyOnParameterList" count="0" />\n</KeyformGridAccessKey>\n'
+                     f'<CFormGuid xs.n="keyformGuid" xs.ref="{fids[0][0]}" />\n</KeyformOnGrid>\n</array_list>\n<array_list xs.n="keyformBindings" count="0" />\n</KeyformGridSource>\n')
+        text = f'<CDeformerGuid uuid="{self.uid()}" note="Warp{wn}" xs.id="{dg}" xs.idx="{dgx}" />\n' + gtext + ''.join(btexts) + block + trail
+        self.insert_before('</shared>', text)
+        ps = self.s.find(f'<CPartGuid xs.n="guid" xs.ref="{part}"')
+        assert ps > 0
+        ps = self.s.rfind('<CPartSource xs.id', 0, ps)
+        lp = self.s.find('<carray_list xs.n="_childGuids"', ps)
+        self.s = self.s[: self.s.find('>', lp) + 1] + f'\n<CDeformerGuid xs.ref="{dg}" />' + self.s[self.s.find('>', lp) + 1:]
+        self.bump_count(lp, 1)
+        ds = self.s.find('<CDeformerSourceSet xs.n="deformerSourceSet">')
+        lp = self.s.find('<carray_list xs.n="_sources"', ds)
+        le = self.s.find('</carray_list>', lp)
+        self.s = self.s[:le] + f'<CWarpDeformerSource xs.ref="{did}" />\n' + self.s[le:]
+        self.bump_count(lp, 1)
+        # 子物件：画布 → 新曲面的 0~1
+        for ch in children:
+            self._reparent_to_warp(ch, parent, bbox, dg, kind='mesh')
+        for ch in child_deformers:
+            self._reparent_to_warp(ch, parent, bbox, dg, kind='deformer')
+        self.log.append(f'曲面变形器 {name}（父 {parent}，bbox {bbox.round(1).tolist()}，{cols}×{rows}，{len(kf)} 个关键形态）← {list(children) + list(child_deformers)}')
+        return dg
+
+    def _reparent_to_warp(self, name, old_parent, bbox, new_guid, kind):
+        """把网格或变形器挂到新曲面下：positions（或旋转轴心）从旧父坐标换算到新曲面的 0~1。"""
+        off, sc = self.frame_of(old_parent)
+        bmin = np.array(bbox[:2], float)
+        bsz = np.array(bbox[2:], float) - bmin
+        if kind == 'mesh':
+            st, en = self.mesh_block(name)
+            b = self.s[st:en]
+            m = re.search(r'<CDeformerGuid xs.n="targetDeformerGuid" xs.ref="(#\d+)"', b)
+            b = b[: m.start(1)] + new_guid + b[m.end(1):]
+            ks, ke = self._keyforms_span(b)
+            out, p = [], 0
+            for pm in re.finditer(r'(<float-array xs.n="positions" count="\d+"[^>]*>)([^<]*)<', b):
+                if not (ks <= pm.start() < ke):
+                    continue
+                v = np.array(pm.group(2).split(), float).reshape(-1, 2)
+                local = (off + v * sc - bmin) / bsz
+                out.append(b[p: pm.start(2)] + ' '.join(f'{x:.7g}' for x in local.reshape(-1)))
+                p = pm.end(2)
+            out.append(b[p:])
+            self.s = self.s[:st] + ''.join(out) + self.s[en:]
+            return
+        (st, en), dk = self.deformer_block(name)
+        b = self.s[st:en]
+        m = re.search(r'<CDeformerGuid xs.n="targetDeformerGuid" xs.ref="(#\d+)"', b)
+        b = b[: m.start(1)] + new_guid + b[m.end(1):]
+        if dk == 'rot':
+            out, p = [], 0
+            for rm in re.finditer(r'originX="([^"]*)" originY="([^"]*)"', b):
+                o = off + np.array([float(rm.group(1)), float(rm.group(2))]) * sc
+                l = (o - bmin) / bsz
+                out.append(b[p: rm.start()] + f'originX="{l[0]:.7g}" originY="{l[1]:.7g}"')
+                p = rm.end()
+            out.append(b[p:])
+            b = ''.join(out)
+        else:
+            kl = b.find('<carray_list xs.n="keyforms"')
+            out, p = [], 0
+            for pm in re.finditer(r'(<float-array xs.n="positions" count="\d+">)([^<]*)<', b):
+                if pm.start() < kl:
+                    continue
+                v = np.array(pm.group(2).split(), float).reshape(-1, 2)
+                local = (off + v * sc - bmin) / bsz
+                out.append(b[p: pm.start(2)] + ' '.join(f'{x:.7g}' for x in local.reshape(-1)))
+                p = pm.end(2)
+            out.append(b[p:])
+            b = ''.join(out)
+        self.s = self.s[:st] + b + self.s[en:]
+
     def reparent_mesh(self, name, old_parent, new_pivot, new_guid):
         st, en = self.mesh_block(name)
         b = self.s[st:en]
