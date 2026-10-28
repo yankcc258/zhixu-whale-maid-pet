@@ -1,0 +1,344 @@
+{
+  "method": "Rigid raster part rotation about documented pivots; not Cubism mesh/physics validation.",
+  "arms": [
+    {
+      "shoulder": 0,
+      "elbow": 0,
+      "joints": [
+        {
+          "side": "R",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 3617,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "R",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 4466,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "R",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2059,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        },
+        {
+          "side": "L",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 4419,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "L",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 4313,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "L",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2116,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        }
+      ]
+    },
+    {
+      "shoulder": 45,
+      "elbow": 0,
+      "joints": [
+        {
+          "side": "R",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 2121,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "R",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 4457,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "R",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2069,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        },
+        {
+          "side": "L",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 2774,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "L",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 4308,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "L",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2123,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        }
+      ]
+    },
+    {
+      "shoulder": 90,
+      "elbow": 0,
+      "joints": [
+        {
+          "side": "R",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 1754,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "R",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 4466,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "R",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2059,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        },
+        {
+          "side": "L",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 2442,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "L",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 4313,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "L",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2116,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        }
+      ]
+    },
+    {
+      "shoulder": 90,
+      "elbow": 90,
+      "joints": [
+        {
+          "side": "R",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 1754,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "R",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 6206,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "R",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2058,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        },
+        {
+          "side": "L",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 2442,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "L",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 5662,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "L",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2115,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        }
+      ]
+    },
+    {
+      "shoulder": 90,
+      "elbow": -90,
+      "joints": [
+        {
+          "side": "R",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 1754,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "R",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 4580,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "R",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2059,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        },
+        {
+          "side": "L",
+          "joint": "DressTop-ArmUpper",
+          "opaque_overlap_pixels": 2442,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 12
+        },
+        {
+          "side": "L",
+          "joint": "ArmUpper-ArmLower",
+          "opaque_overlap_pixels": 4528,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 15
+        },
+        {
+          "side": "L",
+          "joint": "ArmLower-Hand",
+          "opaque_overlap_pixels": 2116,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 10
+        }
+      ]
+    }
+  ],
+  "legs": [
+    {
+      "hip": 0,
+      "knee": 0,
+      "joints": [
+        {
+          "side": "R",
+          "opaque_overlap_pixels": 6924,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        },
+        {
+          "side": "L",
+          "opaque_overlap_pixels": 6964,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        }
+      ]
+    },
+    {
+      "hip": 25,
+      "knee": 40,
+      "joints": [
+        {
+          "side": "R",
+          "opaque_overlap_pixels": 7143,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        },
+        {
+          "side": "L",
+          "opaque_overlap_pixels": 7061,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        }
+      ]
+    },
+    {
+      "hip": -25,
+      "knee": 40,
+      "joints": [
+        {
+          "side": "R",
+          "opaque_overlap_pixels": 7146,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        },
+        {
+          "side": "L",
+          "opaque_overlap_pixels": 7062,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        }
+      ]
+    },
+    {
+      "hip": 25,
+      "knee": -40,
+      "joints": [
+        {
+          "side": "R",
+          "opaque_overlap_pixels": 6996,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        },
+        {
+          "side": "L",
+          "opaque_overlap_pixels": 7147,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        }
+      ]
+    },
+    {
+      "hip": -25,
+      "knee": -40,
+      "joints": [
+        {
+          "side": "R",
+          "opaque_overlap_pixels": 7000,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        },
+        {
+          "side": "L",
+          "opaque_overlap_pixels": 7159,
+          "junction_disk_coverage": 1,
+          "sample_disk_radius_px": 18
+        }
+      ]
+    }
+  ],
+  "neck_vertical_scale": 1.15,
+  "hair_rigid_angles": [
+    -15,
+    0,
+    15
+  ],
+  "cubism_tested": false
+}

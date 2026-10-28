@@ -1,0 +1,243 @@
+[
+  {
+    "name": "ArmUpper_R",
+    "opaque_components": [
+      14599
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "ArmLower_R",
+    "opaque_components": [
+      9114
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "Cuff_R",
+    "opaque_components": [
+      2641
+    ],
+    "internal_transparent_holes": [
+      380
+    ]
+  },
+  {
+    "name": "Hand_R",
+    "opaque_components": [
+      5879
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "HandOpen_R",
+    "opaque_components": [
+      6003
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "LegThigh_R",
+    "opaque_components": [
+      22457
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "LegShin_R",
+    "opaque_components": [
+      13986
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "Shoe_R",
+    "opaque_components": [
+      10217
+    ],
+    "internal_transparent_holes": [
+      1125
+    ]
+  },
+  {
+    "name": "ArmUpper_L",
+    "opaque_components": [
+      14765
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "ArmLower_L",
+    "opaque_components": [
+      9636
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "Cuff_L",
+    "opaque_components": [
+      2627
+    ],
+    "internal_transparent_holes": [
+      380
+    ]
+  },
+  {
+    "name": "Hand_L",
+    "opaque_components": [
+      5869
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "HandOpen_L",
+    "opaque_components": [
+      6011
+    ],
+    "internal_transparent_holes": [
+      1
+    ]
+  },
+  {
+    "name": "LegThigh_L",
+    "opaque_components": [
+      22457
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "LegShin_L",
+    "opaque_components": [
+      13976
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "Shoe_L",
+    "opaque_components": [
+      10288
+    ],
+    "internal_transparent_holes": [
+      1135
+    ]
+  },
+  {
+    "name": "Neck",
+    "opaque_components": [
+      17774
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "DressTop",
+    "opaque_components": [
+      46509
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "SkirtBack",
+    "opaque_components": [
+      79187
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "SkirtInner",
+    "opaque_components": [
+      36635
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "SkirtFront",
+    "opaque_components": [
+      71312
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "SkirtHemLace",
+    "opaque_components": [
+      38194
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "ApronBody",
+    "opaque_components": [
+      19711
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "HairBack_Under",
+    "opaque_components": [
+      377401
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "HairBack_L_Inner",
+    "opaque_components": [
+      144887
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "HairBack_L_Mid",
+    "opaque_components": [
+      168314
+    ],
+    "internal_transparent_holes": [
+      1722
+    ]
+  },
+  {
+    "name": "HairBack_L_Outer",
+    "opaque_components": [
+      92380
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "HairSide_L",
+    "opaque_components": [
+      45846
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "HairBack_R_Inner",
+    "opaque_components": [
+      144887
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "HairBack_R_Mid",
+    "opaque_components": [
+      168314
+    ],
+    "internal_transparent_holes": [
+      1722
+    ]
+  },
+  {
+    "name": "HairBack_R_Outer",
+    "opaque_components": [
+      92380
+    ],
+    "internal_transparent_holes": []
+  },
+  {
+    "name": "HairSide_R",
+    "opaque_components": [
+      42688
+    ],
+    "internal_transparent_holes": [
+      2,
+      1
+    ]
+  }
+]

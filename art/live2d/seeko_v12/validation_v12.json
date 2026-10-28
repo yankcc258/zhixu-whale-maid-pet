@@ -1,0 +1,2770 @@
+{
+  "source": "art/live2d/seeko_v05/seeko_cubism_import_v05f.psd",
+  "source_sha256": "742bfd62c76b0dd8832bf9bd43e648a70ea0874293df0288e8c684cbf26bca86",
+  "output_sha256": "dc1186642326ca533c35801425f4ebb8a201d00acc72852abe47dde00674ffc3",
+  "canvas": [
+    1086,
+    1448
+  ],
+  "total_layers": 104,
+  "counts": {
+    "added": 16,
+    "modified": 16,
+    "unchanged": 72
+  },
+  "removed": [
+    "DressBase",
+    "HairBack_L",
+    "HairBack_R",
+    "LegStocking_L",
+    "LegStocking_R"
+  ],
+  "protected_count": 55,
+  "all_protected_rgba_identical": true,
+  "protected_order_preserved": true,
+  "all_full_canvas": true,
+  "all_visibility_matches_contract": true,
+  "hand_open_default_hidden": true,
+  "layer_audit": [
+    {
+      "name": "HairBack_Under",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        86,
+        479,
+        1025,
+        1255
+      ],
+      "rgba_sha256": "fe035e396fab7e85d7db31bd55ab32cf8664df5fbf689301547b9a86167e30c8",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "HairBack_R_Inner",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        251,
+        465,
+        586,
+        1260
+      ],
+      "rgba_sha256": "1b9925ceacc487ca467791bc192d396f08d31fcc6fc28f1616e78256b8bea9de",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "HairBack_R_Mid",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        111,
+        468,
+        476,
+        1275
+      ],
+      "rgba_sha256": "23654539454029894d85a34b4910b198d4aec0c318ed9d8532638213bf3466b5",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "HairBack_R_Outer",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        59,
+        488,
+        376,
+        1200
+      ],
+      "rgba_sha256": "162a4d8a1403311566fcc36bd275d9050191f213f07d78fd2e27e1ab4c84a0f6",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "HairBack_L_Inner",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        500,
+        465,
+        835,
+        1260
+      ],
+      "rgba_sha256": "9046277768b37f4470b631f7191b8d9623e561c4445f3984227a3a9669b97acf",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "HairBack_L_Mid",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        610,
+        468,
+        975,
+        1275
+      ],
+      "rgba_sha256": "725549fee81f75c885a72254cc37af205421a2b866d1ddbc763fefa1314c1c6b",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "HairBack_L_Outer",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        710,
+        488,
+        1027,
+        1200
+      ],
+      "rgba_sha256": "60ddc6b384eba6f6a815c6f0eba2be08009755a5fb5ea949beb0a15325611a91",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "LegThigh_R",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        387,
+        1093,
+        518,
+        1293
+      ],
+      "rgba_sha256": "24de3950c33224d5f8584830737ee6591adc0b4b281504b6172aa70082462051",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "LegShin_R",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        382,
+        1213,
+        509,
+        1353
+      ],
+      "rgba_sha256": "ebf9e87ac59a27bbf0b37fae320e9723ec0cfa48ee80dd3d4b104a2b96ca46bc",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "Shoe_R",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        362,
+        1296,
+        515,
+        1401
+      ],
+      "rgba_sha256": "653619ff78e5da598150020306470b1e84c955494fed91e414a34f2a016e0f33",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "LegThigh_L",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        547,
+        1093,
+        683,
+        1294
+      ],
+      "rgba_sha256": "7496361af39b8c64afae6d221497a4f2735102c2a6c8da3a1765667755e6c4a6",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "LegShin_L",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        561,
+        1213,
+        688,
+        1353
+      ],
+      "rgba_sha256": "da8d031cad5772282c22ecf7993038979e871025bc1594e3dca774a956343ff9",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "Shoe_L",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        554,
+        1296,
+        708,
+        1401
+      ],
+      "rgba_sha256": "dd4b9432682f88b7efc3e52d414a42562a2f9ee965c2e7c8c5865722d2001b80",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "SkirtInner",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        310,
+        1130,
+        760,
+        1238
+      ],
+      "rgba_sha256": "baa558f9a3cad203565662ec264572336c740ea9be29ebff55667b158c8e0143",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "SkirtBack",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        301,
+        978,
+        768,
+        1231
+      ],
+      "rgba_sha256": "483a0e9fe52547860eaa746518fb771d043867baee3733f19168fd2d31d96d21",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "SkirtHemLace",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        283,
+        1096,
+        789,
+        1259
+      ],
+      "rgba_sha256": "1e26e44a0ecff16cfb7661179f7945964d6762d64a8771ce466e34a401102f24",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "SkirtFront",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        301,
+        988,
+        768,
+        1222
+      ],
+      "rgba_sha256": "37fe43dfae8ade04d169c5d9a3395ae0f7a498360efb733476599b28232a3696",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "ArmUpper_R",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        317,
+        885,
+        440,
+        1061
+      ],
+      "rgba_sha256": "c20a9bbe301fbeb4eefc997518ef2e0aac001b52d067499992021fff2904e16a",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "ArmLower_R",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        274,
+        976,
+        408,
+        1101
+      ],
+      "rgba_sha256": "0a2ce3c438bd76da2815b0938ab79a5957e6722fea65cf7f8dd22d859a0bc8da",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "ArmUpper_L",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        622,
+        885,
+        746,
+        1062
+      ],
+      "rgba_sha256": "00342ce6db71e613c213b12abbf07ea659287902940c65fa176dd46d6c3bfc58",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "ArmLower_L",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        658,
+        978,
+        794,
+        1111
+      ],
+      "rgba_sha256": "0936ec46b5fddbc660cc9c3085df9f2b6bc22ecb3a6a1ec960a6d2fc6fba4128",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "Neck",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        479,
+        806,
+        579,
+        998
+      ],
+      "rgba_sha256": "adc0f5cb6efc818fd297431f7a8829d57610e580fa80201e2055f6acae6d1d05",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "DressTop",
+      "status": "added",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        382,
+        875,
+        685,
+        1080
+      ],
+      "rgba_sha256": "d7d83dc592e5d2644b149caba144afda0621b3c275adeb8dd88d994e6f4440f9",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "ApronLace",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        397,
+        1026,
+        658,
+        1189
+      ],
+      "rgba_sha256": "a151ea8d61c139ebda4e0917f2e526523a67c929974d34e1cdbb7f0bf7675fbc",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "ApronBody",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        437,
+        1013,
+        620,
+        1157
+      ],
+      "rgba_sha256": "ea0fbc2fa3961b8585df6bb2fe3eaa7e9c3ab35899133fbf5f1a213b4b2f35b3",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "BodiceWhite",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        422,
+        885,
+        636,
+        1054
+      ],
+      "rgba_sha256": "c0ec1031c62a8905b6e51539c5443ed0c5638c9c9ac7f22020e9f3fd5642d1e5",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "ChestLace_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        396,
+        888,
+        463,
+        1041
+      ],
+      "rgba_sha256": "c1367feb37f2a06a9966b5a521b602e78e7bea6c6d0f296ff6110182533a3707",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "ChestLace_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        599,
+        885,
+        659,
+        1041
+      ],
+      "rgba_sha256": "1b5b2de53eb48bf04f416d63098eddf72b635e119150fb5acefb9cc46a92cf5f",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "Waistband",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        437,
+        1026,
+        618,
+        1063
+      ],
+      "rgba_sha256": "368f311c5f5b766d60fe6be4b5e611910c16b721855c391d43c4ab818701200c",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "NeckCollar",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        453,
+        877,
+        606,
+        933
+      ],
+      "rgba_sha256": "d36a39adb8022024b928f489cd92710ca2bcd992056490fdca1c6fc307e442d0",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "Hand_R",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        238,
+        1036,
+        337,
+        1134
+      ],
+      "rgba_sha256": "7c61e876b16f5c5b2c00d8d9509a3281a9b92b7f0a89f0d4c301a93f9ce451e2",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "HandOpen_R",
+      "status": "added",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        231,
+        1031,
+        335,
+        1137
+      ],
+      "rgba_sha256": "d01c21ae9df2c2f02dcdf523717b8ef455378ea95e5a35365f3b3409042ad36a",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "Hand_L",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        730,
+        1046,
+        829,
+        1144
+      ],
+      "rgba_sha256": "4cc52faf971f4e097d63660fed54c60634b6bfbe351d3ba733048f07e73d5ae7",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "HandOpen_L",
+      "status": "added",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        732,
+        1042,
+        837,
+        1148
+      ],
+      "rgba_sha256": "958aae8430034a7612d8189f74e66a36c9d21a85bae4a641cd81b3ff000c6126",
+      "rgba_identical_to_v05f": null
+    },
+    {
+      "name": "Cuff_R",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        268,
+        1025,
+        347,
+        1106
+      ],
+      "rgba_sha256": "08e3329c2e0142f77d91dc135952cd41459c7e156c493a1326549d059690d4ab",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "Cuff_L",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        721,
+        1035,
+        800,
+        1117
+      ],
+      "rgba_sha256": "50c7971f24b78dd494505eea94fedf6ad41a5d9b6515ee0f7b3ae06a59379c73",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "FaceBase",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        318,
+        382,
+        756,
+        895
+      ],
+      "rgba_sha256": "2e6b14c7d0fe2ff000d40a0d3d6dbd3c69a5017d516232fd6ef89431ee3cc0b5",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "FaceHairShadow",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        330,
+        593,
+        740,
+        698
+      ],
+      "rgba_sha256": "4ee2cb085fe98b4d495d2382a29140621c30f347eb1266e255b2aa208e984650",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "FaceHairShadow_FR",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        327,
+        547,
+        425,
+        695
+      ],
+      "rgba_sha256": "07900570a613f3709b6ed57c3ed48536b7bd2808f7c22ef8e81cee3d82fc3b2c",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "FaceHairShadow_FC",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        419,
+        624,
+        631,
+        699
+      ],
+      "rgba_sha256": "5e2c8e8298a860f7d8241f2a265b9eb1fdb816da9fd79cc3895bfaf3e20c4363",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "FaceHairShadow_FL",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        625,
+        541,
+        748,
+        700
+      ],
+      "rgba_sha256": "113fdd3e9d3dd4b5caa187ef61261b293138250b47526c6298d107f996dbd8fd",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "FaceHairShadow_SR",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        297,
+        692,
+        341,
+        854
+      ],
+      "rgba_sha256": "121987a980c3b6e63426bcc174cfb4b5b6847684cec9de249c5a5a305bc86649",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "FaceHairShadow_SL",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        712,
+        697,
+        763,
+        866
+      ],
+      "rgba_sha256": "e94b516e8e80b53f1d22748f3fd0d25674ad16b59e5090e6e6b5aaef36e6f1b6",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "FinEar_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        43,
+        679,
+        240,
+        860
+      ],
+      "rgba_sha256": "03581db1831d13f57cc36bea33c2e8f8b261028c207e107459e96bbe7d37e068",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "FinEar_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        820,
+        675,
+        1043,
+        864
+      ],
+      "rgba_sha256": "48140b84331bd40b6585c4da02a80b29ecc85afe8d5998be447c7291adfc2386",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeWhite_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        322,
+        683,
+        473,
+        801
+      ],
+      "rgba_sha256": "670c7003bef1348701761c8ab8951dc5c98b137f43c999f066a13f03b5052a8f",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "IrisPupil_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        358,
+        684,
+        471,
+        804
+      ],
+      "rgba_sha256": "9cd5c416667d1f5ef7f73a4b946a5308dab9c37eb83e4e07f93c4f85b4a7c13a",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeSocketMask_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        299,
+        668,
+        482,
+        819
+      ],
+      "rgba_sha256": "aaaaf162dff9c59adbb6fcbe4965f3a7891b00dbf0ee921c559a2de63640b1ac",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeLineLower_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        307,
+        784,
+        338,
+        805
+      ],
+      "rgba_sha256": "6e7857e7f0a36b3a3bbd555b72541c5c923b07b62a2828944bced5f5af23278d",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeLineUpper_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        296,
+        674,
+        472,
+        727
+      ],
+      "rgba_sha256": "10ce6cb6af800041f6498201b58b99521253b76b45a2a92ea18da130de959d4e",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeHighlightUpper_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        394,
+        697,
+        442,
+        738
+      ],
+      "rgba_sha256": "af1e54a9a51d098eddd63380eb298faa965a7ff192805c6771cf61960ab1f4ca",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeHighlightLower_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        392,
+        758,
+        448,
+        798
+      ],
+      "rgba_sha256": "0b0ad6c09cb0cde8636fb1a3ceb877a76f04ba0facbfd776fe42ebfba11d28bd",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyelidUpper_R",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        319,
+        670,
+        482,
+        748
+      ],
+      "rgba_sha256": "23048c255022e4c10313fb1f5360388b76598aafacf01279265cbaa3ae705896",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyelidLower_R",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        319,
+        745,
+        482,
+        823
+      ],
+      "rgba_sha256": "c88089b8a41a0e7070fadf2511573b2e5f6c7ea55e9440a6e04c843793cdf035",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeLineClosed_R",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        309,
+        736,
+        473,
+        763
+      ],
+      "rgba_sha256": "82a7382d78ed1f79e7bbaa93df49b64394c4360587b04151f899f2154728b2bc",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeWhite_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        591,
+        695,
+        743,
+        813
+      ],
+      "rgba_sha256": "7ca5f65bc60258463abe9c4396d4479d9db780aa67014ac1443872a5b365a0db",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "IrisPupil_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        594,
+        696,
+        710,
+        816
+      ],
+      "rgba_sha256": "5527a8522069ebd888b96da4c7db303085b010c67a779cf3fd3c8688a32c38fd",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeSocketMask_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        580,
+        680,
+        763,
+        832
+      ],
+      "rgba_sha256": "daeaa64de2911423776c3b57e97f3df3a3e1d3e630a59cb27d7c399012ffd195",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeLineLower_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        694,
+        797,
+        757,
+        826
+      ],
+      "rgba_sha256": "eb338e2ac91e80f6497b1261ab8ba9676a8b1b0b5834c6426a81898b8e1f4b1e",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeLineUpper_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        587,
+        686,
+        766,
+        745
+      ],
+      "rgba_sha256": "d258baff167511661f7eb06903d210ab6ae98fefa91606b5776ca36a1f5c03a2",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeHighlightUpper_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        630,
+        710,
+        677,
+        751
+      ],
+      "rgba_sha256": "9d38cb4202a25e175f726825af0258ccf00bda5c16125d3f3ada9121c9e8f0e0",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeSparkle_R",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        365,
+        734,
+        403,
+        772
+      ],
+      "rgba_sha256": "6974b54084a97b6c62e1510ba788271334b1ddfb5884cedf4e7eeb4e0f7b5bd4",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeSparkle_L",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        667,
+        746,
+        705,
+        784
+      ],
+      "rgba_sha256": "8fac26b5f73ad262b372a04e380b703b9f833dda3aed1cda4a3c96bc90dc9dcb",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "Tear_R",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        338,
+        781,
+        358,
+        811
+      ],
+      "rgba_sha256": "090c8bae6a31acb9c23038d34109b2f5aa2f2854000bc69ecffc24f9c085adf9",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "Tear_L",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        680,
+        795,
+        700,
+        825
+      ],
+      "rgba_sha256": "271bd06c93d8ea4cba4f4dcc1278c3a9627ec007c4df4c6412f292d2b75bce63",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeHighlightLower_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        619,
+        772,
+        680,
+        814
+      ],
+      "rgba_sha256": "4f2978d30d7db593d1696e0648367538109aacf843fd9e2b3ecbe97f6a25d39a",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyelidUpper_L",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        582,
+        682,
+        756,
+        761
+      ],
+      "rgba_sha256": "9e1e6e3089ee84ee55bf7b624853f91a2ea6110d0d6dc2919ed91afff3b7ebcc",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyelidLower_L",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        582,
+        758,
+        756,
+        836
+      ],
+      "rgba_sha256": "81d0ed08e5af2ad83c44ba0cdf72887af630d5bd4dedc99a1355516128ba496d",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "EyeLineClosed_L",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        589,
+        748,
+        753,
+        775
+      ],
+      "rgba_sha256": "bf1f61a4cee707ee5677930ce5d26e38fbd1f7e623b465798b70b0c5effc71a9",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "CheekBlush_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        340,
+        808,
+        386,
+        842
+      ],
+      "rgba_sha256": "dd6ba199279db5032401d71851e349598e2084a9cb6c19951f6dcb04e33eeb12",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "CheekBlush_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        635,
+        819,
+        709,
+        865
+      ],
+      "rgba_sha256": "1979df2890c4c0e6f7f0f33a97a37ffddff5642aa0f4758dc0f530d3ce007df2",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "SweatDrop",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        687,
+        651,
+        706,
+        688
+      ],
+      "rgba_sha256": "6654fd8e39ed5fbfea1c45314f145acd7bd0060da0654e04060924c46723b4a6",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "AngerMark",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        650,
+        647,
+        681,
+        678
+      ],
+      "rgba_sha256": "7116052ae8c99e7bf042d2186979eda9e5a2bd9f8e894f55d1d402de85309ce4",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthLineClosed",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        484,
+        816,
+        557,
+        834
+      ],
+      "rgba_sha256": "b8056006f5b7b0990d85ee7e63b19d40677cb560a92ad491d4101e442fe6c5a5",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthCat",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        485,
+        816,
+        557,
+        835
+      ],
+      "rgba_sha256": "fae635c98121bf6f59a0a60417ff162af6c2fdf9f43738057fb54ce7301d197f",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthPout",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        509,
+        813,
+        532,
+        837
+      ],
+      "rgba_sha256": "f7895e9f49e5a84721428867a908b903d206cd1399d8302903de00832ceff3ab",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthWavy",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        488,
+        817,
+        554,
+        832
+      ],
+      "rgba_sha256": "ce951093008ca8b7620e65e529934a28976a62745851e50a7eb0b0630340de70",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthFlat",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        491,
+        822,
+        551,
+        827
+      ],
+      "rgba_sha256": "f7e1b8b54bd8e92cfd0aaef721ed0b16171954ccdb1f1180a484c0488c9a9b4d",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthGrin",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        479,
+        810,
+        563,
+        842
+      ],
+      "rgba_sha256": "29769792722b324768b577f97ed22b193f7e5b0f90789423702c29a5f2ef2b9d",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthCavity",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        492,
+        812,
+        551,
+        855
+      ],
+      "rgba_sha256": "fd467ab264241119357891fd553744224d93e1592c1fed3298705e0740aecd96",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthTongue",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        496,
+        835,
+        546,
+        851
+      ],
+      "rgba_sha256": "243c535a11e2dbfc3a40daf5c3679425d6d463d943fb1806e5dd2f897a6bbc6d",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthLipUpper",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        491,
+        811,
+        551,
+        823
+      ],
+      "rgba_sha256": "7fa275fcab22e5517fb115b4e53dade7781020ab234e84dff64f6b8936a51c1c",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthLipLower",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        492,
+        821,
+        551,
+        855
+      ],
+      "rgba_sha256": "e8d56a21c08bd435847a8d33877cc514c3eee5f9640889fcf698fd6a7b13f4a5",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthCavityMicro",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        502,
+        819,
+        539,
+        845
+      ],
+      "rgba_sha256": "ee5f7060c5b3f5ba70be2cfc8f26b1c40049af50d7370d41ed270eee75b2a26b",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthTongueMicro",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        508,
+        826,
+        534,
+        842
+      ],
+      "rgba_sha256": "a0edd297af046c97e6882312016c9f63e5c6d8c99954a921e2cb55ee415e4233",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthLipUpperMicro",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        502,
+        819,
+        539,
+        830
+      ],
+      "rgba_sha256": "b308a4d01a2ca887c3f84b968cd6fd075018818aa0d22435c8e6e3abc8c0de34",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthLipLowerMicro",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        502,
+        828,
+        540,
+        845
+      ],
+      "rgba_sha256": "ac28a68a31602960850f072984fe0828501b113fc4962cbafd9097e43364e9df",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthCavityO",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        504,
+        810,
+        543,
+        857
+      ],
+      "rgba_sha256": "5a76876312e75910e1ecbb577207714d0d28691d177e9c5c35ddf74d9d8c9ad0",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthTongueO",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        510,
+        837,
+        538,
+        853
+      ],
+      "rgba_sha256": "f2bfc7c70009a0f61f18207116ce6e408d8f1280fe107ca397a14b3fa6aa5b7f",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthLipUpperO",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        504,
+        809,
+        544,
+        835
+      ],
+      "rgba_sha256": "026deaef47fd0c884d3e880709679b7676552d9a03eade18891a0fded4b7bad4",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "MouthLipLowerO",
+      "status": "unchanged",
+      "visible": false,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        504,
+        832,
+        544,
+        858
+      ],
+      "rgba_sha256": "af8ed7b75d781577aa898eaa12f6e1dcbfc3772ca1da83a122038822bc947b57",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "HairSide_R",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        183,
+        495,
+        415,
+        895
+      ],
+      "rgba_sha256": "9d45cfe52c12a9865878edd6bd25b5a3da7276d57b046acda69fc9ac8985e025",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "HairSide_L",
+      "status": "modified",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        662,
+        493,
+        849,
+        919
+      ],
+      "rgba_sha256": "41f0ffa43c63c6b3df85b03a508c2e717db9a1ba586fea08cf0994e9c003665c",
+      "rgba_identical_to_v05f": false
+    },
+    {
+      "name": "HairFront_Center",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        412,
+        356,
+        654,
+        697
+      ],
+      "rgba_sha256": "f0548abea098c3211440d71ad6e1165e32a3644052e776c5dc1d9473fe2dbc0d",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "HairFront_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        115,
+        314,
+        543,
+        752
+      ],
+      "rgba_sha256": "9bac50d6b2088a4e4c1b385a10bef422f5cd2886b4cb0081d0a8965d997b6969",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "HairFront_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        601,
+        362,
+        846,
+        790
+      ],
+      "rgba_sha256": "c4b1154ba5493aa82352abc8c3e546fc80812b93451a7650debae110bce010d4",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "Ahoge",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        308,
+        158,
+        641,
+        312
+      ],
+      "rgba_sha256": "2650f83dd370f737c356d80bdf27ab93d52817cac890721642c7011fd1597088",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "Eyebrow_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        370,
+        605,
+        457,
+        631
+      ],
+      "rgba_sha256": "c099d7d655c994b3ba2f3374e4b569afe0e3b1c7ed1dcc0870812a1e084479ee",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "Eyebrow_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        627,
+        613,
+        697,
+        651
+      ],
+      "rgba_sha256": "a5081033310d98d61283e946a651d90aa28a2458a2465971d46dc7c0a951a696",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "Headband",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        221,
+        280,
+        881,
+        604
+      ],
+      "rgba_sha256": "a3c279f08f9162c6dc488a3e645bd13b729abda8027a571031a26ee67b2e1d97",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "HairRibbon_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        814,
+        581,
+        917,
+        666
+      ],
+      "rgba_sha256": "4d0e670b89167da232b7dbe38fbb2c3fdb9fb1e47afd4da58c9417a2eb307b6e",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "NeckBow_R",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        444,
+        901,
+        530,
+        1021
+      ],
+      "rgba_sha256": "c569851562791704b9706f8891f442e1bc2006af0e094c3cd94a2db69191c646",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "NeckBow_L",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        533,
+        902,
+        613,
+        1022
+      ],
+      "rgba_sha256": "11aef645ae4ca585a1ab55cc2a8cf05cbd719af9c9876cad42cdcbbe3c09a88b",
+      "rgba_identical_to_v05f": true
+    },
+    {
+      "name": "Sapphire",
+      "status": "unchanged",
+      "visible": true,
+      "bbox": [
+        0,
+        0,
+        1086,
+        1448
+      ],
+      "paint_bbox": [
+        498,
+        915,
+        552,
+        973
+      ],
+      "rgba_sha256": "38a80b808e415ac2235649dae46eed4b54932feecfc3d95e8fe1a199fdda4a4a",
+      "rgba_identical_to_v05f": true
+    }
+  ],
+  "order_bottom_to_top": [
+    "HairBack_Under",
+    "HairBack_R_Inner",
+    "HairBack_R_Mid",
+    "HairBack_R_Outer",
+    "HairBack_L_Inner",
+    "HairBack_L_Mid",
+    "HairBack_L_Outer",
+    "LegThigh_R",
+    "LegShin_R",
+    "Shoe_R",
+    "LegThigh_L",
+    "LegShin_L",
+    "Shoe_L",
+    "SkirtInner",
+    "SkirtBack",
+    "SkirtHemLace",
+    "SkirtFront",
+    "ArmUpper_R",
+    "ArmLower_R",
+    "ArmUpper_L",
+    "ArmLower_L",
+    "Neck",
+    "DressTop",
+    "ApronLace",
+    "ApronBody",
+    "BodiceWhite",
+    "ChestLace_R",
+    "ChestLace_L",
+    "Waistband",
+    "NeckCollar",
+    "Hand_R",
+    "HandOpen_R",
+    "Hand_L",
+    "HandOpen_L",
+    "Cuff_R",
+    "Cuff_L",
+    "FaceBase",
+    "FaceHairShadow",
+    "FaceHairShadow_FR",
+    "FaceHairShadow_FC",
+    "FaceHairShadow_FL",
+    "FaceHairShadow_SR",
+    "FaceHairShadow_SL",
+    "FinEar_R",
+    "FinEar_L",
+    "EyeWhite_R",
+    "IrisPupil_R",
+    "EyeSocketMask_R",
+    "EyeLineLower_R",
+    "EyeLineUpper_R",
+    "EyeHighlightUpper_R",
+    "EyeHighlightLower_R",
+    "EyelidUpper_R",
+    "EyelidLower_R",
+    "EyeLineClosed_R",
+    "EyeWhite_L",
+    "IrisPupil_L",
+    "EyeSocketMask_L",
+    "EyeLineLower_L",
+    "EyeLineUpper_L",
+    "EyeHighlightUpper_L",
+    "EyeSparkle_R",
+    "EyeSparkle_L",
+    "Tear_R",
+    "Tear_L",
+    "EyeHighlightLower_L",
+    "EyelidUpper_L",
+    "EyelidLower_L",
+    "EyeLineClosed_L",
+    "CheekBlush_R",
+    "CheekBlush_L",
+    "SweatDrop",
+    "AngerMark",
+    "MouthLineClosed",
+    "MouthCat",
+    "MouthPout",
+    "MouthWavy",
+    "MouthFlat",
+    "MouthGrin",
+    "MouthCavity",
+    "MouthTongue",
+    "MouthLipUpper",
+    "MouthLipLower",
+    "MouthCavityMicro",
+    "MouthTongueMicro",
+    "MouthLipUpperMicro",
+    "MouthLipLowerMicro",
+    "MouthCavityO",
+    "MouthTongueO",
+    "MouthLipUpperO",
+    "MouthLipLowerO",
+    "HairSide_R",
+    "HairSide_L",
+    "HairFront_Center",
+    "HairFront_R",
+    "HairFront_L",
+    "Ahoge",
+    "Eyebrow_R",
+    "Eyebrow_L",
+    "Headband",
+    "HairRibbon_L",
+    "NeckBow_R",
+    "NeckBow_L",
+    "Sapphire"
+  ],
+  "joint_coordinates": {
+    "R": {
+      "shoulder": [
+        392,
+        935
+      ],
+      "elbow": [
+        365,
+        1018
+      ],
+      "wrist": [
+        307,
+        1065
+      ],
+      "hip": [
+        455,
+        1170
+      ],
+      "knee": [
+        450,
+        1255
+      ],
+      "ankle": [
+        440,
+        1325
+      ]
+    },
+    "L": {
+      "shoulder": [
+        668,
+        935
+      ],
+      "elbow": [
+        700,
+        1018
+      ],
+      "wrist": [
+        760,
+        1075
+      ],
+      "hip": [
+        610,
+        1170
+      ],
+      "knee": [
+        620,
+        1255
+      ],
+      "ankle": [
+        630,
+        1325
+      ]
+    }
+  },
+  "cubism_tested": false,
+  "independent_krita_readback": {
+    "max_rgb_delta": 1,
+    "channels_delta_gt2": 0
+  },
+  "raster_stress": {
+    "method": "Rigid raster part rotation about documented pivots; not Cubism mesh/physics validation.",
+    "arms": [
+      {
+        "shoulder": 0,
+        "elbow": 0,
+        "joints": [
+          {
+            "side": "R",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 3617,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "R",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 4466,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "R",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2059,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          },
+          {
+            "side": "L",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 4419,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "L",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 4313,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "L",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2116,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          }
+        ]
+      },
+      {
+        "shoulder": 45,
+        "elbow": 0,
+        "joints": [
+          {
+            "side": "R",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 2121,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "R",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 4457,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "R",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2069,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          },
+          {
+            "side": "L",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 2774,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "L",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 4308,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "L",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2123,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          }
+        ]
+      },
+      {
+        "shoulder": 90,
+        "elbow": 0,
+        "joints": [
+          {
+            "side": "R",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 1754,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "R",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 4466,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "R",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2059,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          },
+          {
+            "side": "L",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 2442,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "L",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 4313,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "L",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2116,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          }
+        ]
+      },
+      {
+        "shoulder": 90,
+        "elbow": 90,
+        "joints": [
+          {
+            "side": "R",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 1754,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "R",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 6206,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "R",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2058,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          },
+          {
+            "side": "L",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 2442,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "L",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 5662,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "L",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2115,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          }
+        ]
+      },
+      {
+        "shoulder": 90,
+        "elbow": -90,
+        "joints": [
+          {
+            "side": "R",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 1754,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "R",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 4580,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "R",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2059,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          },
+          {
+            "side": "L",
+            "joint": "DressTop-ArmUpper",
+            "opaque_overlap_pixels": 2442,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 12
+          },
+          {
+            "side": "L",
+            "joint": "ArmUpper-ArmLower",
+            "opaque_overlap_pixels": 4528,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 15
+          },
+          {
+            "side": "L",
+            "joint": "ArmLower-Hand",
+            "opaque_overlap_pixels": 2116,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 10
+          }
+        ]
+      }
+    ],
+    "legs": [
+      {
+        "hip": 0,
+        "knee": 0,
+        "joints": [
+          {
+            "side": "R",
+            "opaque_overlap_pixels": 6924,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          },
+          {
+            "side": "L",
+            "opaque_overlap_pixels": 6964,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          }
+        ]
+      },
+      {
+        "hip": 25,
+        "knee": 40,
+        "joints": [
+          {
+            "side": "R",
+            "opaque_overlap_pixels": 7143,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          },
+          {
+            "side": "L",
+            "opaque_overlap_pixels": 7061,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          }
+        ]
+      },
+      {
+        "hip": -25,
+        "knee": 40,
+        "joints": [
+          {
+            "side": "R",
+            "opaque_overlap_pixels": 7146,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          },
+          {
+            "side": "L",
+            "opaque_overlap_pixels": 7062,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          }
+        ]
+      },
+      {
+        "hip": 25,
+        "knee": -40,
+        "joints": [
+          {
+            "side": "R",
+            "opaque_overlap_pixels": 6996,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          },
+          {
+            "side": "L",
+            "opaque_overlap_pixels": 7147,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          }
+        ]
+      },
+      {
+        "hip": -25,
+        "knee": -40,
+        "joints": [
+          {
+            "side": "R",
+            "opaque_overlap_pixels": 7000,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          },
+          {
+            "side": "L",
+            "opaque_overlap_pixels": 7159,
+            "junction_disk_coverage": 1,
+            "sample_disk_radius_px": 18
+          }
+        ]
+      }
+    ],
+    "neck_vertical_scale": 1.15,
+    "hair_rigid_angles": [
+      -15,
+      0,
+      15
+    ],
+    "cubism_tested": false
+  },
+  "alpha_audit": [
+    {
+      "name": "ArmUpper_R",
+      "opaque_components": [
+        14599
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "ArmLower_R",
+      "opaque_components": [
+        9114
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "Cuff_R",
+      "opaque_components": [
+        2641
+      ],
+      "internal_transparent_holes": [
+        380
+      ]
+    },
+    {
+      "name": "Hand_R",
+      "opaque_components": [
+        5879
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "HandOpen_R",
+      "opaque_components": [
+        6003
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "LegThigh_R",
+      "opaque_components": [
+        22457
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "LegShin_R",
+      "opaque_components": [
+        13986
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "Shoe_R",
+      "opaque_components": [
+        10217
+      ],
+      "internal_transparent_holes": [
+        1125
+      ]
+    },
+    {
+      "name": "ArmUpper_L",
+      "opaque_components": [
+        14765
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "ArmLower_L",
+      "opaque_components": [
+        9636
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "Cuff_L",
+      "opaque_components": [
+        2627
+      ],
+      "internal_transparent_holes": [
+        380
+      ]
+    },
+    {
+      "name": "Hand_L",
+      "opaque_components": [
+        5869
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "HandOpen_L",
+      "opaque_components": [
+        6011
+      ],
+      "internal_transparent_holes": [
+        1
+      ]
+    },
+    {
+      "name": "LegThigh_L",
+      "opaque_components": [
+        22457
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "LegShin_L",
+      "opaque_components": [
+        13976
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "Shoe_L",
+      "opaque_components": [
+        10288
+      ],
+      "internal_transparent_holes": [
+        1135
+      ]
+    },
+    {
+      "name": "Neck",
+      "opaque_components": [
+        17774
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "DressTop",
+      "opaque_components": [
+        46509
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "SkirtBack",
+      "opaque_components": [
+        79187
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "SkirtInner",
+      "opaque_components": [
+        36635
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "SkirtFront",
+      "opaque_components": [
+        71312
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "SkirtHemLace",
+      "opaque_components": [
+        38194
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "ApronBody",
+      "opaque_components": [
+        19711
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "HairBack_Under",
+      "opaque_components": [
+        377401
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "HairBack_L_Inner",
+      "opaque_components": [
+        144887
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "HairBack_L_Mid",
+      "opaque_components": [
+        168314
+      ],
+      "internal_transparent_holes": [
+        1722
+      ]
+    },
+    {
+      "name": "HairBack_L_Outer",
+      "opaque_components": [
+        92380
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "HairSide_L",
+      "opaque_components": [
+        45846
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "HairBack_R_Inner",
+      "opaque_components": [
+        144887
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "HairBack_R_Mid",
+      "opaque_components": [
+        168314
+      ],
+      "internal_transparent_holes": [
+        1722
+      ]
+    },
+    {
+      "name": "HairBack_R_Outer",
+      "opaque_components": [
+        92380
+      ],
+      "internal_transparent_holes": []
+    },
+    {
+      "name": "HairSide_R",
+      "opaque_components": [
+        42688
+      ],
+      "internal_transparent_holes": [
+        2,
+        1
+      ]
+    }
+  ],
+  "technical_alpha_cleanup": "Generated pixels only: alpha matting, enclosed alpha defects repaired, generated underlay inset to new hair envelope.",
+  "readback_checks_passed": true,
+  "adjustments": [
+    "Joint pivots recalibrated to v05f actual artwork.",
+    "Neck moved behind DressTop/NeckCollar.",
+    "ApronLace/ApronBody moved below BodiceWhite.",
+    "HairBack_Under inset follows new six-lock envelope, not exact old hair union."
+  ],
+  "binding_notes": [
+    "Hand/HandOpen/Cuff need draw-order keys when waving in front of face.",
+    "Hair rigid rotation test is an extreme diagnostic; outboard tips may leave canvas and inward motion reveals flat underlay. Use warp deformation and inspect final physics in Cubism."
+  ]
+}
