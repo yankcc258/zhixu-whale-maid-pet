@@ -16,11 +16,9 @@
   {
     "name": "Cuff_R",
     "opaque_components": [
-      2641
+      7328
     ],
-    "internal_transparent_holes": [
-      380
-    ]
+    "internal_transparent_holes": []
   },
   {
     "name": "Hand_R",
@@ -76,11 +74,9 @@
   {
     "name": "Cuff_L",
     "opaque_components": [
-      2627
+      7826
     ],
-    "internal_transparent_holes": [
-      380
-    ]
+    "internal_transparent_holes": []
   },
   {
     "name": "Hand_L",
@@ -173,7 +169,7 @@
   {
     "name": "HairBack_Under",
     "opaque_components": [
-      377401
+      521580
     ],
     "internal_transparent_holes": []
   },
@@ -196,9 +192,17 @@
   {
     "name": "HairBack_L_Outer",
     "opaque_components": [
-      92380
+      173579
     ],
-    "internal_transparent_holes": []
+    "internal_transparent_holes": [
+      702,
+      365,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "name": "HairSide_L",
@@ -226,9 +230,17 @@
   {
     "name": "HairBack_R_Outer",
     "opaque_components": [
-      92380
+      173579
     ],
-    "internal_transparent_holes": []
+    "internal_transparent_holes": [
+      702,
+      365,
+      1,
+      1,
+      1,
+      1,
+      1
+    ]
   },
   {
     "name": "HairSide_R",

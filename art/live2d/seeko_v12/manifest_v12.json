@@ -1,25 +1,37 @@
 {
-  "source_sha256": "742bfd62c76b0dd8832bf9bd43e648a70ea0874293df0288e8c684cbf26bca86",
+  "revision": 2,
+  "source_v05f_sha256": "742bfd62c76b0dd8832bf9bd43e648a70ea0874293df0288e8c684cbf26bca86",
+  "previous_v12_sha256": "dc1186642326ca533c35801425f4ebb8a201d00acc72852abe47dde00674ffc3",
   "files": [
     {
       "name": "alpha_audit_v12.json",
-      "bytes": 3906,
-      "sha256": "1362f7c402546828feaac4da1b06ad02fcf25550bdd17482ec48c2d8713b8fa6"
+      "bytes": 4020,
+      "sha256": "5105ab0ed51547e4a5a7f6395df420ac03b4fa23b2d8cdcf872c84a958997896"
     },
     {
       "name": "comparison_v05f_v12.png",
-      "bytes": 635649,
-      "sha256": "45040f65d35440785c5b84f01880d493142b9e92a239f448e52bec65aaad35c8"
+      "bytes": 664252,
+      "sha256": "4748768467efe15b32f9842dc6575750bc4eee56aefc29dccf938b58c4656ff4"
+    },
+    {
+      "name": "comparison_v12_cuffs.png",
+      "bytes": 1269572,
+      "sha256": "6f7c8e0920586252534164f1d598d4c55595921f5319901af10e512d01b83ff7"
+    },
+    {
+      "name": "comparison_v12_revision2.png",
+      "bytes": 530688,
+      "sha256": "3a873dbe71711ead69362b2dd301824c94b1e8cc4fe459b7f0317ae18ceef782"
     },
     {
       "name": "imagegen_prompts_v12.json",
-      "bytes": 10421,
-      "sha256": "8dca139cc42b5d9cee084f99dbc289b79a47caffc63d21625ca389f6e571c271"
+      "bytes": 13259,
+      "sha256": "b7c96c6e3f94d92a861ecb17f1961da43411168024d6ed065137253d5dce0d70"
     },
     {
       "name": "krita_default_v12.png",
-      "bytes": 1239503,
-      "sha256": "5d29bcf1496ff2fc79d319acbe47248dc3da40ee673ede651125fb93ae496a99"
+      "bytes": 1319649,
+      "sha256": "61f7572838b49aea09b9b3c55e668bc50ff3f2c979122f550d8f82a9295eea2d"
     },
     {
       "name": "parts_v12_ApronBody.png",
@@ -48,13 +60,13 @@
     },
     {
       "name": "parts_v12_Cuff_L.png",
-      "bytes": 16093,
-      "sha256": "7bdcd243768f54e420a8f1ece9a59cb76eb67f33248893867918da3de3b139f4"
+      "bytes": 24292,
+      "sha256": "65b997f996cb5996db92f232fcf5d91044152b4680bafd7269b4d68c48aeb9ee"
     },
     {
       "name": "parts_v12_Cuff_R.png",
-      "bytes": 16008,
-      "sha256": "c0181f3abc128dc37f24dac3c9c2d09f5c079b6e8eb4837fa6ce46f4b1363b34"
+      "bytes": 23256,
+      "sha256": "5d902cf42e1799b9fb94add56953817ab539b7217be5d1095bb57b66158007f8"
     },
     {
       "name": "parts_v12_DressTop.png",
@@ -73,8 +85,8 @@
     },
     {
       "name": "parts_v12_HairBack_L_Outer.png",
-      "bytes": 206180,
-      "sha256": "c60a992acd3dba03e02532260babbbf27dabebf2d0525aa0cb654ac5c95d0bf0"
+      "bytes": 373597,
+      "sha256": "7a35a20e7cf036bf73ce980da11ecea7c707b2e10a2c6876cdd4685311a15406"
     },
     {
       "name": "parts_v12_HairBack_R_Inner.png",
@@ -88,13 +100,13 @@
     },
     {
       "name": "parts_v12_HairBack_R_Outer.png",
-      "bytes": 205757,
-      "sha256": "d24ba579b8d3b6d675b47517d79aa0c485d51699c249df606c46a0cd4c04cbca"
+      "bytes": 373856,
+      "sha256": "9795a2bf0792e57194700467827fff6f272e2e1e6c15bc7af56cb632261106bf"
     },
     {
       "name": "parts_v12_HairBack_Under.png",
-      "bytes": 337655,
-      "sha256": "e0265c8be2e25975d98d6255077d975a91d62f99803345173ba4b5ef82927f37"
+      "bytes": 91188,
+      "sha256": "0ae7137a457745503e218c910da9749c6a286dd6b3b74769588751ae974668d9"
     },
     {
       "name": "parts_v12_HairSide_L.png",
@@ -183,18 +195,18 @@
     },
     {
       "name": "parts_v12_contact.png",
-      "bytes": 713417,
-      "sha256": "0eb9a14674ea3ff58649ac06edd10b38fa49aeda8dc1aba8914f327cc6261827"
+      "bytes": 737713,
+      "sha256": "da03a161a531b0d12ca0b0f16660918865fd5b28b6b309aae93a6c3dd9fa8bab"
     },
     {
       "name": "preview_v12.png",
-      "bytes": 1284612,
-      "sha256": "34f7fad8e9b460eca4a1b771f72ed225970d560fdb08ddd74d3042b3615d5738"
+      "bytes": 1378777,
+      "sha256": "3d86ae2594d33358ece87e802ae17f54b43ec261aaaa6161001fc2f8612212d1"
     },
     {
       "name": "seeko_cubism_import_v12.psd",
-      "bytes": 24687882,
-      "sha256": "dc1186642326ca533c35801425f4ebb8a201d00acc72852abe47dde00674ffc3"
+      "bytes": 24356074,
+      "sha256": "642ccbca21d26f37165cc328426f941c9cf5a3e0f655b0c790830f74fb3170d2"
     },
     {
       "name": "stress_v12.json",
@@ -203,23 +215,23 @@
     },
     {
       "name": "validation_v12.json",
-      "bytes": 57280,
-      "sha256": "de5a2048bf9d5ba18d3eac7c77896d043a34ed7ef1273970f30dc2365900ab0f"
+      "bytes": 86525,
+      "sha256": "35143fa8220f31ca59ff8bb30f95c72a4b05072f734d373ae421694f26933153"
     },
     {
       "name": "validation_v12_arms.png",
-      "bytes": 335770,
-      "sha256": "3d57786a6fd37ceb48c62a0c4927260552e092a8f08594ecd048ad505c17f04f"
+      "bytes": 359224,
+      "sha256": "0a3b41c9254d09585058725ead37c119ff4f01bb6235ff2d8b2a528b9ecdabfc"
     },
     {
       "name": "validation_v12_arms_isolated.png",
-      "bytes": 219551,
-      "sha256": "1515bda1c142a2ca27fc396907b78d5d7f6058f25652b4d8954a4551d642e75d"
+      "bytes": 233307,
+      "sha256": "701fdc7efade4050913e57d890354456746d22d8adf34a207b4c40f439e90189"
     },
     {
       "name": "validation_v12_hair.png",
-      "bytes": 226304,
-      "sha256": "54cb520d1df60122a25f966421c08dea340301487c28d96d5de007f4868082f1"
+      "bytes": 247494,
+      "sha256": "9f93daefe9d76c0b2d809c2ef6eafa74d68527d46caf321015286a4df0f65273"
     },
     {
       "name": "validation_v12_legs.png",
@@ -228,13 +240,13 @@
     },
     {
       "name": "validation_v12_neck.png",
-      "bytes": 253306,
-      "sha256": "2c09c588f1c6de253dfba94e006c1615438778ce3cdd414e4a7e07adaf50657a"
+      "bytes": 253613,
+      "sha256": "09854fd7315e2215512854b50d104e4a7655588c863b631338447c9231c5a526"
     },
     {
       "name": "交付说明_v12.md",
-      "bytes": 5122,
-      "sha256": "e70b0d9c5d36c258b705718c7dc75c9b60db09bf72ec43d013b5255ee37df339"
+      "bytes": 6757,
+      "sha256": "84ad525d96af8591b5d86799b5a819da723e12606dbe346874259bc2400cae91"
     }
   ]
 }
