@@ -96,7 +96,7 @@ def ear_base(side):
             if len(E)<10: continue
             lo=E[E[:,1]<np.percentile(E[:,1],25)]
             o=lo[np.argmax(lo[:,0]*side)]
-            return np.array([o[0]-side*0.018, o[1]-0.002, o[2]+0.014])
+            return np.array([o[0]-side*0.004, o[1]+0.002, o[2]+0.016])
     return None
 def tilt_ears(deg=10):
     for m in j['meshes']:
@@ -118,10 +118,25 @@ def tilt_ears(deg=10):
             print('ears tilted',deg)
             return
 tilt_ears(10)
+def trim_center_bang(frac=0.8):
+    hb_=j['extensions']['VRMC_vrm']['humanoid']['humanBones']
+    ey=world(j,hb_['leftEye']['node'])[1,3]
+    for m in j['meshes']:
+        for p in m['primitives']:
+            if '_Hair_' not in j['materials'][p['material']]['name'] or 'HairBack' in j['materials'][p['material']]['name']: continue
+            pa=j['accessors'][p['attributes']['POSITION']]; bv=j['bufferViews'][pa['bufferView']]; off=bv.get('byteOffset',0)+pa.get('byteOffset',0)
+            V=np.frombuffer(bytes(BIN[off:off+pa['count']*12]),np.float32).reshape(-1,3).copy()
+            top=ey+0.075
+            w=np.clip(1-np.abs(V[:,0])/0.04,0,1)**1.5 * (V[:,2]>0.035) * (V[:,1]<top) * (V[:,1]>ey-0.06)
+            k=1-(1-frac)*w
+            V[:,1]=top-(top-V[:,1])*k
+            BIN[off:off+pa['count']*12]=V.astype(np.float32).tobytes(); pa['min']=V.min(0).tolist(); pa['max']=V.max(0).tolist()
+            print('center bang trimmed, verts affected', int((w>0.05).sum()))
+trim_center_bang(0.8)
 # ---- 1) maid headdress: band arc over the head + pleated frill
 def headdress():
     cy=eyeY+0.01; z0=-0.012
-    n=72; ang=np.linspace(math.radians(18),math.radians(162),n)
+    n=72; ang=np.linspace(math.radians(34),math.radians(146),n)
     rr=np.array([ (surf_r(0,cy,z0,a) or 0.1) for a in ang ]); rr=np.convolve(np.pad(rr,3,mode='edge'),np.ones(7)/7,'valid')+0.003
     dirs=np.c_[np.cos(ang),np.sin(ang),np.zeros(n)]
     band=np.c_[rr*np.cos(ang), cy+rr*np.sin(ang), np.full(n,z0)]
