@@ -110,6 +110,11 @@ def bow(scale=1.0, facing=(0,0,-1), up=(0,1,0)):
         x=s*(Lw/2)*(1-np.cos(t)); y=Hh*np.sin(t)*(0.55+0.45*(1-np.cos(t))/2)
         path=x[:,None]*r+y[:,None]*u - 0.004*scale*np.cos(t)[:,None]*f
         parts.append(ribbon(path,np.tile(f,(48,1)),np.full(48,Wd),closed=True))
+        cen=path.mean(0)
+        for side_off in (-0.5,0.5):                 # fill loop faces so the bow looks solid
+            ring=path+f*Wd*side_off*0.9; c=cen+f*Wd*side_off*0.4
+            P=np.vstack([ring,c[None]]); U=np.c_[np.linspace(0,1,49),np.full(49,0.5)]
+            T=[(i,(i+1)%48,48) for i in range(48)]; parts.append((P,U,T))
     for s in (-1,1):                               # tails
         k=12; tt=np.linspace(0,1,k); x=s*(0.004+0.018*tt)*scale; y=-(0.004+0.05*tt)*scale
         path=x[:,None]*r+y[:,None]*u + 0.004*scale*np.sin(tt*3)[:,None]*f
@@ -122,7 +127,7 @@ def bows():
     img=grad_tex((110,185,250),(45,120,215)); mat=add_mat('Seeko_Bow',add_tex(img),shade=(0.7,0.8,0.95),outline=(0.05,0.12,0.3))
     P,U,T=bow(1.8,facing=(0,0,-1)); by=eyeY+0.025; attach('Seeko_BackBow',add_mesh('Seeko_BackBow',P,U,T,mat),(0,by,surf_back(0,by)-0.006))
     for s in (1,-1):
-        sy=eyeY+0.058; sz=-0.012; P,U,T=bow(0.55,facing=(s*0.85,0.0,0.5)); attach('Seeko_SideBow_'+('L' if s>0 else 'R'),add_mesh('Seeko_SideBow',P,U,T,mat),(s*(surf_side(sy,sz,s)+0.004),sy,sz))
+        ang=math.radians(22 if s>0 else 158); cy=eyeY+0.01; r=(surf_r(0,cy,-0.012,ang) or 0.1)+0.008; P,U,T=bow(0.6,facing=(s*0.45,0.0,0.9)); attach('Seeko_SideBow_'+('L' if s>0 else 'R'),add_mesh('Seeko_SideBow',P,U,T,mat),(r*math.cos(ang),cy+r*math.sin(ang),0.004))
 # ---- 3) ahoge (crescent curl, faces front)
 def ahoge():
     k=40; t=np.linspace(0,1,k)
