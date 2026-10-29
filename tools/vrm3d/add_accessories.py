@@ -23,7 +23,8 @@ def add_tex(img):
     j['textures'].append({'sampler':len(j['samplers'])-1,'source':len(j['images'])-1}); return len(j['textures'])-1
 BASE=next(m for m in j['materials'] if '_Hair_' in m['name'] and 'HairBack' not in m['name'])
 def add_mat(name,tex,shade=(0.8,0.82,0.9),outline=(0.1,0.1,0.15)):
-    m=copy.deepcopy(BASE); m['name']=name; m['doubleSided']=True
+    m=copy.deepcopy(BASE); m['name']=name; m['doubleSided']=True; m['alphaMode']='OPAQUE'; m.pop('alphaCutoff',None)
+    m['extensions']['VRMC_materials_mtoon'].pop('transparentWithZWrite',None)
     m['pbrMetallicRoughness']['baseColorTexture']={'index':tex,'texCoord':0}
     for k in ('normalTexture','emissiveTexture'): m.pop(k,None)
     m['emissiveFactor']=[0,0,0]; mt=m['extensions']['VRMC_materials_mtoon']
@@ -97,6 +98,26 @@ def ear_base(side):
             o=lo[np.argmax(lo[:,0]*side)]
             return np.array([o[0]-side*0.018, o[1]-0.002, o[2]+0.014])
     return None
+def tilt_ears(deg=10):
+    for m in j['meshes']:
+        for p in m['primitives']:
+            if 'Ear' not in j['materials'][p['material']]['name']: continue
+            a=j['accessors'][p['indices']]; ib=j['bufferViews'][a['bufferView']]
+            dt={5123:np.uint16,5125:np.uint32}[a['componentType']]
+            I=np.unique(np.frombuffer(bytes(BIN[ib.get('byteOffset',0)+a.get('byteOffset',0):]),dt,a['count']))
+            pa=j['accessors'][p['attributes']['POSITION']]; bv=j['bufferViews'][pa['bufferView']]; off=bv.get('byteOffset',0)+pa.get('byteOffset',0)
+            V=np.frombuffer(bytes(BIN[off:off+pa['count']*12]),np.float32).reshape(-1,3).copy()
+            for side in (1,-1):
+                sel=I[V[I,0]*side>0.01]; E=V[sel]
+                piv=np.array([np.median(E[:,0]),np.percentile(E[:,1],8),np.median(E[:,2])])
+                th=math.radians(deg)*side; c,s_=math.cos(th),math.sin(th)
+                dx=E[:,0]-piv[0]; dy=E[:,1]-piv[1]
+                E[:,0]=piv[0]+dx*c-dy*s_; E[:,1]=piv[1]+dx*s_+dy*c; V[sel]=E
+            BIN[off:off+pa['count']*12]=V.astype(np.float32).tobytes()
+            pa['min']=V.min(0).tolist(); pa['max']=V.max(0).tolist()
+            print('ears tilted',deg)
+            return
+tilt_ears(10)
 # ---- 1) maid headdress: band arc over the head + pleated frill
 def headdress():
     cy=eyeY+0.01; z0=-0.012
@@ -105,13 +126,13 @@ def headdress():
     dirs=np.c_[np.cos(ang),np.sin(ang),np.zeros(n)]
     band=np.c_[rr*np.cos(ang), cy+rr*np.sin(ang), np.full(n,z0)]
     zax=np.tile([0,0,1.0],(n,1))
-    p1=ribbon(band,zax,np.full(n,0.020))
+    p1=ribbon(band,zax,np.full(n,0.024))
     # frill: soft ruffle standing out from the band, ~22 pleats, leaning slightly back
     m=n*3; a2=np.linspace(ang[0],ang[-1],m); r2=np.interp(a2,ang,rr)
     ow=np.c_[np.cos(a2),np.sin(a2),np.full(m,-0.35)]; ow/=np.linalg.norm(ow,axis=1,keepdims=True)
     pleat=0.0045*np.sin(a2*44)
-    mid=np.c_[r2*np.cos(a2), cy+r2*np.sin(a2), np.full(m,z0)]+ow*0.011+np.c_[np.zeros(m),np.zeros(m),pleat]
-    p2=ribbon(mid,ow,np.full(m,0.020))
+    mid=np.c_[r2*np.cos(a2), cy+r2*np.sin(a2), np.full(m,z0)]+ow*0.014+np.c_[np.zeros(m),np.zeros(m),pleat]
+    p2=ribbon(mid,ow,np.full(m,0.027))
     P,U,T=merge([p1,p2])
     img=Image.new('RGBA',(64,64),(250,250,252,255)); dr=ImageDraw.Draw(img)
     for x in range(0,64,8): dr.arc([x-4,40,x+12,60],0,180,fill=(205,210,225,255),width=2)   # lace scallops

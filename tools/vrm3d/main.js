@@ -26,12 +26,13 @@ loader.load(MODEL,g=>{
   const h=vrm.humanoid;
   h.getNormalizedBoneNode('leftUpperArm').rotation.z=-1.15;
   h.getNormalizedBoneNode('rightUpperArm').rotation.z=1.15;
+  if(vrm.expressionManager){ vrm.expressionManager.setValue('relaxed',0.35); } // SMILE
   vrm.update(0); for(let i=0;i<60;i++) vrm.update(1/30);
   const box=new THREE.Box3().setFromObject(vrm.scene); const c=box.getCenter(new THREE.Vector3()); const sz=box.getSize(new THREE.Vector3());
   const dist=(window.FIXH||sz.y)/2/Math.tan(THREE.MathUtils.degToRad(11))*1.12; c.y=(window.FIXH? window.FIXH/2 : c.y);
   window.shots={};
   if(new URLSearchParams(location.search).get('face')){ const hp=new THREE.Vector3(); h.getNormalizedBoneNode('head').getWorldPosition(hp);
-    cam.position.set(hp.x,hp.y+0.06,hp.z+0.9); cam.lookAt(hp.x,hp.y+0.06,hp.z); renderer.render(scene,cam); window.shots.face=renderer.domElement.toDataURL('image/png'); window.done=true; return; } // FACE
+    const FD=new URLSearchParams(location.search).get('face')==='2'?1.5:0.9; cam.position.set(hp.x,hp.y+0.06,hp.z+FD); cam.lookAt(hp.x,hp.y+0.06,hp.z); renderer.render(scene,cam); window.shots.face=renderer.domElement.toDataURL('image/png'); window.done=true; return; } // FACE
   for(const [name,ang] of [['front',0],['q',Math.PI/5],['back',Math.PI],['bq',Math.PI*0.8]]){
     cam.position.set(c.x+Math.sin(ang)*dist,c.y,c.z+Math.cos(ang)*dist); cam.lookAt(c);
     renderer.render(scene,cam); window.shots[name]=renderer.domElement.toDataURL('image/png');
