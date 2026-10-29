@@ -1,4 +1,4 @@
-# 希可立绘补图清单
+# 希狐立绘补图清单
 
 `node scripts/art-todo.mjs --md` 生成。按一年里穿几天排，越靠前越值得先画。
 
@@ -22,7 +22,7 @@
 - **节分**（`setsubun`，一年约 2 天）：开心（`setsubun_happy`）、屑笑（得意）（`setsubun_smug`）、生气（`setsubun_angry`）、被摸头（`setsubun_pat`）、被拎起来（蹬腿）（`setsubun_dangle`）、吓一跳（`setsubun_surprised`）、从右边探头（`setsubun_peek`）、挥手（`setsubun_wave`）、跑步（两帧）（`setsubun_run`）
 - **情人节**（`valentine`，一年约 2 天）：开心（`valentine_happy`）、屑笑（得意）（`valentine_smug`）、生气（`valentine_angry`）、被摸头（`valentine_pat`）、被拎起来（蹬腿）（`valentine_dangle`）、吓一跳（`valentine_surprised`）、从右边探头（`valentine_peek`）、挥手（`valentine_wave`）、跑步（两帧）（`valentine_run`）
 - **七夕**（`tanabata`，一年约 2 天）：开心（`tanabata_happy`）、屑笑（得意）（`tanabata_smug`）、生气（`tanabata_angry`）、被摸头（`tanabata_pat`）、被拎起来（蹬腿）（`tanabata_dangle`）、吓一跳（`tanabata_surprised`）、从右边探头（`tanabata_peek`）、挥手（`tanabata_wave`）、跑步（两帧）（`tanabata_run`）
-- **希可的生日**（`birthday`，一年约 1 天）：开心（`birthday_happy`）、屑笑（得意）（`birthday_smug`）、生气（`birthday_angry`）、被摸头（`birthday_pat`）、被拎起来（蹬腿）（`birthday_dangle`）、吓一跳（`birthday_surprised`）、从右边探头（`birthday_peek`）、挥手（`birthday_wave`）、跑步（两帧）（`birthday_run`）
+- **希狐的生日**（`birthday`，一年约 1 天）：开心（`birthday_happy`）、屑笑（得意）（`birthday_smug`）、生气（`birthday_angry`）、被摸头（`birthday_pat`）、被拎起来（蹬腿）（`birthday_dangle`）、吓一跳（`birthday_surprised`）、从右边探头（`birthday_peek`）、挥手（`birthday_wave`）、跑步（两帧）（`birthday_run`）
 - **大晦日**（`toshikoshi`，一年约 1 天）：开心（`toshikoshi_happy`）、屑笑（得意）（`toshikoshi_smug`）、生气（`toshikoshi_angry`）、被摸头（`toshikoshi_pat`）、被拎起来（蹬腿）（`toshikoshi_dangle`）、吓一跳（`toshikoshi_surprised`）、从右边探头（`toshikoshi_peek`）、挥手（`toshikoshi_wave`）、跑步（两帧）（`toshikoshi_run`）
 
 ## 怎么让 AI 画（ChatGPT 之类）
@@ -34,7 +34,7 @@
 
 提示词模板：
 
-> 第一张图是角色希可穿着〔衣服名〕的样子，第二张图是她穿女仆装做〔动作〕的样子。请画希可**穿着第一张图的衣服**、做出**第二张图的动作和表情**。角色的脸、发型、发色、鲸鱼尾巴、配饰和画风都和第一张图完全一样，Q 版比例不变；人物大小和在画面里的位置跟第一张图一致（脚底贴近画布底边）。正方形画布，纯白背景，不要影子、不要文字、不要额外道具。
+> 第一张图是角色希狐穿着〔衣服名〕的样子，第二张图是她穿女仆装做〔动作〕的样子。请画希狐**穿着第一张图的衣服**、做出**第二张图的动作和表情**。角色的脸、发型、发色、鲸鱼尾巴、配饰和画风都和第一张图完全一样，Q 版比例不变；人物大小和在画面里的位置跟第一张图一致（脚底贴近画布底边）。正方形画布，纯白背景，不要影子、不要文字、不要额外道具。
 
 探头的图要从画布右边缘探出来，手指扒着右边缘。跑步要两张（左脚在前、右脚在前）。
 

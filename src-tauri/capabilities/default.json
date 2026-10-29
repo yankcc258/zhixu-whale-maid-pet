@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "鲸鱼娘窗口和设置窗口能用的功能：读位置和屏幕、挪位置、隐藏。鼠标穿透、全屏检测、开机自启、打开知序都在 Rust 里做，网址写死。",
+  "description": "狐狸娘窗口和设置窗口能用的功能：读位置和屏幕、挪位置、隐藏。鼠标穿透、全屏检测、开机自启、打开知序都在 Rust 里做，网址写死。",
   "windows": ["pet", "settings"],
   "permissions": [
     "core:default",

@@ -1,4 +1,4 @@
-//! 鲸鱼娘桌宠：一个透明、无边框、永远在最上层的小窗口，外加右下角托盘图标。
+//! 狐狸娘桌宠：一个透明、无边框、永远在最上层的小窗口，外加右下角托盘图标。
 //! 窗口里的动画和台词都在 src/（网页）；这里管窗口、托盘、鼠标穿透、全屏时躲起来、开机自启和「打开知序」。
 //!
 //! 不读别的程序的内存、不注入、不装键盘鼠标钩子。全屏检测只问 Windows「最前面的窗口有多大」。
@@ -20,7 +20,7 @@ const ZHIXU_URL: &str = "https://yank-study-lab.yank-study-lab.workers.dev";
 /// 自动检查更新的间隔
 const UPDATE_EVERY: Duration = Duration::from_secs(6 * 3600);
 
-/// 网页告诉这里「哪些地方是鲸鱼娘」（窗口内的 CSS 像素矩形 [x, y, w, h]），
+/// 网页告诉这里「哪些地方是狐狸娘」（窗口内的 CSS 像素矩形 [x, y, w, h]），
 /// 鼠标不在这些地方时整个窗口让鼠标穿过去。
 #[derive(Default)]
 struct PetState {
@@ -81,7 +81,7 @@ fn show_settings(app: &AppHandle) -> Result<(), String> {
         return w.set_focus().map_err(|e| e.to_string());
     }
     WebviewWindowBuilder::new(app, "settings", WebviewUrl::App("settings.html".into()))
-        .title("希可的设置")
+        .title("希狐的设置")
         .inner_size(380.0, 830.0)
         .resizable(false)
         .maximizable(false)
@@ -137,7 +137,7 @@ async fn install_update(app: AppHandle) -> Result<(), String> {
     app.restart();
 }
 
-/// 后台查更新，查到就告诉鲸鱼娘（她会问你要不要更新）。manual = 托盘里手动点的，查不到也说一声。
+/// 后台查更新，查到就告诉狐狸娘（她会问你要不要更新）。manual = 托盘里手动点的，查不到也说一声。
 fn announce_update(app: AppHandle, manual: bool) {
     tauri::async_runtime::spawn(async move {
         match find_update(&app).await {
@@ -158,7 +158,7 @@ fn announce_update(app: AppHandle, manual: bool) {
     });
 }
 
-/// 叫出鲸鱼娘。summoned = 用户主动叫的（托盘、再次打开），网页会说一句话。
+/// 叫出狐狸娘。summoned = 用户主动叫的（托盘、再次打开），网页会说一句话。
 fn show_pet(app: &AppHandle, summoned: bool) {
     if let Some(w) = app.get_webview_window("pet") {
         let _ = w.show();
@@ -211,7 +211,7 @@ fn foreground_fullscreen(_own: isize) -> bool {
     false
 }
 
-/// 后台小循环：每 60ms 看一次鼠标在不在鲸鱼娘身上，决定窗口要不要让鼠标穿过去（顺便把鼠标位置告诉网页）；每秒看一次有没有全屏程序。
+/// 后台小循环：每 60ms 看一次鼠标在不在狐狸娘身上，决定窗口要不要让鼠标穿过去（顺便把鼠标位置告诉网页）；每秒看一次有没有全屏程序。
 fn watch(app: AppHandle) {
     std::thread::spawn(move || {
         let mut tick: u32 = 0;
@@ -265,7 +265,7 @@ fn watch(app: AppHandle) {
 
 pub fn run() {
     tauri::Builder::default()
-        // 已经开着时再打开一次：只把鲸鱼娘叫出来，不开第二只
+        // 已经开着时再打开一次：只把狐狸娘叫出来，不开第二只
         .plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| show_pet(app, true)))
         .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_autostart::init(MacosLauncher::LaunchAgent, None))
@@ -286,7 +286,7 @@ pub fn run() {
         ])
         .setup(|app| {
             let open = MenuItem::with_id(app, "open", "🌐 打开网站", true, None::<&str>)?;
-            let show = MenuItem::with_id(app, "show", "🐋 叫出希可", true, None::<&str>)?;
+            let show = MenuItem::with_id(app, "show", "🦊 叫出希狐", true, None::<&str>)?;
             let hide = MenuItem::with_id(app, "hide", "🙈 藏起来", true, None::<&str>)?;
             let settings = MenuItem::with_id(app, "settings", "⚙️ 设置", true, None::<&str>)?;
             let update = MenuItem::with_id(app, "update", "🔄 检查更新", true, None::<&str>)?;
@@ -295,11 +295,11 @@ pub fn run() {
             let menu = Menu::with_items(app, &[&open, &show, &hide, &settings, &update, &sep, &quit])?;
             TrayIconBuilder::with_id("whale")
                 .icon(app.default_window_icon().cloned().expect("缺少图标"))
-                .tooltip("希可（鲸鱼娘）")
+                .tooltip("希狐（狐狸娘）")
                 .menu(&menu)
                 .show_menu_on_left_click(false)
                 .on_menu_event(|app, event| match event.id.as_ref() {
-                    // 网站地址在网页的设置里，交给鲸鱼娘的窗口去开
+                    // 网站地址在网页的设置里，交给狐狸娘的窗口去开
                     "open" => {
                         let _ = app.emit_to("pet", "open-site", ());
                     }
@@ -356,5 +356,5 @@ pub fn run() {
             Ok(())
         })
         .run(tauri::generate_context!())
-        .expect("鲸鱼娘启动失败");
+        .expect("狐狸娘启动失败");
 }

@@ -1,7 +1,7 @@
 # 用 GitHub 的 Windows 机器打包安装程序。
 # - 推到 main 或开 PR：打包，安装程序放在这次运行的 Artifacts 里（保留 14 天）。
 # - main 上的版本号（tauri.conf.json）还没有对应的 v 标签时：打包后自动发布到本仓库的 Releases
-#   （顺便建好标签），连同签名和 latest.json，已经装好的鲸鱼娘会自己检查到并提示更新。
+#   （顺便建好标签），连同签名和 latest.json，已经装好的狐狸娘会自己检查到并提示更新。
 #   也就是说：改版本号的 PR 一合并，就自动发版。手动推 v 开头的标签也会发布。
 #
 # 需要的 Secrets（Settings → Secrets and variables → Actions）：
@@ -104,7 +104,7 @@ jobs:
         with:
           tag_name: ${{ steps.rel.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          name: 鲸鱼娘 ${{ steps.rel.outputs.tag }}
+          name: 狐狸娘 ${{ steps.rel.outputs.tag }}
           body_path: release-notes.md
           files: |
             src-tauri/target/release/bundle/nsis/*-setup.exe

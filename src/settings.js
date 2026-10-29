@@ -1,4 +1,4 @@
-// 设置窗口：改 localStorage 'whale-prefs'，鲸鱼娘的窗口收到 storage 事件后马上生效。开机自启走 Rust。
+// 设置窗口：改 localStorage 'whale-prefs'，狐狸娘的窗口收到 storage 事件后马上生效。开机自启走 Rust。
 const tauri = window.__TAURI__;
 const invoke = (cmd, args) => tauri?.core.invoke(cmd, args) ?? Promise.resolve();
 const DEFAULTS = { activity: 'normal', sleep: '23-6', chatty: 'mid', gameMode: true, quiet: false, wardrobeLocked: false, figure: 'q', qStyle: 'live2d', pixel: false, sfx: 'low' };

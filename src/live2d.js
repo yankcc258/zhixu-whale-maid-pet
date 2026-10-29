@@ -1,4 +1,4 @@
-// Live2D 版希可。只在穿着做成 Live2D 的衣服（MODELS 里的）、站着的时候用；躲在屏幕边、跑步、看书、
+// Live2D 版希狐。只在穿着做成 Live2D 的衣服（MODELS 里的）、站着的时候用；躲在屏幕边、跑步、看书、
 // 啃饭团这些没做成 Live2D 的动作，还有没做成 Live2D 的衣服，还是换回立绘图。加载失败（显卡不支持 WebGL 之类）就一直用立绘，什么都不坏。
 // 模型在 live2d/seeko/，运行库在 vendor/（Cubism Core 是 Live2D 的专有许可，见 vendor/README.md）。
 // eslint-disable-next-line no-unused-vars

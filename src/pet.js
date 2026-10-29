@@ -1,4 +1,4 @@
-// 鲸鱼娘桌宠 0.2：戳、拎起来扑腾、躲在屏幕边、睡觉（飘 Z、梦话、吵醒暴怒）、摸头、在任务栏上方乱跑、
+// 狐狸娘桌宠 0.2：戳、拎起来扑腾、躲在屏幕边、睡觉（飘 Z、梦话、吵醒暴怒）、摸头、在任务栏上方乱跑、
 // 自己冒话、右键菜单。窗口本身是 240×260 的透明方块，鼠标只有落在她和气泡上才算数（Rust 那边做穿透）。
 // 设置存在 localStorage 'whale-prefs'，设置窗口改了会通过 storage 事件同步过来。
 const tauri = window.__TAURI__;
@@ -1112,7 +1112,7 @@ setInterval(() => {
     if (o === 'winter' && !sleep && prefs.wardrobeMode !== 'lock')
       pop('（裹上大衣和围巾）今天好冷……{n} 出门也多穿一件。', 'cold', 8000);
     if (o === 'pajamas' && !sleep && prefs.wardrobeMode !== 'lock')
-      pop('（换上睡衣，抱着鲸鱼枕头）……我先准备睡了，{n} 也别熬太晚。', 'idle', 8000);
+      pop('（换上睡衣，抱着狐狸抱枕）……我先准备睡了，{n} 也别熬太晚。', 'idle', 8000);
   }
   roamTick();
   if (!dragging && !roam && Date.now() > moodUntil && mood !== autoMood()) setMood(autoMood());

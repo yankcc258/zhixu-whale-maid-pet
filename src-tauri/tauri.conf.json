@@ -11,7 +11,7 @@
     "windows": [
       {
         "label": "pet",
-        "title": "鲸鱼娘",
+        "title": "狐狸娘",
         "url": "index.html",
         "width": 240,
         "height": 260,
@@ -36,7 +36,7 @@
       "nsis"
     ],
     "publisher": "Yank",
-    "shortDescription": "知序的鲸鱼娘桌宠",
+    "shortDescription": "知序的狐狸娘桌宠",
     "icon": [
       "icons/32x32.png",
       "icons/128x128.png",

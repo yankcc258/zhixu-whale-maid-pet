@@ -2,7 +2,7 @@
   "name": "zhixu-whale-maid-pet",
   "private": true,
   "version": "0.9.9",
-  "description": "知序的鲸鱼娘桌宠（Windows）",
+  "description": "知序的狐狸娘桌宠（Windows）",
   "scripts": {
     "tauri": "tauri",
     "dev": "tauri dev",

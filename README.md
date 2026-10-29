@@ -1,6 +1,8 @@
-# 🐋 鲸鱼娘桌宠 · 希可
+# 🦊 狐狸娘桌宠 · 希狐
 
-[知序](https://yank-study-lab.yank-study-lab.workers.dev)里那只屑鲸鱼娘**希可**（Seeko，生日 10 月 18 日），搬到 Windows 桌面上。用 [Tauri 2](https://tauri.app) 做：一个透明、无边框、永远在最上层的小窗口，外加右下角托盘图标。安装包十几 MB，用 Windows 10/11 自带的 WebView2 显示。
+[知序](https://yank-study-lab.yank-study-lab.workers.dev)里那只屑狐狸娘**希狐**（Kiko，生日 10 月 18 日；2026-10-29 由鲸鱼娘希可改成狐狸），搬到 Windows 桌面上。用 [Tauri 2](https://tauri.app) 做：一个透明、无边框、永远在最上层的小窗口，外加右下角托盘图标。安装包十几 MB，用 Windows 10/11 自带的 WebView2 显示。
+
+> 改名进行中：角色和界面已经是**希狐 / ZhixuFox**；安装包、程序内部名（`ZhixuWhale`、`dev.yank.zhixu-whale`）先不改，免得已经装好的版本收不到自动更新、设置读不到。立绘也暂时还是鲸鱼版，之后用 3D 模型重新生成。
 
 ## 现在能做什么（0.2）
 
@@ -35,7 +37,7 @@
 
 ## 更新
 
-装好以后不用再手动下载：鲸鱼娘启动 1 分钟后、之后每 6 小时会去本仓库的 [Releases](https://github.com/yankcc258/zhixu-whale-maid-pet/releases/latest) 看一眼。有新版本她会问「要不要更新」，点「好，更新」就自动下载、安装、重启。托盘菜单里也能手动「🔄 检查更新」。
+装好以后不用再手动下载：狐狸娘启动 1 分钟后、之后每 6 小时会去本仓库的 [Releases](https://github.com/yankcc258/zhixu-whale-maid-pet/releases/latest) 看一眼。有新版本她会问「要不要更新」，点「好，更新」就自动下载、安装、重启。托盘菜单里也能手动「🔄 检查更新」。
 
 安装包带签名，公钥写在 `tauri.conf.json` 里，签名对不上的安装包她不会装。
 
@@ -111,3 +113,4 @@ Windows 上要先装 [Rust](https://rustup.rs) 和 Visual Studio 的「使用 C+
 - **立绘、Live2D 模型和图标**（`src/sprites/`、`src/live2d/`、`app-icon.png`、`src-tauri/icons/`）：**不在 MIT 范围内**，按原样随程序分发，仅用于运行本程序。来源和说明见 [PROVENANCE.md](PROVENANCE.md)。
 - **Live2D 运行库**（`src/vendor/`）：Cubism Core 是 Live2D 的专有许可（个人非商用），PixiJS 和 pixi-live2d-display 是 MIT，详见 [src/vendor/README.md](src/vendor/README.md)。
 - 鲸鱼娘的形象参考了 [MeteorNOX/DeepSeek-Balance-Whale-Widget](https://github.com/MeteorNOX/DeepSeek-Balance-Whale-Widget) 的鲸鱼娘，谢谢原作者。本项目和 DeepSeek 官方无关。
+- 狐狸版希狐的新设计（2026-10-29）是另外画的原创稿（`art/3d/concept/`，art-inbox 分支）；现在仓库里的立绘还是上面那套鲸鱼娘的衍生图，换成狐狸版以前这条致谢一直保留。

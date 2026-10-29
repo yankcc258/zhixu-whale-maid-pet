@@ -26,7 +26,7 @@ const rows = [...Object.keys(ctx.OUTFITS).filter((o) => o !== 'maid'), ...ctx.FE
   .sort((a, b) => b.days - a.days);
 const md = process.argv.includes('--md');
 if (md) {
-  console.log('# 希可立绘补图清单\n\n`node scripts/art-todo.mjs --md` 生成。按一年里穿几天排，越靠前越值得先画。\n');
+  console.log('# 希狐立绘补图清单\n\n`node scripts/art-todo.mjs --md` 生成。按一年里穿几天排，越靠前越值得先画。\n');
   console.log('画图要求见 `src/sprites/README.md`：1024 以上正方形、透明或纯白背景、没有影子和文字，**人物大小和位置跟这套衣服的待机图一样**。');
   console.log('文件名 `<衣服>_<动作>_<表情>.png`（比如 `halloween_pat_happy.png`），传到 `art-inbox` 分支的 `art/inbox/`。\n');
 }
