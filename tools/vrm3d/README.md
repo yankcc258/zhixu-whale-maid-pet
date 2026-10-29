@@ -7,3 +7,5 @@
   （注意 VRoid 每次导出材质编号可能变，换预设后先列一遍材质名再对。）
 - `add_fins.py in.vrm out.vrm`：程序生成鲸鱼耳鳍（扇形+下沿波浪、外深蓝内浅紫贴图、复制头发 MToon 材质、双面），作为 head 骨骼子节点左右各一（右边 scale x=-1）。位置/角度在脚本底部（眼睛高度+3cm、外扫 22°、下垂 38°）。
 - 完整流水线：VRoid 导出 → `seeko_post.py`（卷发/渐变/贴图覆盖）→ `add_fins.py` → 预览/桌宠。
+- `add_accessories.py in.vrm out.vrm`：程序生成并挂到 head 骨骼——白色褶边女仆头饰（按头发表面拟合弧线）、后脑大蓝蝴蝶结（×1.8）、耳鳍根部两个小蓝蝴蝶结、呆毛（贝塞尔弯月形）。
+- 现行流水线（v8）：VRoid 导出 seeko_v4.vrm → `seeko_post.py ... 0.024 Shoes_01_CLOTH=… Tops_01_CLOTH_01=… Onepiece_00_CLOTH=…` → `add_fins.py` → `add_accessories.py` → seeko_v8.vrm。

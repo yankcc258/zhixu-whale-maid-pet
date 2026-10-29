@@ -32,7 +32,7 @@ loader.load(MODEL,g=>{
   window.shots={};
   if(new URLSearchParams(location.search).get('face')){ const hp=new THREE.Vector3(); h.getNormalizedBoneNode('head').getWorldPosition(hp);
     cam.position.set(hp.x,hp.y+0.06,hp.z+0.9); cam.lookAt(hp.x,hp.y+0.06,hp.z); renderer.render(scene,cam); window.shots.face=renderer.domElement.toDataURL('image/png'); window.done=true; return; } // FACE
-  for(const [name,ang] of [['front',0],['q',Math.PI/5]]){
+  for(const [name,ang] of [['front',0],['q',Math.PI/5],['back',Math.PI],['bq',Math.PI*0.8]]){
     cam.position.set(c.x+Math.sin(ang)*dist,c.y,c.z+Math.cos(ang)*dist); cam.lookAt(c);
     renderer.render(scene,cam); window.shots[name]=renderer.domElement.toDataURL('image/png');
   }
