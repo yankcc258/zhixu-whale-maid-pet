@@ -95,7 +95,7 @@ def ear_base(side):
             if len(E)<10: continue
             lo=E[E[:,1]<np.percentile(E[:,1],25)]
             o=lo[np.argmax(lo[:,0]*side)]
-            return np.array([o[0]+side*0.004, o[1]+0.004, o[2]+0.012])
+            return np.array([o[0]-side*0.018, o[1]-0.002, o[2]+0.014])
     return None
 # ---- 1) maid headdress: band arc over the head + pleated frill
 def headdress():
