@@ -80,6 +80,23 @@ def surf_back(x,y,tol=0.02):
     m=(np.abs(HP[:,0]-x)<tol)&(np.abs(HP[:,1]-y)<tol)&(HP[:,2]<0); return float(HP[m,2].min())
 def surf_side(y,z,s,tol=0.02):
     m=(np.abs(HP[:,1]-y)<tol)&(np.abs(HP[:,2]-z)<tol)&(HP[:,0]*s>0); return float(np.abs(HP[m,0]).max())
+
+def ear_base(side):
+    """outer-lower base of the VRoid animal-ear accessory on this side (world coords), or None"""
+    for m in j['meshes']:
+        for p in m['primitives']:
+            if 'Ear' not in j['materials'][p['material']]['name']: continue
+            a=j['accessors'][p['attributes']['POSITION']]; bv=j['bufferViews'][a['bufferView']]
+            V=np.frombuffer(bytes(BIN[bv.get('byteOffset',0)+a.get('byteOffset',0):]),np.float32,a['count']*3).reshape(-1,3)
+            ia=j['accessors'][p['indices']]; ib=j['bufferViews'][ia['bufferView']]
+            dt={5123:np.uint16,5125:np.uint32}[ia['componentType']]
+            I=np.unique(np.frombuffer(bytes(BIN[ib.get('byteOffset',0)+ia.get('byteOffset',0):]),dt,ia['count']))
+            E=V[I]; E=E[E[:,0]*side>0.01]
+            if len(E)<10: continue
+            lo=E[E[:,1]<np.percentile(E[:,1],25)]
+            o=lo[np.argmax(lo[:,0]*side)]
+            return np.array([o[0]+side*0.004, o[1]+0.004, o[2]+0.012])
+    return None
 # ---- 1) maid headdress: band arc over the head + pleated frill
 def headdress():
     cy=eyeY+0.01; z0=-0.012
@@ -127,7 +144,11 @@ def bows():
     img=grad_tex((110,185,250),(45,120,215)); mat=add_mat('Seeko_Bow',add_tex(img),shade=(0.7,0.8,0.95),outline=(0.05,0.12,0.3))
     P,U,T=bow(1.8,facing=(0,0,-1)); by=eyeY+0.025; attach('Seeko_BackBow',add_mesh('Seeko_BackBow',P,U,T,mat),(0,by,surf_back(0,by)-0.006))
     for s in (1,-1):
-        ang=math.radians(22 if s>0 else 158); cy=eyeY+0.01; r=(surf_r(0,cy,-0.012,ang) or 0.1)+0.008; P,U,T=bow(0.6,facing=(s*0.45,0.0,0.9)); attach('Seeko_SideBow_'+('L' if s>0 else 'R'),add_mesh('Seeko_SideBow',P,U,T,mat),(r*math.cos(ang),cy+r*math.sin(ang),0.004))
+        ear=ear_base(s)
+        if ear is not None:
+            P,U,T=bow(0.6,facing=(s*0.5,0.0,0.85)); attach('Seeko_SideBow_'+('L' if s>0 else 'R'),add_mesh('Seeko_SideBow',P,U,T,mat),tuple(ear))
+        else:
+            ang=math.radians(22 if s>0 else 158); cy=eyeY+0.01; r=(surf_r(0,cy,-0.012,ang) or 0.1)+0.008; P,U,T=bow(0.6,facing=(s*0.45,0.0,0.9)); attach('Seeko_SideBow_'+('L' if s>0 else 'R'),add_mesh('Seeko_SideBow',P,U,T,mat),(r*math.cos(ang),cy+r*math.sin(ang),0.004))
 # ---- 3) ahoge (crescent curl, faces front)
 def ahoge():
     k=40; t=np.linspace(0,1,k)
