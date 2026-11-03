@@ -200,12 +200,29 @@ const VRM3D = (() => {
         const { THREE, GLTFLoader, VRMLoaderPlugin, VRMUtils } = window.TV;
         const loader = new GLTFLoader();
         loader.register((p) => new VRMLoaderPlugin(p));
+        // Chromium 里 GLTFLoader 默认用 ImageBitmapLoader（fetch blob: 贴图，受 CSP connect-src 管）；
+        // 改用 <img> 的 TextureLoader，走 img-src，少一条坑
+        loader.register((p) => {
+          p.textureLoader = new THREE.TextureLoader(p.options.manager);
+          p.textureLoader.setCrossOrigin(p.options.crossOrigin);
+          return { name: 'kiko-texture-loader' };
+        });
+        // 贴图加载失败时 GLTFLoader 只 console.error 一句然后给 null，这里把它记进日志，方便排查
+        const ce = console.error;
+        console.error = (...a) => {
+          log('console.error: ' + a.map((x) => (x && x.message) || String(x)).join(' ').slice(0, 300));
+          ce.apply(console, a);
+        };
+        try {
         log('loading ' + MODELS[outfit] + ' from ' + location.href);
         const t0 = performance.now();
         const gltf = await loader.loadAsync(MODELS[outfit]);
         const v = gltf.userData.vrm;
         if (!v) throw new Error('文件里没有 VRM 数据');
         log(`loaded ${outfit} in ${Math.round(performance.now() - t0)}ms, expressions=${v.expressionManager?.expressions.length}, lookAt=${!!v.lookAt}, springs=${!!v.springBoneManager}`);
+        } finally {
+          console.error = ce;
+        }
         VRMUtils.removeUnnecessaryVertices(gltf.scene);
         if (VRMUtils.combineSkeletons) VRMUtils.combineSkeletons(gltf.scene);
         VRMUtils.rotateVRM0(v); // VRM0 转成面向 +Z，VRM1 不动
