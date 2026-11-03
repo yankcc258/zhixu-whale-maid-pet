@@ -13,3 +13,5 @@
 - **白狐（2026-11-03 定稿配色）**：VRoid 头发主色/猫耳/狐尾 = #D6DEEA；流水线 `TIP=F8FAFF FLUFF=0.05 seeko_post.py raw a.vrm 0.030 0.11 …同前… FoxTail_01=art/3d/tex_v2/foxtail_white.png CatEar_01=art/3d/tex_v2/ear_white_pink.png` → `AHOGE=CCD5E3,F2F5FA add_accessories.py a.vrm kiko.vrm`。`recolor_fur.py` 可把任意版本整体换毛色（dark light 两个 hex）。
 - **Q 版流水线（网页立绘用）**：V-Chibi（約4頭身预设 + Head size -0.55 ≈ 3.45 头身，Hair length -0.41）导出 → `fix_chibi_morphs.py chibi.vrm 原版raw.vrm out.vrm`（把脸部 morph 按头放大比例放大，否则闭不上眼）→ `TIP=F8FAFF FLUFF=0.03 seeko_post.py … 0.016 0.10 …同覆盖…` → `ACC_SCALE=1.34 AHOGE=… add_accessories.py`。
 - **立绘渲染**：`node sprite_shot.js model.vrm 输出目录 idle,happy,… [toon=1] [hs=1.35]`（sprite.js 里 PRESETS 表 = 表情权重+骨骼角度+构图；toon 加粗描边、平涂；hs 镜头放大倍率，Q 版用 1.35）→ 880px PNG，再缩成 220px WebP。
+- `add_expressions.py in out`：把脸部 57 个 morph 全部挂成 VRM 自定义表情 `m_<名字>`（如 m_Fcl_MTH_SkinFung_R 单侧坏笑嘴、m_Fcl_HA_Fung1 虎牙、m_Fcl_BRW_Angry 怒眉），sprite.js 预设里可直接混用。
+- `outline2d.py in.png out.webp [线宽@220px] [颜色]`：对透明渲染图加外轮廓线再缩成 220px WebP；配合 `toon=2`（头发去内线/去法线/去 matcap）得到接近手绘的平涂+外描边。第三轮用 `node sprite_shot.js kiko.vrm 目录 预设 2 1.12 0.06`。
