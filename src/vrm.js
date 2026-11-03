@@ -103,7 +103,8 @@ const VRM3D = (() => {
       { t: 1060, ease: 'inout', pose: { rightLowerArm: [0, 0, -40], rightHand: [0, 0, 5] } },
       { t: 1220, ease: 'inout', pose: { rightLowerArm: [0, 0, -95], rightHand: [0, 0, -20] } },
       { t: 1450, ease: 'inout', pose: { rightLowerArm: [0, 0, -70], rightHand: [0, 0, -10] } },
-      { t: 1900, ease: 'inout', pose: { rightUpperArm: L.rightUpperArm, rightLowerArm: L.rightLowerArm, rightHand: [0, 15, 0], head: [0, 0, 0], chest: [0, 0, 0] } },
+      { t: 1700, ease: 'inout', pose: { rightUpperArm: [-30, 25, 30], rightLowerArm: [0, 70, -20], rightHand: [0, 10, 0], head: [0, -3, 4] } },
+      { t: 2000, ease: 'inout', pose: { rightUpperArm: L.rightUpperArm, rightLowerArm: L.rightLowerArm, rightHand: [0, 15, 0], head: [0, 0, 0], chest: [0, 0, 0] } },
     ] },
     // 蹦一下：下蹲预备 → 起跳伸展（画布本身由 CSS 往上跳）→ 落地压缩 → 回弹
     Hop: { keys: [
@@ -120,11 +121,12 @@ const VRM3D = (() => {
       { t: 820, ease: 'inout', pose: { leftLowerArm: [0, 0, 12], rightLowerArm: [0, 0, -12], spine: [-6, 0, -3] } },
       { t: 1020, ease: 'inout', pose: { leftLowerArm: [0, 0, 38], rightLowerArm: [0, 0, -38], spine: [-6, 0, 3] } },
       { t: 1220, ease: 'inout', pose: { leftLowerArm: [0, 0, 12], rightLowerArm: [0, 0, -12], spine: [-6, 0, 0] } },
-      { t: 1800, ease: 'inout', pose: { spine: [0, 0, 0], head: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
+      { t: 1550, ease: 'inout', pose: { leftUpperArm: [-40, -30, -48], rightUpperArm: [-40, 30, 48], leftLowerArm: [0, -85, 0], rightLowerArm: [0, 85, 0], spine: [0, 0, 0], head: [-2, 0, 0] } },
+      { t: 1900, ease: 'inout', pose: { head: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
     ] },
     // 吓一跳：头和上身猛往后、双手收到胸前，停一下再松开
     Flinch: { keys: [
-      { t: 90, ease: 'out', pose: { head: [-14, 0, 0], neck: [-6, 0, 0], spine: [-6, 0, 0], leftUpperArm: [0, -10, -50], rightUpperArm: [0, 10, 50], leftLowerArm: [0, -50, 50], rightLowerArm: [0, 50, -50], leftHand: [0, 0, 20], rightHand: [0, 0, -20] } },
+      { t: 90, ease: 'out', pose: { head: [-14, 0, 0], neck: [-6, 0, 0], spine: [-6, 0, 0], leftUpperArm: [-30, -25, -58], rightUpperArm: [-30, 25, 58], leftLowerArm: [0, -115, 0], rightLowerArm: [0, 115, 0], leftHand: [0, -20, 0], rightHand: [0, 20, 0] } },
       { t: 330, ease: 'inout', pose: { head: [-10, 0, 0] } },
       { t: 620, ease: 'inout', pose: { head: [0, 0, 0], neck: [0, 0, 0], spine: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
     ] },
@@ -135,7 +137,7 @@ const VRM3D = (() => {
     ] },
     // 生气甩头：双手抱胸，头左右甩，幅度递减
     Shake: { keys: [
-      { t: 150, ease: 'out', pose: { spine: [4, 0, 0], leftUpperArm: [0, -20, -55], rightUpperArm: [0, 20, 55], leftLowerArm: [0, -30, 80], rightLowerArm: [0, 30, -80], head: [0, 18, 0] } },
+      { t: 150, ease: 'out', pose: { spine: [4, 0, 0], leftUpperArm: [-15, -48, -62], rightUpperArm: [-15, 48, 62], leftLowerArm: [0, -118, 0], rightLowerArm: [0, 118, 0], leftHand: [0, -10, 0], rightHand: [0, 10, 0], head: [0, 18, 0] } },
       { t: 300, ease: 'inout', pose: { head: [0, -18, 0] } },
       { t: 450, ease: 'inout', pose: { head: [0, 16, 0] } },
       { t: 600, ease: 'inout', pose: { head: [0, -14, 0] } },
@@ -151,11 +153,12 @@ const VRM3D = (() => {
       { t: 1000, ease: 'inout', pose: { head: [-15, 0, 3], leftUpperArm: [-20, 0, 66] } },
       { t: 1200, ease: 'inout', pose: { head: [-15, 0, -3], rightUpperArm: [-20, 0, -66] } },
       { t: 1400, ease: 'inout', pose: { head: [-15, 0, 0] } },
-      { t: 2100, ease: 'inout', pose: { spine: [0, 0, 0], chest: [0, 0, 0], head: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
+      { t: 1800, ease: 'inout', pose: { spine: [2, 0, 0], chest: [0, 0, 0], head: [2, 0, 0], leftUpperArm: [-40, -30, -48], rightUpperArm: [-40, 30, 48], leftLowerArm: [0, -85, 0], rightLowerArm: [0, 85, 0] } },
+      { t: 2200, ease: 'inout', pose: { spine: [0, 0, 0], head: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
     ] },
     // 害羞：双手捂脸颊、低头，头小幅左右扭
     Shy: { keys: [
-      { t: 350, ease: 'out', pose: { head: [10, 0, 10], leftUpperArm: [-70, 0, -52], rightUpperArm: [-70, 0, 52], leftLowerArm: [0, -125, -20], rightLowerArm: [0, 125, 20], leftHand: [0, 20, 0], rightHand: [0, -20, 0] } },
+      { t: 350, ease: 'out', pose: { head: [10, 0, 10], leftUpperArm: [-52, -8, -56], rightUpperArm: [-52, 8, 56], leftLowerArm: [0, -128, -10], rightLowerArm: [0, 128, 10], leftHand: [0, 20, 0], rightHand: [0, -20, 0] } },
       { t: 900, ease: 'inout', pose: { head: [10, 0, -8] } },
       { t: 1450, ease: 'inout', pose: { head: [10, 0, 8] } },
       { t: 1900, ease: 'inout', pose: { head: [8, 0, 0] } },
