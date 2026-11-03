@@ -36,6 +36,8 @@ def grad_tex(top,bot,size=64,frill=None):
     for y in range(size):
         t=y/(size-1); dr.line([(0,y),(size,y)],fill=tuple(int(top[k]+(bot[k]-top[k])*t) for k in range(3))+(255,))
     return im
+import os
+ACC=float(os.environ.get('ACC_SCALE','1'))   # scale accessories for chibi heads
 HEAD=j['extensions']['VRMC_vrm']['humanoid']['humanBones']['head']['node']
 INV=np.linalg.inv(world(j,HEAD))
 def attach(name,mesh,wpos=(0,0,0)):
@@ -135,19 +137,19 @@ def trim_center_bang(frac=0.8):
 trim_center_bang(0.8)
 # ---- 1) maid headdress: band arc over the head + pleated frill
 def headdress():
-    cy=eyeY+0.01; z0=-0.012
+    cy=eyeY+0.01*ACC; z0=-0.012*ACC
     n=72; ang=np.linspace(math.radians(34),math.radians(146),n)
-    rr=np.array([ (surf_r(0,cy,z0,a) or 0.1) for a in ang ]); rr=np.convolve(np.pad(rr,3,mode='edge'),np.ones(7)/7,'valid')+0.003
+    rr=np.array([ (surf_r(0,cy,z0,a) or 0.1) for a in ang ]); rr=np.convolve(np.pad(rr,3,mode='edge'),np.ones(7)/7,'valid')+0.003*ACC
     dirs=np.c_[np.cos(ang),np.sin(ang),np.zeros(n)]
     band=np.c_[rr*np.cos(ang), cy+rr*np.sin(ang), np.full(n,z0)]
     zax=np.tile([0,0,1.0],(n,1))
-    p1=ribbon(band,zax,np.full(n,0.024))
+    p1=ribbon(band,zax,np.full(n,0.024*ACC))
     # frill: soft ruffle standing out from the band, ~22 pleats, leaning slightly back
     m=n*3; a2=np.linspace(ang[0],ang[-1],m); r2=np.interp(a2,ang,rr)
     ow=np.c_[np.cos(a2),np.sin(a2),np.full(m,-0.35)]; ow/=np.linalg.norm(ow,axis=1,keepdims=True)
     pleat=0.0045*np.sin(a2*44)
-    mid=np.c_[r2*np.cos(a2), cy+r2*np.sin(a2), np.full(m,z0)]+ow*0.014+np.c_[np.zeros(m),np.zeros(m),pleat]
-    p2=ribbon(mid,ow,np.full(m,0.027))
+    mid=np.c_[r2*np.cos(a2), cy+r2*np.sin(a2), np.full(m,z0)]+ow*0.014*ACC+np.c_[np.zeros(m),np.zeros(m),pleat*ACC]
+    p2=ribbon(mid,ow,np.full(m,0.027*ACC))
     P,U,T=merge([p1,p2])
     img=Image.new('RGBA',(64,64),(250,250,252,255)); dr=ImageDraw.Draw(img)
     for x in range(0,64,8): dr.arc([x-4,40,x+12,60],0,180,fill=(205,210,225,255),width=2)   # lace scallops
@@ -178,22 +180,22 @@ def bow(scale=1.0, facing=(0,0,-1), up=(0,1,0)):
     return merge(parts)
 def bows():
     img=grad_tex((110,185,250),(45,120,215)); mat=add_mat('Seeko_Bow',add_tex(img),shade=(0.7,0.8,0.95),outline=(0.05,0.12,0.3))
-    P,U,T=bow(1.8,facing=(0,0,-1)); by=eyeY+0.025; attach('Seeko_BackBow',add_mesh('Seeko_BackBow',P,U,T,mat),(0,by,surf_back(0,by)-0.006))
+    P,U,T=bow(1.8*ACC,facing=(0,0,-1)); by=eyeY+0.025*ACC; attach('Seeko_BackBow',add_mesh('Seeko_BackBow',P,U,T,mat),(0,by,surf_back(0,by)-0.006))
     for s in (1,-1):
         ear=ear_base(s)
         if ear is not None:
-            P,U,T=bow(0.6,facing=(s*0.5,0.0,0.85)); attach('Seeko_SideBow_'+('L' if s>0 else 'R'),add_mesh('Seeko_SideBow',P,U,T,mat),tuple(ear))
+            P,U,T=bow(0.6*ACC,facing=(s*0.5,0.0,0.85)); attach('Seeko_SideBow_'+('L' if s>0 else 'R'),add_mesh('Seeko_SideBow',P,U,T,mat),tuple(ear))
         else:
             ang=math.radians(22 if s>0 else 158); cy=eyeY+0.01; r=(surf_r(0,cy,-0.012,ang) or 0.1)+0.008; P,U,T=bow(0.6,facing=(s*0.45,0.0,0.9)); attach('Seeko_SideBow_'+('L' if s>0 else 'R'),add_mesh('Seeko_SideBow',P,U,T,mat),(r*math.cos(ang),cy+r*math.sin(ang),0.004))
 # ---- 3) ahoge (crescent curl, faces front)
 def ahoge():
     k=40; t=np.linspace(0,1,k)
     # cubic bezier in x-y (front view), slight z drift
-    P0=np.array([0.004,TOP-0.006,-0.02]); P1=np.array([0.004,TOP+0.07,-0.015]); P2=np.array([-0.05,TOP+0.075,-0.01]); P3=np.array([-0.045,TOP+0.035,-0.005])
+    P0=np.array([0.004,TOP-0.006*ACC,-0.02*ACC]); P1=np.array([0.004,TOP+0.07*ACC,-0.015*ACC]); P2=np.array([-0.05*ACC,TOP+0.075*ACC,-0.01*ACC]); P3=np.array([-0.045*ACC,TOP+0.035*ACC,-0.005*ACC])
     path=((1-t)**3)[:,None]*P0+(3*(1-t)**2*t)[:,None]*P1+(3*(1-t)*t**2)[:,None]*P2+(t**3)[:,None]*P3
     tan=np.gradient(path,axis=0); tan/=np.linalg.norm(tan,axis=1,keepdims=True)
     acr=np.cross(tan,np.array([0,0,1.0])); acr/=np.linalg.norm(acr,axis=1,keepdims=True)
-    w=0.016*(1-t)**0.8+0.001
+    w=(0.016*(1-t)**0.8+0.001)*ACC
     P,U,T=ribbon(path,acr,w)
     U=np.c_[U[:,1]*0.3+0.35, 0.05+U[:,0]*0.3]          # sample dark root part of hair-like gradient
     import os

@@ -16,13 +16,13 @@ const D = (d) => THREE.MathUtils.degToRad(d);
 // presets: expression weights + bone euler rotations (deg) + framing
 const PRESETS = {
   idle:     { ex: { relaxed: 0.15 }, bones: { head: [0, 0, 0] }, frame: 'bust' },
-  happy:    { ex: { happy: 1.0, aa: 0.45 }, bones: { head: [-4, 0, 8], neck: [0, 0, 3] }, frame: 'bust' },
-  smirk:    { ex: { relaxed: 0.7, blinkRight: 0.45, ih: 0.25 }, bones: { head: [2, 14, -9] }, frame: 'bust' },
-  meh:      { ex: { blink: 0.55, sad: 0.25 }, bones: { head: [4, -16, 4], neck: [0, -6, 0] }, frame: 'bust' },
-  dangle:   { ex: { surprised: 0.8, ou: 0.5 }, bones: { hips: [0, 0, 12], spine: [-6, 0, -6], head: [6, 0, -12],
-              leftUpperArm: [0, 0, -72], rightUpperArm: [0, 0, 72], leftLowerArm: [0, -25, 0], rightLowerArm: [0, 25, 0],
-              leftUpperLeg: [-30, 0, -8], rightUpperLeg: [15, 0, 8], leftLowerLeg: [55, 0, 0], rightLowerLeg: [20, 0, 0] }, frame: 'full' },
-  sleep:    { ex: { blink: 1.0, relaxed: 0.5 }, bones: { head: [18, 0, 14], neck: [8, 0, 4] }, frame: 'bust' },
+  happy:    { ex: { happy: 0.8, aa: 0.2 }, bones: { head: [-3, 0, 4], neck: [0, 0, 2] }, frame: 'bust' },
+  smirk:    { ex: { relaxed: 0.25, blinkRight: 0.25, angry: 0.1 }, bones: { head: [2, 14, -4] }, frame: 'bust' },
+  meh:      { ex: { blink: 0.4, angry: 0.1 }, bones: { head: [2, -16, 4], neck: [0, -6, 0] }, frame: 'bust' },
+  dangle:   { ex: { surprised: 0.3, angry: 0.3, aa: 0.35 }, bones: { hips: [0, 0, 8], spine: [-4, 0, -5], head: [4, 0, -10],
+              leftUpperArm: [-20, 0, -40], rightUpperArm: [-20, 0, 40], leftLowerArm: [0, -110, 0], rightLowerArm: [0, 110, 0],
+              leftUpperLeg: [-35, 0, -8], rightUpperLeg: [12, 0, 8], leftLowerLeg: [60, 0, 0], rightLowerLeg: [10, 0, 0] }, frame: 'full' },
+  sleep:    { ex: { blink: 1.0, relaxed: 0.5 }, bones: { head: [10, 0, 14], neck: [3, 0, 4] }, frame: 'bust' },
   angry:    { ex: { angry: 1.0, ee: 0.4 }, bones: { head: [-6, 0, 0] }, frame: 'bust' },
   surprised:{ ex: { surprised: 1.0, oh: 0.6 }, bones: { head: [-8, 0, 0] }, frame: 'bust' },
 };
@@ -30,6 +30,14 @@ const loader = new GLTFLoader(); loader.register((p) => new VRMLoaderPlugin(p));
 loader.load(MODEL, (g) => {
   const vrm = g.userData.vrm; VRMUtils.rotateVRM0(vrm); scene.add(vrm.scene);
   const h = vrm.humanoid, em = vrm.expressionManager;
+  const TOON = Number(q.get('toon') || 0);   // 0 = as exported; 1 = thicker outline + flatter shading (hand-drawn feel)
+  if (TOON) vrm.scene.traverse((o) => { if (!o.isMesh) return; for (const m of (Array.isArray(o.material) ? o.material : [o.material])) {
+    if (!m || !m.isMToonMaterial) continue;
+    if (m.outlineWidthFactor !== undefined) m.outlineWidthFactor = m.outlineWidthFactor * (1 + 2.2 * TOON);
+    if (m.shadingToonyFactor !== undefined) m.shadingToonyFactor = 1.0;
+    if (m.shadingShiftFactor !== undefined) m.shadingShiftFactor = Math.max(m.shadingShiftFactor, -0.15);
+    if (m.outlineColorFactor && m.outlineColorFactor.isColor) m.outlineColorFactor.multiplyScalar(0.6);
+    m.needsUpdate = true; } });
   const rest = {};
   for (const b of ['hips','spine','chest','neck','head','leftUpperArm','rightUpperArm','leftLowerArm','rightLowerArm','leftUpperLeg','rightUpperLeg','leftLowerLeg','rightLowerLeg']) {
     const n = h.getNormalizedBoneNode(b); if (n) rest[b] = n.rotation.clone();
@@ -47,7 +55,7 @@ loader.load(MODEL, (g) => {
     for (const e in P.ex) em.setValue(e, P.ex[e]);
     vrm.update(0); for (let i = 0; i < 90; i++) vrm.update(1 / 30);   // let spring bones settle
     const hp = new THREE.Vector3(); h.getNormalizedBoneNode('head').getWorldPosition(hp);
-    if (P.frame === 'bust') { cam.fov = 24; cam.position.set(hp.x, hp.y + 0.08, hp.z + 1.08); cam.lookAt(hp.x, hp.y + 0.03, hp.z); }
+    if (P.frame === 'bust') { cam.fov = 24; const HS = Number(q.get('hs') || 1); cam.position.set(hp.x, hp.y + 0.09 * HS, hp.z + 0.98 * HS); cam.lookAt(hp.x, hp.y + 0.045 * HS, hp.z); }
     else { const box = new THREE.Box3().setFromObject(vrm.scene); const c = box.getCenter(new THREE.Vector3()); const sz = box.getSize(new THREE.Vector3());
       cam.fov = 22; const dist = Math.max(sz.y, sz.x) / 2 / Math.tan(D(11)) * 1.08; cam.position.set(c.x, c.y, c.z + dist); cam.lookAt(c); }
     cam.updateProjectionMatrix();
