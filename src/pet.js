@@ -101,6 +101,7 @@ addEventListener('storage', (e) => {
   applyFigure();
   applyPixel();
   applySfx();
+  if (typeof VRM3D !== 'undefined') VRM3D.preview(prefs.vrmPreview || '');
   invoke('set_game_mode', { on: !!prefs.gameMode });
   if (prefs.resetAt !== resetBefore) resetPos();
   if (useL2D()) RND().load().then(() => setMood(autoMood()));

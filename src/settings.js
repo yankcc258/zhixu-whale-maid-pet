@@ -29,6 +29,7 @@ function render() {
   for (const seg of document.querySelectorAll('.seg'))
     for (const b of seg.querySelectorAll('button'))
       b.classList.toggle('selected', String(p[seg.dataset.key]) === b.dataset.v);
+  for (const sel of document.querySelectorAll('select[data-key]')) sel.value = p[sel.dataset.key] || '';
   for (const c of document.querySelectorAll('input[type="checkbox"][data-key]')) c.checked = !!p[c.dataset.key];
   for (const t of document.querySelectorAll('input[type="text"][data-key], input[type="url"][data-key]'))
     if (document.activeElement !== t) t.value = p[t.dataset.key] || '';
@@ -42,6 +43,18 @@ document.addEventListener('click', (e) => {
   save(p);
   render();
 });
+for (const sel of document.querySelectorAll('select[data-key]'))
+  sel.addEventListener('change', () => {
+    const p = load();
+    p[sel.dataset.key] = sel.value;
+    save(p);
+  });
+for (const sel of document.querySelectorAll('select[data-key]'))
+  sel.addEventListener('change', () => {
+    const p = load();
+    p[sel.dataset.key] = sel.value;
+    save(p);
+  });
 for (const c of document.querySelectorAll('input[type="checkbox"][data-key]'))
   c.addEventListener('change', () => {
     const p = load();
