@@ -65,9 +65,9 @@ body.live2d #pet {
   height: 180px;
   animation: none;
 }
-/* 3D 希狐（正常比例全身）：窗口 300×440，她 220×400 */
+/* 3D 希狐（正常比例全身）：窗口 340×440，她 260×400（两侧留空给张开的手臂和甩头） */
 body.vrm.live2d #pet {
-  width: 220px;
+  width: 260px;
   height: 400px;
 }
 #pet canvas.pixel {

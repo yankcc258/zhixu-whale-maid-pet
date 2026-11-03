@@ -7,7 +7,7 @@
 // eslint-disable-next-line no-unused-vars
 const VRM3D = (() => {
   // 画布大小（CSS 像素）。正常比例全身，宽留一点给尾巴和甩头
-  const W = 220,
+  const W = 260,
     H = 400;
   // 心情 → 表情（VRM 表情名 → 权重）。null = 没表情（待机）
   const EXP = {
@@ -83,7 +83,7 @@ const VRM3D = (() => {
   const ACTS = {
     Wave: { dur: 1800, pose: (t, now) => ({ rightUpperArm: [-10, 0, -20 - 15 * bump(t)], rightLowerArm: [0, 0, -50 - 30 * S(now * 14)], rightHand: [0, 0, -15 * S(now * 14)], head: [0, -6, 8] }) },
     Hop: { dur: 700, pose: (t) => ({ leftUpperArm: [0, 0, -68 + 35 * bump(t)], rightUpperArm: [0, 0, 68 - 35 * bump(t)], spine: [-4 * bump(t), 0, 0] }) },
-    Cheer: { dur: 1600, pose: (t, now) => ({ leftUpperArm: [-10, 0, 55], rightUpperArm: [-10, 0, -55], leftLowerArm: [0, 0, 25 + 12 * S(now * 12)], rightLowerArm: [0, 0, -25 - 12 * S(now * 12)], spine: [-5, 0, 3 * S(now * 6)], head: [-8, 0, 0] }) },
+    Cheer: { dur: 1600, pose: (t, now) => ({ leftUpperArm: [-10, 0, 70], rightUpperArm: [-10, 0, -70], leftLowerArm: [0, 0, 25 + 12 * S(now * 12)], rightLowerArm: [0, 0, -25 - 12 * S(now * 12)], spine: [-5, 0, 3 * S(now * 6)], head: [-8, 0, 0] }) },
     Flinch: { dur: 550, pose: (t) => ({ head: [-14 * bump(t * 1.3), 0, 0], neck: [-6 * bump(t * 1.3), 0, 0], spine: [-6 * bump(t * 1.3), 0, 0], leftUpperArm: [0, 0, -50], rightUpperArm: [0, 0, 50], leftLowerArm: [0, -50, 50], rightLowerArm: [0, 50, -50] }) },
     Slump: { dur: 1500, pose: (t) => ({ spine: [10 * ease(t), 0, 0], neck: [8 * ease(t), 0, 0], head: [10 * ease(t), 0, 4 * ease(t)] }) },
     Shake: { dur: 1300, pose: (t, now) => ({ head: [0, 18 * S(now * 16) * bump(t), 0], spine: [4, 0, 0], leftUpperArm: [0, 0, -55], rightUpperArm: [0, 0, 55], leftLowerArm: [0, -30, 80], rightLowerArm: [0, 30, -80] }) },
@@ -97,8 +97,8 @@ const VRM3D = (() => {
     Hang: { dur: 0, pose: (t, now) => ({ leftUpperArm: [0, 0, -85 + 5 * S(now * 3)], rightUpperArm: [0, 0, 85 - 5 * S(now * 3)], leftUpperLeg: [-6 + 5 * S(now * 2.5), 0, 3], rightUpperLeg: [-6 - 5 * S(now * 2.5), 0, -3], leftLowerLeg: [18, 0, 0], rightLowerLeg: [18, 0, 0], spine: [-6, 0, 2 + 3 * S(now * 2)], head: [12, 0, -5] }) },
     // 走路循环（持续）：腿前后、手臂反向、上身轻轻起伏
     Walk: { dur: 0, pose: (t, now) => ({ leftUpperLeg: [-28 * S(now * 9), 0, 0], rightUpperLeg: [28 * S(now * 9), 0, 0], leftLowerLeg: [18 + 16 * S(now * 9 - 1.2), 0, 0], rightLowerLeg: [18 - 16 * S(now * 9 - 1.2), 0, 0], leftUpperArm: [16 * S(now * 9), 0, -62], rightUpperArm: [-16 * S(now * 9), 0, 62], spine: [6, 0, 2 * S(now * 9)], head: [-4, 0, 0] }) },
-    Fall: { dur: 0, pose: (t, now) => ({ leftUpperArm: [-30, 0, 50], rightUpperArm: [-30, 0, -50], leftUpperLeg: [-10, 0, 6], rightUpperLeg: [-10, 0, -6], spine: [-6, 0, 0], head: [-10, 0, 0] }) },
-    Land: { dur: 700, pose: (t) => ({ hips: [0, 0, 0], leftUpperLeg: [-40 * bump(t), 0, 4], rightUpperLeg: [-40 * bump(t), 0, -4], leftLowerLeg: [60 * bump(t), 0, 0], rightLowerLeg: [60 * bump(t), 0, 0], spine: [22 * bump(t), 0, 0], head: [-8 * bump(t), 0, 0], leftUpperArm: [-30 * bump(t), 0, -60 + 30 * bump(t)], rightUpperArm: [-30 * bump(t), 0, 60 - 30 * bump(t)] }) },
+    Fall: { dur: 0, pose: (t, now) => ({ leftUpperArm: [-70, 0, -25], rightUpperArm: [-70, 0, 25], leftLowerArm: [0, -40, 0], rightLowerArm: [0, 40, 0], leftUpperLeg: [-10, 0, 6], rightUpperLeg: [-10, 0, -6], spine: [-6, 0, 0], head: [-10, 0, 0] }) },
+    Land: { dur: 700, pose: (t) => ({ hips: [0, 0, 0], leftUpperLeg: [-40 * bump(t), 0, 4], rightUpperLeg: [-40 * bump(t), 0, -4], leftLowerLeg: [60 * bump(t), 0, 0], rightLowerLeg: [60 * bump(t), 0, 0], spine: [22 * bump(t), 0, 0], head: [-8 * bump(t), 0, 0], leftUpperArm: [-40 * bump(t), 0, -55], rightUpperArm: [-40 * bump(t), 0, 55] }) },
   };
   // 落地蹲下时整个人要往下沉（髋骨降低），用 hipsY 表示（米）
   const HIPS_DROP = { Land: (t) => -0.16 * bump(t), Walk: (t, now) => 0.01 * Math.abs(S(now * 9)) - 0.01 };
@@ -220,6 +220,16 @@ const VRM3D = (() => {
           gltf = await loader.loadAsync(MODELS[outfit]);
           v = gltf.userData.vrm;
           if (!v) throw new Error('文件里没有 VRM 数据');
+        // 浅色壁纸上白发/白耳边缘偏淡：描边加粗一点、颜色压成冷灰（描边是单独的材质副本，所以按名字全找一遍）
+        v.scene.traverse((o) => {
+          if (!o.isMesh) return;
+          for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
+            if (!m || !m.isMToonMaterial || !/Hair|CatEar|FoxTail|Ahoge/.test(m.name)) continue;
+            m.outlineWidthFactor = Math.max(m.outlineWidthFactor || 0, 0.00022) * 1.5;
+            m.outlineColorFactor?.set(0x7f8db0);
+            m.needsUpdate = true;
+          }
+        });
           log(`loaded ${outfit} in ${Math.round(performance.now() - t0)}ms, expressions=${v.expressionManager?.expressions.length}, lookAt=${!!v.lookAt}, springs=${!!v.springBoneManager}`);
         } finally {
           console.error = ce;
@@ -347,7 +357,7 @@ const VRM3D = (() => {
     const br = S(now * 1.6);
     const idle = { spine: [1.2 * br, 0, 0], chest: [1.0 * br, 0, 0], head: [-0.6 * br, 0, 0.8 * S(now * 0.7)], leftUpperArm: [0, 0, -1.5 * br], rightUpperArm: [0, 0, 1.5 * br] };
     // 看鼠标：头转 60%、脖子 25%、上身 15%
-    const lh = { head: [look.hy * 18, look.hx * 22, -look.hx * 4], neck: [look.hy * 7, look.hx * 9, 0], chest: [0, look.hx * 5, 0] };
+    const lh = { head: [-look.hy * 16, look.hx * 22, -look.hx * 4], neck: [-look.hy * 6, look.hx * 9, 0], chest: [0, look.hx * 5, 0] }; // x 正 = 低头
     const k = 1 - Math.pow(0.001, dt); // 缓动：约 0.15 秒追上大半
     for (const n of Object.keys(STAND)) {
       const base = STAND[n],

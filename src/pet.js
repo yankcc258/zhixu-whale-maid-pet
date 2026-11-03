@@ -12,7 +12,7 @@ const pet = $('#pet'),
   img = $('#sprite'),
   bubble = $('#bubble'),
   menu = $('#menu');
-// 窗口和她的大小：Q 版 240×260 / 140 宽；3D 希狐（qStyle 'vrm'）要全身，窗口放大到 300×440 / 220 宽（applyFigure 里改）
+// 窗口和她的大小：Q 版 240×260 / 140 宽；3D 希狐（qStyle 'vrm'）要全身，窗口放大到 340×440 / 260 宽（applyFigure 里改）
 let WIN_W = 240,
   WIN_H = 260,
   PET_W = 140;
@@ -59,9 +59,9 @@ const RND = () => (useVRM() && typeof VRM3D !== 'undefined' ? VRM3D : L2D);
 function applyFigure() {
   const vrm = useVRM();
   document.body.classList.toggle('vrm', vrm);
-  WIN_W = vrm ? 300 : 240;
+  WIN_W = vrm ? 340 : 240;
   WIN_H = vrm ? 440 : 260;
-  PET_W = vrm ? 220 : 140;
+  PET_W = vrm ? 260 : 140;
   if (!win) return;
   const LS = tauri.dpi?.LogicalSize || tauri.window.LogicalSize;
   // 窗口配置里是 resizable: false，改大小前先临时放开
