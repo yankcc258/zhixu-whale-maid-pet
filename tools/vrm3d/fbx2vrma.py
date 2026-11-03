@@ -11,6 +11,8 @@ ap = argparse.ArgumentParser()
 ap.add_argument('vrm'); ap.add_argument('fbx'); ap.add_argument('out')
 ap.add_argument('--start', type=int); ap.add_argument('--end', type=int); ap.add_argument('--fps', type=int, default=30)
 ap.add_argument('--step', type=int, default=1, help='keep every Nth source frame')
+ap.add_argument('--root-xz', action='store_true', help='keep hips X/Z travel (default: drop it, the pet moves the window itself)')
+ap.add_argument('--hips-y', type=float, default=1.0, help='scale of hips vertical motion')
 a = ap.parse_args()
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -99,6 +101,8 @@ for f in range(f0, f1 + 1, a.step):
         pb.keyframe_insert('rotation_quaternion', frame=out_frame)
         if hb == 'hips':
             dpos = (pose_world_pos(mix_arm, mb) - mix_hip_rest) * scale
+            if not a.root_xz: dpos.x = 0; dpos.y = 0   # Blender Z-up: x/y are the ground plane
+            dpos.z *= a.hips_y
             pb.location = R_rest[hb].inverted() @ dpos
             pb.keyframe_insert('location', frame=out_frame)
     out_frame += 1
