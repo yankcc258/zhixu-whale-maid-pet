@@ -54,7 +54,7 @@ for mi in hair_mats:
     imgs.add(j['textures'][m['pbrMetallicRoughness']['baseColorTexture']['index']]['source'])
     sh = m.get('extensions',{}).get('VRMC_materials_mtoon',{}).get('shadeMultiplyTexture')
     if sh: imgs.add(j['textures'][sh['index']]['source'])
-TIP = np.array([0x6B, 0xAE, 0xEE], np.float32)
+TIP = np.array([int(os.environ.get('TIP','6BAEEE')[i:i+2],16) for i in (0,2,4)], np.float32)
 for ii in imgs:
     bv = j['images'][ii]['bufferView']
     im = Image.open(io.BytesIO(views[bv])).convert('RGBA'); a = np.array(im).astype(np.float32)

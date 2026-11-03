@@ -196,7 +196,9 @@ def ahoge():
     w=0.016*(1-t)**0.8+0.001
     P,U,T=ribbon(path,acr,w)
     U=np.c_[U[:,1]*0.3+0.35, 0.05+U[:,0]*0.3]          # sample dark root part of hair-like gradient
-    img=grad_tex((40,56,140),(52,74,160)); mat=add_mat('Seeko_Ahoge',add_tex(img),shade=(0.75,0.78,0.9),outline=(0.06,0.04,0.12))
+    import os
+    _c=[tuple(int(h[i:i+2],16) for i in (0,2,4)) for h in os.environ.get('AHOGE','28388C,344AA0').split(',')]
+    img=grad_tex(_c[0],_c[1]); mat=add_mat('Seeko_Ahoge',add_tex(img),shade=(0.75,0.78,0.9),outline=(0.06,0.04,0.12))
     attach('Seeko_Ahoge',add_mesh('Seeko_Ahoge',P,U,T,mat))
 headdress(); bows(); ahoge()
 while len(BIN)%4: BIN.append(0)

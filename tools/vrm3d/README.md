@@ -10,3 +10,4 @@
 - `add_accessories.py in.vrm out.vrm`：程序生成并挂到 head 骨骼——白色褶边女仆头饰（按头发表面拟合弧线）、后脑大蓝蝴蝶结（×1.8）、耳鳍根部两个小蓝蝴蝶结、呆毛（贝塞尔弯月形）。
 - 现行流水线（v8）：VRoid 导出 seeko_v4.vrm → `seeko_post.py ... 0.024 Shoes_01_CLOTH=… Tops_01_CLOTH_01=… Onepiece_00_CLOTH=…` → `add_fins.py` → `add_accessories.py` → seeko_v8.vrm。
 - 希狐现行流水线（v5）：VRoid `seeko_3d_v3_fox.vroid` 导出 → `FLUFF=0.05 seeko_post.py raw.vrm a.vrm 0.030 0.11 Shoes_01_CLOTH=… Tops_01_CLOTH_01=… Onepiece_00_CLOTH=… FoxTail_01=art/3d/tex_v2/foxtail_grad.png` → `add_accessories.py a.vrm kiko.vrm`（含狐耳内收 10°、中间刘海缩短 20%、头饰 34°–146°、小蝴蝶结在耳根外下）。不再跑 add_fins.py。
+- **白狐（2026-11-03 定稿配色）**：VRoid 头发主色/猫耳/狐尾 = #D6DEEA；流水线 `TIP=F8FAFF FLUFF=0.05 seeko_post.py raw a.vrm 0.030 0.11 …同前… FoxTail_01=art/3d/tex_v2/foxtail_white.png CatEar_01=art/3d/tex_v2/ear_white_pink.png` → `AHOGE=CCD5E3,F2F5FA add_accessories.py a.vrm kiko.vrm`。`recolor_fur.py` 可把任意版本整体换毛色（dark light 两个 hex）。
