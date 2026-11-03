@@ -59,7 +59,18 @@ function applyFigure() {
   WIN_W = vrm ? 300 : 240;
   WIN_H = vrm ? 440 : 260;
   PET_W = vrm ? 220 : 140;
-  win?.setSize(new tauri.window.LogicalSize(WIN_W, WIN_H)).catch(() => {});
+  if (!win) return;
+  const LS = tauri.dpi?.LogicalSize || tauri.window.LogicalSize;
+  // 窗口配置里是 resizable: false，改大小前先临时放开
+  (async () => {
+    try {
+      await win.setResizable(true);
+      await win.setSize(new LS(WIN_W, WIN_H));
+      await win.setResizable(false);
+    } catch (e) {
+      if (vrm) say('窗口没能改大小…（' + String(e).slice(0, 100) + '）', 'meh', 6000);
+    }
+  })();
 }
 // 像素模式：body.pixel 管立绘和气泡的样子（style.css），Live2D 的画布交给 L2D
 function applyPixel() {
