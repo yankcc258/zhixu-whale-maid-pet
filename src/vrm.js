@@ -58,14 +58,14 @@ const VRM3D = (() => {
   const MODELS = { maid: 'vrm/kiko.vrm' };
   const D = Math.PI / 180;
   // 关节的目标角（度，x=前后点头/抬臂，y=左右转，z=侧倾）。姿势 = 一组关节角；每帧向目标缓动。
-  // 站姿（手臂自然下垂，略带八字）
+  // 站姿：女仆式，双手交叠放在身前（上臂 y 往内收 40°、前臂弯 95° 伸到身前）
   const STAND = {
-    leftUpperArm: [0, 0, -68],
-    rightUpperArm: [0, 0, 68],
-    leftLowerArm: [0, -8, -6],
-    rightLowerArm: [0, 8, 6],
-    leftHand: [0, 0, -6],
-    rightHand: [0, 0, 6],
+    leftUpperArm: [3, -40, -68],
+    rightUpperArm: [-3, 40, 68],
+    leftLowerArm: [0, -95, 0],
+    rightLowerArm: [0, 95, 0],
+    leftHand: [0, -15, 0],
+    rightHand: [0, 15, 0],
     spine: [0, 0, 0],
     chest: [0, 0, 0],
     neck: [0, 0, 0],
@@ -138,6 +138,9 @@ const VRM3D = (() => {
   const look = { x: 0, y: 0, hx: 0, hy: 0 };
   let lookTarget = null;
   let hipsBase = 0;
+  const earBones = {},
+    earRest = {},
+    ear = { next: 3000, t: 0, side: 'L' };
 
   const log = (l) => window.petLog?.('[vrm] ' + l);
   async function load() {
@@ -187,7 +190,8 @@ const VRM3D = (() => {
   function applyPixel() {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     // 像素模式：每格约 2 个 CSS 像素，由 CSS image-rendering: pixelated 放大
-    renderer.setPixelRatio(pixel ? dpr / Math.max(2, Math.round(2 * dpr)) : dpr);
+    // 非像素模式按 2 倍超采样渲染再由浏览器缩回去，1080p/1440p（dpr 1）的桌面上才不糊
+    renderer.setPixelRatio(pixel ? dpr / Math.max(2, Math.round(2 * dpr)) : Math.max(dpr, 2));
     renderer.setSize(W, H, false);
     canvas.classList.toggle('pixel', pixel);
   }
@@ -278,6 +282,10 @@ const VRM3D = (() => {
       cur3[n] = [...STAND[n]];
     }
     hipsBase = bones.hips?.position.y ?? 0;
+    for (const sd of ['L', 'R']) {
+      earBones[sd] = v.scene.getObjectByName(`J_Opt_${sd}_CatEar1_01`) || null;
+      if (earBones[sd]) earRest[sd] = earBones[sd].rotation.clone();
+    }
     if (v.lookAt) {
       v.lookAt.target = lookTarget;
       v.lookAt.autoUpdate = true;
@@ -361,9 +369,24 @@ const VRM3D = (() => {
     const t = action ? (action.dur ? (performance.now() - action.start) / action.dur : 0.5) : 1;
     if (action && action.dur && t >= 1) action = null;
     const extra = action ? ACTS[action.name].pose(Math.min(1, t), now) : {};
-    // 呼吸 + 轻微重心移动（待机）
-    const br = S(now * 1.6);
-    const idle = { spine: [1.2 * br, 0, 0], chest: [1.0 * br, 0, 0], head: [-0.6 * br, 0, 0.8 * S(now * 0.7)], leftUpperArm: [0, 0, -1.5 * br], rightUpperArm: [0, 0, 1.5 * br] };
+    // 呼吸 + 慢慢换重心（髋和上身反向微倾）+ 头轻轻晃（待机）
+    const br = S(now * 1.6),
+      ws = S(now * 0.45);
+    const idle = { hips: [0, 0, 1.6 * ws], spine: [1.2 * br, 0, -1.2 * ws], chest: [1.0 * br, 0, -0.6 * ws], head: [-0.6 * br, 0, 0.8 * S(now * 0.7) + 0.4 * ws], leftUpperArm: [0, 0, -1.0 * br], rightUpperArm: [0, 0, 1.0 * br] };
+    // 耳朵偶尔抖一下（随机一只，0.25 秒）
+    const ms0 = performance.now();
+    if (ms0 > ear.next) {
+      ear.side = Math.random() < 0.5 ? 'L' : 'R';
+      ear.t = ms0;
+      ear.next = ms0 + 3500 + Math.random() * 6000;
+    }
+    for (const sd of ['L', 'R']) {
+      const b = earBones[sd];
+      if (!b) continue;
+      const p = ear.side === sd ? (ms0 - ear.t) / 260 : 2;
+      const a = p < 1 ? bump(p) * 22 : 0; // 度
+      b.rotation.set(earRest[sd].x + (sd === 'L' ? -a : a) * 0.4 * D, earRest[sd].y, earRest[sd].z + (sd === 'L' ? a : -a) * D);
+    }
     // 看鼠标：头转 60%、脖子 25%、上身 15%
     const lh = { head: [-look.hy * 16, look.hx * 22, -look.hx * 4], neck: [-look.hy * 6, look.hx * 9, 0], chest: [0, look.hx * 5, 0] }; // x 正 = 低头
     const k = 1 - Math.pow(0.001, dt); // 缓动：约 0.15 秒追上大半
