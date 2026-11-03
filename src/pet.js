@@ -648,6 +648,8 @@ for (const r of RENDERERS) {
   });
   // 某套衣服的模型刚加载好：表情不变，重新摆一次，从立绘换成动态模型
   r.onLoaded(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
+  // 3D 加载失败：说出原因（试验阶段方便排查），然后照旧用立绘
+  r.onFailed?.((why) => say('3D 的我加载失败了…（' + why.slice(0, 120) + '）先用立绘顶着。', 'pout', 8000));
 }
 applyPixel();
 applySfx();

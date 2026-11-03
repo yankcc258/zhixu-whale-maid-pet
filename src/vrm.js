@@ -121,7 +121,8 @@ const VRM3D = (() => {
     pending = {},
     broken = new Set();
   let onModel = null,
-    onStartle = null;
+    onStartle = null,
+    onFail = null;
   const bones = {}; // 名字 → 规范化骨骼节点
   const cur3 = {}; // 名字 → 现在的角（缓动中）
   let action = null; // { name, start, dur }
@@ -169,6 +170,7 @@ const VRM3D = (() => {
     } catch (e) {
       console.warn('3D 模型加载失败，用立绘：', e);
       state = 'failed';
+      onFail?.(String(e?.message || e));
       canvas?.remove();
       canvas = null;
     }
@@ -206,6 +208,7 @@ const VRM3D = (() => {
       } catch (e) {
         console.warn(`3D 模型（${outfit}）加载失败，这套衣服用立绘：`, e);
         broken.add(outfit);
+        onFail?.(String(e?.message || e));
         throw e;
       } finally {
         delete pending[outfit];
@@ -445,5 +448,6 @@ const VRM3D = (() => {
   const sway = (vx) => (swayTarget = Math.max(-10, Math.min(10, -vx / 100)));
   const onLoaded = (fn) => (onModel = fn);
   const onStartled = (fn) => (onStartle = fn);
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, onLoaded, onStartled, _acts: ACTS };
+  const onFailed = (fn) => (onFail = fn); // 加载失败时把原因交给 pet.js（正式版没有 devtools，冒个泡方便排查）
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, onLoaded, onStartled, onFailed, _acts: ACTS };
 })();
