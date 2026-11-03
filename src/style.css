@@ -73,6 +73,10 @@ body.vrm.live2d #pet {
 #pet canvas.pixel {
   image-rendering: pixelated;
 }
+/* 3D：轮廓外加一圈很淡的白光，深色壁纸上黑裤袜/鞋不至于融进去；浅色壁纸上几乎看不出 */
+body.vrm #pet canvas {
+  filter: drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.55)) drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+}
 #pet img.duang {
   animation: duang 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
   transform-origin: 50% 100%;

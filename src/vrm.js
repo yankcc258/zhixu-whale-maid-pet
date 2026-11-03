@@ -224,9 +224,17 @@ const VRM3D = (() => {
         v.scene.traverse((o) => {
           if (!o.isMesh) return;
           for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
-            if (!m || !m.isMToonMaterial || !/Hair|CatEar|FoxTail|Ahoge/.test(m.name)) continue;
-            m.outlineWidthFactor = Math.max(m.outlineWidthFactor || 0, 0.00022) * 1.5;
-            m.outlineColorFactor?.set(0x7f8db0);
+            if (!m || !m.isMToonMaterial) continue;
+            if (/Hair|CatEar|FoxTail|Ahoge/.test(m.name)) {
+              m.outlineWidthFactor = Math.max(m.outlineWidthFactor || 0, 0.00022) * 1.5;
+              m.outlineColorFactor?.set(0x7f8db0);
+            }
+            // 深色壁纸上黑裤袜和鞋会融进背景：给身体/鞋加一圈淡淡的冷色边缘光
+            if (/Body|Shoes|Legwear|SKIN/.test(m.name)) {
+              m.parametricRimColorFactor?.set(0x4a5270);
+              m.parametricRimFresnelPowerFactor = 3.5;
+              m.parametricRimLiftFactor = 0.0;
+            }
             m.needsUpdate = true;
           }
         });
