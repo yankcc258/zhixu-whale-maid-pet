@@ -93,6 +93,8 @@ const VRM3D = (() => {
   const L = { leftUpperArm: [3, -40, -68], rightUpperArm: [-3, 40, 68], leftLowerArm: [0, -95, 0], rightLowerArm: [0, 95, 0] }; // 站姿手（写短一点）
   const armsDown = (sw = 0) => ({ leftUpperArm: [0, 0, -72 + sw], rightUpperArm: [0, 0, 72 - sw], leftLowerArm: [0, -8, 0], rightLowerArm: [0, 8, 0], leftHand: [0, 0, 0], rightHand: [0, 0, 0] });
   const ACTS = {
+    IdleA: { keys: [{ t: 100, pose: {} }] }, // 占位：实际播 MOTIONS 里的动捕
+    IdleB: { keys: [{ t: 100, pose: {} }] },
     // 挥手：先缩一下肩（预备），手甩上去（过冲），摆三下，放下来
     Wave: { exp: { happy: 0.5, aa: 0.1 }, keys: [
       { t: 140, ease: 'in', pose: { rightUpperArm: [-3, 40, 76], head: [2, -4, 3] } },
@@ -246,13 +248,16 @@ const VRM3D = (() => {
       { t: 1400, ease: 'inout', pose: { ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
     ] },
   };
-  const IDLE_CLIPS = ['LookAround', 'ShiftWeight', 'Tiptoe', 'SmoothSkirt', 'FidgetHands', 'LookAround', 'ShiftWeight'];
+  const IDLE_CLIPS = ['LookAround', 'ShiftWeight', 'Tiptoe', 'SmoothSkirt', 'FidgetHands', 'LookAround', 'ShiftWeight', 'IdleA', 'IdleB'];
   // 真人动捕片段（VRM Animation .vrma，放在 vrm/motion/）：有对应文件的动作优先用它，没有就用上面的关键帧。
   // loop: 循环播放直到心情换掉；没 loop 的播一遍回到关键帧站姿
   const MOTIONS = {
-    // Walk: { file: 'vrm/motion/walk.vrma', loop: true },
-    // Fall: { file: 'vrm/motion/fall.vrma', loop: true },
-    // Land: { file: 'vrm/motion/land.vrma' },
+    Walk: { file: 'vrm/motion/CC0-walk.vrma', loop: true }, // CC0（Josie 模型动画重定向包，BOOTH 7861818）
+    Fall: { file: 'vrm/motion/falling_idle.vrma', loop: true }, // 以下 Mixamo，tools/vrm3d/fbx2vrma.py 重定向
+    Land: { file: 'vrm/motion/falling_to_landing.vrma' },
+    Hop: { file: 'vrm/motion/jump.vrma' },
+    IdleA: { file: 'vrm/motion/happy_idle.vrma' }, // 待机小动作：偶尔来一段真人待机
+    IdleB: { file: 'vrm/motion/idle.vrma' },
   };
   const motionClips = {}; // name → AnimationClip（加载后）
   let mixer = null,
