@@ -213,13 +213,14 @@ const VRM3D = (() => {
           log('console.error: ' + a.map((x) => (x && x.message) || String(x)).join(' ').slice(0, 300));
           ce.apply(console, a);
         };
+        let gltf, v;
         try {
-        log('loading ' + MODELS[outfit] + ' from ' + location.href);
-        const t0 = performance.now();
-        const gltf = await loader.loadAsync(MODELS[outfit]);
-        const v = gltf.userData.vrm;
-        if (!v) throw new Error('文件里没有 VRM 数据');
-        log(`loaded ${outfit} in ${Math.round(performance.now() - t0)}ms, expressions=${v.expressionManager?.expressions.length}, lookAt=${!!v.lookAt}, springs=${!!v.springBoneManager}`);
+          log('loading ' + MODELS[outfit] + ' from ' + location.href);
+          const t0 = performance.now();
+          gltf = await loader.loadAsync(MODELS[outfit]);
+          v = gltf.userData.vrm;
+          if (!v) throw new Error('文件里没有 VRM 数据');
+          log(`loaded ${outfit} in ${Math.round(performance.now() - t0)}ms, expressions=${v.expressionManager?.expressions.length}, lookAt=${!!v.lookAt}, springs=${!!v.springBoneManager}`);
         } finally {
           console.error = ce;
         }
