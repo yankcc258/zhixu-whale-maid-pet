@@ -30,6 +30,22 @@ struct PetState {
     game_hidden: AtomicBool,
 }
 
+/// 网页往日志里写一行（%LOCALAPPDATA%\<identifier>\logs\pet.log，3D 模式排查用；超过 1MB 就清空重来）。
+#[tauri::command]
+fn log_line(app: AppHandle, line: String) {
+    use std::io::Write;
+    let Ok(dir) = app.path().app_log_dir() else { return };
+    let _ = std::fs::create_dir_all(&dir);
+    let path = dir.join("pet.log");
+    if std::fs::metadata(&path).map(|m| m.len() > 1_000_000).unwrap_or(false) {
+        let _ = std::fs::remove_file(&path);
+    }
+    if let Ok(mut f) = std::fs::OpenOptions::new().create(true).append(true).open(&path) {
+        let t = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).map(|d| d.as_secs()).unwrap_or(0);
+        let _ = writeln!(f, "{t} {}", line.chars().take(500).collect::<String>());
+    }
+}
+
 /// 用默认浏览器打开网站。url 是设置里填的（只接受 http/https），没填就打开知序。
 #[tauri::command]
 fn open_zhixu(app: AppHandle, url: Option<String>) -> Result<(), String> {
@@ -244,7 +260,8 @@ fn watch(app: AppHandle) {
             };
             let (x, y) = ((c.x - p.x as f64) / scale, (c.y - p.y as f64) / scale);
             // 每 120ms、鼠标动了才告诉网页一次：Live2D 的眼睛和头跟着鼠标看
-            if tick % 2 == 0 && ((x - last_cursor.0).abs() > 1.0 || (y - last_cursor.1).abs() > 1.0) {
+            // 第一次 last_cursor 是 NaN，和 NaN 比大小永远是 false，所以单独判断一下（不然一次都发不出去）
+            if tick % 2 == 0 && (last_cursor.0.is_nan() || (x - last_cursor.0).abs() > 1.0 || (y - last_cursor.1).abs() > 1.0) {
                 last_cursor = (x, y);
                 let _ = w.emit_to("pet", "cursor", [x, y]);
             }
@@ -275,6 +292,7 @@ pub fn run() {
             ..Default::default()
         })
         .invoke_handler(tauri::generate_handler![
+            log_line,
             open_zhixu,
             set_hit_rects,
             set_game_mode,

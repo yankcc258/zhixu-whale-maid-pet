@@ -139,9 +139,11 @@ const VRM3D = (() => {
   let lookTarget = null;
   let hipsBase = 0;
 
+  const log = (l) => window.petLog?.('[vrm] ' + l);
   async function load() {
     if (state !== 'off') return;
     state = 'loading';
+    log('load() start, TV=' + !!window.TV + ' dpr=' + window.devicePixelRatio + ' ua=' + navigator.userAgent.slice(-60));
     try {
       const TV = window.TV;
       if (!TV) throw new Error('three-vrm 运行库没加载');
@@ -165,6 +167,8 @@ const VRM3D = (() => {
       cam = new THREE.PerspectiveCamera(20, W / H, 0.1, 20);
       lookTarget = new THREE.Object3D();
       scene.add(lookTarget);
+      const gl = renderer.getContext();
+      log('WebGL ok: ' + (gl.getParameter(gl.VERSION) || '') + ' / ' + (gl.getParameter(gl.RENDERER) || ''));
       state = 'ready';
       await ensure('maid');
     } catch (e) {
@@ -196,8 +200,12 @@ const VRM3D = (() => {
         const { THREE, GLTFLoader, VRMLoaderPlugin, VRMUtils } = window.TV;
         const loader = new GLTFLoader();
         loader.register((p) => new VRMLoaderPlugin(p));
+        log('loading ' + MODELS[outfit] + ' from ' + location.href);
+        const t0 = performance.now();
         const gltf = await loader.loadAsync(MODELS[outfit]);
         const v = gltf.userData.vrm;
+        if (!v) throw new Error('文件里没有 VRM 数据');
+        log(`loaded ${outfit} in ${Math.round(performance.now() - t0)}ms, expressions=${v.expressionManager?.expressions.length}, lookAt=${!!v.lookAt}, springs=${!!v.springBoneManager}`);
         VRMUtils.removeUnnecessaryVertices(gltf.scene);
         if (VRMUtils.combineSkeletons) VRMUtils.combineSkeletons(gltf.scene);
         VRMUtils.rotateVRM0(v); // VRM0 转成面向 +Z，VRM1 不动
@@ -241,6 +249,7 @@ const VRM3D = (() => {
     applyPose(0);
     v.update(0);
     frameCamera();
+    log('wear ' + outfit + ' cam z=' + cam.position.z.toFixed(2));
     curMood = '';
     lastMood = '';
     return true;
