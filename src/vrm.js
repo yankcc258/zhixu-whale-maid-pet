@@ -88,13 +88,13 @@ const VRM3D = (() => {
     Slump: { dur: 1500, pose: (t) => ({ spine: [10 * ease(t), 0, 0], neck: [8 * ease(t), 0, 0], head: [10 * ease(t), 0, 4 * ease(t)] }) },
     Shake: { dur: 1300, pose: (t, now) => ({ head: [0, 18 * S(now * 16) * bump(t), 0], spine: [4, 0, 0], leftUpperArm: [0, 0, -55], rightUpperArm: [0, 0, 55], leftLowerArm: [0, -30, 80], rightLowerArm: [0, 30, -80] }) },
     Stretch: { dur: 1800, pose: (t) => ({ leftUpperArm: [-20 * ease(t * 2), 0, -68 + 130 * ease(t * 2)], rightUpperArm: [-20 * ease(t * 2), 0, 68 - 130 * ease(t * 2)], spine: [-8 * bump(t), 0, 0], head: [-14 * bump(t), 0, 0] }) },
-    Shy: { dur: 1600, pose: (t) => ({ head: [10 * ease(t * 2), 0, 10 * ease(t * 2)], leftUpperArm: [0, 0, -60], rightUpperArm: [0, 0, 60], leftLowerArm: [0, -40, 120], rightLowerArm: [0, 40, -120], leftHand: [0, 0, 30], rightHand: [0, 0, -30] }) },
+    Shy: { dur: 1600, pose: (t) => ({ head: [10 * ease(t * 2), 0, 10 * ease(t * 2)], leftUpperArm: [-70, 0, -52], rightUpperArm: [-70, 0, 52], leftLowerArm: [0, -125, -20], rightLowerArm: [0, 125, 20], leftHand: [0, 20, 0], rightHand: [0, -20, 0] }) }, // 双手捂脸颊
     Tilt: { dur: 1400, pose: (t) => ({ head: [0, 6 * ease(t * 2), 16 * ease(t * 2)], neck: [0, 0, 5 * ease(t * 2)] }) },
     Kick: { dur: 900, pose: (t) => ({ rightUpperLeg: [-30 * bump(t), 0, 0], rightLowerLeg: [25 * bump(t), 0, 0], spine: [4 * bump(t), 0, 0], head: [0, 0, -6 * bump(t)] }) },
     Nod: { dur: 800, pose: (t) => ({ head: [14 * bump(t), 0, 0], neck: [4 * bump(t), 0, 0] }) },
     Pant: { dur: 1800, pose: (t, now) => ({ spine: [8 + 3 * S(now * 9), 0, 0], chest: [3 * S(now * 9), 0, 0], head: [6, 0, 0], leftUpperArm: [0, 0, -60], rightUpperArm: [0, 0, 60], leftLowerArm: [0, -30, 40], rightLowerArm: [0, 30, -40] }) },
     // 被拎着：整个人挂着，手脚放松，轻轻晃（持续）
-    Hang: { dur: 0, pose: (t, now) => ({ leftUpperArm: [0, 0, -80 + 6 * S(now * 3)], rightUpperArm: [0, 0, 80 - 6 * S(now * 3)], leftUpperLeg: [-8 + 5 * S(now * 2.5), 0, 4], rightUpperLeg: [-8 - 5 * S(now * 2.5), 0, -4], leftLowerLeg: [12, 0, 0], rightLowerLeg: [12, 0, 0], spine: [-4, 0, 3 * S(now * 2)], head: [8, 0, -4] }) },
+    Hang: { dur: 0, pose: (t, now) => ({ leftUpperArm: [0, 0, -85 + 5 * S(now * 3)], rightUpperArm: [0, 0, 85 - 5 * S(now * 3)], leftUpperLeg: [-6 + 5 * S(now * 2.5), 0, 3], rightUpperLeg: [-6 - 5 * S(now * 2.5), 0, -3], leftLowerLeg: [18, 0, 0], rightLowerLeg: [18, 0, 0], spine: [-6, 0, 2 + 3 * S(now * 2)], head: [12, 0, -5] }) },
     // 走路循环（持续）：腿前后、手臂反向、上身轻轻起伏
     Walk: { dur: 0, pose: (t, now) => ({ leftUpperLeg: [-28 * S(now * 9), 0, 0], rightUpperLeg: [28 * S(now * 9), 0, 0], leftLowerLeg: [18 + 16 * S(now * 9 - 1.2), 0, 0], rightLowerLeg: [18 - 16 * S(now * 9 - 1.2), 0, 0], leftUpperArm: [16 * S(now * 9), 0, -62], rightUpperArm: [-16 * S(now * 9), 0, 62], spine: [6, 0, 2 * S(now * 9)], head: [-4, 0, 0] }) },
     Fall: { dur: 0, pose: (t, now) => ({ leftUpperArm: [-30, 0, 50], rightUpperArm: [-30, 0, -50], leftUpperLeg: [-10, 0, 6], rightUpperLeg: [-10, 0, -6], spine: [-6, 0, 0], head: [-10, 0, 0] }) },
@@ -445,5 +445,5 @@ const VRM3D = (() => {
   const sway = (vx) => (swayTarget = Math.max(-10, Math.min(10, -vx / 100)));
   const onLoaded = (fn) => (onModel = fn);
   const onStartled = (fn) => (onStartle = fn);
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, onLoaded, onStartled };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, onLoaded, onStartled, _acts: ACTS };
 })();
