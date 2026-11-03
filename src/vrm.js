@@ -868,5 +868,5 @@ const VRM3D = (() => {
     action = null;
     seq = { name: null, tm: -1 };
   } // 加载失败时把原因交给 pet.js（正式版没有 devtools，冒个泡方便排查）
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, _acts: ACTS, _renderAt, _resume, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
 })();
