@@ -761,9 +761,12 @@ const VRM3D = (() => {
       seq.tm = t;
     }
     fakeNow = seq.tm;
-    renderer.render(scene, cam);
+    renderer.render(scene, cam); // 画完后保持暂停（fakeNow 不清），实时循环不会把姿势拉回去；_resume() 恢复
+  }
+  function _resume() {
     fakeNow = null;
     action = null;
+    seq = { name: null, tm: -1 };
   } // 加载失败时把原因交给 pet.js（正式版没有 devtools，冒个泡方便排查）
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, _acts: ACTS, _renderAt, _dbg: () => ({ hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq }) };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, _acts: ACTS, _renderAt, _resume, _dbg: () => ({ hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq }) };
 })();
