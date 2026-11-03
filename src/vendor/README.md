@@ -8,7 +8,7 @@
 | `pixi.min.js` | PixiJS 6.5.10 | MIT |
 | `pixi-unsafe-eval.min.js` | @pixi/unsafe-eval 6.5.10（不用 `eval` 也能跑，配合 CSP） | MIT |
 | `cubism4.min.js` | pixi-live2d-display 0.4.0（Cubism 4 部分） | MIT，内含 Live2D Cubism Framework（Live2D Open Software License） |
-| `three-vrm.bundle.js` | three.js 0.169（含 GLTFLoader）+ @pixiv/three-vrm 3.1，esbuild 打成一个 IIFE，挂在 `window.TV`（3D 希狐用，见 `src/vrm.js`） | MIT |
+| `three-vrm.bundle.js` | three.js 0.169（含 GLTFLoader）+ @pixiv/three-vrm 3.5 + three-vrm-animation 3.5（VRMA 动画），esbuild 打成一个 IIFE，挂在 `window.TV`（3D 希狐用，见 `src/vrm.js`） | MIT |
 
 `src/live2d/seeko/` 是希可的 Live2D 模型（由 Cubism Editor 导出），和立绘一样不在 MIT 范围内。
 

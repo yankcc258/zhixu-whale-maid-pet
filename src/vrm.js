@@ -196,13 +196,14 @@ const VRM3D = (() => {
       { t: 1900, ease: 'inout', pose: { leftUpperLeg: [-11, 0, 3], rightUpperLeg: [-2, 0, -3], spine: [-6, 0, -1], leftUpperArm: [0, 0, -88], rightUpperArm: [0, 0, 82] } },
       { t: 2700, ease: 'inout', pose: { leftUpperLeg: [-6, 0, 3], rightUpperLeg: [-6, 0, -3], spine: [-6, 0, 2], leftUpperArm: [0, 0, -85], rightUpperArm: [0, 0, 85] } },
     ] },
-    // 走路循环（一步 540ms，配合 pet.js 的 160px/s）：左脚在前时右手在前；腿 x 负=向前，手臂 x 负=向前
+    // 走路循环（一步 540ms，配合 pet.js 的 160px/s）：左脚在前时右手在前；腿 x 负=向前，手臂 x 负=向前。
+    // 手臂：肘微弯（前臂 y），前摆时肘再弯一点、后摆时伸直，手腕放松，肩膀随步子微转——别像木偶那样直臂平摆
     Walk: { loop: 0, keys: [
-      { t: 0, ease: 'snap', hips: 0, pose: { leftUpperLeg: [-20, 0, 0], rightUpperLeg: [16, 0, 0], leftLowerLeg: [4, 0, 0], rightLowerLeg: [22, 0, 0], leftUpperArm: [12, 0, -66], rightUpperArm: [-12, 0, 66], leftLowerArm: [0, -10, 0], rightLowerArm: [0, 10, 0], leftHand: [0, 0, 0], rightHand: [0, 0, 0], spine: [4, 0, 1], chest: [0, -3, 0], head: [-3, 0, 0] } },
-      { t: 270, ease: 'inout', hips: -0.015, pose: { leftUpperLeg: [-4, 0, 0], rightUpperLeg: [-2, 0, 0], leftLowerLeg: [6, 0, 0], rightLowerLeg: [36, 0, 0], leftUpperArm: [0, 0, -66], rightUpperArm: [0, 0, 66], spine: [5, 0, 0], chest: [0, 0, 0] } },
-      { t: 540, ease: 'inout', hips: 0, pose: { leftUpperLeg: [16, 0, 0], rightUpperLeg: [-20, 0, 0], leftLowerLeg: [22, 0, 0], rightLowerLeg: [4, 0, 0], leftUpperArm: [-12, 0, -66], rightUpperArm: [12, 0, 66], spine: [4, 0, -1], chest: [0, 3, 0] } },
-      { t: 810, ease: 'inout', hips: -0.015, pose: { leftUpperLeg: [-2, 0, 0], rightUpperLeg: [-4, 0, 0], leftLowerLeg: [36, 0, 0], rightLowerLeg: [6, 0, 0], leftUpperArm: [0, 0, -66], rightUpperArm: [0, 0, 66], spine: [5, 0, 0], chest: [0, 0, 0] } },
-      { t: 1080, ease: 'inout', hips: 0, pose: { leftUpperLeg: [-20, 0, 0], rightUpperLeg: [16, 0, 0], leftLowerLeg: [4, 0, 0], rightLowerLeg: [22, 0, 0], leftUpperArm: [12, 0, -66], rightUpperArm: [-12, 0, 66], spine: [4, 0, 1], chest: [0, -3, 0] } },
+      { t: 0, ease: 'snap', hips: 0, pose: { leftUpperLeg: [-20, 0, 0], rightUpperLeg: [16, 0, 0], leftLowerLeg: [4, 0, 0], rightLowerLeg: [22, 0, 0], leftUpperArm: [14, -6, -62], rightUpperArm: [-16, 10, 62], leftLowerArm: [0, -18, 0], rightLowerArm: [0, 42, 0], leftHand: [0, -5, 4], rightHand: [0, 12, -4], spine: [4, 0, 1], chest: [0, -4, 0], head: [-3, 1, 0] } },
+      { t: 270, ease: 'inout', hips: -0.015, pose: { leftUpperLeg: [-4, 0, 0], rightUpperLeg: [-2, 0, 0], leftLowerLeg: [6, 0, 0], rightLowerLeg: [36, 0, 0], leftUpperArm: [0, -8, -63], rightUpperArm: [0, 8, 63], leftLowerArm: [0, -28, 0], rightLowerArm: [0, 28, 0], leftHand: [0, 0, 2], rightHand: [0, 0, -2], spine: [5, 0, 0], chest: [0, 0, 0], head: [-4, 0, 0] } },
+      { t: 540, ease: 'inout', hips: 0, pose: { leftUpperLeg: [16, 0, 0], rightUpperLeg: [-20, 0, 0], leftLowerLeg: [22, 0, 0], rightLowerLeg: [4, 0, 0], leftUpperArm: [-16, -10, -62], rightUpperArm: [14, 6, 62], leftLowerArm: [0, -42, 0], rightLowerArm: [0, 18, 0], leftHand: [0, -12, 4], rightHand: [0, 5, -4], spine: [4, 0, -1], chest: [0, 4, 0], head: [-3, -1, 0] } },
+      { t: 810, ease: 'inout', hips: -0.015, pose: { leftUpperLeg: [-2, 0, 0], rightUpperLeg: [-4, 0, 0], leftLowerLeg: [36, 0, 0], rightLowerLeg: [6, 0, 0], leftUpperArm: [0, -8, -63], rightUpperArm: [0, 8, 63], leftLowerArm: [0, -28, 0], rightLowerArm: [0, 28, 0], leftHand: [0, 0, 2], rightHand: [0, 0, -2], spine: [5, 0, 0], chest: [0, 0, 0], head: [-4, 0, 0] } },
+      { t: 1080, ease: 'inout', hips: 0, pose: { leftUpperLeg: [-20, 0, 0], rightUpperLeg: [16, 0, 0], leftLowerLeg: [4, 0, 0], rightLowerLeg: [22, 0, 0], leftUpperArm: [14, -6, -62], rightUpperArm: [-16, 10, 62], leftLowerArm: [0, -18, 0], rightLowerArm: [0, 42, 0], leftHand: [0, -5, 4], rightHand: [0, 12, -4], spine: [4, 0, 1], chest: [0, -4, 0], head: [-3, 1, 0] } },
     ] },
     // 往下掉：手微微张开找平衡，脚并拢，头略低；停住直到落地
     Fall: { hold: true, keys: [
@@ -246,6 +247,17 @@ const VRM3D = (() => {
     ] },
   };
   const IDLE_CLIPS = ['LookAround', 'ShiftWeight', 'Tiptoe', 'SmoothSkirt', 'FidgetHands', 'LookAround', 'ShiftWeight'];
+  // 真人动捕片段（VRM Animation .vrma，放在 vrm/motion/）：有对应文件的动作优先用它，没有就用上面的关键帧。
+  // loop: 循环播放直到心情换掉；没 loop 的播一遍回到关键帧站姿
+  const MOTIONS = {
+    // Walk: { file: 'vrm/motion/walk.vrma', loop: true },
+    // Fall: { file: 'vrm/motion/fall.vrma', loop: true },
+    // Land: { file: 'vrm/motion/land.vrma' },
+  };
+  const motionClips = {}; // name → AnimationClip（加载后）
+  let mixer = null,
+    motionAct = null, // 正在播的 AnimationAction
+    motionName = '';
   for (const c of Object.values(ACTS)) c.dur = c.keys[c.keys.length - 1].t; // 片段长度
   // 在 tm 毫秒处求片段的关节角和髋骨下沉；返回 null 表示片段放完了
   function evalClip(clip, tm) {
@@ -475,6 +487,14 @@ const VRM3D = (() => {
       cur3[n] = [...STAND[n]];
     }
     hipsBase = bones.hips?.position.y ?? 0;
+    mixer = new window.TV.THREE.AnimationMixer(v.scene);
+    mixer.addEventListener('finished', () => {
+      if (!motionAct) return;
+      motionAct = null;
+      motionName = '';
+      takeOverPose(); // 从动捕最后一帧接回弹簧，不跳
+    });
+    for (const [name, m] of Object.entries(MOTIONS)) loadMotion(name, m.file).catch(() => {});
     for (const sd of ['L', 'R']) {
       earBones[sd] = v.scene.getObjectByName(`J_Opt_${sd}_CatEar1_01`) || null;
       if (earBones[sd]) earRest[sd] = earBones[sd].rotation.clone();
@@ -527,6 +547,7 @@ const VRM3D = (() => {
     if (mood !== lastMood) {
       // 换心情：停掉持续/循环中的动作（拎着、走路、耷拉），再做新心情的动作
       if (!action || ACTS[action.name].hold || ACTS[action.name].loop !== undefined) action = null;
+      if (motionAct && MOTIONS[motionName]?.loop) stopMotion();
       lastMood = mood;
       act(ACT[mood]);
     }
@@ -555,11 +576,66 @@ const VRM3D = (() => {
     for (const n of ['blink', 'blinkLeft', 'blinkRight', 'aa', 'ih', 'ou', 'ee', 'oh']) expCur[n] = (expCur[n] || 0) + ((target[n] || 0) - (expCur[n] || 0)) * k;
   }
 
+  async function loadMotion(name, file) {
+    const { GLTFLoader, VRMAnimationLoaderPlugin, createVRMAnimationClip } = window.TV;
+    const loader = new GLTFLoader();
+    loader.register((p) => new VRMAnimationLoaderPlugin(p));
+    try {
+      const gltf = await loader.loadAsync(file);
+      const va = gltf.userData.vrmAnimations?.[0];
+      if (!va) throw new Error('没有 VRMA 数据');
+      motionClips[name] = createVRMAnimationClip(va, vrm);
+      log(`motion ${name} <- ${file} (${motionClips[name].duration.toFixed(2)}s)`);
+    } catch (e) {
+      log(`motion ${name} failed: ${e?.message || e}`);
+      delete MOTIONS[name];
+    }
+  }
+  // 播一段动捕（有文件且已加载才返回 true）
+  function playMotion(name) {
+    const clip = motionClips[name];
+    if (!clip || !mixer) return false;
+    const THREE = window.TV.THREE;
+    const a = mixer.clipAction(clip);
+    a.reset();
+    a.setLoop(MOTIONS[name]?.loop ? THREE.LoopRepeat : THREE.LoopOnce, Infinity);
+    a.clampWhenFinished = false;
+    if (motionAct && motionAct !== a) motionAct.crossFadeTo(a, 0.25, false);
+    else a.fadeIn(0.2);
+    a.play();
+    motionAct = a;
+    motionName = name;
+    return true;
+  }
+  function stopMotion() {
+    if (!motionAct) return;
+    motionAct.fadeOut(0.25);
+    const old = motionAct;
+    setTimeout(() => old.stop(), 300);
+    motionAct = null;
+    motionName = '';
+    takeOverPose();
+  }
+  // 把骨骼现在的角度读回 cur3，弹簧从这里继续（动捕 → 关键帧的衔接）
+  function takeOverPose() {
+    for (const n of BONES) {
+      const nd = bones[n];
+      if (!nd) continue;
+      cur3[n] = [nd.rotation.x / D, nd.rotation.y / D, nd.rotation.z / D];
+      vel3[n] = [0, 0, 0];
+    }
+  }
   function act(name) {
     if (!name || !active() || !ACTS[name]) return;
     const now = clock();
     if (name !== 'Flinch' && now < flinchEnd) return void setTimeout(() => act(name), flinchEnd - now);
     if (name === 'Flinch') flinchEnd = now + 620;
+    if (MOTIONS[name] && playMotion(name)) {
+      action = null; // 骨骼交给动捕；表情、眨眼、视线照旧
+      idleNext = now + 4000 + Math.random() * 6000;
+      return;
+    }
+    if (motionAct) stopMotion();
     action = { name, start: now };
     idleNext = now + 4000 + Math.random() * 6000;
     if (name === 'Hop') {
@@ -581,7 +657,7 @@ const VRM3D = (() => {
     if (fakeNow !== null) return;
     const now = clock();
     if (!action && previewName) return act(previewName);
-    if (action || !IDLE_MOODS.has(curMood) || now < idleNext || hoverSince) return;
+    if (action || motionAct || !IDLE_MOODS.has(curMood) || now < idleNext || hoverSince) return;
     act(IDLE_CLIPS[Math.floor(Math.random() * IDLE_CLIPS.length)]);
     idleNext = now + 6000 + Math.random() * 9000;
   }
@@ -625,6 +701,7 @@ const VRM3D = (() => {
     const ST = 200,
       DM = 2 * Math.sqrt(ST) * 0.92;
     for (const n of BONES) {
+      if (motionAct) break; // 动捕在播：骨骼由 AnimationMixer 写，这里不碰
       const a = idle[n] || [0, 0, 0],
         b = extra ? extra[n] : STAND[n],
         c = lh[n] || [0, 0, 0];
@@ -643,7 +720,7 @@ const VRM3D = (() => {
     // 髋骨升降（蹲、踮脚）也用弹簧
     hipsV += ((((ev && ev.hips) || 0) - hipsNow) * ST - hipsV * DM) * dt;
     hipsNow += hipsV * dt;
-    if (bones.hips) bones.hips.position.y = hipsBase + hipsNow;
+    if (bones.hips && !motionAct) bones.hips.position.y = hipsBase + hipsNow;
     // 眨眼（闭眼表情时不眨）+ 说话动嘴；心情/动作的表情权重先渐变
     blendExpressions(dt);
     const em = vrm.expressionManager;
@@ -707,6 +784,7 @@ const VRM3D = (() => {
       ey = look.y + sac.y;
     lookTarget.position.set(hp.x + ex * 1.2, hp.y + ey * 0.6, hp.z + 1.2);
     applyPose(dt);
+    if (motionAct) mixer.update(dt);
     vrm.update(dt);
     renderer.render(scene, cam);
     raf = requestAnimationFrame(tick);
