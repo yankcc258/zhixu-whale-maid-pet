@@ -13,6 +13,9 @@ ap.add_argument('--start', type=int); ap.add_argument('--end', type=int); ap.add
 ap.add_argument('--step', type=int, default=1, help='keep every Nth source frame')
 ap.add_argument('--root-xz', action='store_true', help='keep hips X/Z travel (default: drop it, the pet moves the window itself)')
 ap.add_argument('--hips-y', type=float, default=1.0, help='scale of hips vertical motion')
+ap.add_argument('--amp', type=float, default=1.0, help='rotation amplitude (0..1): slerp each bone delta toward rest — tone down game-style motion')
+ap.add_argument('--amp-bones', default='', help='comma list of human bones the --amp applies to (default: all except hips)')
+ap.add_argument('--amp-hips', action='store_true', help='also scale the hips rotation (whole-body lean)')
 a = ap.parse_args()
 
 bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -92,7 +95,10 @@ for f in range(f0, f1 + 1, a.step):
     bpy.context.view_layer.update()
     delta = {}
     for hb, vb, mb in PAIRS:
-        delta[hb] = pose_world_q(mix_arm, mb) @ M_rest[hb].inverted()
+        d = pose_world_q(mix_arm, mb) @ M_rest[hb].inverted()
+        if a.amp != 1.0 and (hb != 'hips' or a.amp_hips) and (not a.amp_bones or hb in a.amp_bones.split(',')):
+            d = Quaternion().slerp(d, a.amp)
+        delta[hb] = d
     for hb, vb, mb in PAIRS:
         pb = vrm_arm.pose.bones[vb]
         dp = delta[mapped_parent(hb)] if mapped_parent(hb) else Quaternion()
