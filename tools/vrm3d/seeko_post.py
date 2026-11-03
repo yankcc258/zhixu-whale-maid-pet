@@ -8,6 +8,7 @@ args=[a for a in sys.argv[3:] if '=' not in a]; TEXOVR=dict(a.split('=',1) for a
 AMP = float(args[0]) if len(args) > 0 else 0.018
 WL = float(args[1]) if len(args) > 1 else 0.09
 import os; FLUFF = float(os.environ.get("FLUFF", "0.028"))
+CURL = os.environ.get('CURL','sine')   # sine = old ripple; s = layered big S-curls (bundles by azimuth, amplitude grows toward tips)
 d = open(src, 'rb').read()
 L = struct.unpack('<I', d[12:16])[0]; j = json.loads(d[20:20+L])
 b0 = 20 + L; BL = struct.unpack('<I', d[b0:b0+4])[0]; BIN = bytearray(d[b0+8:b0+8+BL])
@@ -36,9 +37,15 @@ for mi, m in enumerate(j['meshes']):
             dx, dz = pos[:,0] - cx, pos[:,2] - cz
             r = np.sqrt(dx*dx + dz*dz) + 1e-6; rx, rz = dx/r, dz/r; tx, tz = -rz, rx
             az = np.arctan2(dx, dz)
-            ph = pos[:,1] * 2*math.pi / WL + az * 2.0
-            radial = amp * np.sin(ph) + FLUFF * s**1.3          # wave + slight fluff outward
-            tang = amp * 0.6 * np.cos(ph)
+            if CURL == 's':
+                ph = pos[:,1] * 2*math.pi / WL + 1.2*np.sin(az*3.0) + az*1.0   # smooth around the head (no bundle seams → no flipped faces)
+                grow = np.clip((s - 0.15) / 0.6, 0, 1)
+                radial = amp * (0.5 + 1.2*grow) * np.sin(ph) + FLUFF * s**1.3
+                tang = amp * 0.5 * np.cos(ph)
+            else:
+                ph = pos[:,1] * 2*math.pi / WL + az * 2.0
+                radial = amp * np.sin(ph) + FLUFF * s**1.3          # wave + slight fluff outward
+                tang = amp * 0.6 * np.cos(ph)
             pos[:,0] += rx*radial + tx*tang; pos[:,2] += rz*radial + tz*tang
             acc_set(pa, pos)
             # keep upper hair (bangs/crown) in the dark part of the gradient: clamp v by height

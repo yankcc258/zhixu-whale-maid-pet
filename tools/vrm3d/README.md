@@ -15,3 +15,16 @@
 - **立绘渲染**：`node sprite_shot.js model.vrm 输出目录 idle,happy,… [toon=1] [hs=1.35]`（sprite.js 里 PRESETS 表 = 表情权重+骨骼角度+构图；toon 加粗描边、平涂；hs 镜头放大倍率，Q 版用 1.35）→ 880px PNG，再缩成 220px WebP。
 - `add_expressions.py in out`：把脸部 57 个 morph 全部挂成 VRM 自定义表情 `m_<名字>`（如 m_Fcl_MTH_SkinFung_R 单侧坏笑嘴、m_Fcl_HA_Fung1 虎牙、m_Fcl_BRW_Angry 怒眉），sprite.js 预设里可直接混用。
 - `outline2d.py in.png out.webp [线宽@220px] [颜色]`：对透明渲染图加外轮廓线再缩成 220px WebP；配合 `toon=2`（头发去内线/去法线/去 matcap）得到接近手绘的平涂+外描边。第三轮用 `node sprite_shot.js kiko.vrm 目录 预设 2 1.12 0.06`。
+
+## 11-03 白狐 v4 流水线（正常比例主线）
+```
+CURL=s TIP=F8FAFF FLUFF=0.045 python3 seeko_post.py raw.vrm a.vrm 0.034 0.20 \
+  Shoes_01_CLOTH=tex_v2/shoes_mj.png Tops_01_CLOTH_01=tex_v2/skirt_v4.png Tops_01_CLOTH=tex_v2/dress_top_v3.png \
+  Onepiece_00_CLOTH=tex_v2/collar_navy.png FoxTail_01=tex_v2/foxtail_white.png CatEar_01=tex_v2/ear_white_soft.png
+AHOGE=CCD5E3,F2F5FA python3 add_accessories.py a.vrm b.vrm        # 头饰/蝴蝶结/呆毛
+WBOW=1.5 python3 body_accessories.py b.vrm c.vrm                   # 腰后白蝴蝶结 + 白腕口
+TAIL_UP=11 python3 kiko_style.py c.vrm kiko_white_v4.vrm           # 浅色柔描边 + 尾巴弯曲 rest pose
+```
+- `CURL=s`：分层大 S 卷（相位沿头部平滑，振幅向发梢增大；不要用按束取整的相位，会翻面）
+- `kiko_style.py`：头发/耳/尾/呆毛描边 #97A6C4 宽 0.0003，去 matcap 亮条，shade 0.80/0.83/0.90；尾骨 2–5 rest 旋转侧 14°/上 11°（递减）
+- Q 版线路（fix_chibi_morphs / outline2d / V-Chibi）已搁置：2D 立绘改由特蕾莎手绘重画
