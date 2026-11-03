@@ -120,7 +120,7 @@ def waist_bow():
     sel=V[(np.abs(V[:,0])<0.04)&(np.abs(V[:,1]-wy)<0.02)]
     bz=sel[:,2].min() if len(sel) else hips[2]-0.09
     img=grad_tex((252,252,255),(222,226,236)); mat=add_mat('Kiko_WaistBow',add_tex(img))
-    P,U,T=bow(sc,facing=(0,-0.25,-1)); attach('spine','Kiko_WaistBow',add_mesh('Kiko_WaistBow',P,U,T,mat),(0,wy,bz-0.012))
+    P,U,T=bow(sc,facing=(0,-0.25,-1)); attach('spine','Kiko_WaistBow',add_mesh('Kiko_WaistBow',P,U,T,mat),(0,wy,bz-0.012-float(os.environ.get("WBOW_OUT","0"))))
     print('waist bow at y',round(wy,3),'z',round(bz,3))
 # ---------- 2) wrist cuffs (white frilled ring on each hand bone)
 def cuff(side):

@@ -38,7 +38,7 @@ for mi, m in enumerate(j['meshes']):
             r = np.sqrt(dx*dx + dz*dz) + 1e-6; rx, rz = dx/r, dz/r; tx, tz = -rz, rx
             az = np.arctan2(dx, dz)
             if CURL == 's':
-                ph = pos[:,1] * 2*math.pi / WL + 1.2*np.sin(az*3.0) + az*1.0   # smooth around the head (no bundle seams → no flipped faces)
+                ph = pos[:,1] * 2*math.pi / WL + 1.2*np.sin(az*3.0) + az*1.0 + 0.9*np.sin(az*7.3+1.0) + 0.5*np.sin(az*13.1)   # smooth around the head (no bundle seams → no flipped faces); extra terms stagger neighbouring locks
                 grow = np.clip((s - 0.15) / 0.6, 0, 1)
                 radial = amp * (0.5 + 1.2*grow) * np.sin(ph) + FLUFF * s**1.3
                 tang = amp * 0.5 * np.cos(ph)
