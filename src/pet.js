@@ -9,9 +9,11 @@ const pet = $('#pet'),
   img = $('#sprite'),
   bubble = $('#bubble'),
   menu = $('#menu');
-const WIN_W = 240,
+// 窗口和她的大小：Q 版 240×260 / 140 宽；3D 希狐（qStyle 'vrm'）要全身，窗口放大到 300×440 / 220 宽（applyFigure 里改）
+let WIN_W = 240,
   WIN_H = 260,
-  PET_MARGIN = 10; // #pet 离窗口右边（躲左边时离左边）的距离
+  PET_W = 140;
+const PET_MARGIN = 10; // #pet 离窗口右边（躲左边时离左边）的距离
 
 // ---------- 设置 ----------
 const DEFAULTS = {
@@ -30,7 +32,7 @@ const DEFAULTS = {
   outfit: 'maid', // 锁定时穿哪套
   examUntil: 0, // 考试周（必胜头巾）到什么时候
   figure: 'q', // 形象：'q' Q 版（现在这个）；'mini' 迷你人形（制作中）
-  qStyle: 'live2d', // Q 版的样子：'live2d' 动态（会眨眼、看鼠标、做动作）；'static' 静态（以前的立绘）
+  qStyle: 'live2d', // 样子：'live2d' Q 版动态（会眨眼、看鼠标、做动作）；'static' Q 版静态（以前的立绘）；'vrm' 3D 希狐（正常比例，VRM）
   pixel: false, // 像素模式：红白机画风（马赛克 + 颜色压级），Live2D 和立绘都变
   sfx: 'low', // 音效音量：'off' | 'low' | 'mid' | 'high'（安静模式时也不响）
 };
@@ -45,12 +47,25 @@ function loadPrefs() {
     return { ...DEFAULTS };
   }
 }
-// 现在要不要用 Live2D（Q 版动态）。迷你人形做好以前，选迷你也先用 Q 版
+// 现在要不要用动态模型（Live2D 或 3D）。迷你人形做好以前，选迷你也先用 Q 版
 const useL2D = () => prefs.qStyle !== 'static';
+const useVRM = () => prefs.qStyle === 'vrm';
+// 动态模型用哪个渲染器：3D 的 VRM3D（vrm.js）或 Live2D 的 L2D（live2d.js），接口一样
+const RND = () => (useVRM() && typeof VRM3D !== 'undefined' ? VRM3D : L2D);
+// 按样子调整窗口大小和她的大小（3D 全身要高一些）
+function applyFigure() {
+  const vrm = useVRM();
+  document.body.classList.toggle('vrm', vrm);
+  WIN_W = vrm ? 300 : 240;
+  WIN_H = vrm ? 440 : 260;
+  PET_W = vrm ? 220 : 140;
+  win?.setSize(new tauri.window.LogicalSize(WIN_W, WIN_H)).catch(() => {});
+}
 // 像素模式：body.pixel 管立绘和气泡的样子（style.css），Live2D 的画布交给 L2D
 function applyPixel() {
   document.body.classList.toggle('pixel', !!prefs.pixel);
   L2D.setPixel(!!prefs.pixel);
+  if (typeof VRM3D !== 'undefined') VRM3D.setPixel(!!prefs.pixel);
 }
 function applySfx() {
   SFX.setLevel(prefs.sfx);
@@ -66,11 +81,12 @@ addEventListener('storage', (e) => {
   const resetBefore = prefs.resetAt;
   prefs = loadPrefs();
   renderMenu();
+  applyFigure();
   applyPixel();
   applySfx();
   invoke('set_game_mode', { on: !!prefs.gameMode });
   if (prefs.resetAt !== resetBefore) resetPos();
-  if (useL2D()) L2D.load().then(() => setMood(autoMood()));
+  if (useL2D()) RND().load().then(() => setMood(autoMood()));
   weatherTick();
   nextChat = Date.now() + rand(...chatGap()) * 60000;
   nextRoam = 0;
@@ -174,8 +190,11 @@ function setMood(m, ms) {
   unlock(m);
   moodUntil = ms ? Date.now() + ms : 0;
   // 穿着做成 Live2D 的衣服、站着的时候交给 Live2D；躲边、跑步这些动作和别的衣服照旧用立绘
-  const live = useL2D() && L2D.show(m, outfitNow());
-  if (!live) L2D.hide();
+  const live = useL2D() && RND().show(m, outfitNow());
+  if (!live) RND().hide();
+  // 换了渲染器时把另一个的画布藏起来
+  if (RND() !== L2D) L2D.hide();
+  else if (typeof VRM3D !== 'undefined') VRM3D.hide();
   img.hidden = live;
   document.body.classList.toggle('live2d', live);
   if (!live) showSprite(spriteFor(outfitNow(), m));
@@ -274,7 +293,7 @@ function say(text, m, ms = 4500) {
   bubble.textContent = fill(text);
   bubble.hidden = false;
   if (m) setMood(m, ms);
-  L2D.talk(text.length * 120);
+  RND().talk(text.length * 120);
   clearTimeout(sayTimer);
   sayTimer = setTimeout(() => {
     bubble.hidden = true;
@@ -289,7 +308,7 @@ function pop(text, m, ms) {
   say(text, m, ms);
 }
 function duang() {
-  if (L2D.active()) return L2D.poke(); // Live2D：缩一下（手收回来、头往后）
+  if (RND().active()) return RND().poke(); // Live2D：缩一下（手收回来、头往后）
   const el = img;
   el.classList.remove('duang');
   void el.offsetWidth;
@@ -392,7 +411,7 @@ pet.addEventListener('pointermove', (e) => {
   }
   // 拖动速度 → Live2D 往后仰
   const now = performance.now();
-  if (down.t) L2D.sway(((e.screenX - down.lx) / (now - down.t)) * 1000);
+  if (down.t) RND().sway(((e.screenX - down.lx) / (now - down.t)) * 1000);
   down.lx = e.screenX;
   down.t = now;
   moveTo(down.x + dx, down.y + dy);
@@ -403,7 +422,7 @@ function fallTo(targetY) {
   return new Promise((done) => {
     if (falling) cancelAnimationFrame(falling.raf);
     if (pos.y >= targetY - 2) return done(false);
-    L2D.act('Fall');
+    RND().act('Fall');
     let y = pos.y,
       v = 0,
       last = performance.now();
@@ -415,7 +434,7 @@ function fallTo(targetY) {
       if (y >= targetY) {
         moveTo(pos.x, targetY);
         falling = null;
-        L2D.act('Land');
+        RND().act('Land');
         SFX.play('land');
         return done(true);
       }
@@ -433,9 +452,9 @@ pet.addEventListener('pointerup', async () => {
   if (!d.moved) return poke();
   dragging = false;
   document.body.classList.remove('dragging');
-  L2D.sway(0);
+  RND().sway(0);
   await readGeometry();
-  const petLeft = pos.x + WIN_W - PET_MARGIN - 140,
+  const petLeft = pos.x + WIN_W - PET_MARGIN - PET_W,
     petRight = pos.x + WIN_W - PET_MARGIN;
   if (area && petRight > area.x + area.w - 8) dock = 'right';
   else if (area && petLeft < area.x + 8) dock = 'left';
@@ -618,18 +637,22 @@ function installUpdate() {
 
 tauri?.event.listen('open-site', () => openSite());
 // Rust 每隔一会儿告诉这里鼠标在哪（相对窗口左上角，CSS 像素）：Live2D 的眼睛和头跟着看
-tauri?.event.listen('cursor', ({ payload }) => L2D.lookTo(payload[0], payload[1]));
+tauri?.event.listen('cursor', ({ payload }) => RND().lookTo(payload[0], payload[1]));
 // 鼠标从她面前飞快划过：吓一跳，偶尔嘟囔一句
-L2D.onStartled(() => {
-  if (sleep || dock || dragging || !menu.hidden || !bubble.hidden) return;
-  SFX.play('startle');
-  if (Math.random() < 0.5) say(pick(LINES.startled), 'surprised', 2500);
-});
-// 某套衣服的 Live2D 模型刚加载好：表情不变，重新摆一次，从立绘换成 Live2D
-L2D.onLoaded(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
+const RENDERERS = typeof VRM3D !== 'undefined' ? [L2D, VRM3D] : [L2D];
+for (const r of RENDERERS) {
+  r.onStartled(() => {
+    if (sleep || dock || dragging || !menu.hidden || !bubble.hidden) return;
+    SFX.play('startle');
+    if (Math.random() < 0.5) say(pick(LINES.startled), 'surprised', 2500);
+  });
+  // 某套衣服的模型刚加载好：表情不变，重新摆一次，从立绘换成动态模型
+  r.onLoaded(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
+}
 applyPixel();
 applySfx();
-if (useL2D()) L2D.load().then(() => setMood(autoMood()));
+applyFigure();
+if (useL2D()) RND().load().then(() => setMood(autoMood()));
 tauri?.event.listen('summoned', () => {
   setMood(autoMood());
   say(pick(LINES.summoned), sleep ? undefined : pick(['happy', 'excited']), 4000);
@@ -637,7 +660,7 @@ tauri?.event.listen('summoned', () => {
 
 pet.addEventListener('dblclick', () => {
   if (!sleep) {
-    L2D.act('Cheer');
+    RND().act('Cheer');
     SFX.play('cheer');
   }
   say(pick(LINES.openZhixu), sleep ? undefined : pick(['smug', 'surprised']), 2500);
@@ -697,8 +720,18 @@ menu.addEventListener('click', (e) => {
     prefs.qStyle = useL2D() ? 'static' : 'live2d';
     prefs.qStyleSet = true;
     savePrefs();
-    if (useL2D()) L2D.load().then(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
+    applyFigure();
+    if (useL2D()) RND().load().then(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
     else setMood(mood, Math.max(0, moodUntil - Date.now()));
+    renderMenu();
+  }
+  if (act === 'vrm') {
+    prefs.qStyle = useVRM() ? 'live2d' : 'vrm';
+    prefs.qStyleSet = true;
+    savePrefs();
+    applyFigure();
+    RND().load().then(() => setMood(mood, Math.max(0, moodUntil - Date.now())));
+    say(useVRM() ? '噔噔～3D 的我！（还在打磨中，有点怪别笑）' : '变回 Q 版啦。', useVRM() ? 'excited' : 'smug', 3000);
     renderMenu();
   }
   if (act === 'pixel') {
@@ -723,6 +756,9 @@ function renderMenu() {
   if (q) q.textContent = prefs.quiet ? '🔔 打开提醒' : '🔕 安静模式';
   const st = menu.querySelector('[data-act="style"]');
   if (st) st.textContent = useL2D() ? '🖼️ 换成静态立绘' : '✨ 换成动态 Live2D';
+  if (st) st.hidden = useVRM();
+  const v3 = menu.querySelector('[data-act="vrm"]');
+  if (v3) v3.textContent = useVRM() ? '🎀 变回 Q 版' : '🦊 3D 希狐（试验）';
   const px = menu.querySelector('[data-act="pixel"]');
   if (px) px.textContent = prefs.pixel ? '🎨 变回高清' : '👾 像素模式';
 }
@@ -856,7 +892,7 @@ async function roamTick() {
       stopRoam();
       rememberPos();
       setMood(autoMood());
-      L2D.act('Pant'); // Live2D：跑完停下来喘口气
+      RND().act('Pant'); // Live2D：跑完停下来喘口气
       SFX.play('pant');
     }
   };

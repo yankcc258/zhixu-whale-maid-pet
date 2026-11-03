@@ -65,6 +65,14 @@ body.live2d #pet {
   height: 180px;
   animation: none;
 }
+/* 3D 希狐（正常比例全身）：窗口 300×440，她 220×400 */
+body.vrm.live2d #pet {
+  width: 220px;
+  height: 400px;
+}
+#pet canvas.pixel {
+  image-rendering: pixelated;
+}
 #pet img.duang {
   animation: duang 0.45s cubic-bezier(0.3, 1.6, 0.5, 1);
   transform-origin: 50% 100%;
