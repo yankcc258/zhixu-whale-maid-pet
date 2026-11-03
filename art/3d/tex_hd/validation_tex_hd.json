@@ -1,0 +1,111 @@
+{
+  "status": "all_texture_pixel_checks_passed_awaiting_Luna_3D_render",
+  "generation": "Built-in image_gen, followed by explicitly authorized technical registration/resampling/alpha restoration.",
+  "native_generated_sizes": {
+    "dress_top": [
+      1254,
+      1254
+    ],
+    "skirt": [
+      1254,
+      1254
+    ],
+    "collar": [
+      1254,
+      1254
+    ],
+    "shoes": [
+      887,
+      1774
+    ]
+  },
+  "notes": [
+    "2048 outputs are resampled from 1254-square paintings, not native 2K generation.",
+    "Original alpha and canvas size are exact; interior painted details were registered, not pixel-identical to source.",
+    "Skirt uses Luna-corrected v4 input, not the earlier duplicated dress_top texture.",
+    "No original UV images, VRM models, pet installation, or repository files modified.",
+    "3D surface seams and material-light interaction remain pending Luna render."
+  ],
+  "files": [
+    {
+      "file": "tex_current_dress_top.png",
+      "size": [
+        2048,
+        2048
+      ],
+      "mode": "RGBA",
+      "bytes": 1635218,
+      "source_sha256": "5a4dc718db0c0c768457f496f338e5ff22ba3decb2ceed8c5215cea2726e11fa",
+      "output_sha256": "ba089ae572a38d3769db2036e06133ac28216d8dd2a47470bddd4671f648c91f",
+      "alpha_different_pixels": 0,
+      "alpha_sha256": "2e8b1bb8e1ef0d6af643410ba5a8aa8386bbd2ad59cab09dd22c2f1559b9a5a9",
+      "alpha_bbox": [
+        0,
+        197,
+        2048,
+        1777
+      ],
+      "source_unchanged_since_confirmed_input": true
+    },
+    {
+      "file": "tex_current_skirt.png",
+      "size": [
+        2048,
+        2048
+      ],
+      "mode": "RGBA",
+      "bytes": 1716331,
+      "source_sha256": "e7af75b8c10b035a9236b294a2091ee6d299f7a498b0c4294343324f7ac88062",
+      "output_sha256": "f2307630a6024cde4e5bb73ab66caeba2d99463927178ab3b3c17e5ca0d46811",
+      "alpha_different_pixels": 0,
+      "alpha_sha256": "ea417eb5f8f0a40306e16cca176a75095babfd224ef43e33f2185f42f1d911ba",
+      "alpha_bbox": [
+        0,
+        1006,
+        2048,
+        1880
+      ],
+      "source_unchanged_since_confirmed_input": true
+    },
+    {
+      "file": "tex_current_collar.png",
+      "size": [
+        2048,
+        2048
+      ],
+      "mode": "RGBA",
+      "bytes": 360917,
+      "source_sha256": "aa53d829d3c8223c1f24a4b9f42d3ef4df29fe9d81e2c6925fc23cb040fbfe2b",
+      "output_sha256": "449fa06b6fcc6d026988af419820d7e8ec036dbd47274c887bf5e9d3a8344335",
+      "alpha_different_pixels": 0,
+      "alpha_sha256": "10dc60b7441781cbd4b051b2b05bc9b5352a9b3cf4537f04904ea4218c0c5d87",
+      "alpha_bbox": [
+        93,
+        16,
+        1955,
+        477
+      ],
+      "source_unchanged_since_confirmed_input": true
+    },
+    {
+      "file": "tex_current_shoes.png",
+      "size": [
+        512,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 288363,
+      "source_sha256": "76e1d20c6ef9b9a67eaa9c4ea43b23416a2d237730dd631bbf3fa2126b91c51a",
+      "output_sha256": "9a0ad420d84e1ecf7347aec3dac76ca75f754a68f8f3c996f47bf2f27121b8db",
+      "alpha_different_pixels": 0,
+      "alpha_sha256": "af6a637819bd8b489c607d6e7d01139415f00f90e2ba3958ecc378dd6b458d30",
+      "alpha_bbox": [
+        0,
+        540,
+        512,
+        1024
+      ],
+      "source_unchanged_since_confirmed_input": true
+    }
+  ]
+}

@@ -84,11 +84,16 @@ for key, path in list(TEXOVR.items()):
     for m in j['materials']:
         if sub in m['name']:
             m['normalTexture']={'index':ti,'texCoord':0,'scale':1.0}; print('normal override', m['name'], '<-', path)
-# texture overrides by material-name substring
+# texture overrides by material-name substring — each material takes the LONGEST matching key only
+# (so 'Tops_01_CLOTH' no longer clobbers 'Tops_01_CLOTH_01', the skirt)
+best={}
+for key in TEXOVR:
+    for m in j['materials']:
+        if key in m['name'] and len(key) > len(best.get(m['name'],'')): best[m['name']]=key
 for key, path in TEXOVR.items():
     hit=False
     for m in j['materials']:
-        if key in m['name']:
+        if best.get(m['name'])==key:
             t=m.get('pbrMetallicRoughness',{}).get('baseColorTexture')
             if not t: continue
             ii=j['textures'][t['index']]['source']; bv=j['images'][ii]['bufferView']
