@@ -11,25 +11,25 @@ const VRM3D = (() => {
     H = 400;
   // 心情 → 表情（VRM 表情名 → 权重）。null = 没表情（待机）
   const EXP = {
-    idle: null,
-    run: null,
-    happy: { happy: 1 },
-    excited: { happy: 0.8, aa: 0.35 },
-    wave: { happy: 0.9 },
-    newyear: { happy: 0.9, aa: 0.2 },
+    idle: { relaxed: 0.12 },
+    run: { relaxed: 0.1, aa: 0.08 },
+    happy: { happy: 0.85, aa: 0.12 },
+    excited: { happy: 0.7, aa: 0.4, m_Fcl_BRW_Fun: 0.5 },
+    wave: { happy: 0.6, relaxed: 0.3 },
+    newyear: { happy: 0.7, aa: 0.3, m_Fcl_BRW_Fun: 0.5 },
     smug: { m_Fcl_MTH_SkinFung_R: 1, m_Fcl_MTH_Fun: 0.35, m_Fcl_HA_Fung1: 0.8, m_Fcl_BRW_Fun: 0.5, m_Fcl_EYE_Fun: 0.3, blinkRight: 0.5, blinkLeft: 0.1 },
     smirk: { m_Fcl_MTH_SkinFung_R: 1, m_Fcl_MTH_Fun: 0.35, m_Fcl_HA_Fung1: 0.8, m_Fcl_BRW_Fun: 0.5, m_Fcl_EYE_Fun: 0.3, blinkRight: 0.5, blinkLeft: 0.1 },
-    bleh: { blinkLeft: 1, ih: 0.5, m_Fcl_BRW_Fun: 0.4 },
-    angry: { angry: 1 },
-    wake: { sad: 0.35, blink: 0.45 },
-    pat: { happy: 0.5, relaxed: 0.5 },
-    sleepy: { blink: 0.75, relaxed: 0.3 },
-    sleep: { blink: 1, relaxed: 0.2 },
-    surprised: { surprised: 1 },
-    dangle: { sad: 0.7, oh: 0.3 },
-    pout: { angry: 0.35, ou: 0.7 },
-    meh: { blink: 0.35, m_Fcl_MTH_Neutral: 0.5 },
-    hot: { sad: 0.3, aa: 0.25, blink: 0.2 },
+    bleh: { blinkLeft: 1, ih: 0.5, m_Fcl_BRW_Fun: 0.4, m_Fcl_MTH_Fun: 0.3 },
+    angry: { angry: 0.8, m_Fcl_BRW_Angry: 0.5, ou: 0.15 },
+    wake: { sad: 0.3, blink: 0.4, m_Fcl_MTH_Neutral: 0.4 },
+    pat: { happy: 0.45, relaxed: 0.55, m_Fcl_BRW_Fun: 0.3 },
+    sleepy: { blink: 0.7, relaxed: 0.3, m_Fcl_BRW_Sorrow: 0.3 },
+    sleep: { blink: 1, relaxed: 0.25 },
+    surprised: { surprised: 0.9, oh: 0.35, m_Fcl_BRW_Surprised: 0.5 },
+    dangle: { sad: 0.65, oh: 0.25, m_Fcl_BRW_Sorrow: 0.6 },
+    pout: { angry: 0.3, ou: 0.6, m_Fcl_BRW_Angry: 0.3 },
+    meh: { blink: 0.35, m_Fcl_MTH_Neutral: 0.5, m_Fcl_BRW_Sorrow: 0.2 },
+    hot: { sad: 0.3, aa: 0.25, blink: 0.25 },
     cold: { ou: 0.5, blink: 0.25, m_Fcl_BRW_Sorrow: 0.4 },
   };
   // 闭着眼的心情：自动眨眼停掉
@@ -94,7 +94,7 @@ const VRM3D = (() => {
   const armsDown = (sw = 0) => ({ leftUpperArm: [0, 0, -72 + sw], rightUpperArm: [0, 0, 72 - sw], leftLowerArm: [0, -8, 0], rightLowerArm: [0, 8, 0], leftHand: [0, 0, 0], rightHand: [0, 0, 0] });
   const ACTS = {
     // 挥手：先缩一下肩（预备），手甩上去（过冲），摆三下，放下来
-    Wave: { keys: [
+    Wave: { exp: { happy: 0.5, aa: 0.1 }, keys: [
       { t: 140, ease: 'in', pose: { rightUpperArm: [-3, 40, 76], head: [2, -4, 3] } },
       { t: 420, ease: 'back', pose: { rightUpperArm: [-10, 0, -22], rightLowerArm: [0, 0, -60], rightHand: [0, 0, -10], head: [0, -6, 8], chest: [0, -4, 0] } },
       { t: 580, ease: 'inout', pose: { rightLowerArm: [0, 0, -100], rightHand: [0, 0, -25] } },
@@ -107,14 +107,14 @@ const VRM3D = (() => {
       { t: 2000, ease: 'inout', pose: { rightUpperArm: L.rightUpperArm, rightLowerArm: L.rightLowerArm, rightHand: [0, 15, 0], head: [0, 0, 0], chest: [0, 0, 0] } },
     ] },
     // 蹦一下：下蹲预备 → 起跳伸展（画布本身由 CSS 往上跳）→ 落地压缩 → 回弹
-    Hop: { keys: [
-      { t: 130, ease: 'in', hips: -0.05, pose: { leftUpperLeg: [-18, 0, 2], rightUpperLeg: [-18, 0, -2], leftLowerLeg: [30, 0, 0], rightLowerLeg: [30, 0, 0], spine: [8, 0, 0], head: [6, 0, 0], leftUpperArm: [6, -40, -60], rightUpperArm: [-6, 40, 60] } },
-      { t: 300, ease: 'out', hips: 0.0, pose: { leftUpperLeg: [4, 0, 2], rightUpperLeg: [4, 0, -2], leftLowerLeg: [2, 0, 0], rightLowerLeg: [2, 0, 0], spine: [-6, 0, 0], head: [-8, 0, 0], leftUpperArm: [0, -20, -30], rightUpperArm: [0, 20, 30], leftLowerArm: [0, -70, 0], rightLowerArm: [0, 70, 0] } },
-      { t: 520, ease: 'in', hips: -0.04, pose: { leftUpperLeg: [-14, 0, 2], rightUpperLeg: [-14, 0, -2], leftLowerLeg: [24, 0, 0], rightLowerLeg: [24, 0, 0], spine: [9, 0, 0], head: [5, 0, 0], leftUpperArm: [3, -40, -62], rightUpperArm: [-3, 40, 62] } },
-      { t: 800, ease: 'back', hips: 0, pose: { leftUpperLeg: [0, 0, 0], rightUpperLeg: [0, 0, 0], leftLowerLeg: [0, 0, 0], rightLowerLeg: [0, 0, 0], spine: [0, 0, 0], head: [0, 0, 0], ...L } },
+    Hop: { exp: { happy: 0.5 }, keys: [
+      { t: 140, ease: 'in', hips: -0.025, pose: { leftUpperLeg: [-9, 0, 1], rightUpperLeg: [-9, 0, -1], leftLowerLeg: [15, 0, 0], rightLowerLeg: [15, 0, 0], spine: [4, 0, 0], head: [3, 0, 0] } },
+      { t: 300, ease: 'out', hips: 0.01, pose: { leftUpperLeg: [2, 0, 1], rightUpperLeg: [2, 0, -1], leftLowerLeg: [1, 0, 0], rightLowerLeg: [1, 0, 0], spine: [-3, 0, 0], head: [-4, 0, 0], leftUpperArm: [3, -40, -62], rightUpperArm: [-3, 40, 62] } },
+      { t: 520, ease: 'in', hips: -0.02, pose: { leftUpperLeg: [-7, 0, 1], rightUpperLeg: [-7, 0, -1], leftLowerLeg: [12, 0, 0], rightLowerLeg: [12, 0, 0], spine: [4, 0, 0], head: [2, 0, 0], ...L } },
+      { t: 800, ease: 'inout', hips: 0, pose: { leftUpperLeg: [0, 0, 0], rightUpperLeg: [0, 0, 0], leftLowerLeg: [0, 0, 0], rightLowerLeg: [0, 0, 0], spine: [0, 0, 0], head: [0, 0, 0] } },
     ] },
     // 欢呼：收一下 → 双手举起（过冲）→ 举着上下抖三次 → 放下
-    Cheer: { keys: [
+    Cheer: { exp: { happy: 0.7, aa: 0.3 }, keys: [
       { t: 160, ease: 'in', pose: { spine: [6, 0, 0], head: [5, 0, 0], leftUpperArm: [6, -40, -62], rightUpperArm: [-6, 40, 62] } },
       { t: 420, ease: 'back', pose: { spine: [-6, 0, 0], head: [-10, 0, 0], leftUpperArm: [-10, 0, 70], rightUpperArm: [-10, 0, -70], leftLowerArm: [0, 0, 20], rightLowerArm: [0, 0, -20], leftHand: [0, 0, 0], rightHand: [0, 0, 0] } },
       { t: 620, ease: 'inout', pose: { leftLowerArm: [0, 0, 38], rightLowerArm: [0, 0, -38], spine: [-6, 0, 3] } },
@@ -125,7 +125,7 @@ const VRM3D = (() => {
       { t: 1900, ease: 'inout', pose: { head: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
     ] },
     // 吓一跳：头和上身猛往后、双手收到胸前，停一下再松开
-    Flinch: { keys: [
+    Flinch: { exp: { surprised: 0.8, oh: 0.3 }, keys: [
       { t: 90, ease: 'out', pose: { head: [-14, 0, 0], neck: [-6, 0, 0], spine: [-6, 0, 0], leftUpperArm: [-30, -25, -58], rightUpperArm: [-30, 25, 58], leftLowerArm: [0, -115, 0], rightLowerArm: [0, 115, 0], leftHand: [0, -20, 0], rightHand: [0, 20, 0] } },
       { t: 330, ease: 'inout', pose: { head: [-10, 0, 0] } },
       { t: 620, ease: 'inout', pose: { head: [0, 0, 0], neck: [0, 0, 0], spine: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
@@ -136,7 +136,7 @@ const VRM3D = (() => {
       { t: 1600, ease: 'inout', pose: { head: [12, 0, 6] } },
     ] },
     // 生气甩头：双手抱胸，头左右甩，幅度递减
-    Shake: { keys: [
+    Shake: { exp: { angry: 0.6, m_Fcl_BRW_Angry: 0.5 }, keys: [
       { t: 150, ease: 'out', pose: { spine: [4, 0, 0], leftUpperArm: [-15, -48, -62], rightUpperArm: [-15, 48, 62], leftLowerArm: [0, -118, 0], rightLowerArm: [0, 118, 0], leftHand: [0, -10, 0], rightHand: [0, 10, 0], head: [0, 18, 0] } },
       { t: 300, ease: 'inout', pose: { head: [0, -18, 0] } },
       { t: 450, ease: 'inout', pose: { head: [0, 16, 0] } },
@@ -147,7 +147,7 @@ const VRM3D = (() => {
       { t: 1400, ease: 'inout', pose: { spine: [0, 0, 0], head: [0, 0, 0], ...L } },
     ] },
     // 伸懒腰：先缩一下 → 双手高举、挺胸仰头 → 抖一抖 → 放下
-    Stretch: { keys: [
+    Stretch: { exp: { blink: 1, aa: 0.3, m_Fcl_BRW_Sorrow: 0.3 }, keys: [
       { t: 220, ease: 'in', pose: { spine: [6, 0, 0], head: [6, 0, 0], leftUpperArm: [6, -40, -60], rightUpperArm: [-6, 40, 60] } },
       { t: 800, ease: 'back', pose: { spine: [-9, 0, 0], chest: [-4, 0, 0], head: [-15, 0, 0], leftUpperArm: [-20, 0, 62], rightUpperArm: [-20, 0, -62], leftLowerArm: [0, 0, 8], rightLowerArm: [0, 0, -8], leftHand: [0, 0, 0], rightHand: [0, 0, 0] } },
       { t: 1000, ease: 'inout', pose: { head: [-15, 0, 3], leftUpperArm: [-20, 0, 66] } },
@@ -157,7 +157,7 @@ const VRM3D = (() => {
       { t: 2200, ease: 'inout', pose: { spine: [0, 0, 0], head: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
     ] },
     // 害羞：双手捂脸颊、低头，头小幅左右扭
-    Shy: { keys: [
+    Shy: { exp: { happy: 0.35, relaxed: 0.4, m_Fcl_BRW_Sorrow: 0.3 }, keys: [
       { t: 350, ease: 'out', pose: { head: [10, 0, 10], leftUpperArm: [-52, -8, -56], rightUpperArm: [-52, 8, 56], leftLowerArm: [0, -128, -10], rightLowerArm: [0, 128, 10], leftHand: [0, 20, 0], rightHand: [0, -20, 0] } },
       { t: 900, ease: 'inout', pose: { head: [10, 0, -8] } },
       { t: 1450, ease: 'inout', pose: { head: [10, 0, 8] } },
@@ -171,7 +171,7 @@ const VRM3D = (() => {
       { t: 1500, ease: 'inout', pose: { head: [0, 0, 0], neck: [0, 0, 0] } },
     ] },
     // 不耐烦踢一下：腿先往后收，再踢出去
-    Kick: { keys: [
+    Kick: { exp: { angry: 0.3, ou: 0.3 }, keys: [
       { t: 180, ease: 'in', pose: { rightUpperLeg: [10, 0, 0], spine: [-3, 0, 0], head: [0, 0, 3] } },
       { t: 400, ease: 'out', pose: { rightUpperLeg: [-35, 0, 0], rightLowerLeg: [25, 0, 0], spine: [5, 0, 0], head: [0, 0, -6] } },
       { t: 700, ease: 'in', pose: { rightUpperLeg: [0, 0, 0], rightLowerLeg: [0, 0, 0] } },
@@ -196,23 +196,23 @@ const VRM3D = (() => {
       { t: 1900, ease: 'inout', pose: { leftUpperLeg: [-11, 0, 3], rightUpperLeg: [-2, 0, -3], spine: [-6, 0, -1], leftUpperArm: [0, 0, -88], rightUpperArm: [0, 0, 82] } },
       { t: 2700, ease: 'inout', pose: { leftUpperLeg: [-6, 0, 3], rightUpperLeg: [-6, 0, -3], spine: [-6, 0, 2], leftUpperArm: [0, 0, -85], rightUpperArm: [0, 0, 85] } },
     ] },
-    // 走路循环（一步 440ms）
+    // 走路循环（一步 540ms，配合 pet.js 的 160px/s）：左脚在前时右手在前；腿 x 负=向前，手臂 x 负=向前
     Walk: { loop: 0, keys: [
-      { t: 0, ease: 'snap', hips: 0, pose: { leftUpperLeg: [-26, 0, 0], rightUpperLeg: [22, 0, 0], leftLowerLeg: [8, 0, 0], rightLowerLeg: [30, 0, 0], leftUpperArm: [14, 0, -64], rightUpperArm: [-14, 0, 64], leftLowerArm: [0, -10, 0], rightLowerArm: [0, 10, 0], leftHand: [0, 0, 0], rightHand: [0, 0, 0], spine: [6, 0, 2], head: [-4, 0, -1] } },
-      { t: 220, ease: 'inout', hips: -0.012, pose: { leftUpperLeg: [2, 0, 0], rightUpperLeg: [-4, 0, 0], leftLowerLeg: [34, 0, 0], rightLowerLeg: [6, 0, 0], leftUpperArm: [0, 0, -64], rightUpperArm: [0, 0, 64], spine: [7, 0, 0], head: [-5, 0, 0] } },
-      { t: 440, ease: 'inout', hips: 0, pose: { leftUpperLeg: [22, 0, 0], rightUpperLeg: [-26, 0, 0], leftLowerLeg: [30, 0, 0], rightLowerLeg: [8, 0, 0], leftUpperArm: [-14, 0, -64], rightUpperArm: [14, 0, 64], spine: [6, 0, -2], head: [-4, 0, 1] } },
-      { t: 660, ease: 'inout', hips: -0.012, pose: { leftUpperLeg: [-4, 0, 0], rightUpperLeg: [2, 0, 0], leftLowerLeg: [6, 0, 0], rightLowerLeg: [34, 0, 0], leftUpperArm: [0, 0, -64], rightUpperArm: [0, 0, 64], spine: [7, 0, 0], head: [-5, 0, 0] } },
-      { t: 880, ease: 'inout', hips: 0, pose: { leftUpperLeg: [-26, 0, 0], rightUpperLeg: [22, 0, 0], leftLowerLeg: [8, 0, 0], rightLowerLeg: [30, 0, 0], leftUpperArm: [14, 0, -64], rightUpperArm: [-14, 0, 64], spine: [6, 0, 2], head: [-4, 0, -1] } },
+      { t: 0, ease: 'snap', hips: 0, pose: { leftUpperLeg: [-20, 0, 0], rightUpperLeg: [16, 0, 0], leftLowerLeg: [4, 0, 0], rightLowerLeg: [22, 0, 0], leftUpperArm: [12, 0, -66], rightUpperArm: [-12, 0, 66], leftLowerArm: [0, -10, 0], rightLowerArm: [0, 10, 0], leftHand: [0, 0, 0], rightHand: [0, 0, 0], spine: [4, 0, 1], chest: [0, -3, 0], head: [-3, 0, 0] } },
+      { t: 270, ease: 'inout', hips: -0.015, pose: { leftUpperLeg: [-4, 0, 0], rightUpperLeg: [-2, 0, 0], leftLowerLeg: [6, 0, 0], rightLowerLeg: [36, 0, 0], leftUpperArm: [0, 0, -66], rightUpperArm: [0, 0, 66], spine: [5, 0, 0], chest: [0, 0, 0] } },
+      { t: 540, ease: 'inout', hips: 0, pose: { leftUpperLeg: [16, 0, 0], rightUpperLeg: [-20, 0, 0], leftLowerLeg: [22, 0, 0], rightLowerLeg: [4, 0, 0], leftUpperArm: [-12, 0, -66], rightUpperArm: [12, 0, 66], spine: [4, 0, -1], chest: [0, 3, 0] } },
+      { t: 810, ease: 'inout', hips: -0.015, pose: { leftUpperLeg: [-2, 0, 0], rightUpperLeg: [-4, 0, 0], leftLowerLeg: [36, 0, 0], rightLowerLeg: [6, 0, 0], leftUpperArm: [0, 0, -66], rightUpperArm: [0, 0, 66], spine: [5, 0, 0], chest: [0, 0, 0] } },
+      { t: 1080, ease: 'inout', hips: 0, pose: { leftUpperLeg: [-20, 0, 0], rightUpperLeg: [16, 0, 0], leftLowerLeg: [4, 0, 0], rightLowerLeg: [22, 0, 0], leftUpperArm: [12, 0, -66], rightUpperArm: [-12, 0, 66], spine: [4, 0, 1], chest: [0, -3, 0] } },
     ] },
-    // 往下掉：双手往上抓、腿微张，停住直到落地
+    // 往下掉：手微微张开找平衡，脚并拢，头略低；停住直到落地
     Fall: { hold: true, keys: [
-      { t: 180, ease: 'out', pose: { leftUpperArm: [-70, 0, -25], rightUpperArm: [-70, 0, 25], leftLowerArm: [0, -40, 0], rightLowerArm: [0, 40, 0], leftHand: [0, 0, 0], rightHand: [0, 0, 0], leftUpperLeg: [-10, 0, 6], rightUpperLeg: [-10, 0, -6], spine: [-6, 0, 0], head: [-10, 0, 0] } },
+      { t: 220, ease: 'out', pose: { leftUpperArm: [-10, -5, -62], rightUpperArm: [-10, 5, 62], leftLowerArm: [0, -30, 0], rightLowerArm: [0, 30, 0], leftHand: [0, 0, 10], rightHand: [0, 0, -10], leftUpperLeg: [4, 0, 2], rightUpperLeg: [4, 0, -2], leftLowerLeg: [10, 0, 0], rightLowerLeg: [10, 0, 0], spine: [3, 0, 0], head: [6, 0, 0] } },
     ] },
-    // 落地：深蹲缓冲 → 回弹过冲 → 站好
-    Land: { keys: [
-      { t: 110, ease: 'out', hips: -0.16, pose: { leftUpperLeg: [-42, 0, 4], rightUpperLeg: [-42, 0, -4], leftLowerLeg: [62, 0, 0], rightLowerLeg: [62, 0, 0], spine: [22, 0, 0], head: [-8, 0, 0], leftUpperArm: [-40, 0, -55], rightUpperArm: [-40, 0, 55], leftLowerArm: [0, -20, 0], rightLowerArm: [0, 20, 0] } },
-      { t: 260, ease: 'inout', hips: -0.13, pose: { spine: [18, 0, 0] } },
-      { t: 700, ease: 'back', hips: 0, pose: { leftUpperLeg: [0, 0, 0], rightUpperLeg: [0, 0, 0], leftLowerLeg: [0, 0, 0], rightLowerLeg: [0, 0, 0], spine: [0, 0, 0], head: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
+    // 落地：浅蹲缓冲 → 直起来
+    Land: { exp: { blink: 0.7, m_Fcl_BRW_Sorrow: 0.3 }, keys: [
+      { t: 110, ease: 'out', hips: -0.08, pose: { leftUpperLeg: [-24, 0, 3], rightUpperLeg: [-24, 0, -3], leftLowerLeg: [38, 0, 0], rightLowerLeg: [38, 0, 0], spine: [12, 0, 0], head: [-4, 0, 0], leftUpperArm: [-20, -10, -58], rightUpperArm: [-20, 10, 58], leftLowerArm: [0, -30, 0], rightLowerArm: [0, 30, 0] } },
+      { t: 260, ease: 'inout', hips: -0.065, pose: { spine: [10, 0, 0] } },
+      { t: 750, ease: 'inout', hips: 0, pose: { leftUpperLeg: [0, 0, 0], rightUpperLeg: [0, 0, 0], leftLowerLeg: [0, 0, 0], rightLowerLeg: [0, 0, 0], spine: [0, 0, 0], head: [0, 0, 0], ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
     ] },
     // ---- 待机小动作（没事干时随机来一个）----
     LookAround: { keys: [
@@ -227,12 +227,12 @@ const VRM3D = (() => {
       { t: 3200, ease: 'inout', pose: { hips: [0, 0, 4] } },
       { t: 3900, ease: 'inout', hips: 0, pose: { hips: [0, 0, 0], spine: [0, 0, 0], chest: [0, 0, 0], rightUpperLeg: [0, 0, 0], rightLowerLeg: [0, 0, 0], head: [0, 0, 0] } },
     ] },
-    Tiptoe: { keys: [
+    Tiptoe: { exp: { relaxed: 0.25, m_Fcl_BRW_Fun: 0.2 }, keys: [
       { t: 350, ease: 'inout', hips: 0.025, pose: { spine: [-2, 0, 0], head: [-3, 0, 0] } },
       { t: 900, ease: 'inout', hips: 0.025, pose: {} },
       { t: 1300, ease: 'back', hips: 0, pose: { spine: [0, 0, 0], head: [0, 0, 0] } },
     ] },
-    SmoothSkirt: { keys: [
+    SmoothSkirt: { exp: { relaxed: 0.3 }, keys: [
       { t: 500, ease: 'inout', pose: { ...armsDown(-6), head: [10, 0, 0], spine: [4, 0, 0] } },
       { t: 900, ease: 'inout', pose: { leftUpperArm: [0, 0, -82], rightUpperArm: [0, 0, 82], leftLowerArm: [0, -14, 0], rightLowerArm: [0, 14, 0] } },
       { t: 1300, ease: 'inout', pose: { leftUpperArm: [0, 0, -72], rightUpperArm: [0, 0, 72] } },
@@ -532,14 +532,27 @@ const VRM3D = (() => {
     }
     return true;
   }
-  // 表情：先把所有表情清零（眨眼、嘴型另算），再按权重设
-  let expNow = null;
+  // 表情：目标权重（心情 + 动作附带的表情）每帧向目标渐变（约 0.25 秒），不再瞬间切换
+  let expNow = null; // 心情的表情表
+  const expCur = {}; // 现在的权重
   function setExpression(e) {
     expNow = e;
+  }
+  function blendExpressions(dt) {
     const em = vrm?.expressionManager;
     if (!em) return;
-    for (const x of em.expressions) if (!/^(blink|aa|ih|ou|ee|oh|lookUp|lookDown|lookLeft|lookRight)$/.test(x.expressionName)) em.setValue(x.expressionName, 0);
-    if (e) for (const [k, w] of Object.entries(e)) if (!/^blink/.test(k)) em.setValue(k, w);
+    const target = { ...(expNow || {}) };
+    if (action && ACTS[action.name].exp) for (const [k, w] of Object.entries(ACTS[action.name].exp)) target[k] = Math.max(target[k] || 0, w);
+    const k = 1 - Math.pow(0.02, dt / 0.25);
+    for (const x of em.expressions) {
+      const n = x.expressionName;
+      if (/^(blink|blinkLeft|blinkRight|aa|ih|ou|ee|oh|lookUp|lookDown|lookLeft|lookRight)$/.test(n)) continue;
+      const t = target[n] || 0;
+      const c = (expCur[n] || 0) + (t - (expCur[n] || 0)) * k;
+      expCur[n] = c;
+      em.setValue(n, c);
+    }
+    for (const n of ['blink', 'blinkLeft', 'blinkRight', 'aa', 'ih', 'ou', 'ee', 'oh']) expCur[n] = (expCur[n] || 0) + ((target[n] || 0) - (expCur[n] || 0)) * k;
   }
 
   function act(name) {
@@ -609,8 +622,8 @@ const VRM3D = (() => {
     // 看鼠标：头转 60%、脖子 25%、上身 15%
     const lh = { head: [-look.hy * 16, look.hx * 22, -look.hx * 4], neck: [-look.hy * 6, look.hx * 9, 0], chest: [0, look.hx * 5, 0] }; // x 正 = 低头
     // 弹簧跟随：目标变了以后追上去并稍微过冲一点，动作看起来有重量
-    const ST = 230,
-      DM = 2 * Math.sqrt(ST) * 0.78;
+    const ST = 200,
+      DM = 2 * Math.sqrt(ST) * 0.92;
     for (const n of BONES) {
       const a = idle[n] || [0, 0, 0],
         b = extra ? extra[n] : STAND[n],
@@ -631,12 +644,13 @@ const VRM3D = (() => {
     hipsV += ((((ev && ev.hips) || 0) - hipsNow) * ST - hipsV * DM) * dt;
     hipsNow += hipsV * dt;
     if (bones.hips) bones.hips.position.y = hipsBase + hipsNow;
-    // 眨眼（闭眼表情时不眨）+ 小眼神 + 说话
+    // 眨眼（闭眼表情时不眨）+ 说话动嘴；心情/动作的表情权重先渐变
+    blendExpressions(dt);
     const em = vrm.expressionManager;
     if (em) {
-      const ms = performance.now();
-      const shut = EYES_SHUT.has(curMood);
-      let bl = expNow?.blink ?? 0;
+      const ms = clock();
+      const shut = EYES_SHUT.has(curMood) || (expCur.blink || 0) > 0.6;
+      let bl = expCur.blink || 0;
       if (!shut) {
         if (blink.t < 0 && ms > blink.next) blink.t = ms;
         if (blink.t >= 0) {
@@ -648,12 +662,17 @@ const VRM3D = (() => {
         }
       }
       em.setValue('blink', bl);
-      em.setValue('blinkLeft', expNow?.blinkLeft ?? 0);
-      em.setValue('blinkRight', expNow?.blinkRight ?? 0);
+      em.setValue('blinkLeft', expCur.blinkLeft || 0);
+      em.setValue('blinkRight', expCur.blinkRight || 0);
       const talking = ms < talkUntil;
-      const mouth = talking ? Math.max(0, 0.5 + 0.5 * S(ms / 70) * S(ms / 190)) : 0;
-      em.setValue('aa', Math.max(expNow?.aa ?? 0, mouth * 0.7));
-      for (const m of ['ih', 'ou', 'ee', 'oh']) em.setValue(m, expNow?.[m] ?? 0);
+      // 说话：几种嘴型轮着来，比单一张嘴自然
+      const ph = talking ? Math.max(0, 0.5 + 0.5 * S(ms / 70) * S(ms / 190)) : 0;
+      const shape = Math.floor(ms / 230) % 3;
+      em.setValue('aa', Math.max(expCur.aa || 0, shape === 0 ? ph * 0.7 : ph * 0.25));
+      em.setValue('ih', Math.max(expCur.ih || 0, shape === 1 ? ph * 0.5 : 0));
+      em.setValue('oh', Math.max(expCur.oh || 0, shape === 2 ? ph * 0.5 : 0));
+      em.setValue('ou', expCur.ou || 0);
+      em.setValue('ee', expCur.ee || 0);
     }
   }
   let sac = { x: 0, y: 0, tx: 0, ty: 0, next: 0 };
@@ -771,5 +790,5 @@ const VRM3D = (() => {
     action = null;
     seq = { name: null, tm: -1 };
   } // 加载失败时把原因交给 pet.js（正式版没有 devtools，冒个泡方便排查）
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, _acts: ACTS, _renderAt, _resume, _dbg: () => ({ hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq }) };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, _acts: ACTS, _renderAt, _resume, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
 })();

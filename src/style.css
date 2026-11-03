@@ -140,6 +140,10 @@ body.dragging #pet img {
 body.running #pet {
   animation: hop 0.32s ease-in-out infinite alternate;
 }
+/* 3D 走路由动作片段自己起伏，不叠 CSS 的上下跳 */
+body.vrm.live2d.running #pet {
+  animation: none;
+}
 @keyframes hop {
   to {
     transform: translateY(-6px);
