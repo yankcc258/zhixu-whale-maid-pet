@@ -251,13 +251,14 @@ const VRM3D = (() => {
   const IDLE_CLIPS = ['LookAround', 'ShiftWeight', 'Tiptoe', 'SmoothSkirt', 'FidgetHands', 'LookAround', 'ShiftWeight', 'IdleA', 'IdleB'];
   // 真人动捕片段（VRM Animation .vrma，放在 vrm/motion/）：有对应文件的动作优先用它，没有就用上面的关键帧。
   // loop: 循环播放直到心情换掉；没 loop 的播一遍回到关键帧站姿
+  // amp = 幅度（0..1）：动捕是给游戏角色做的，偏夸张；按比例向交叠手站姿混合，保留节奏和协调、收掉幅度
   const MOTIONS = {
-    Walk: { file: 'vrm/motion/CC0-walk.vrma', loop: true }, // CC0（Josie 模型动画重定向包，BOOTH 7861818）
-    Fall: { file: 'vrm/motion/falling_idle.vrma', loop: true }, // 以下 Mixamo，tools/vrm3d/fbx2vrma.py 重定向
-    Land: { file: 'vrm/motion/falling_to_landing.vrma' },
-    Hop: { file: 'vrm/motion/jump.vrma' },
-    IdleA: { file: 'vrm/motion/happy_idle.vrma' }, // 待机小动作：偶尔来一段真人待机
-    IdleB: { file: 'vrm/motion/idle.vrma' },
+    Walk: { file: 'vrm/motion/CC0-walk.vrma', loop: true, amp: 1 }, // CC0（Josie 模型动画重定向包，BOOTH 7861818）
+    Fall: { file: 'vrm/motion/falling_idle.vrma', loop: true, amp: 0.5 }, // 以下 Mixamo，tools/vrm3d/fbx2vrma.py 重定向
+    Land: { file: 'vrm/motion/falling_to_landing.vrma', amp: 0.7 },
+    Hop: { file: 'vrm/motion/jump.vrma', amp: 0.6 },
+    IdleA: { file: 'vrm/motion/happy_idle.vrma', amp: 0.75 }, // 待机小动作：偶尔来一段真人待机
+    IdleB: { file: 'vrm/motion/idle.vrma', amp: 0.8 },
   };
   const motionClips = {}; // name → AnimationClip（加载后）
   let mixer = null,
@@ -612,6 +613,22 @@ const VRM3D = (() => {
     motionName = name;
     return true;
   }
+  // 动捕结果向站姿混合（amp<1 时）：每根骨骼 slerp(站姿, 动捕, amp)，髋骨升降也按 amp 缩
+  const _qs = {},
+    _e = null;
+  function blendMotion() {
+    const amp = MOTIONS[motionName]?.amp ?? 1;
+    if (amp >= 1) return;
+    const THREE = window.TV.THREE;
+    for (const n of BONES) {
+      const nd = bones[n];
+      if (!nd) continue;
+      const q = (_qs[n] ||= new THREE.Quaternion());
+      q.setFromEuler(new THREE.Euler(STAND[n][0] * D, STAND[n][1] * D, STAND[n][2] * D, 'XYZ'));
+      nd.quaternion.copy(q.slerp(nd.quaternion, amp));
+    }
+    if (bones.hips) bones.hips.position.y = hipsBase + (bones.hips.position.y - hipsBase) * amp;
+  }
   function stopMotion() {
     if (!motionAct) return;
     motionAct.fadeOut(0.25);
@@ -789,7 +806,10 @@ const VRM3D = (() => {
       ey = look.y + sac.y;
     lookTarget.position.set(hp.x + ex * 1.2, hp.y + ey * 0.6, hp.z + 1.2);
     applyPose(dt);
-    if (motionAct) mixer.update(dt);
+    if (motionAct) {
+      mixer.update(dt);
+      blendMotion();
+    }
     vrm.update(dt);
     renderer.render(scene, cam);
     raf = requestAnimationFrame(tick);
