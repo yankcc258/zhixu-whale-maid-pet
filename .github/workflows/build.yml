@@ -110,3 +110,16 @@ jobs:
             src-tauri/target/release/bundle/nsis/*-setup.exe
             src-tauri/target/release/bundle/nsis/*-setup.exe.sig
             src-tauri/target/release/bundle/nsis/latest.json
+
+      # 手动在 main 以外的分支触发时：把安装程序挂到一个「test-<分支>」预发布上，方便没有 Rust 的电脑下载试装。
+      # 预发布不算 latest，不会触发已装好的桌宠自动更新。
+      - name: 测试包挂到预发布
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: test-${{ github.ref_name }}
+          target_commitish: ${{ github.sha }}
+          name: 测试包 ${{ github.ref_name }} @ ${{ github.sha }}
+          body: 分支 ${{ github.ref_name }} 的试装包（${{ github.sha }}），不是正式版，不会推送更新。
+          prerelease: true
+          files: src-tauri/target/release/bundle/nsis/*-setup.exe
