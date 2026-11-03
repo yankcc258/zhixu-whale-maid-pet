@@ -18,6 +18,15 @@ for m in j['materials']:
         mt.pop('matcapTexture',None); mt['matcapFactor']=[0,0,0]
         mt['parametricRimColorFactor']=[0.18,0.2,0.26]; mt['parametricRimFresnelPowerFactor']=6; mt['parametricRimLiftFactor']=0
         mt['shadeColorFactor']=[0.80,0.83,0.90]; mt['shadingToonyFactor']=0.92; mt['shadingShiftFactor']=-0.12
+# ---- 1b) clothes: real shading instead of the VRoid 7% shadow — cool shadow colour, softer toon edge, light rim
+for m in j['materials']:
+    n=m['name']; mt=m['extensions']['VRMC_materials_mtoon']
+    if any(k in n for k in ('Tops','Onepiece','Shoes','Kiko_WaistBow','Kiko_Cuff','Seeko_Headdress')):
+        mt['shadeColorFactor']=[0.66,0.68,0.78]; mt['shadingToonyFactor']=0.82; mt['shadingShiftFactor']=-0.08
+        mt['parametricRimColorFactor']=[0.10,0.11,0.16]; mt['parametricRimFresnelPowerFactor']=4.5; mt['parametricRimLiftFactor']=0
+        mt['outlineWidthMode']='worldCoordinates'; mt['outlineWidthFactor']=0.0007; mt['outlineColorFactor']=[0.09,0.10,0.20]; mt['outlineLightingMixFactor']=0.7
+    if 'Body' in n or 'SKIN' in n or 'Face' in n:
+        mt['shadeColorFactor']=[0.86,0.78,0.80]; mt['shadingToonyFactor']=0.9; mt['shadingShiftFactor']=-0.05
 # ---- 2) tail pose: curve sideways + lift the tip (rest rotations; spring bones keep this as rest)
 def qmul(a,b):
     x1,y1,z1,w1=a; x2,y2,z2,w2=b

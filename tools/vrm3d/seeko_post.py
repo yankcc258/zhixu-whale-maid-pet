@@ -81,6 +81,9 @@ for key, path in TEXOVR.items():
             if not t: continue
             ii=j['textures'][t['index']]['source']; bv=j['images'][ii]['bufferView']
             buf=io.BytesIO(); Image.open(path).convert('RGBA').save(buf,'PNG'); views[bv]=buf.getvalue(); hit=True
+            # 阴影贴图也指到同一张（VRoid 导出的 shade 贴图还是旧底色，不改会穿帮）
+            mt=m.get('extensions',{}).get('VRMC_materials_mtoon',{})
+            if 'shadeMultiplyTexture' in mt: mt['shadeMultiplyTexture']={'index': t['index']}
             print('override', m['name'], '<-', path)
     if not hit: print('WARN no material matches', key)
 # rebuild BIN
