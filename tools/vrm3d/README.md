@@ -28,3 +28,8 @@ TAIL_UP=11 python3 kiko_style.py c.vrm kiko_white_v4.vrm           # 浅色柔�
 - `CURL=s`：分层大 S 卷（相位沿头部平滑，振幅向发梢增大；不要用按束取整的相位，会翻面）
 - `kiko_style.py`：头发/耳/尾/呆毛描边 #97A6C4 宽 0.0003，去 matcap 亮条，shade 0.80/0.83/0.90；尾骨 2–5 rest 旋转侧 14°/上 11°（递减）
 - Q 版线路（fix_chibi_morphs / outline2d / V-Chibi）已搁置：2D 立绘改由特蕾莎手绘重画
+
+## 动捕路线（11-03 晚）
+- 桌宠 `src/vrm.js` 支持 VRMA（`MOTIONS` 表：动作名 → `vrm/motion/*.vrma`，有文件优先播动捕，crossfade，播完接回弹簧关键帧）。
+- `fbx2vrma.py model.vrm motion.fbx out.vrma [--start --end --step --fps]`：云端无头 Blender（`pip install bpy bpy-vrm-format`）把 Mixamo FBX 重定向到 VRM 人形骨骼并导出 VRMA。原理：每根骨骼取 Mixamo 的世界空间旋转增量（pose·rest⁻¹）套到 VRM 对应骨骼，髋骨位移按髋高缩放；两边只要都是 T-pose 就能对上。用 three.js 的 Samba Dancing.fbx 验证通过（kiko_mocap_samba_test.png）。
+- `make_vrma.py out.vrma`：最小 VRMA 生成器（测播放路径用）。
