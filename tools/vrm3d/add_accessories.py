@@ -22,8 +22,9 @@ def add_tex(img):
     j.setdefault('samplers',[]).append({'magFilter':9729,'minFilter':9987,'wrapS':10497,'wrapT':33071})
     j['textures'].append({'sampler':len(j['samplers'])-1,'source':len(j['images'])-1}); return len(j['textures'])-1
 BASE=next(m for m in j['materials'] if '_Hair_' in m['name'] and 'HairBack' not in m['name'])
-def add_mat(name,tex,shade=(0.8,0.82,0.9),outline=(0.1,0.1,0.15)):
-    m=copy.deepcopy(BASE); m['name']=name; m['doubleSided']=True; m['alphaMode']='OPAQUE'; m.pop('alphaCutoff',None)
+def add_mat(name,tex,shade=(0.8,0.82,0.9),outline=(0.1,0.1,0.15),cutout=False):
+    m=copy.deepcopy(BASE); m['name']=name; m['doubleSided']=True; m['alphaMode']='MASK' if cutout else 'OPAQUE'; m.pop('alphaCutoff',None)
+    if cutout: m['alphaCutoff']=0.5
     m['extensions']['VRMC_materials_mtoon'].pop('transparentWithZWrite',None)
     m['pbrMetallicRoughness']['baseColorTexture']={'index':tex,'texCoord':0}
     for k in ('normalTexture','emissiveTexture'): m.pop(k,None)
@@ -147,15 +148,26 @@ def headdress():
     # frill: soft ruffle standing out from the band, ~22 pleats, leaning slightly back
     m=n*3; a2=np.linspace(ang[0],ang[-1],m); r2=np.interp(a2,ang,rr)
     ow=np.c_[np.cos(a2),np.sin(a2),np.full(m,-0.35)]; ow/=np.linalg.norm(ow,axis=1,keepdims=True)
-    pleat=0.0045*np.sin(a2*44)
+    pleat=0.006*np.sin(a2*44)
     mid=np.c_[r2*np.cos(a2), cy+r2*np.sin(a2), np.full(m,z0)]+ow*0.014*ACC+np.c_[np.zeros(m),np.zeros(m),pleat*ACC]
-    p2=ribbon(mid,ow,np.full(m,0.027*ACC))
-    P,U,T=merge([p1,p2])
-    img=Image.new('RGBA',(64,64),(250,250,252,255)); dr=ImageDraw.Draw(img)
-    for x in range(0,64,8): dr.arc([x-4,40,x+12,60],0,180,fill=(205,210,225,255),width=2)   # lace scallops
-    dr.line([(0,2),(64,2)],fill=(215,220,235,255),width=2)
+    p2=ribbon(mid,ow,np.full(m,0.036*ACC))
+    # band: solid white with a thin stitch line
+    img=Image.new('RGBA',(64,64),(250,250,252,255)); dr=ImageDraw.Draw(img); dr.line([(0,2),(64,2)],fill=(215,220,235,255),width=2)
     mat=add_mat('Seeko_Headdress',add_tex(img),shade=(0.82,0.84,0.92),outline=(0.35,0.37,0.45))
-    attach('Seeko_Headdress',add_mesh('Seeko_Headdress',P,U,T,mat))
+    Pb,Ub,Tb=p1; attach('Seeko_Headdress',add_mesh('Seeko_Headdress',Pb,Ub,Tb,mat))
+    # frill: a row of round scallops cut out by alpha along the outer edge (v=1 = outer), eyelet holes above
+    fw,fh=1024,128; fi=Image.new('RGBA',(fw,fh),(0,0,0,0)); dr=ImageDraw.Draw(fi)
+    ns=20; sw=fw/ns
+    dr.rectangle([0,0,fw,fh*0.5],fill=(252,252,254,255))
+    for i in range(ns):
+        cx=sw*i+sw/2; dr.pieslice([cx-sw/2,fh*0.5-sw/2,cx+sw/2,fh*0.5+sw/2],0,180,fill=(252,252,254,255))
+        dr.ellipse([cx-3,fh*0.62-3,cx+3,fh*0.62+3],fill=(0,0,0,0))
+    for i in range(int(fw/16)): dr.ellipse([i*16+6,fh*0.28-2,i*16+10,fh*0.28+2],fill=(0,0,0,0))
+    dr.line([(0,fh*0.1),(fw,fh*0.1)],fill=(212,216,230,255),width=2)
+    Pf,Uf,Tf=p2; Uf=np.c_[Uf[:,0], 1-Uf[:,1]]   # image row 0 = inner edge, bottom = scalloped outer edge
+    matf=add_mat('Seeko_Headdress_Frill',add_tex(fi),shade=(0.82,0.84,0.92),outline=(0.35,0.37,0.45),cutout=True)
+    j['materials'][matf]['extensions']['VRMC_materials_mtoon']['outlineWidthFactor']=0.0
+    attach('Seeko_Headdress_Frill',add_mesh('Seeko_Headdress_Frill',Pf,Uf,Tf,matf))
 # ---- 2) bows
 def bow(scale=1.0, facing=(0,0,-1), up=(0,1,0)):
     f=np.array(facing,float); f/=np.linalg.norm(f); u=np.array(up,float); r=np.cross(u,f); r/=np.linalg.norm(r); u=np.cross(f,r)

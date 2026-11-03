@@ -72,6 +72,18 @@ for ii in imgs:
     a[..., :3] = a[..., :3] * (1 - t[:, None, None]) + tip * t[:, None, None]
     buf = io.BytesIO(); Image.fromarray(a.clip(0,255).astype(np.uint8)).save(buf, 'PNG'); views[bv] = buf.getvalue()
     print('gradient img', ii)
+# normal-map override: key 'N:<MaterialSubstr>' → replace the material's normalTexture image (added as a new image)
+for key, path in list(TEXOVR.items()):
+    if not key.startswith('N:'): continue
+    sub=key[2:]; del TEXOVR[key]
+    buf=io.BytesIO(); Image.open(path).convert('RGB').save(buf,'PNG')
+    j['bufferViews'].append({'buffer':0,'byteOffset':0,'byteLength':0}); views.append(buf.getvalue())
+    j['images'].append({'name':'normal_'+sub,'mimeType':'image/png','bufferView':len(j['bufferViews'])-1})
+    j.setdefault('samplers',[]).append({'magFilter':9729,'minFilter':9987,'wrapS':10497,'wrapT':10497})
+    j['textures'].append({'sampler':len(j['samplers'])-1,'source':len(j['images'])-1}); ti=len(j['textures'])-1
+    for m in j['materials']:
+        if sub in m['name']:
+            m['normalTexture']={'index':ti,'texCoord':0,'scale':1.0}; print('normal override', m['name'], '<-', path)
 # texture overrides by material-name substring
 for key, path in TEXOVR.items():
     hit=False

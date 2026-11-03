@@ -33,3 +33,9 @@ TAIL_UP=11 python3 kiko_style.py c.vrm kiko_white_v4.vrm           # 浅色柔�
 - 桌宠 `src/vrm.js` 支持 VRMA（`MOTIONS` 表：动作名 → `vrm/motion/*.vrma`，有文件优先播动捕，crossfade，播完接回弹簧关键帧）。
 - `fbx2vrma.py model.vrm motion.fbx out.vrma [--start --end --step --fps]`：云端无头 Blender（`pip install bpy bpy-vrm-format`）把 Mixamo FBX 重定向到 VRM 人形骨骼并导出 VRMA。原理：每根骨骼取 Mixamo 的世界空间旋转增量（pose·rest⁻¹）套到 VRM 对应骨骼，髋骨位移按髋高缩放；两边只要都是 T-pose 就能对上。用 three.js 的 Samba Dancing.fbx 验证通过（kiko_mocap_samba_test.png）。
 - `make_vrma.py out.vrma`：最小 VRMA 生成器（测播放路径用）。
+
+## Blender 无头流水线（11-03 晚）
+- `pip install bpy==5.2.3 bpy-vrm-format` 后 `bpy.ops.import_scene.vrm / export_scene.vrm / vrma` 可用。往返测试：后处理模型进出 Blender，饰品/57 表情/40 弹簧骨全保留（roundtrip_cmp.png）。
+- `seeko_post.py` 新增 `N:<材质子串>=normal.png` 覆盖法线贴图；`Body_00_SKIN=body_tights.png` 丝袜（罗纹 9px 周期 ±3.5、胫骨光泽、炭灰底色）。
+- `add_accessories.py` 头饰褶边改成 alpha 裁出的圆扇贝 + 眼孔（材质 MASK，无描边）。
+- `blender_lace.py`：沿裙摆加蕾丝条的尝试——**未成**：VRoid 裙子网格比可见布料长（长度靠贴图 alpha），按 alpha 边界找到的下摆（z≈0.50–0.58）比渲染里的荷叶边还低 10cm，还没弄清（可能荷叶边是 CLOTH_04、渲染姿态裙骨影响）。下次思路：直接按裙子弹簧骨末端的位置做环，并作为 Body 网格的新 primitive 复用其 skin（JOINTS_0 指向最近的裙骨）。
