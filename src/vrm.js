@@ -586,9 +586,10 @@ const VRM3D = (() => {
   }
 
   // ---------- 丝袜：MToon 着色器补丁 ----------
-  // 透肉连裤袜的样子：正对视线的地方薄（透出肤色），侧面边缘布料叠得厚（深色）。
-  // 只作用在身体贴图里腿部那两条（UV：x<0.244 或 x>0.762，且 y>0.508）。on=0 时就是贴图原色（不透明）。
-  const TIGHTS = { on: 0, min: 0.7, pow: 2.0, skin: [0.95, 0.66, 0.57] };
+  // 薄丝袜的样子：正对视线的地方薄（透出肤色），侧面边缘布料叠得厚（深色）。
+  // 只作用在身体贴图 alpha 标成 0.7 的地方（tools/vrm3d/paint_socks.py 画的过膝袜袜身）；袜口、大腿照常。
+  // 主人选的 40D：min 0.62。on=0 时就是贴图原色（不透明）
+  const TIGHTS = { on: 1, min: 0.62, pow: 2.0, skin: [0.95, 0.66, 0.57] };
   function patchTights(v) {
     const THREE = window.TV.THREE;
     v.scene.traverse((o) => {
@@ -607,17 +608,17 @@ const VRM3D = (() => {
             .replace('void main() {', 'uniform float kikoTightsOn;\nuniform float kikoTightsMin;\nuniform float kikoTightsPow;\nuniform vec3 kikoSkin;\nvoid main() {')
             .replace(
               'material.diffuseColor = diffuseColor.rgb;',
-              `#ifndef OUTLINE
-              if (kikoTightsOn > 0.5) {
-                float kLegs = step(0.508, uv.y) * max(step(uv.x, 0.244), step(0.762, uv.x));
-                if (kLegs > 0.5) {
-                  float kFacing = abs(dot(normalize(normal), normalize(vViewPosition)));
-                  float kOp = mix(1.0, kikoTightsMin, pow(kFacing, kikoTightsPow));
-                  // 在接近感知亮度的 gamma 空间里混合（线性空间里一点点肤色就会把黑丝冲成棕色）
-                  vec3 kT = pow(max(diffuseColor.rgb, vec3(0.0)), vec3(1.0 / 2.2));
-                  vec3 kS = pow(kikoSkin * 0.8, vec3(1.0 / 2.2));
-                  diffuseColor.rgb = pow(mix(kS, kT, kOp), vec3(2.2));
-                }
+              `// 贴图 alpha 当记号：0.5–0.85 = 薄丝袜（paint_socks.py 画成 0.7），其余照常；用完把 alpha 还原成 1，不然桌面上会半透明
+              float kSheer = step(0.5, diffuseColor.a) * step(diffuseColor.a, 0.85);
+              if (kSheer > 0.5) diffuseColor.a = 1.0;
+              #ifndef OUTLINE
+              if (kikoTightsOn > 0.5 && kSheer > 0.5) {
+                float kFacing = abs(dot(normalize(normal), normalize(vViewPosition)));
+                float kOp = mix(1.0, kikoTightsMin, pow(kFacing, kikoTightsPow));
+                // 在接近感知亮度的 gamma 空间里混合（线性空间里一点点肤色就会把黑丝冲成棕色）
+                vec3 kT = pow(max(diffuseColor.rgb, vec3(0.0)), vec3(1.0 / 2.2));
+                vec3 kS = pow(kikoSkin * 0.8, vec3(1.0 / 2.2));
+                diffuseColor.rgb = pow(mix(kS, kT, kOp), vec3(2.2));
               }
               #endif
               material.diffuseColor = diffuseColor.rgb;`
