@@ -55,7 +55,7 @@ const VRM3D = (() => {
     run: 'Walk',
   };
   // 做成 3D 的衣服（现在只有女仆装；换装以后按衣服切贴图/模型）
-  const MODELS = { maid: 'vrm/kiko.vrm' };
+  const MODELS = { maid: window.KIKO_MODEL || 'vrm/kiko.vrm' }; // KIKO_MODEL：测试时换模型用
   const D = Math.PI / 180;
   const BONES = ['leftUpperArm', 'rightUpperArm', 'leftLowerArm', 'rightLowerArm', 'leftHand', 'rightHand', 'spine', 'chest', 'neck', 'head', 'hips', 'leftUpperLeg', 'rightUpperLeg', 'leftLowerLeg', 'rightLowerLeg'];
   // 关节的目标角（度，x=前后点头/抬臂，y=左右转，z=侧倾）。姿势 = 一组关节角；每帧向目标缓动。
@@ -252,13 +252,15 @@ const VRM3D = (() => {
   // 真人动捕片段（VRM Animation .vrma，放在 vrm/motion/）：有对应文件的动作优先用它，没有就用上面的关键帧。
   // loop: 循环播放直到心情换掉；没 loop 的播一遍回到关键帧站姿
   // amp = 幅度（0..1）：动捕是给游戏角色做的，偏夸张；按比例向交叠手站姿混合，保留节奏和协调、收掉幅度
+  // speed = 播放速度（游戏动捕节奏偏快、偏冲，慢一点更像桌宠）；soft = 「收着点」程度 0..1：
+  // 两腿并拢、膝盖微内扣、手臂贴近身体，去掉游戏角色那种大开大合的站姿
   const MOTIONS = {
-    Walk: { file: 'vrm/motion/CC0-walk.vrma', loop: true, amp: 1 }, // CC0（Josie 模型动画重定向包，BOOTH 7861818）
-    Fall: { file: 'vrm/motion/falling_idle.vrma', loop: true, amp: 0.5 }, // 以下 Mixamo，tools/vrm3d/fbx2vrma.py 重定向
-    Land: { file: 'vrm/motion/falling_to_landing.vrma', amp: 0.7 },
-    Hop: { file: 'vrm/motion/jump.vrma', amp: 0.6 },
-    IdleA: { file: 'vrm/motion/happy_idle.vrma', amp: 0.75 }, // 待机小动作：偶尔来一段真人待机
-    IdleB: { file: 'vrm/motion/idle.vrma', amp: 0.8 },
+    Walk: { file: 'vrm/motion/CC0-walk.vrma', loop: true, amp: 1, speed: 0.9, soft: 0.5 }, // CC0（Josie 模型动画重定向包，BOOTH 7861818）
+    Fall: { file: 'vrm/motion/falling_idle.vrma', loop: true, amp: 0.5, soft: 0.6 }, // 以下 Mixamo，tools/vrm3d/fbx2vrma.py 重定向
+    Land: { file: 'vrm/motion/falling_to_landing.vrma', amp: 0.7, soft: 0.5 },
+    Hop: { file: 'vrm/motion/jump.vrma', amp: 0.6, speed: 0.9, soft: 0.6 },
+    IdleA: { file: 'vrm/motion/happy_idle.vrma', amp: 0.75, speed: 0.85, soft: 0.7 }, // 待机小动作：偶尔来一段真人待机
+    IdleB: { file: 'vrm/motion/idle.vrma', amp: 0.8, speed: 0.85, soft: 0.7 },
   };
   const motionClips = {}; // name → AnimationClip（加载后）
   let mixer = null,
@@ -435,6 +437,7 @@ const VRM3D = (() => {
           gltf = await loader.loadAsync(MODELS[outfit]);
           v = gltf.userData.vrm;
           if (!v) throw new Error('文件里没有 VRM 数据');
+        patchTights(v);
         // 浅色壁纸上白发/白耳边缘偏淡：描边加粗一点、颜色压成冷灰（描边是单独的材质副本，所以按名字全找一遍）
         v.scene.traverse((o) => {
           if (!o.isMesh) return;
@@ -582,6 +585,63 @@ const VRM3D = (() => {
     for (const n of ['blink', 'blinkLeft', 'blinkRight', 'aa', 'ih', 'ou', 'ee', 'oh']) expCur[n] = (expCur[n] || 0) + ((target[n] || 0) - (expCur[n] || 0)) * k;
   }
 
+  // ---------- 丝袜：MToon 着色器补丁 ----------
+  // 透肉连裤袜的样子：正对视线的地方薄（透出肤色），侧面边缘布料叠得厚（深色）。
+  // 只作用在身体贴图里腿部那两条（UV：x<0.244 或 x>0.762，且 y>0.508）。on=0 时就是贴图原色（不透明）。
+  const TIGHTS = { on: 0, min: 0.7, pow: 2.0, skin: [0.95, 0.66, 0.57] };
+  function patchTights(v) {
+    const THREE = window.TV.THREE;
+    v.scene.traverse((o) => {
+      if (!o.isMesh) return;
+      for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
+        if (!m || !m.isMToonMaterial || !/Body_00_SKIN/.test(m.name) || m.userData.kikoTights) continue;
+        m.userData.kikoTights = true;
+        m.uniforms.kikoTightsOn = { value: TIGHTS.on };
+        m.uniforms.kikoTightsMin = { value: TIGHTS.min };
+        m.uniforms.kikoTightsPow = { value: TIGHTS.pow };
+        m.uniforms.kikoSkin = { value: new THREE.Color(...TIGHTS.skin) };
+        const prev = m.onBeforeCompile;
+        m.onBeforeCompile = (shader, r) => {
+          prev?.call(m, shader, r);
+          shader.fragmentShader = shader.fragmentShader
+            .replace('void main() {', 'uniform float kikoTightsOn;\nuniform float kikoTightsMin;\nuniform float kikoTightsPow;\nuniform vec3 kikoSkin;\nvoid main() {')
+            .replace(
+              'material.diffuseColor = diffuseColor.rgb;',
+              `#ifndef OUTLINE
+              if (kikoTightsOn > 0.5) {
+                float kLegs = step(0.508, uv.y) * max(step(uv.x, 0.244), step(0.762, uv.x));
+                if (kLegs > 0.5) {
+                  float kFacing = abs(dot(normalize(normal), normalize(vViewPosition)));
+                  float kOp = mix(1.0, kikoTightsMin, pow(kFacing, kikoTightsPow));
+                  // 在接近感知亮度的 gamma 空间里混合（线性空间里一点点肤色就会把黑丝冲成棕色）
+                  vec3 kT = pow(max(diffuseColor.rgb, vec3(0.0)), vec3(1.0 / 2.2));
+                  vec3 kS = pow(kikoSkin * 0.8, vec3(1.0 / 2.2));
+                  diffuseColor.rgb = pow(mix(kS, kT, kOp), vec3(2.2));
+                }
+              }
+              #endif
+              material.diffuseColor = diffuseColor.rgb;`
+            );
+        };
+        const key = m.customProgramCacheKey;
+        m.customProgramCacheKey = () => key.call(m) + ',kikoTights';
+        m.needsUpdate = true;
+      }
+    });
+  }
+  function setTights(p) {
+    Object.assign(TIGHTS, p);
+    vrm?.scene.traverse((o) => {
+      if (!o.isMesh) return;
+      for (const m of Array.isArray(o.material) ? o.material : [o.material]) {
+        if (!m?.userData.kikoTights) continue;
+        m.uniforms.kikoTightsOn.value = TIGHTS.on;
+        m.uniforms.kikoTightsMin.value = TIGHTS.min;
+        m.uniforms.kikoTightsPow.value = TIGHTS.pow;
+        m.uniforms.kikoSkin.value.setRGB(...TIGHTS.skin);
+      }
+    });
+  }
   async function loadMotion(name, file) {
     const { GLTFLoader, VRMAnimationLoaderPlugin, createVRMAnimationClip } = window.TV;
     const loader = new GLTFLoader();
@@ -605,6 +665,7 @@ const VRM3D = (() => {
     const a = mixer.clipAction(clip);
     a.reset();
     a.setLoop(MOTIONS[name]?.loop ? THREE.LoopRepeat : THREE.LoopOnce, Infinity);
+    a.timeScale = MOTIONS[name]?.speed ?? 1;
     a.clampWhenFinished = false;
     if (motionAct && motionAct !== a) motionAct.crossFadeTo(a, 0.25, false);
     else a.fadeIn(0.2);
@@ -614,20 +675,48 @@ const VRM3D = (() => {
     return true;
   }
   // 动捕结果向站姿混合（amp<1 时）：每根骨骼 slerp(站姿, 动捕, amp)，髋骨升降也按 amp 缩
-  const _qs = {},
-    _e = null;
+  const _qs = {};
+  let _e2 = null;
   function blendMotion() {
-    const amp = MOTIONS[motionName]?.amp ?? 1;
-    if (amp >= 1) return;
+    const m = MOTIONS[motionName] || {};
+    const amp = m.amp ?? 1,
+      soft = m.soft ?? 0;
+    if (amp >= 1 && !soft) return;
     const THREE = window.TV.THREE;
+    const eu = (_e2 ||= new THREE.Euler());
     for (const n of BONES) {
       const nd = bones[n];
       if (!nd) continue;
-      const q = (_qs[n] ||= new THREE.Quaternion());
-      q.setFromEuler(new THREE.Euler(STAND[n][0] * D, STAND[n][1] * D, STAND[n][2] * D, 'XYZ'));
-      nd.quaternion.copy(q.slerp(nd.quaternion, amp));
+      if (amp < 1) {
+        const q = (_qs[n] ||= new THREE.Quaternion());
+        q.setFromEuler(new THREE.Euler(STAND[n][0] * D, STAND[n][1] * D, STAND[n][2] * D, 'XYZ'));
+        nd.quaternion.copy(q.slerp(nd.quaternion, amp));
+      }
+      if (!soft) continue;
+      if (n === 'leftUpperLeg' || n === 'rightUpperLeg') {
+        // 两腿并拢（侧开 z 收掉一部分）、膝盖往里扣一点（y 内旋）
+        eu.setFromQuaternion(nd.quaternion, 'XYZ');
+        const sd = n === 'leftUpperLeg' ? 1 : -1;
+        eu.z *= 1 - 0.7 * soft;
+        eu.y += sd * 6 * D * soft;
+        nd.quaternion.setFromEuler(eu);
+      } else if (n === 'leftUpperArm' || n === 'rightUpperArm') {
+        // 手臂贴近身体：侧抬（z）往站姿收，前后摆（x）也收一点
+        eu.setFromQuaternion(nd.quaternion, 'XYZ');
+        const st = STAND[n === 'leftUpperArm' ? 'leftUpperArm' : 'rightUpperArm'];
+        const down = n === 'leftUpperArm' ? -72 * D : 72 * D; // 自然下垂
+        eu.z += (down - eu.z) * 0.35 * soft;
+        eu.x *= 1 - 0.3 * soft;
+        nd.quaternion.setFromEuler(eu);
+      } else if (n === 'spine' || n === 'chest') {
+        // 上身别扭太大
+        eu.setFromQuaternion(nd.quaternion, 'XYZ');
+        eu.y *= 1 - 0.5 * soft;
+        eu.z *= 1 - 0.4 * soft;
+        nd.quaternion.setFromEuler(eu);
+      }
     }
-    if (bones.hips) bones.hips.position.y = hipsBase + (bones.hips.position.y - hipsBase) * amp;
+    if (bones.hips && amp < 1) bones.hips.position.y = hipsBase + (bones.hips.position.y - hipsBase) * amp;
   }
   function stopMotion() {
     if (!motionAct) return;
@@ -893,5 +982,5 @@ const VRM3D = (() => {
     action = null;
     seq = { name: null, tm: -1 };
   } // 加载失败时把原因交给 pet.js（正式版没有 devtools，冒个泡方便排查）
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, setTights, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
 })();
