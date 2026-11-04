@@ -39,3 +39,21 @@ TAIL_UP=11 python3 kiko_style.py c.vrm kiko_white_v4.vrm           # 浅色柔�
 - `seeko_post.py` 新增 `N:<材质子串>=normal.png` 覆盖法线贴图；`Body_00_SKIN=body_tights.png` 丝袜（罗纹 9px 周期 ±3.5、胫骨光泽、炭灰底色）。
 - `add_accessories.py` 头饰褶边改成 alpha 裁出的圆扇贝 + 眼孔（材质 MASK，无描边）。
 - `blender_lace.py`：沿裙摆加蕾丝条的尝试——**未成**：VRoid 裙子网格比可见布料长（长度靠贴图 alpha），按 alpha 边界找到的下摆（z≈0.50–0.58）比渲染里的荷叶边还低 10cm，还没弄清（可能荷叶边是 CLOTH_04、渲染姿态裙骨影响）。下次思路：直接按裙子弹簧骨末端的位置做环，并作为 Body 网格的新 primitive 复用其 skin（JOINTS_0 指向最近的裙骨）。
+
+## 备份与重建（11-05，主人电脑重装系统后）
+- `art/3d/vrm/kiko_white_raw1.vrm` = VRoid 导出的原始模型（整条流水线的起点）；`kiko_white_v12.vrm` = 当前成品（未打包）。
+- ⚠️ VRoid 存档 `seeko_3d_v3_fox.vroid` 只在主人电脑上，**没有进仓库**；只要 raw1.vrm 在，模型就能完全重建，但想回 VRoid 改发型/体型需要那个 .vroid。
+- 重建 v12（在 tools/vrm3d 目录，贴图在 art/3d/tex_v2 与 art/3d/tex_hd）：
+```
+CURL=s TIP=F8FAFF FLUFF=0.045 python3 seeko_post.py raw1.vrm a.vrm 0.034 0.20 \
+  Shoes_01_CLOTH=tex_hd/tex_current_shoes.png Tops_01_CLOTH_01=tex_hd/tex_current_skirt.png Tops_01_CLOTH=tex_hd/tex_current_dress_top.png \
+  Onepiece_00_CLOTH=tex_hd/tex_current_collar.png FoxTail_01=tex_hd/tex_current_tail.png CatEar_01=tex_hd/tex_current_ears.png \
+  Body_00_SKIN=tex_v2/body_socks.png Hair_00_HAIR=tex_hd/tex_current_hair_front.png HairBack_00_HAIR=tex_hd/tex_current_hair_back.png \
+  Face_00_SKIN=tex_hd/tex_current_face.png EyeIris_00_EYE=tex_hd/tex_current_iris.png
+AHOGE=CCD5E3,F2F5FA python3 add_accessories.py a.vrm b.vrm
+WBOW=1.5 WBOW_UP=0.085 WBOW_OUT=0.015 python3 body_accessories.py b.vrm c.vrm
+TAIL_UP=11 python3 kiko_style.py c.vrm d.vrm
+python3 add_expressions.py d.vrm kiko_white_v12.vrm
+python3 pack_vrm.py kiko_white_v12.vrm ../../src/vrm/kiko.vrm 2048   # 桌宠里用的打包版
+```
+- 动作源文件：`art/3d/motion/src_fbx/*.fbx`（Mixamo）→ `fbx2vrma.py` → `art/3d/motion/vrma/`。
