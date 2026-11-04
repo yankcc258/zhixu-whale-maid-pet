@@ -54,6 +54,25 @@ for mi, m in enumerate(j['meshes']):
             uv[:,1] = np.minimum(uv[:,1], g)
             acc_set(ta, uv)
             print('hair verts', len(pos), 'ytop', round(float(ytop),3))
+# texture overrides by material-name substring (before the hair gradient, so painted hair still gets the root→tip grade) — each material takes the LONGEST matching key only
+# (so 'Tops_01_CLOTH' no longer clobbers 'Tops_01_CLOTH_01', the skirt)
+best={}
+for key in TEXOVR:
+    for m in j['materials']:
+        if key in m['name'] and len(key) > len(best.get(m['name'],'')): best[m['name']]=key
+for key, path in TEXOVR.items():
+    hit=False
+    for m in j['materials']:
+        if best.get(m['name'])==key:
+            t=m.get('pbrMetallicRoughness',{}).get('baseColorTexture')
+            if not t: continue
+            ii=j['textures'][t['index']]['source']; bv=j['images'][ii]['bufferView']
+            buf=io.BytesIO(); Image.open(path).convert('RGBA').save(buf,'PNG'); views[bv]=buf.getvalue(); hit=True
+            # 阴影贴图也指到同一张（VRoid 导出的 shade 贴图还是旧底色，不改会穿帮）
+            mt=m.get('extensions',{}).get('VRMC_materials_mtoon',{})
+            if 'shadeMultiplyTexture' in mt: mt['shadeMultiplyTexture']={'index': t['index']}
+            print('override', m['name'], '<-', path)
+    if not hit: print('WARN no material matches', key)
 # gradient on hair textures (base + shade share the image)
 imgs = set()
 for mi in hair_mats:
@@ -84,25 +103,6 @@ for key, path in list(TEXOVR.items()):
     for m in j['materials']:
         if sub in m['name']:
             m['normalTexture']={'index':ti,'texCoord':0,'scale':1.0}; print('normal override', m['name'], '<-', path)
-# texture overrides by material-name substring — each material takes the LONGEST matching key only
-# (so 'Tops_01_CLOTH' no longer clobbers 'Tops_01_CLOTH_01', the skirt)
-best={}
-for key in TEXOVR:
-    for m in j['materials']:
-        if key in m['name'] and len(key) > len(best.get(m['name'],'')): best[m['name']]=key
-for key, path in TEXOVR.items():
-    hit=False
-    for m in j['materials']:
-        if best.get(m['name'])==key:
-            t=m.get('pbrMetallicRoughness',{}).get('baseColorTexture')
-            if not t: continue
-            ii=j['textures'][t['index']]['source']; bv=j['images'][ii]['bufferView']
-            buf=io.BytesIO(); Image.open(path).convert('RGBA').save(buf,'PNG'); views[bv]=buf.getvalue(); hit=True
-            # 阴影贴图也指到同一张（VRoid 导出的 shade 贴图还是旧底色，不改会穿帮）
-            mt=m.get('extensions',{}).get('VRMC_materials_mtoon',{})
-            if 'shadeMultiplyTexture' in mt: mt['shadeMultiplyTexture']={'index': t['index']}
-            print('override', m['name'], '<-', path)
-    if not hit: print('WARN no material matches', key)
 # rebuild BIN
 out = bytearray(); 
 for i, v in enumerate(j['bufferViews']):
