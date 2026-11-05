@@ -11,6 +11,8 @@ const VRM3D = (() => {
     H = 400;
   // 取景：'full' 全身（普通）；'bust' 大号趴底边（只拍胸口以上，画布底边 = 任务栏上沿）
   let framing = 'full';
+  const REST = { chest: 1, head: 1.3, headZ: 0 };
+  const BUST = { ledge: 0.02, top: 0.3, below: 0 };
   // 心情 → 表情（VRM 表情名 → 权重）。null = 没表情（待机）
   const EXP = {
     idle: { relaxed: 0.12 },
@@ -636,6 +638,16 @@ const VRM3D = (() => {
       bones[n] = h.getNormalizedBoneNode(n);
       cur3[n] = [...STAND[n]];
     }
+    // 静止（T-pose）时胸口/头的高度：趴底边取景按这个算，不随当前姿势抖
+    v.scene.updateMatrixWorld(true);
+    {
+      const p = new window.TV.THREE.Vector3();
+      bones.chest.getWorldPosition(p);
+      REST.chest = p.y;
+      bones.head.getWorldPosition(p);
+      REST.head = p.y;
+      REST.headZ = p.z;
+    }
     hipsBase = bones.hips?.position.y ?? 0;
     hipsRest = bones.hips ? bones.hips.position.clone() : null;
     mixer = new window.TV.THREE.AnimationMixer(v.scene);
@@ -666,19 +678,18 @@ const VRM3D = (() => {
   function frameCamera() {
     const { THREE } = window.TV;
     if (framing === 'bust') {
-      // 胸口略下当「窗台」：画布底边对齐这里；上面留出耳朵和呆毛
-      const p = new THREE.Vector3();
-      bones.chest.getWorldPosition(p);
-      const ledge = p.y - 0.08; // 窗口底边 = 任务栏沿：刚好压在交叠的前臂下面
-      bones.head.getWorldPosition(p);
-      const top = p.y + 0.27;
-      const hh = top - ledge;
+      // 窗口底边 = 任务栏上沿 = 「窗台」：在静止胸口高度 + BUST.ledge；上面留到头顶 + BUST.top（耳朵、呆毛、挥手余量）
+      // BUST.below：审片用，把画面往下多拍一截，看前臂是不是真的压在窗台线上
+      const ledge = REST.chest + BUST.ledge,
+        top = REST.head + BUST.top,
+        bottom = ledge - BUST.below;
+      const hh = top - bottom;
       const dist = hh / 2 / Math.tan((cam.fov / 2) * D);
-      const cy = ledge + hh / 2;
-      cam.position.set(0, cy + 0.02, p.z + dist);
-      cam.lookAt(0, cy, p.z);
+      const cy = bottom + hh / 2;
+      cam.position.set(0, cy, REST.headZ + dist);
+      cam.lookAt(0, cy, REST.headZ);
       cam.updateProjectionMatrix();
-      lookTarget.position.set(0, p.y, p.z + dist);
+      lookTarget.position.set(0, REST.head, REST.headZ + dist);
       return;
     }
     const box = new THREE.Box3().setFromObject(vrm.scene);
@@ -1245,5 +1256,5 @@ const VRM3D = (() => {
     action = null;
     seq = { name: null, tm: -1 };
   } // 加载失败时把原因交给 pet.js（正式版没有 devtools，冒个泡方便排查）
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, setTights, setFraming, hitPart, earTwitch, _peek: PEEK, _earFlat: EAR_FLAT, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _poseMotion, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, setTights, setFraming, hitPart, earTwitch, _peek: PEEK, _bust: BUST, _rest: REST, _wpos: (n) => { const p = new window.TV.THREE.Vector3(); const b = vrm?.humanoid.getNormalizedBoneNode(n); if (!b) return null; b.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }, _frame: () => frameCamera(), _earFlat: EAR_FLAT, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _poseMotion, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
 })();
