@@ -352,6 +352,21 @@ const VRM3D = (() => {
       { t: 1500, ease: 'inout', pose: PK0 },
     ] },
   });
+  // 光标在手边晃得快：抬爪子拍下去（猫猫拳）。R = 她的右手（画面左边）
+  const swat = (sd) => {
+    const s = sd === 'R' ? 1 : -1,
+      up = { [sd === 'R' ? 'rightUpperArm' : 'leftUpperArm']: [0, -14 * s, -28 * s], [sd === 'R' ? 'rightLowerArm' : 'leftLowerArm']: [0, -28 * s, -62 * s], [sd === 'R' ? 'rightHand' : 'leftHand']: [0, 0, -35 * s] };
+    const down = { [sd === 'R' ? 'rightLowerArm' : 'leftLowerArm']: [0, 6 * s, 4 * s], [sd === 'R' ? 'rightHand' : 'leftHand']: [0, 0, 8 * s] };
+    return { exp: { surprised: 0.25, m_Fcl_BRW_Fun: 0.3, aa: 0.15 }, keys: [
+      { t: 220, ease: 'out', pose: PK({ ...up, head: [4, 6 * s, 4 * s], spine: [0, 4 * s, 0] }) },
+      { t: 340, ease: 'inout', pose: PK({ ...up, head: [5, 6 * s, 4 * s], spine: [0, 4 * s, 0] }) },
+      { t: 450, ease: 'in', pose: PK({ ...down, head: [8, 8 * s, 2 * s], spine: [2, 4 * s, 0] }) },
+      { t: 820, ease: 'inout', pose: PK({ ...down, head: [8, 8 * s, 2 * s], spine: [2, 4 * s, 0] }) },
+      { t: 1250, ease: 'inout', pose: PK0 },
+    ] };
+  };
+  ACTS.PeekSwatR = swat('R');
+  ACTS.PeekSwatL = swat('L');
   // 普通动作 → 趴底边时换成的版本（没对应的就不做，免得手离开边沿乱甩）
   const BUST_MAP = { Shy: 'PeekPat', Flinch: 'PeekFlinch', Tilt: 'PeekTilt', Nod: 'PeekNod', Slump: 'PeekSleep', Wave: 'PeekWave', Cheer: 'PeekWave', Hop: 'PeekSway', Stretch: 'PeekSway' };
   const BUST_IDLE = ['PeekLook', 'PeekSway', 'PeekTilt', 'PeekLook'];

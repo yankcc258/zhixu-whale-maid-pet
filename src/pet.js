@@ -737,11 +737,27 @@ pet.addEventListener('dblclick', () => {
 
 // ---------- 摸头：鼠标不按键，在她上半身左右来回划 ----------
 let patMoves = [];
+// 趴底边：光标在她手边快速晃过 → 抬爪子拍（冷却 2.5 秒，睡着不拍）
+let swatLast = null,
+  swatAt = 0;
+function swatCheck(e, part) {
+  const now = performance.now();
+  const prev = swatLast;
+  swatLast = { x: e.clientX, y: e.clientY, t: now };
+  if (!prev || sleep || part !== 'body' || now - swatAt < 2500 || !bubble.hidden) return;
+  const r = pet.getBoundingClientRect();
+  if (e.clientY < r.top + r.height * 0.55) return; // 只在下半截（手边）
+  const v = Math.hypot(e.clientX - prev.x, e.clientY - prev.y) / Math.max(1, now - prev.t); // px/ms
+  if (v < 0.9) return;
+  swatAt = now;
+  VRM3D.act(e.clientX < r.left + r.width / 2 ? 'PeekSwatR' : 'PeekSwatL');
+}
 function patTrack(e) {
   if (e.buttons) return;
   if (isBust()) {
     // 趴底边：在头上来回蹭才算摸头（身体、手臂不算）
     const part = VRM3D.hitPart(e.clientX, e.clientY);
+    swatCheck(e, part);
     if (!part || part === 'body') return; // 头、耳朵、脸上来回蹭都算
   } else {
     if (dock) return;
