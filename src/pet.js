@@ -56,18 +56,28 @@ const useVRM = () => prefs.qStyle === 'vrm';
 // 动态模型用哪个渲染器：3D 的 VRM3D（vrm.js）或 Live2D 的 L2D（live2d.js），接口一样
 const RND = () => (useVRM() && typeof VRM3D !== 'undefined' ? VRM3D : L2D);
 // 按样子调整窗口大小和她的大小（3D 全身要高一些）
+// 3D 的大小：auto = 按当前屏幕工作区高度（1080p ≈ 1 倍，1440p ≈ 1.35 倍），也可以在设置里固定
+function figScale() {
+  if (!useVRM()) return 1;
+  const f = Number(prefs.figSize);
+  if (f > 0) return f;
+  const h = area ? area.h : 1040;
+  return Math.round(Math.min(1.6, Math.max(1, h / 1040)) * 20) / 20;
+}
 function applyFigure() {
   const vrm = useVRM();
   // 3D + 拖到任务栏上 = 「趴底边」大号模式：只露上半身，双臂搭在窗口底边（= 任务栏上沿）
   const bust = vrm && dock === 'bottom';
+  const s = figScale();
   document.body.classList.toggle('vrm', vrm);
   document.body.classList.toggle('bust', bust);
+  document.documentElement.style.setProperty('--s', s);
   const oldW = WIN_W,
     oldH = WIN_H;
-  WIN_W = bust ? 440 : vrm ? 340 : 240;
-  WIN_H = bust ? 380 : vrm ? 440 : 260;
-  PET_W = bust ? 420 : vrm ? 260 : 140;
-  if (typeof VRM3D !== 'undefined') VRM3D.setFraming(bust ? 'bust' : 'full', bust ? 420 : 260, bust ? 380 : 400);
+  WIN_W = Math.round((bust ? 440 : vrm ? 340 : 240) * s);
+  WIN_H = Math.round((bust ? 380 : vrm ? 440 : 260) * s);
+  PET_W = Math.round((bust ? 420 : vrm ? 260 : 140) * s);
+  if (typeof VRM3D !== 'undefined') VRM3D.setFraming(bust ? 'bust' : 'full', Math.round((bust ? 420 : 260) * s), Math.round((bust ? 380 : 400) * s));
   requestAnimationFrame(updateHit);
   if (!win || (oldW === WIN_W && oldH === WIN_H && applyFigure.done)) return;
   applyFigure.done = true;
@@ -379,6 +389,8 @@ async function readGeometry() {
       h: wa.size.height / m.scaleFactor,
     };
   }
+  // 拖到另一块分辨率不同的屏幕上：3D 跟着换大小
+  if (useVRM() && Math.round(WIN_W) !== Math.round((dock === 'bottom' ? 440 : 340) * figScale())) applyFigure();
 }
 let posPending = null;
 function moveTo(x, y) {

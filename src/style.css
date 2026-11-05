@@ -67,13 +67,13 @@ body.live2d #pet {
 }
 /* 3D 希狐（正常比例全身）：窗口 340×440，她 260×400（两侧留空给张开的手臂和甩头） */
 body.vrm.live2d #pet {
-  width: 260px;
-  height: 400px;
+  width: calc(260px * var(--s, 1));
+  height: calc(400px * var(--s, 1));
 }
 /* 3D 趴底边：窗口 440×380，她 420×380，底边贴着任务栏 */
 body.vrm.live2d.bust #pet {
-  width: 420px;
-  height: 380px;
+  width: calc(420px * var(--s, 1));
+  height: calc(380px * var(--s, 1));
 }
 #pet canvas.pixel {
   image-rendering: pixelated;
@@ -372,10 +372,14 @@ body.bust #bubble {
   right: auto;
   top: 20px;
   bottom: auto;
-  width: 132px;
+  width: calc(132px * var(--s, 1));
   font-size: 12px;
   padding: 6px 8px;
 }
 body.bust #menu {
-  bottom: 120px;
+  bottom: calc(120px * var(--s, 1));
+}
+body.vrm:not(.bust) #bubble,
+body.vrm:not(.bust) #menu {
+  bottom: calc(146px * var(--s, 1));
 }

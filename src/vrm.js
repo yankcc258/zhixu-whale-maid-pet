@@ -536,7 +536,7 @@ const VRM3D = (() => {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     // 像素模式：每格约 2 个 CSS 像素，由 CSS image-rendering: pixelated 放大
     // 非像素模式按 2 倍超采样渲染再由浏览器缩回去，1080p/1440p（dpr 1）的桌面上才不糊
-    renderer.setPixelRatio(pixel ? dpr / Math.max(2, Math.round(2 * dpr)) : navigator.webdriver ? 1 : Math.max(dpr, 2)); // 无头测试时不超采样
+    renderer.setPixelRatio(pixel ? dpr / Math.max(2, Math.round(2 * dpr)) : navigator.webdriver ? 1 : Math.min(dpr * 2, 4)); // 无头测试时不超采样；1080p/1440p（dpr 1）2 倍，150% 缩放 3 倍
     renderer.setSize(W, H, false);
     canvas.classList.toggle('pixel', pixel);
   }
@@ -584,6 +584,15 @@ const VRM3D = (() => {
               m.parametricRimColorFactor?.set(0x4a5270);
               m.parametricRimFresnelPowerFactor = 3.5;
               m.parametricRimLiftFactor = 0.0;
+            }
+            // 贴图各向异性过滤：衣服褶边、袜子在斜面上不糊成一片
+            const aniso = Math.min(8, renderer.capabilities.getMaxAnisotropy());
+            for (const k of ['map', 'shadeMultiplyTexture', 'normalMap', 'emissiveMap', 'shadingShiftTexture', 'rimMultiplyTexture']) {
+              const t = m[k];
+              if (t && t.isTexture && t.anisotropy !== aniso) {
+                t.anisotropy = aniso;
+                t.needsUpdate = true;
+              }
             }
             m.needsUpdate = true;
           }
