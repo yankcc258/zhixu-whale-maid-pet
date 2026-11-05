@@ -70,6 +70,11 @@ body.vrm.live2d #pet {
   width: 260px;
   height: 400px;
 }
+/* 3D 趴底边：窗口 440×380，她 420×380，底边贴着任务栏 */
+body.vrm.live2d.bust #pet {
+  width: 420px;
+  height: 380px;
+}
 #pet canvas.pixel {
   image-rendering: pixelated;
 }
@@ -356,4 +361,8 @@ body.pixel #bubble .acts button {
   #pet img {
     animation: none !important;
   }
+}
+/* 趴底边的 3D 版手臂搭在窗口底边上，戳的时候不要整个往上抬（手会离开边沿） */
+body.bust.dock-bottom.peeking #pet {
+  transform: none;
 }

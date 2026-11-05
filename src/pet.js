@@ -58,11 +58,21 @@ const RND = () => (useVRM() && typeof VRM3D !== 'undefined' ? VRM3D : L2D);
 // 按样子调整窗口大小和她的大小（3D 全身要高一些）
 function applyFigure() {
   const vrm = useVRM();
+  // 3D + 拖到任务栏上 = 「趴底边」大号模式：只露上半身，双臂搭在窗口底边（= 任务栏上沿）
+  const bust = vrm && dock === 'bottom';
   document.body.classList.toggle('vrm', vrm);
-  WIN_W = vrm ? 340 : 240;
-  WIN_H = vrm ? 440 : 260;
-  PET_W = vrm ? 260 : 140;
-  if (!win) return;
+  document.body.classList.toggle('bust', bust);
+  const oldW = WIN_W,
+    oldH = WIN_H;
+  WIN_W = bust ? 440 : vrm ? 340 : 240;
+  WIN_H = bust ? 380 : vrm ? 440 : 260;
+  PET_W = bust ? 420 : vrm ? 260 : 140;
+  if (typeof VRM3D !== 'undefined') VRM3D.setFraming(bust ? 'bust' : 'full', bust ? 420 : 260, bust ? 380 : 400);
+  requestAnimationFrame(updateHit);
+  if (!win || (oldW === WIN_W && oldH === WIN_H && applyFigure.done)) return;
+  applyFigure.done = true;
+  // 换大小时右下角不动（她站在右下角，换模式不该跳到别处）
+  if (oldW !== WIN_W || oldH !== WIN_H) moveTo(pos.x + oldW - WIN_W, pos.y + oldH - WIN_H);
   const LS = tauri.dpi?.LogicalSize || tauri.window.LogicalSize;
   // 窗口配置里是 resizable: false，改大小前先临时放开
   (async () => {
@@ -71,7 +81,7 @@ function applyFigure() {
       await win.setSize(new LS(WIN_W, WIN_H));
       await win.setResizable(false);
       const sz = await win.innerSize().catch(() => null);
-      log(`applyFigure vrm=${vrm} -> setSize(${WIN_W}x${WIN_H}) ok, innerSize=${sz ? sz.width + 'x' + sz.height : '?'}`);
+      log(`applyFigure vrm=${vrm} bust=${bust} -> setSize(${WIN_W}x${WIN_H}) ok, innerSize=${sz ? sz.width + 'x' + sz.height : '?'}`);
     } catch (e) {
       log('applyFigure setSize failed: ' + e);
       if (vrm) say('窗口没能改大小…（' + String(e).slice(0, 100) + '）', 'meh', 6000);
@@ -393,6 +403,7 @@ async function resetPos() {
   say('（被拎回右下角）……知道了知道了。', 'pout', 3000);
 }
 function applyDock() {
+  applyFigure(); // 3D 时底边要换成趴底边的大窗口
   document.body.classList.toggle('dock-left', dock === 'left');
   document.body.classList.toggle('docked', !!dock);
   document.body.classList.toggle('dock-bottom', dock === 'bottom');
@@ -419,8 +430,14 @@ pet.addEventListener('pointermove', (e) => {
     dragging = true;
     stopRoam();
     if (dock) {
+      const wasBottom = dock === 'bottom';
       dock = null;
       document.body.classList.remove('dock-left', 'docked', 'dock-bottom');
+      if (wasBottom) {
+        applyFigure(); // 从趴底边拎起来：变回全身（窗口换大小，拖动起点跟着挪）
+        down.x = pos.x;
+        down.y = pos.y;
+      }
     }
     menu.hidden = bubble.hidden = true;
     document.body.classList.add('dragging');

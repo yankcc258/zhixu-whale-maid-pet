@@ -7,8 +7,10 @@
 // eslint-disable-next-line no-unused-vars
 const VRM3D = (() => {
   // 画布大小（CSS 像素）。正常比例全身，宽留一点给尾巴和甩头
-  const W = 260,
+  let W = 260,
     H = 400;
+  // 取景：'full' 全身（普通）；'bust' 大号趴底边（只拍胸口以上，画布底边 = 任务栏上沿）
+  let framing = 'full';
   // 心情 → 表情（VRM 表情名 → 权重）。null = 没表情（待机）
   const EXP = {
     idle: { relaxed: 0.12 },
@@ -25,6 +27,8 @@ const VRM3D = (() => {
     pat: { happy: 0.45, relaxed: 0.55, m_Fcl_BRW_Fun: 0.3 },
     sleepy: { blink: 0.7, relaxed: 0.3, m_Fcl_BRW_Sorrow: 0.3 },
     sleep: { blink: 1, relaxed: 0.25 },
+    sleepBottom: { blink: 1, relaxed: 0.25 }, // 趴底边睡着
+    peekBottom: { relaxed: 0.2, m_Fcl_BRW_Fun: 0.15 }, // 趴底边醒着
     surprised: { surprised: 0.9, oh: 0.35, m_Fcl_BRW_Surprised: 0.5 },
     dangle: { sad: 0.65, oh: 0.25, m_Fcl_BRW_Sorrow: 0.6 },
     pout: { angry: 0.3, ou: 0.6, m_Fcl_BRW_Angry: 0.3 },
@@ -33,7 +37,7 @@ const VRM3D = (() => {
     cold: { ou: 0.5, blink: 0.25, m_Fcl_BRW_Sorrow: 0.4 },
   };
   // 闭着眼的心情：自动眨眼停掉
-  const EYES_SHUT = new Set(['happy', 'wave', 'newyear', 'sleepy', 'sleep', 'pat']);
+  const EYES_SHUT = new Set(['happy', 'wave', 'newyear', 'sleepy', 'sleep', 'sleepBottom', 'pat']);
   // 心情刚变成这个时顺便做的动作（见下面 ACTS）；之后回到待机
   const ACT = {
     wave: 'Wave',
@@ -43,6 +47,7 @@ const VRM3D = (() => {
     surprised: 'Flinch',
     sleepy: 'Slump',
     sleep: 'Slump',
+    sleepBottom: 'Slump', // 趴底边时换成 PeekSleep（脸埋进手臂）
     angry: 'Shake',
     wake: 'Stretch',
     pat: 'Shy',
@@ -251,6 +256,73 @@ const VRM3D = (() => {
       { t: 1400, ease: 'inout', pose: { ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
     ] },
   };
+  const PEEK = { // 趴在任务栏沿上：上身前倾，双臂交叠搭在窗口底边
+    spine: [10, 0, 0], chest: [8, 0, 0], neck: [-6, 0, 0], head: [-8, 0, 4],
+    leftUpperArm: [0, -55, -45], rightUpperArm: [0, 55, 45],
+    leftLowerArm: [0, -95, 0], rightLowerArm: [0, 95, 0],
+    leftHand: [0, -10, 0], rightHand: [0, 10, 0] };
+  // 趴底边模式的动作（姿势都以 PEEK 为底：手一直搭在边上，只动头、上身、耳朵和单手）
+  const PK = (o) => { const r = {}; for (const k in o) r[k] = PEEK[k].map((v, i) => v + o[k][i]); return r; }; // 相对 PEEK 的增量
+  const PK0 = { spine: PEEK.spine, chest: PEEK.chest, neck: PEEK.neck, head: PEEK.head, leftUpperArm: PEEK.leftUpperArm, rightUpperArm: PEEK.rightUpperArm, leftLowerArm: PEEK.leftLowerArm, rightLowerArm: PEEK.rightLowerArm, leftHand: PEEK.leftHand, rightHand: PEEK.rightHand };
+  Object.assign(ACTS, {
+    // 被戳：缩一下脖子，往手臂里埋
+    PeekFlinch: { exp: { surprised: 0.7, oh: 0.25 }, keys: [
+      { t: 100, ease: 'out', pose: PK({ spine: [6, 0, 0], neck: [6, 0, 0], head: [8, 0, 0], leftUpperArm: [0, 0, 6], rightUpperArm: [0, 0, -6] }) },
+      { t: 380, ease: 'inout', pose: PK({ head: [5, 0, 0] }) },
+      { t: 700, ease: 'inout', pose: PK0 },
+    ] },
+    // 歪头看你
+    PeekTilt: { keys: [
+      { t: 420, ease: 'back', pose: PK({ head: [0, 6, 14], neck: [0, 0, 5] }) },
+      { t: 1300, ease: 'inout', pose: PK({ head: [0, 6, 14], neck: [0, 0, 5] }) },
+      { t: 1700, ease: 'inout', pose: PK0 },
+    ] },
+    // 趴在手臂上左右晃（开心）
+    PeekSway: { exp: { happy: 0.3 }, keys: [
+      { t: 500, ease: 'inout', pose: PK({ spine: [0, 0, 5], chest: [0, 0, 3], head: [0, 0, -7] }) },
+      { t: 1100, ease: 'inout', pose: PK({ spine: [0, 0, -5], chest: [0, 0, -3], head: [0, 0, 7] }) },
+      { t: 1700, ease: 'inout', pose: PK({ spine: [0, 0, 4], chest: [0, 0, 2], head: [0, 0, -5] }) },
+      { t: 2300, ease: 'inout', pose: PK0 },
+    ] },
+    // 左右张望
+    PeekLook: { keys: [
+      { t: 500, ease: 'inout', pose: PK({ head: [0, 26, -3], neck: [0, 8, 0], chest: [0, 4, 0] }) },
+      { t: 1500, ease: 'inout', pose: PK({ head: [0, 26, -3], neck: [0, 8, 0], chest: [0, 4, 0] }) },
+      { t: 2100, ease: 'inout', pose: PK({ head: [-2, -24, 3], neck: [0, -8, 0], chest: [0, -4, 0] }) },
+      { t: 3100, ease: 'inout', pose: PK({ head: [-2, -24, 3], neck: [0, -8, 0], chest: [0, -4, 0] }) },
+      { t: 3700, ease: 'inout', pose: PK0 },
+    ] },
+    PeekNod: { keys: [
+      { t: 200, ease: 'inout', pose: PK({ head: [14, 0, 0], neck: [4, 0, 0] }) },
+      { t: 420, ease: 'inout', pose: PK({ head: [-3, 0, 0] }) },
+      { t: 600, ease: 'inout', pose: PK({ head: [9, 0, 0] }) },
+      { t: 850, ease: 'inout', pose: PK0 },
+    ] },
+    // 犯困：脸慢慢埋进手臂里，停住
+    PeekSleep: { hold: true, keys: [
+      { t: 1200, ease: 'inout', pose: PK({ spine: [14, 0, 0], chest: [8, 0, 0], neck: [10, 0, 0], head: [16, 0, 6] }) },
+      { t: 2000, ease: 'inout', pose: PK({ spine: [15, 0, 0], chest: [8, 0, 0], neck: [10, 0, 0], head: [18, 0, 8] }) },
+    ] },
+    // 害羞：低头往手臂后面缩，偷偷左右晃
+    PeekShy: { exp: { happy: 0.35, relaxed: 0.4, m_Fcl_BRW_Sorrow: 0.3 }, keys: [
+      { t: 350, ease: 'out', pose: PK({ spine: [6, 0, 0], head: [12, 0, 10] }) },
+      { t: 1000, ease: 'inout', pose: PK({ spine: [6, 0, 0], head: [12, 0, -6] }) },
+      { t: 1600, ease: 'inout', pose: PK({ spine: [6, 0, 0], head: [10, 0, 8] }) },
+      { t: 2200, ease: 'inout', pose: PK0 },
+    ] },
+    // 抬起一只手挥挥（右手离开边沿，左手还扒着）
+    PeekWave: { exp: { happy: 0.6 }, keys: [
+      { t: 320, ease: 'out', pose: PK({ rightUpperArm: [0, -25, -30], rightLowerArm: [0, -75, -100], head: [0, 0, -5] }) },
+      { t: 560, ease: 'inout', pose: PK({ rightUpperArm: [0, -25, -30], rightLowerArm: [0, -75, -85], rightHand: [0, 0, 12], head: [0, 0, -5] }) },
+      { t: 800, ease: 'inout', pose: PK({ rightUpperArm: [0, -25, -30], rightLowerArm: [0, -75, -112], rightHand: [0, 0, -12], head: [0, 0, -5] }) },
+      { t: 1040, ease: 'inout', pose: PK({ rightUpperArm: [0, -25, -30], rightLowerArm: [0, -75, -85], rightHand: [0, 0, 12], head: [0, 0, -5] }) },
+      { t: 1280, ease: 'inout', pose: PK({ rightUpperArm: [0, -25, -30], rightLowerArm: [0, -75, -112], rightHand: [0, 0, -12], head: [0, 0, -5] }) },
+      { t: 1750, ease: 'inout', pose: PK0 },
+    ] },
+  });
+  // 普通动作 → 趴底边时换成的版本（没对应的就不做，免得手离开边沿乱甩）
+  const BUST_MAP = { Flinch: 'PeekFlinch', Tilt: 'PeekTilt', Nod: 'PeekNod', Slump: 'PeekSleep', Shy: 'PeekShy', Wave: 'PeekWave', Cheer: 'PeekWave', Hop: 'PeekSway', Stretch: 'PeekSway' };
+  const BUST_IDLE = ['PeekLook', 'PeekSway', 'PeekTilt', 'PeekLook'];
   const IDLE_CLIPS = ['LookAround', 'ShiftWeight', 'Tiptoe', 'SmoothSkirt', 'FidgetHands', 'LookAround', 'ShiftWeight', 'IdleA', 'IdleB', 'IdleC', 'IdleD', 'IdleE'];
   // 真人动捕片段（VRM Animation .vrma，放在 vrm/motion/）：有对应文件的动作优先用它，没有就用上面的关键帧。
   // loop: 循环播放直到心情换掉；没 loop 的播一遍回到关键帧站姿
@@ -535,6 +607,22 @@ const VRM3D = (() => {
   // 相机：全身入镜，脚踩画布底边，头顶留一截给耳朵/呆毛
   function frameCamera() {
     const { THREE } = window.TV;
+    if (framing === 'bust') {
+      // 胸口略下当「窗台」：画布底边对齐这里；上面留出耳朵和呆毛
+      const p = new THREE.Vector3();
+      bones.chest.getWorldPosition(p);
+      const ledge = p.y - 0.08; // 窗口底边 = 任务栏沿：刚好压在交叠的前臂下面
+      bones.head.getWorldPosition(p);
+      const top = p.y + 0.27;
+      const hh = top - ledge;
+      const dist = hh / 2 / Math.tan((cam.fov / 2) * D);
+      const cy = ledge + hh / 2;
+      cam.position.set(0, cy + 0.02, p.z + dist);
+      cam.lookAt(0, cy, p.z);
+      cam.updateProjectionMatrix();
+      lookTarget.position.set(0, p.y, p.z + dist);
+      return;
+    }
     const box = new THREE.Box3().setFromObject(vrm.scene);
     const size = box.getSize(new THREE.Vector3());
     const c = box.getCenter(new THREE.Vector3());
@@ -545,6 +633,25 @@ const VRM3D = (() => {
     cam.lookAt(c.x, cy, c.z);
     cam.updateProjectionMatrix();
     lookTarget.position.set(c.x, cy + size.y * 0.42, c.z + dist);
+  }
+  // 趴底边的基础姿势：上身前倾，前臂横搭在窗台（画布底边）上，双手在身前
+
+  const STAND_FULL = JSON.parse(JSON.stringify(STAND));
+  function setFraming(mode, w, h) {
+    const next = mode === 'bust' ? 'bust' : 'full';
+    if (next !== framing) {
+      action = null; // 换模式：正在做的动作作废（全身动作的手不该带进趴姿里）
+      if (motionAct) stopMotion();
+    }
+    framing = next;
+    for (const k of Object.keys(STAND)) STAND[k] = [...(framing === 'bust' && PEEK[k] ? PEEK[k] : STAND_FULL[k])];
+    if (w && h) {
+      W = w;
+      H = h;
+      if (cam) cam.aspect = W / H;
+      if (renderer) applyPixel();
+    }
+    if (vrm) frameCamera();
   }
 
   const has = (outfit) => Object.prototype.hasOwnProperty.call(MODELS, outfit) && !broken.has(outfit);
@@ -756,6 +863,7 @@ const VRM3D = (() => {
     }
   }
   function act(name) {
+    if (framing === 'bust' && name && !name.startsWith('Peek')) name = BUST_MAP[name]; // 趴底边：换成扒着边的版本
     if (!name || !active() || !ACTS[name]) return;
     const now = clock();
     if (name !== 'Flinch' && now < flinchEnd) return void setTimeout(() => act(name), flinchEnd - now);
@@ -776,7 +884,7 @@ const VRM3D = (() => {
   }
   // 没事干（待机类心情、没在做动作、鼠标也没停在她身上）时隔几秒来个小动作
   let idleNext = 0;
-  const IDLE_MOODS = new Set(['idle', 'happy', 'smug', 'smirk', 'meh', 'pout', 'bleh', 'wave']);
+  const IDLE_MOODS = new Set(['idle', 'happy', 'smug', 'smirk', 'meh', 'pout', 'bleh', 'wave', 'peekBottom']);
   // 姿势预览（设置窗口里选）：反复播放某个动作，直到清掉。给特蕾莎实机检查用
   let previewName = '';
   function preview(name) {
@@ -788,7 +896,8 @@ const VRM3D = (() => {
     const now = clock();
     if (!action && previewName) return act(previewName);
     if (action || motionAct || !IDLE_MOODS.has(curMood) || now < idleNext || hoverSince) return;
-    act(IDLE_CLIPS[Math.floor(Math.random() * IDLE_CLIPS.length)]);
+    const pool = framing === 'bust' ? BUST_IDLE : IDLE_CLIPS;
+    act(pool[Math.floor(Math.random() * pool.length)]);
     idleNext = now + 6000 + Math.random() * 9000;
   }
   const poke = () => act('Flinch');
@@ -1032,5 +1141,5 @@ const VRM3D = (() => {
     action = null;
     seq = { name: null, tm: -1 };
   } // 加载失败时把原因交给 pet.js（正式版没有 devtools，冒个泡方便排查）
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, setTights, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _poseMotion, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, setTights, setFraming, _peek: PEEK, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _poseMotion, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
 })();
