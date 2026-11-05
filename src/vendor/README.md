@@ -15,3 +15,5 @@
 `src/vrm/kiko.vrm` 是希狐的 3D 模型（VRoid Studio 捏制 + `tools/vrm3d` 后处理，见 art-inbox 分支），和立绘一样不在 MIT 范围内。
 
 `src/vrm/motion/*.vrma` 是希狐的动作片段：`CC0-walk.vrma` 来自 BOOTH「CC0-animation-retarget-vrm」（Josie Character Model 的 CC0 动画重定向，CC0）；其余由 Mixamo 动画经 `tools/vrm3d/fbx2vrma.py` 重定向到本模型（Mixamo 许可允许在作品中使用）。
+
+`src/vrm/motion/fm/*.vrma`：へすい/rerofumi「使いどころに困るモーションセット」（BOOTH 5527394，CC0，可改可再分发，无需署名——这里仍注明出处）。

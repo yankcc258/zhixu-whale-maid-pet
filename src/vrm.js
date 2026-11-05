@@ -95,6 +95,9 @@ const VRM3D = (() => {
   const ACTS = {
     IdleA: { keys: [{ t: 100, pose: {} }] }, // 占位：实际播 MOTIONS 里的动捕
     IdleB: { keys: [{ t: 100, pose: {} }] },
+    IdleC: { keys: [{ t: 100, pose: {} }] },
+    IdleD: { keys: [{ t: 100, pose: {} }] },
+    IdleE: { keys: [{ t: 100, pose: {} }] },
     // 挥手：先缩一下肩（预备），手甩上去（过冲），摆三下，放下来
     Wave: { exp: { happy: 0.5, aa: 0.1 }, keys: [
       { t: 140, ease: 'in', pose: { rightUpperArm: [-3, 40, 76], head: [2, -4, 3] } },
@@ -248,12 +251,14 @@ const VRM3D = (() => {
       { t: 1400, ease: 'inout', pose: { ...L, leftHand: [0, -15, 0], rightHand: [0, 15, 0] } },
     ] },
   };
-  const IDLE_CLIPS = ['LookAround', 'ShiftWeight', 'Tiptoe', 'SmoothSkirt', 'FidgetHands', 'LookAround', 'ShiftWeight', 'IdleA', 'IdleB'];
+  const IDLE_CLIPS = ['LookAround', 'ShiftWeight', 'Tiptoe', 'SmoothSkirt', 'FidgetHands', 'LookAround', 'ShiftWeight', 'IdleA', 'IdleB', 'IdleC', 'IdleD', 'IdleE'];
   // 真人动捕片段（VRM Animation .vrma，放在 vrm/motion/）：有对应文件的动作优先用它，没有就用上面的关键帧。
   // loop: 循环播放直到心情换掉；没 loop 的播一遍回到关键帧站姿
   // amp = 幅度（0..1）：动捕是给游戏角色做的，偏夸张；按比例向交叠手站姿混合，保留节奏和协调、收掉幅度
   // speed = 播放速度（游戏动捕节奏偏快、偏冲，慢一点更像桌宠）；soft = 「收着点」程度 0..1：
   // 两腿并拢、膝盖微内扣、手臂贴近身体，去掉游戏角色那种大开大合的站姿
+  // from/to = 只取片段里这一段（秒）；lockRoot = 锁住髋骨水平位移（原片段会走来走去）
+  const FM = 'vrm/motion/fm/'; // fumi2kick「使いどころに困るモーションセット」（CC0，BOOTH 5527394）
   const MOTIONS = {
     Walk: { file: 'vrm/motion/CC0-walk.vrma', loop: true, amp: 1, speed: 0.9, soft: 0.5 }, // CC0（Josie 模型动画重定向包，BOOTH 7861818）
     Fall: { file: 'vrm/motion/falling_idle.vrma', loop: true, amp: 0.5, soft: 0.6 }, // 以下 Mixamo，tools/vrm3d/fbx2vrma.py 重定向
@@ -261,6 +266,11 @@ const VRM3D = (() => {
     Hop: { file: 'vrm/motion/jump.vrma', amp: 0.6, speed: 0.9, soft: 0.6 },
     IdleA: { file: 'vrm/motion/happy_idle.vrma', amp: 0.75, speed: 0.85, soft: 0.7 }, // 待机小动作：偶尔来一段真人待机
     IdleB: { file: 'vrm/motion/idle.vrma', amp: 0.8, speed: 0.85, soft: 0.7 },
+    Wave: { file: FM + '004_hello_1.vrma', from: 7.6, to: 12.6, lockRoot: true, soft: 0.3 }, // 双手举起来挥
+    Cheer: { file: FM + '007_gekirei.vrma', from: 11.8, to: 15.6, lockRoot: true, soft: 0.4 }, // 握拳「加油！」
+    IdleC: { file: FM + '005_smartphone.vrma', lockRoot: true, soft: 0.3 }, // 低头玩手机
+    IdleD: { file: FM + '006_drinkwater.vrma', from: 3.5, to: 20.5, lockRoot: true, soft: 0.3 }, // 喝水
+    IdleE: { file: FM + '001_motion_pose.vrma', from: 6.5, to: 14, lockRoot: true, soft: 0.5 }, // 随便摆几个姿势
   };
   const motionClips = {}; // name → AnimationClip（加载后）
   let mixer = null,
@@ -348,6 +358,7 @@ const VRM3D = (() => {
   // 看向哪（头/眼睛的目标，-1..1）
   const look = { x: 0, y: 0, hx: 0, hy: 0 };
   let lookTarget = null;
+  let hipsRest = null;
   let hipsBase = 0,
     hipsNow = 0,
     hipsV = 0;
@@ -496,6 +507,7 @@ const VRM3D = (() => {
       cur3[n] = [...STAND[n]];
     }
     hipsBase = bones.hips?.position.y ?? 0;
+    hipsRest = bones.hips ? bones.hips.position.clone() : null;
     mixer = new window.TV.THREE.AnimationMixer(v.scene);
     mixer.addEventListener('finished', () => {
       if (!motionAct) return;
@@ -651,7 +663,13 @@ const VRM3D = (() => {
       const gltf = await loader.loadAsync(file);
       const va = gltf.userData.vrmAnimations?.[0];
       if (!va) throw new Error('没有 VRMA 数据');
-      motionClips[name] = createVRMAnimationClip(va, vrm);
+      let clip = createVRMAnimationClip(va, vrm);
+      const m = MOTIONS[name];
+      if (m && (m.from != null || m.to != null)) {
+        const { AnimationUtils } = window.TV.THREE;
+        clip = AnimationUtils.subclip(clip, name, Math.round((m.from ?? 0) * 30), Math.round((m.to ?? clip.duration) * 30), 30);
+      }
+      motionClips[name] = clip;
       log(`motion ${name} <- ${file} (${motionClips[name].duration.toFixed(2)}s)`);
     } catch (e) {
       log(`motion ${name} failed: ${e?.message || e}`);
@@ -899,6 +917,10 @@ const VRM3D = (() => {
     if (motionAct) {
       mixer.update(dt);
       blendMotion();
+      if (MOTIONS[motionName]?.lockRoot && bones.hips) {
+        bones.hips.position.x = hipsRest.x;
+        bones.hips.position.z = hipsRest.z;
+      }
     }
     vrm.update(dt);
     renderer.render(scene, cam);
@@ -978,10 +1000,37 @@ const VRM3D = (() => {
     fakeNow = seq.tm;
     renderer.render(scene, cam); // 画完后保持暂停（fakeNow 不清），实时循环不会把姿势拉回去；_resume() 恢复
   }
+  // 调试：把动捕片段停在第 t 秒画一帧（审片用；raw=true 时不做 amp/soft 处理）
+  async function _poseMotion(file, t, opts = {}) {
+    if (!vrm) return;
+    const key = 'P:' + file;
+    if (!motionClips[key]) await loadMotion(key, file);
+    const clip = motionClips[key];
+    if (!clip) return 'load failed';
+    fakeNow = 0;
+    if (motionAct) motionAct.stop();
+    const a = mixer.clipAction(clip);
+    a.reset();
+    a.play();
+    a.time = t;
+    a.weight = 1;
+    mixer.update(0);
+    MOTIONS[key] = { file, amp: opts.amp ?? 1, soft: opts.soft ?? 0 };
+    motionAct = a;
+    motionName = key;
+    if (!opts.raw) blendMotion();
+    if (opts.lockRoot && bones.hips) {
+      bones.hips.position.x = 0;
+      bones.hips.position.z = 0;
+    }
+    for (let i = 0; i < 20; i++) vrm.update(1 / 60);
+    renderer.render(scene, cam);
+    return clip.duration;
+  }
   function _resume() {
     fakeNow = null;
     action = null;
     seq = { name: null, tm: -1 };
   } // 加载失败时把原因交给 pet.js（正式版没有 devtools，冒个泡方便排查）
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, setTights, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, setTights, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _poseMotion, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
 })();
