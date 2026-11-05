@@ -29,6 +29,9 @@ const VRM3D = (() => {
     sleep: { blink: 1, relaxed: 0.25 },
     sleepBottom: { blink: 1, relaxed: 0.25 }, // 趴底边睡着
     peekBottom: { relaxed: 0.2, m_Fcl_BRW_Fun: 0.15 }, // 趴底边醒着
+    peekCheek: { angry: 0.25, ou: 0.55, m_Fcl_BRW_Angry: 0.35 }, // 趴底边被戳脸（鼓腮）
+    peekHead: { blink: 0.3, ou: 0.3, m_Fcl_BRW_Sorrow: 0.3 }, // 趴底边被戳头
+    peekEar: { surprised: 0.45, happy: 0.25, m_Fcl_BRW_Sorrow: 0.3 }, // 趴底边被捏耳朵
     surprised: { surprised: 0.9, oh: 0.35, m_Fcl_BRW_Surprised: 0.5 },
     dangle: { sad: 0.65, oh: 0.25, m_Fcl_BRW_Sorrow: 0.6 },
     pout: { angry: 0.3, ou: 0.6, m_Fcl_BRW_Angry: 0.3 },
@@ -48,6 +51,8 @@ const VRM3D = (() => {
     sleepy: 'Slump',
     sleep: 'Slump',
     sleepBottom: 'Slump', // 趴底边时换成 PeekSleep（脸埋进手臂）
+    peekCheek: 'PeekCheek',
+    peekHead: 'PeekFlinch',
     angry: 'Shake',
     wake: 'Stretch',
     pat: 'Shy',
@@ -320,8 +325,35 @@ const VRM3D = (() => {
       { t: 1750, ease: 'inout', pose: PK0 },
     ] },
   });
+  Object.assign(ACTS, {
+    // 被摸头：眯眼往手心里蹭，耳朵压平
+    PeekPat: { exp: { happy: 0.75, relaxed: 0.4 }, earFlat: 1, keys: [
+      { t: 300, ease: 'out', pose: PK({ head: [-6, 0, 8], neck: [-3, 0, 3] }) },
+      { t: 900, ease: 'inout', pose: PK({ head: [-7, 4, -6], neck: [-3, 0, -2] }) },
+      { t: 1500, ease: 'inout', pose: PK({ head: [-7, -4, 8], neck: [-3, 0, 3] }) },
+      { t: 2100, ease: 'inout', pose: PK({ head: [-6, 0, -4] }) },
+      { t: 2600, ease: 'inout', pose: PK0 },
+    ] },
+    // 被捏耳朵：那只耳朵猛抖，头往另一边躲、缩肩
+    PeekEarL: { exp: { surprised: 0.5, happy: 0.25, m_Fcl_BRW_Sorrow: 0.3 }, keys: [
+      { t: 120, ease: 'out', pose: PK({ head: [4, -8, -14], neck: [0, 0, -5], leftUpperArm: [0, 0, 5], rightUpperArm: [0, 0, -5] }) },
+      { t: 700, ease: 'inout', pose: PK({ head: [4, -6, -12], neck: [0, 0, -4] }) },
+      { t: 1200, ease: 'inout', pose: PK0 },
+    ] },
+    PeekEarR: { exp: { surprised: 0.5, happy: 0.25, m_Fcl_BRW_Sorrow: 0.3 }, keys: [
+      { t: 120, ease: 'out', pose: PK({ head: [4, 8, 14], neck: [0, 0, 5], leftUpperArm: [0, 0, 5], rightUpperArm: [0, 0, -5] }) },
+      { t: 700, ease: 'inout', pose: PK({ head: [4, 6, 12], neck: [0, 0, 4] }) },
+      { t: 1200, ease: 'inout', pose: PK0 },
+    ] },
+    // 被戳脸：鼓腮扭头，瞪你
+    PeekCheek: { exp: { angry: 0.25, ou: 0.55, m_Fcl_BRW_Angry: 0.35 }, earFlat: 0.4, keys: [
+      { t: 150, ease: 'out', pose: PK({ head: [0, -14, -6], neck: [0, -4, 0] }) },
+      { t: 900, ease: 'inout', pose: PK({ head: [0, -12, -5], neck: [0, -4, 0] }) },
+      { t: 1500, ease: 'inout', pose: PK0 },
+    ] },
+  });
   // 普通动作 → 趴底边时换成的版本（没对应的就不做，免得手离开边沿乱甩）
-  const BUST_MAP = { Flinch: 'PeekFlinch', Tilt: 'PeekTilt', Nod: 'PeekNod', Slump: 'PeekSleep', Shy: 'PeekShy', Wave: 'PeekWave', Cheer: 'PeekWave', Hop: 'PeekSway', Stretch: 'PeekSway' };
+  const BUST_MAP = { Shy: 'PeekPat', Flinch: 'PeekFlinch', Tilt: 'PeekTilt', Nod: 'PeekNod', Slump: 'PeekSleep', Wave: 'PeekWave', Cheer: 'PeekWave', Hop: 'PeekSway', Stretch: 'PeekSway' };
   const BUST_IDLE = ['PeekLook', 'PeekSway', 'PeekTilt', 'PeekLook'];
   const IDLE_CLIPS = ['LookAround', 'ShiftWeight', 'Tiptoe', 'SmoothSkirt', 'FidgetHands', 'LookAround', 'ShiftWeight', 'IdleA', 'IdleB', 'IdleC', 'IdleD', 'IdleE'];
   // 真人动捕片段（VRM Animation .vrma，放在 vrm/motion/）：有对应文件的动作优先用它，没有就用上面的关键帧。
@@ -436,7 +468,9 @@ const VRM3D = (() => {
     hipsV = 0;
   const earBones = {},
     earRest = {},
-    ear = { next: 3000, t: 0, side: 'L' };
+    ear = { next: 3000, t: 0, side: 'L', k: 1 }; // k = 抖的幅度/时长倍数（被捏耳朵时大）
+  let earFlatNow = 0;
+  const EAR_FLAT = { x: -15, z: -45 }; // 飞机耳方向（度，左耳；右耳镜像）
 
   const log = (l) => window.petLog?.('[vrm] ' + l);
   async function load() {
@@ -637,6 +671,43 @@ const VRM3D = (() => {
   // 趴底边的基础姿势：上身前倾，前臂横搭在窗台（画布底边）上，双手在身前
 
   const STAND_FULL = JSON.parse(JSON.stringify(STAND));
+  // 趴底边时鼠标点在哪个部位：'earL' | 'earR' | 'head' | 'face' | 'body' | null（按骨骼投影到屏幕判断）
+  function hitPart(cx, cy) {
+    if (!vrm || !canvas || !bones.head) return null;
+    const { THREE } = window.TV;
+    const r = canvas.getBoundingClientRect();
+    const scr = (v) => {
+      v.project(cam);
+      return [r.left + ((v.x + 1) / 2) * r.width, r.top + ((1 - v.y) / 2) * r.height];
+    };
+    const at = (obj, dx, dy, dz) => {
+      const p = new THREE.Vector3();
+      obj.getWorldPosition(p);
+      return scr(p.add(new THREE.Vector3(dx, dy, dz)));
+    };
+    const h0 = at(bones.head, 0, 0, 0),
+      ppm = Math.abs(at(bones.head, 0.1, 0, 0)[0] - h0[0]) * 10; // 每米多少像素
+    for (const sd of ['L', 'R']) {
+      if (!earBones[sd]) continue;
+      const e = at(earBones[sd], 0, 0.05, 0);
+      if (Math.hypot(cx - e[0], cy - e[1]) < 0.055 * ppm) return 'ear' + sd;
+    }
+    const eye = at(bones.head, 0, 0.07, 0.08),
+      chin = at(bones.head, 0, -0.02, 0.07),
+      top = at(bones.head, 0, 0.2, 0);
+    const dx = Math.abs(cx - eye[0]);
+    if (cy >= top[1] && cy < eye[1] - 0.015 * ppm && dx < 0.11 * ppm) return 'head';
+    if (cy >= eye[1] - 0.015 * ppm && cy <= chin[1] + 0.01 * ppm && dx < 0.08 * ppm) return 'face';
+    if (cy > chin[1] && Math.abs(cx - eye[0]) < 0.26 * ppm) return 'body';
+    return null;
+  }
+  // 捏耳朵：那只耳朵大幅抖一下
+  function earTwitch(sd) {
+    ear.side = sd;
+    ear.t = clock();
+    ear.k = 1.8;
+    ear.next = ear.t + 4000 + Math.random() * 5000;
+  }
   function setFraming(mode, w, h) {
     const next = mode === 'bust' ? 'bust' : 'full';
     if (next !== framing) {
@@ -927,13 +998,22 @@ const VRM3D = (() => {
       ear.t = ms0;
       ear.next = ms0 + 3500 + Math.random() * 6000;
     }
+    // 飞机耳：动作里写 earFlat（0..1），开头 150ms 压下去、结尾 300ms 立回来；弹簧平滑
+    let flatT = 0;
+    if (action && ACTS[action.name]?.earFlat) {
+      const c = ACTS[action.name], tm = ms0 - action.start;
+      flatT = c.earFlat * Math.min(1, tm / 150, Math.max(0, (c.dur - tm) / 300 + (c.hold ? 1e9 : 0)));
+    }
+    earFlatNow += (flatT - earFlatNow) * Math.min(1, dt * 12);
     for (const sd of ['L', 'R']) {
       const b = earBones[sd];
       if (!b) continue;
-      const p = ear.side === sd ? (ms0 - ear.t) / 260 : 2;
-      const a = p < 1 ? bump(p) * 22 : 0; // 度
-      b.rotation.set(earRest[sd].x + (sd === 'L' ? -a : a) * 0.4 * D, earRest[sd].y, earRest[sd].z + (sd === 'L' ? a : -a) * D);
+      const p = ear.side === sd ? (ms0 - ear.t) / (260 * ear.k) : 2;
+      const a = p < 1 ? bump(p) * 22 * ear.k : 0; // 度
+      const fx = EAR_FLAT.x * earFlatNow, fz = EAR_FLAT.z * earFlatNow;
+      b.rotation.set(earRest[sd].x + ((sd === 'L' ? -a : a) * 0.4 + (sd === 'L' ? fx : -fx)) * D, earRest[sd].y, earRest[sd].z + ((sd === 'L' ? a : -a) + (sd === 'L' ? fz : -fz)) * D);
     }
+    if (ear.k !== 1 && ms0 - ear.t > 260 * ear.k) ear.k = 1;
     // 看鼠标：头转 60%、脖子 25%、上身 15%
     const lh = { head: [-look.hy * 16, look.hx * 22, -look.hx * 4], neck: [-look.hy * 6, look.hx * 9, 0], chest: [0, look.hx * 5, 0] }; // x 正 = 低头
     // 弹簧跟随：目标变了以后追上去并稍微过冲一点，动作看起来有重量
@@ -1141,5 +1221,5 @@ const VRM3D = (() => {
     action = null;
     seq = { name: null, tm: -1 };
   } // 加载失败时把原因交给 pet.js（正式版没有 devtools，冒个泡方便排查）
-  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, setTights, setFraming, _peek: PEEK, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _poseMotion, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
+  return { load, show, hide, active, talk, lookTo, can, has, act, poke, sway, setPixel, preview, onLoaded, onStartled, onFailed, setTights, setFraming, hitPart, earTwitch, _peek: PEEK, _earFlat: EAR_FLAT, _acts: ACTS, _motions: MOTIONS, _loadMotion: loadMotion, _renderAt, _resume, _poseMotion, _dbg: () => { const T = window.TV.THREE; const w = (n) => { const p = new T.Vector3(); bones[n]?.getWorldPosition(p); return [+p.x.toFixed(3), +p.y.toFixed(3), +p.z.toFixed(3)]; }; return { hipsNow, hipsV, hy: bones.hips?.position.y, cur: cur3, action, seq, lh: w('leftHand'), rh: w('rightHand'), lf: w('leftLowerLeg'), rf: w('rightLowerLeg'), hips: w('hips') }; } };
 })();

@@ -366,3 +366,16 @@ body.pixel #bubble .acts button {
 body.bust.dock-bottom.peeking #pet {
   transform: none;
 }
+/* 趴底边：她占满窗口中间，气泡放到左上角（头的左边那块空白），不挡脸和胸口 */
+body.bust #bubble {
+  left: 6px;
+  right: auto;
+  top: 20px;
+  bottom: auto;
+  width: 132px;
+  font-size: 12px;
+  padding: 6px 8px;
+}
+body.bust #menu {
+  bottom: 120px;
+}

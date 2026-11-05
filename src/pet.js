@@ -202,10 +202,12 @@ function unlock(id) {
   SFX.play('fanfare'); // 通关！衣柜收到新衣服
 }
 // 躲在左右边时能用的表情（左边会镜像）
+// 3D 趴底边时保留的心情（其余都当 peekBottom）
+const BUST_MOODS = ['pat', 'peekCheek', 'peekHead', 'peekEar'];
 const DOCK_MOODS = ['peek', 'peekPhone', 'peekCheek', 'peekHead', 'peekAngry', 'peekSleep'];
 function setMood(m, ms) {
   if (dragging) m = 'dangle';
-  else if (dock === 'bottom') m = sleep === 'asleep' ? 'sleepBottom' : 'peekBottom';
+  else if (dock === 'bottom') m = sleep === 'asleep' ? 'sleepBottom' : isBust() && BUST_MOODS.includes(m) ? m : 'peekBottom';
   else if (dock) {
     if (sleep === 'asleep' || sleep === 'groggy') m = 'peekSleep';
     else if (sleep === 'mad' || m === 'angry') m = 'peekAngry';
@@ -417,7 +419,7 @@ let down = null;
 pet.addEventListener('pointerdown', (e) => {
   if (e.button !== 0) return;
   pet.setPointerCapture(e.pointerId);
-  down = { sx: e.screenX, sy: e.screenY, x: pos.x, y: pos.y, moved: false };
+  down = { sx: e.screenX, sy: e.screenY, cx: e.clientX, cy: e.clientY, x: pos.x, y: pos.y, moved: false };
   updateHit();
 });
 pet.addEventListener('pointermove', (e) => {
@@ -484,7 +486,7 @@ pet.addEventListener('pointerup', async () => {
   down = null;
   updateHit();
   if (!d) return;
-  if (!d.moved) return poke();
+  if (!d.moved) return poke(d);
   dragging = false;
   document.body.classList.remove('dragging');
   RND().sway(0);
@@ -530,7 +532,33 @@ pet.addEventListener('pointercancel', () => {
   setMood(autoMood());
 });
 
-function poke() {
+// 3D 趴底边（大号上半身）模式
+const isBust = () => dock === 'bottom' && useVRM() && typeof VRM3D !== 'undefined' && VRM3D.active();
+// 趴底边被戳：看戳在哪儿——耳朵抖、脸鼓腮、头缩脖子
+function pokeBust(d) {
+  const part = d ? VRM3D.hitPart(d.cx, d.cy) : null;
+  if (part === 'earL' || part === 'earR') {
+    SFX.play('poke');
+    VRM3D.earTwitch(part === 'earL' ? 'L' : 'R');
+    say(fill(pick(LINES.pokeEar)), 'peekEar', 3000);
+    VRM3D.act(part === 'earL' ? 'PeekEarL' : 'PeekEarR');
+    return true;
+  }
+  if (part === 'face') {
+    SFX.play('poke');
+    say(fill(pick(LINES.pokeCheek)), 'peekCheek', 3000);
+    return true;
+  }
+  if (part === 'head') {
+    duang();
+    SFX.play('poke');
+    say(fill(pick(LINES.pokeHead)), 'peekHead', 3000);
+    return true;
+  }
+  return false;
+}
+function poke(d) {
+  if (!sleep && isBust() && pokeBust(d)) return;
   duang();
   SFX.play('poke');
   // 钻在任务栏下面睡：戳一下就迷迷糊糊地爬出来；醒着扒在底边就嘟囔一句
@@ -710,9 +738,16 @@ pet.addEventListener('dblclick', () => {
 // ---------- 摸头：鼠标不按键，在她上半身左右来回划 ----------
 let patMoves = [];
 function patTrack(e) {
-  if (e.buttons || dock) return;
-  const r = pet.getBoundingClientRect();
-  if (e.clientY > r.top + r.height * 0.55) return;
+  if (e.buttons) return;
+  if (isBust()) {
+    // 趴底边：在头上来回蹭才算摸头（身体、手臂不算）
+    const part = VRM3D.hitPart(e.clientX, e.clientY);
+    if (!part || part === 'body') return; // 头、耳朵、脸上来回蹭都算
+  } else {
+    if (dock) return;
+    const r = pet.getBoundingClientRect();
+    if (e.clientY > r.top + r.height * 0.55) return;
+  }
   const now = Date.now();
   patMoves = patMoves.filter((m) => now - m.t < 1200);
   const last = patMoves.at(-1);
