@@ -57,3 +57,18 @@ python3 add_expressions.py d.vrm kiko_white_v12.vrm
 python3 pack_vrm.py kiko_white_v12.vrm ../../src/vrm/kiko.vrm 2048   # 桌宠里用的打包版
 ```
 - 动作源文件：`art/3d/motion/src_fbx/*.fbx`（Mixamo）→ `fbx2vrma.py` → `art/3d/motion/vrma/`。
+
+## 11-06 A2「朱铃稻荷」女仆装（Unity 版主线）
+特蕾莎在 VRoid 里做的 A2 衣服基础版：`Kiko_A2_clothing_base_1106.vrm`（源 `Desktop\seeko_3d\seeko_3d_A2_shape_trial_1106.vroid`）。衣服贴图用她在 VRoid 里导入的 A2 试作，**不再覆盖 Tops/Onepiece**：
+```
+CURL=s TIP=F8FAFF FLUFF=0.045 python3 seeko_post.py raw.vrm a.vrm 0.034 0.20 \
+  Shoes_01_CLOTH=tex_hd/tex_current_shoes.png FoxTail_01=tex_hd/tex_current_tail.png CatEar_01=tex_hd/tex_current_ears.png \
+  Body_00_SKIN=tex_v2/body_socks.png Hair_00_HAIR=tex_hd/tex_current_hair_front.png HairBack_00_HAIR=tex_hd/tex_current_hair_back.png \
+  Face_00_SKIN=tex_hd/tex_current_face.png EyeIris_00_EYE=tex_hd/tex_current_iris.png
+AHOGE=CCD5E3,F2F5FA python3 add_accessories.py a.vrm b.vrm
+BOW=0 python3 body_accessories.py b.vrm c.vrm        # 腰后大蝴蝶结不要了（Unity 里做左后腰小扁结），只留腕口
+TAIL_UP=11 python3 kiko_style.py c.vrm d.vrm
+python3 add_expressions.py d.vrm e.vrm
+python3 <zhixu-fox-unity>/Tools/add_kuzu_morphs.py e.vrm kiko_A2.vrm   # 屑狐狸表情形变
+```
+然后在 zhixu-fox-unity：拷成 Assets/Kiko/Models/kiko.vrm → `Tools/extract_textures.py` → `make_sheer.py` → `make_garter.py` → 编辑器 Kiko 2、3。

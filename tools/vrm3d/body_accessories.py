@@ -149,7 +149,7 @@ def cuffs():
     for s in (-1,1):
         (P,U,T),h=cuff(s)
         attach('rightHand' if s<0 else 'leftHand','Kiko_Cuff_'+('R' if s<0 else 'L'),add_mesh('Kiko_Cuff',P-h,U,T,mat),tuple(h))
-waist_bow()
+if os.environ.get('BOW','1')!='0': waist_bow()   # A2：腰后蝴蝶结改由 Unity 的 KikoAccessories 做（左后腰小扁结）
 if os.environ.get('CUFF','1')!='0': cuffs()
 while len(BIN)%4: BIN.append(0)
 j['buffers'][0]['byteLength']=len(BIN)
